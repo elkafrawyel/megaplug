@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
-import 'package:naya/widgets/app_widgets/app_button.dart';
-import 'package:naya/widgets/app_widgets/app_text.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/widgets/app_widgets/app_button.dart';
+import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../config/res.dart';

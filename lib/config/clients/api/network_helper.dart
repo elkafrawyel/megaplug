@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:naya/config/clients/api/api_result.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_utils/get_utils.dart';
 

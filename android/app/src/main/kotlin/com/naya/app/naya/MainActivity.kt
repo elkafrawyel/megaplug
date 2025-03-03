@@ -1,4 +1,4 @@
-package com.naya.app.naya
+package com.megaplug.app.megaplug
 
 import io.flutter.embedding.android.FlutterActivity
 

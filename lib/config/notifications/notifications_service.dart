@@ -5,7 +5,7 @@
 // import 'package:dio/dio.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:naya/config/helpers/logging_helper.dart';
+// import 'package:megaplug/config/helpers/logging_helper.dart';
 // import 'package:path_provider/path_provider.dart';
 //
 // class NotificationsService {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'config/clients/storage/storage_client.dart';
-import 'my_app.dart';
+import 'megaplug_app.dart';
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -33,5 +33,5 @@ void main() async {
 
   await StorageClient().init();
 
-  runApp(const MyApp());
+  runApp(const MegaPlug());
 }

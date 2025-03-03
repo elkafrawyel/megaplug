@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:naya/config/helpers/logging_helper.dart';
-import 'package:naya/widgets/app_data_state/app_disconnect_view.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/widgets/app_data_state/app_disconnect_view.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 

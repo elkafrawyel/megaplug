@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:naya/widgets/app_widgets/app_text.dart';
+import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Center(
         child: AppText(
-          text: 'Naya',
+          text: 'Mega Plug',
           fontSize: 40,
           fontWeight: FontWeight.bold,
         ),

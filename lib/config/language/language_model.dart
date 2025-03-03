@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:naya/config/clients/api/api_client.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/clients/api/api_client.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 
 class LanguageData {
   static const supportedLocales = [Locale('en', 'US'), Locale('ar', 'SA')];

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:naya/config/extension/space_extension.dart';
-import 'package:naya/config/theme/color_extension.dart';
-import 'package:naya/widgets/app_widgets/app_text.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 class AppCheckbox extends StatefulWidget {
   final String text;

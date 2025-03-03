@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
-import 'package:naya/config/language/language_model.dart';
-import 'package:naya/config/theme/color_extension.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/language/language_model.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 
 class AppLanguageSegment extends StatefulWidget {
   const AppLanguageSegment({super.key});

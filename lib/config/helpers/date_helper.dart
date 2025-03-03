@@ -1,4 +1,4 @@
-import 'package:naya/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:intl/intl.dart';
 
 class DateHelper {

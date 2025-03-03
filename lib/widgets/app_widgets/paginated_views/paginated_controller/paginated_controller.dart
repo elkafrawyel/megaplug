@@ -1,5 +1,5 @@
-import 'package:naya/config/clients/api/api_client.dart';
-import 'package:naya/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/api/api_client.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:get/get.dart';
 
 import 'data/config_data.dart';

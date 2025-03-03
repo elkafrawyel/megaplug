@@ -5,7 +5,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:naya/config/theme/color_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'config/clients/storage/storage_client.dart';
@@ -17,14 +17,14 @@ import 'config/theme/theme_controller.dart';
 import 'screens/home_screen.dart';
 import 'widgets/app_widgets/app_focus_remover.dart';
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class MegaPlug extends StatefulWidget {
+  const MegaPlug({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MegaPlug> createState() => _MegaPlugState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MegaPlugState extends State<MegaPlug> {
   final ThemeController themeController = Get.put(ThemeController());
 
   @override

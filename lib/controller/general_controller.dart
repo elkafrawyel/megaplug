@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import 'package:naya/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
 
 abstract class GeneralController extends GetxController {
   ApiResult _apiResult = const ApiStart();

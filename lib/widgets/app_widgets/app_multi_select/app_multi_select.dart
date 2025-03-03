@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:naya/config/theme/color_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 
 import '../../../config/constants.dart';
 import '../app_modal_bottom_sheet.dart';

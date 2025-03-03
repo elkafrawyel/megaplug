@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
-import 'package:naya/config/helpers/logging_helper.dart';
-import 'package:naya/config/theme/color_extension.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'app_text.dart';

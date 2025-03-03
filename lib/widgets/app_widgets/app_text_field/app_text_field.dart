@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
-import 'package:naya/config/constants.dart';
-import 'package:naya/config/theme/color_extension.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/constants.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
 import 'package:vibration/vibration.dart';

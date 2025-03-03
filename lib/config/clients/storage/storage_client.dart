@@ -1,4 +1,4 @@
-import 'package:naya/config/clients/api/api_client.dart';
+import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

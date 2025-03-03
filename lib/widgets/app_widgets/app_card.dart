@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:naya/config/theme/color_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;

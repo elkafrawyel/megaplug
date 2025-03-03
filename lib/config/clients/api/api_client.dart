@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:naya/config/clients/api/api_result.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
-import 'package:naya/config/helpers/logging_helper.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../environment.dart';

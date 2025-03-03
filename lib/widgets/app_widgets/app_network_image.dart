@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:naya/config/theme/color_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 
 import '../../config/res.dart';
 

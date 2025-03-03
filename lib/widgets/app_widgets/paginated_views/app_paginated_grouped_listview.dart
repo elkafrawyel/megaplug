@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
-import 'package:naya/config/theme/color_extension.dart';
-import 'package:naya/widgets/app_data_state/handel_api_state.dart';
-import 'package:naya/widgets/app_widgets/app_text.dart';
-import 'package:naya/widgets/app_widgets/paginated_views/paginated_controller/data/config_data.dart';
-import 'package:naya/widgets/app_widgets/paginated_views/paginated_controller/paginated_controller.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/widgets/app_data_state/handel_api_state.dart';
+import 'package:megaplug/widgets/app_widgets/app_text.dart';
+import 'package:megaplug/widgets/app_widgets/paginated_views/paginated_controller/data/config_data.dart';
+import 'package:megaplug/widgets/app_widgets/paginated_views/paginated_controller/paginated_controller.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';

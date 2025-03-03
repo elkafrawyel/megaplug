@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:naya/config/clients/storage/storage_client.dart';
-import 'package:naya/config/extension/space_extension.dart';
-import 'package:naya/config/theme/color_extension.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 
 import '../../../config/language/language_model.dart';
 import '../app_text.dart';
