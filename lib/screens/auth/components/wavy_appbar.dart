@@ -17,6 +17,7 @@ class WavyAppBar extends StatefulWidget {
 
 class _WavyAppBarState extends State<WavyAppBar> {
   bool _isLogoVisible = false;
+  bool _isBackVisible = false;
 
   @override
   void initState() {
@@ -27,6 +28,13 @@ class _WavyAppBarState extends State<WavyAppBar> {
         _isLogoVisible = true;
       });
     });
+    if (widget.withBackButton) {
+      Future.delayed(Duration(milliseconds: 1500), () {
+        setState(() {
+          _isBackVisible = true;
+        });
+      });
+    }
   }
 
   @override
@@ -43,28 +51,34 @@ class _WavyAppBarState extends State<WavyAppBar> {
           painter: WavyPainter(),
         ),
         AnimatedPositionedDirectional(
-          duration: Duration(milliseconds: 1000), // Animation duration
-          curve: Curves.easeInOut, // Smooth transition
-          bottom: _isLogoVisible ? 40 : -200, // Moves up from bottom
-          top: 28,
+          duration: Duration(milliseconds: 1500),
+          // Animation duration
+          curve: Curves.easeInOut,
+          // Smooth transition
+          top: _isLogoVisible ? 0 : -300,
+          // Moves up from bottom
           start: 0,
           end: 0,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 28),
-              child: AnimatedOpacity(
-                duration: Duration(seconds: 1), // Animation duration
-                opacity: _isLogoVisible ? 1 : 0.5,
+          child: Padding(
+            padding: const EdgeInsets.all(28),
+            child: AnimatedOpacity(
+              duration: Duration(seconds: 1),
+              opacity: _isLogoVisible ? 1 : 0.5,
+              child: Center(
                 child: Image.asset(
                   Res.authLogo,
+                  width: 200,
+                  height: 200,
                 ),
               ),
             ),
           ),
         ),
         if (widget.withBackButton)
-          PositionedDirectional(
-            start: 12,
+          AnimatedPositionedDirectional(
+            duration: Duration(milliseconds: 1000),
+            curve: Curves.easeInOut,
+            start: _isBackVisible ? 12 : -50,
             top: kToolbarHeight,
             child: GestureDetector(
               onTap: () {
