@@ -6,6 +6,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/screens/auth/login/login_screen.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'config/clients/storage/storage_client.dart';
@@ -61,7 +62,7 @@ class _MegaPlugState extends State<MegaPlug> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            home: const HomeScreen(),
+            home: const LoginScreen(),
             builder: (context, child) {
               child = EasyLoading.init()(context, child);
               EasyLoading.instance

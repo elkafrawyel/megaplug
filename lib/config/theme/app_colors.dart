@@ -151,7 +151,7 @@ class AppColors extends ThemeExtension<AppColors> {
   }
 
   static AppColors lightModeColors = const AppColors(
-    kPrimaryColor: Color(0xff117554),
+    kPrimaryColor: Color(0xff3EBF80),
     kSecondaryColor: Color(0xffD6BD98),
     kBackgroundColor: Colors.white,
     kTextColor: Colors.black,
@@ -163,7 +163,7 @@ class AppColors extends ThemeExtension<AppColors> {
   );
 
   static AppColors darkModeColors = const AppColors(
-    kPrimaryColor: Color(0xff034503),
+    kPrimaryColor: Color(0xff3EBF80),
     kSecondaryColor: Color(0xff3C3D37),
     kBackgroundColor: Color(0xff1E201E),
     kTextColor: Colors.white,

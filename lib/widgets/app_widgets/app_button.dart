@@ -9,6 +9,8 @@ class AppButton extends StatelessWidget {
   final Color? textColor;
   final Color? backgroundColor;
   final EdgeInsetsDirectional? padding;
+  final double? elevation;
+  final double? radius;
 
   const AppButton({
     super.key,
@@ -17,17 +19,19 @@ class AppButton extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.padding,
+    this.elevation,
+    this.radius,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        elevation: 5.0,
+        elevation: elevation ?? 0.0,
         disabledBackgroundColor: context.kHintTextColor,
         backgroundColor: backgroundColor ?? context.kPrimaryColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(radius ?? 12),
         ),
         padding: padding,
       ),

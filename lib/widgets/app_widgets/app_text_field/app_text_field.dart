@@ -97,209 +97,203 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   @override
   Widget build(BuildContext context) {
     final borderColor = context.kPrimaryColor;
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8.0,
-        vertical: 8.0,
-      ),
-      child: CustomShakeWidget(
-        key: _shakerKey,
-        shakeCount: 4,
-        shakeOffset: 10,
-        child: FormField<Widget>(
-          builder: (formFieldState) {
-            this.formFieldState = formFieldState;
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextFormField(
-                  focusNode: _focusNode,
-                  obscureText: _isSecure,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: context.kTextColor,
-                    fontWeight: FontWeight.w400,
+    return CustomShakeWidget(
+      key: _shakerKey,
+      shakeCount: 4,
+      shakeOffset: 10,
+      child: FormField<Widget>(
+        builder: (formFieldState) {
+          this.formFieldState = formFieldState;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                focusNode: _focusNode,
+                obscureText: _isSecure,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: context.kTextColor,
+                  fontWeight: FontWeight.w400,
+                ),
+                controller: widget.controller,
+                keyboardType: widget.keyboardType ?? TextInputType.text,
+                validator: (String? value) {
+                  if (!widget.required) {
+                    return null;
+                  } else if (value == null || value.isEmpty) {
+                    return !widget.required
+                        ? null
+                        : (widget.validateEmptyText ??
+                            (StorageClient().isAr()
+                                ? 'قم بإدخال البيانات المطلوبة *'
+                                : '* Please enter the required information'));
+                  } else {
+                    return null;
+                  }
+                },
+                onChanged: (String? value) {
+                  if (widget.onChanged != null && value != null) {
+                    widget.onChanged!(value);
+                  }
+
+                  if (value == null || value.isEmpty || !widget.checkRules) {
+                    setState(() {
+                      hasError = false;
+                    });
+                    return;
+                  }
+
+                  switch (widget.appFieldType) {
+                    case AppFieldType.text:
+                      break;
+                    case AppFieldType.name:
+                      break;
+                    case AppFieldType.email:
+                      _validateRules(value, emailRules);
+                      break;
+                    case AppFieldType.password:
+                      _validateRules(value, passwordRules);
+                      break;
+                    case AppFieldType.confirmPassword:
+                      break;
+                    case AppFieldType.phone:
+                      _validateRules(value, phoneNumberRules);
+                      break;
+                  }
+                },
+                textInputAction: widget.textInputAction,
+                onFieldSubmitted: widget.onFieldSubmitted,
+                autofillHints: widget.autoFillHints,
+                onEditingComplete: widget.onEditingComplete,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                textAlignVertical: TextAlignVertical.center,
+                textAlign: TextAlign.start,
+                maxLines: _isPasswordField ? 1 : widget.maxLines,
+                maxLength: widget.maxLength,
+                cursorColor: context.kPrimaryColor,
+                cursorWidth: 2,
+                decoration: InputDecoration(
+                  helperText:
+                      (_helperText?.isEmpty ?? true) ? null : _helperText,
+                  helperMaxLines: 4,
+                  helperStyle: TextStyle(
+                    color: context.kErrorColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
                   ),
-                  controller: widget.controller,
-                  keyboardType: widget.keyboardType ?? TextInputType.text,
-                  validator: (String? value) {
-                    if (!widget.required) {
-                      return null;
-                    } else if (value == null || value.isEmpty) {
-                      return !widget.required
-                          ? null
-                          : (widget.validateEmptyText ??
-                              (StorageClient().isAr()
-                                  ? 'قم بإدخال البيانات المطلوبة *'
-                                  : '* Please enter the required information'));
-                    } else {
-                      return null;
-                    }
-                  },
-                  onChanged: (String? value) {
-                    if (widget.onChanged != null && value != null) {
-                      widget.onChanged!(value);
-                    }
-
-                    if (value == null || value.isEmpty || !widget.checkRules) {
-                      setState(() {
-                        hasError = false;
-                      });
-                      return;
-                    }
-
-                    switch (widget.appFieldType) {
-                      case AppFieldType.text:
-                        break;
-                      case AppFieldType.name:
-                        break;
-                      case AppFieldType.email:
-                        _validateRules(value, emailRules);
-                        break;
-                      case AppFieldType.password:
-                        _validateRules(value, passwordRules);
-                        break;
-                      case AppFieldType.confirmPassword:
-                        break;
-                      case AppFieldType.phone:
-                        _validateRules(value, phoneNumberRules);
-                        break;
-                    }
-                  },
-                  textInputAction: widget.textInputAction,
-                  onFieldSubmitted: widget.onFieldSubmitted,
-                  autofillHints: widget.autoFillHints,
-                  onEditingComplete: widget.onEditingComplete,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  textAlignVertical: TextAlignVertical.center,
-                  textAlign: TextAlign.start,
-                  maxLines: _isPasswordField ? 1 : widget.maxLines,
-                  maxLength: widget.maxLength,
-                  cursorColor: context.kPrimaryColor,
-                  cursorWidth: 2,
-                  decoration: InputDecoration(
-                    helperText:
-                        (_helperText?.isEmpty ?? true) ? null : _helperText,
-                    helperMaxLines: 4,
-                    helperStyle: TextStyle(
-                      color: context.kErrorColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    labelText: widget.labelText,
-                    labelStyle: TextStyle(
-                      color: context.kTextColor,
-                      fontFamily: Constants.fontFamily,
-                      fontSize: 18,
-                    ),
-                    hintText: widget.hintText ?? '',
-                    fillColor: context.kTextFieldColor,
-                    filled: true,
-                    hintStyle: TextStyle(
-                      color: context.kHintTextColor,
-                      fontFamily: Constants.fontFamily,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
-                    alignLabelWithHint: true,
-                    prefixIcon: widget.prefixIcon != null
-                        ? Padding(
-                            padding: const EdgeInsetsDirectional.only(
-                              start: 15.0,
-                              end: 8,
-                              top: 15,
-                              bottom: 15,
-                            ),
-                            child: SvgPicture.asset(
-                              widget.prefixIcon!,
-                              fit: BoxFit.fitHeight,
-                              height: 20,
-                              width: 20,
-                              colorFilter: ColorFilter.mode(
-                                context.kHintTextColor,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          )
-                        : null,
-                    suffixText: widget.suffixText ?? '',
-                    suffixStyle: TextStyle(
-                      color: context.kHintTextColor,
-                    ),
-                    suffixIcon: widget.suffixIcon != null || _isPasswordField
-                        ? GestureDetector(
-                            onTap: _isPasswordField ? _toggle : null,
-                            child: Icon(
-                              _isPasswordField
-                                  ? _isSecure
-                                      ? Icons.remove_red_eye
-                                      : Icons.visibility_off
-                                  : widget.suffixIcon,
-                              size: 20,
-                              color: context.kHintTextColor,
-                            ),
-                          )
-                        : null,
-                    enabled: widget.enabled,
-                    errorStyle: TextStyle(
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: context.kErrorColor,
-                      fontFamily: Constants.fontFamily,
-                    ),
-                    disabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: !widget.enabled
-                        ? const OutlineInputBorder(borderSide: BorderSide.none)
-                        : OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              widget.radius ?? kRadius,
-                            ),
-                            borderSide: BorderSide(
-                              width: kBorderWidth,
-                              color: borderColor,
+                  labelText: widget.labelText,
+                  labelStyle: TextStyle(
+                    color: context.kTextColor,
+                    fontFamily: Constants.fontFamily,
+                    fontSize: 18,
+                  ),
+                  hintText: widget.hintText ?? '',
+                  fillColor: context.kTextFieldColor,
+                  filled: true,
+                  hintStyle: TextStyle(
+                    color: context.kHintTextColor,
+                    fontFamily: Constants.fontFamily,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  alignLabelWithHint: true,
+                  prefixIcon: widget.prefixIcon != null
+                      ? Padding(
+                          padding: const EdgeInsetsDirectional.only(
+                            start: 15.0,
+                            end: 8,
+                            top: 15,
+                            bottom: 15,
+                          ),
+                          child: SvgPicture.asset(
+                            widget.prefixIcon!,
+                            fit: BoxFit.fitHeight,
+                            height: 20,
+                            width: 20,
+                            colorFilter: ColorFilter.mode(
+                              context.kHintTextColor,
+                              BlendMode.srcIn,
                             ),
                           ),
-                    border: !widget.enabled
-                        ? const OutlineInputBorder(borderSide: BorderSide.none)
-                        : OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              widget.radius ?? kRadius,
-                            ),
-                            borderSide: BorderSide(
-                              width: kBorderWidth,
-                              color: borderColor,
-                            ),
+                        )
+                      : null,
+                  suffixText: widget.suffixText ?? '',
+                  suffixStyle: TextStyle(
+                    color: context.kHintTextColor,
+                  ),
+                  suffixIcon: widget.suffixIcon != null || _isPasswordField
+                      ? GestureDetector(
+                          onTap: _isPasswordField ? _toggle : null,
+                          child: Icon(
+                            _isPasswordField
+                                ? _isSecure
+                                    ? Icons.remove_red_eye
+                                    : Icons.visibility_off
+                                : widget.suffixIcon,
+                            size: 20,
+                            color: context.kHintTextColor,
                           ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(widget.radius ?? kRadius),
-                      borderSide: BorderSide(
-                        width: kSelectedBorderWidth,
-                        color: context.kErrorColor,
-                      ),
+                        )
+                      : null,
+                  enabled: widget.enabled,
+                  errorStyle: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: context.kErrorColor,
+                    fontFamily: Constants.fontFamily,
+                  ),
+                  disabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: !widget.enabled
+                      ? const OutlineInputBorder(borderSide: BorderSide.none)
+                      : OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            widget.radius ?? kRadius,
+                          ),
+                          borderSide: BorderSide(
+                            width: kBorderWidth,
+                            color: borderColor,
+                          ),
+                        ),
+                  border: !widget.enabled
+                      ? const OutlineInputBorder(borderSide: BorderSide.none)
+                      : OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            widget.radius ?? kRadius,
+                          ),
+                          borderSide: BorderSide(
+                            width: kBorderWidth,
+                            color: borderColor,
+                          ),
+                        ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(widget.radius ?? kRadius),
+                    borderSide: BorderSide(
+                      width: kSelectedBorderWidth,
+                      color: context.kErrorColor,
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(widget.radius ?? kRadius),
-                      borderSide: BorderSide(
-                        width: kSelectedBorderWidth,
-                        color: borderColor,
-                      ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(widget.radius ?? kRadius),
+                    borderSide: BorderSide(
+                      width: kSelectedBorderWidth,
+                      color: borderColor,
                     ),
                   ),
                 ),
-                if (hasError) formFieldState.value ?? const SizedBox(),
-              ],
-            );
-          },
-        ),
+              ),
+              if (hasError) formFieldState.value ?? const SizedBox(),
+            ],
+          );
+        },
       ),
     );
   }
