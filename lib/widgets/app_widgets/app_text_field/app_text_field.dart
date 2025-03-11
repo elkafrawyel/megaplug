@@ -96,7 +96,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = context.kPrimaryColor;
+    final borderColor = Color(0xffE2E8F0);
     return CustomShakeWidget(
       key: _shakerKey,
       shakeCount: 4,
@@ -189,16 +189,17 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                     fontSize: 18,
                   ),
                   hintText: widget.hintText ?? '',
-                  fillColor: context.kTextFieldColor,
+                  fillColor: context.kBackgroundColor,
                   filled: true,
                   hintStyle: TextStyle(
+                    fontSize: 11,
                     color: context.kHintTextColor,
                     fontFamily: Constants.fontFamily,
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.w400,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
+                    horizontal: 18,
+                    vertical: 12,
                   ),
                   alignLabelWithHint: true,
                   prefixIcon: widget.prefixIcon != null
@@ -273,16 +274,18 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                           ),
                         ),
                   errorBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(widget.radius ?? kRadius),
+                    borderRadius: BorderRadius.circular(
+                      widget.radius ?? kRadius,
+                    ),
                     borderSide: BorderSide(
                       width: kSelectedBorderWidth,
                       color: context.kErrorColor,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(widget.radius ?? kRadius),
+                    borderRadius: BorderRadius.circular(
+                      widget.radius ?? kRadius,
+                    ),
                     borderSide: BorderSide(
                       width: kSelectedBorderWidth,
                       color: borderColor,
@@ -425,21 +428,21 @@ class AppTextFormFieldState extends State<AppTextFormField> {
     // ),
   ];
 
-  //   final List<AuthFormRule> idRules = [
-  //   AuthFormRule(
-  //     ruleText: 'min_14_char'.tr,
-  //     condition: (value) {
-  //       return value.length >= 14;
-  //     },
-  //   ),
-  // ];
+//   final List<AuthFormRule> idRules = [
+//   AuthFormRule(
+//     ruleText: 'min_14_char'.tr,
+//     condition: (value) {
+//       return value.length >= 14;
+//     },
+//   ),
+// ];
 
-  // final List<AuthFormRule> nameRules = [
-  //   AuthFormRule(
-  //     ruleText: 'invalid_username'.tr,
-  //     condition: (value) {
-  //       return GetUtils.isUsername(value);
-  //     },
-  //   ),
-  // ];
+// final List<AuthFormRule> nameRules = [
+//   AuthFormRule(
+//     ruleText: 'invalid_username'.tr,
+//     condition: (value) {
+//       return GetUtils.isUsername(value);
+//     },
+//   ),
+// ];
 }

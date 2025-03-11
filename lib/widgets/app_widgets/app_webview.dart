@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/widgets/app_widgets/app_appbar.dart';
+import 'package:megaplug/widgets/app_widgets/app_bars/app_appbar.dart';
 
 class AppWebView extends StatefulWidget {
   final String title;

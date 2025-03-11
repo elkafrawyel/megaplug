@@ -15,7 +15,7 @@ import 'config/environment.dart';
 import 'config/language/language_model.dart';
 import 'config/language/translation.dart';
 import 'config/theme/theme_controller.dart';
-import 'screens/home_screen.dart';
+import 'screens/home/home_screen.dart';
 import 'widgets/app_widgets/app_focus_remover.dart';
 
 class MegaPlug extends StatefulWidget {

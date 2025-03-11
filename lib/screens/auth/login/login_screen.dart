@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/screens/auth/components/wavy_appbar.dart';
+import 'package:megaplug/widgets/app_widgets/app_bars/wavy_appbar.dart';
 import 'package:megaplug/screens/auth/forget_password/forget_password_screen.dart';
 import 'package:megaplug/screens/auth/register/register_screen.dart';
-import 'package:megaplug/screens/home_screen.dart';
+import 'package:megaplug/screens/home/home_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.kBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -43,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Center(
                     child: AppText(
-                      text: "Welcome back !",
+                      text: "welcome_back".tr,
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
@@ -51,8 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(height: 8),
                   Center(
                     child: AppText(
-                      text:
-                          "Sign in to access all features, manage your settings, and enjoy a seamless app experience.",
+                      text: "login_message".tr,
                       color: Color(0xff6D7698),
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -61,18 +62,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   24.ph,
-                  AppText(text: "Email / Phone"),
-                  16.ph,
-                  AppTextFormField(
-                    controller: TextEditingController(),
-                    hintText: "Please enter email or phone",
+                  AppText(
+                    text: "email_or_phone".tr,
                   ),
                   16.ph,
-                  AppText(text: "Password"),
+                  AppTextFormField(
+                    controller: TextEditingController(),
+                    hintText: "enter_email_or_phone".tr,
+                  ),
+                  16.ph,
+                  AppText(text: "password".tr),
                   16.ph,
                   AppTextFormField(
                     controller: TextEditingController(),
-                    hintText: "Please enter password",
+                    hintText: "enter_password".tr,
                     appFieldType: AppFieldType.password,
                   ),
                   16.ph,
@@ -83,32 +86,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         Get.to(() => ForgetPasswordScreen());
                       },
                       child: AppText(
-                        text: "Forget password ?",
+                        text: "forget_password?".tr,
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
                   ),
                   SizedBox(height: 16),
-                  SizedBox(
-                    width: MediaQuery.sizeOf(context).width,
-                    child: AppButton(
-                      text: 'Login',
-                      onPressed: () {
-                        Get.to(() => HomeScreen());
-                      },
-                    ),
+                  AppButton(
+                    text: 'login'.tr,
+                    onPressed: () {
+                      Get.to(() => HomeScreen());
+                    },
                   ),
+                  20.ph,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AppText(text: "Don't have an account?"),
+                      AppText(text: "don't_have_account".tr),
+                      5.pw,
                       GestureDetector(
                         onTap: () {
                           Get.to(() => RegisterScreen());
                         },
                         child: AppText(
-                          text: "Create new Account",
+                          text: "create_account".tr,
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           color: context.kPrimaryColor,

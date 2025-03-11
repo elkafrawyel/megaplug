@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
-import '../components/wavy_appbar.dart';
+import '../../../widgets/app_widgets/app_bars/wavy_appbar.dart';
+import '../../../widgets/app_widgets/app_text_field/app_text_field.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -12,18 +17,79 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+  final TextEditingController emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             WavyAppBar(
               withBackButton: true,
             ),
-            AppText(
-              text: 'Forget Password Screen',
-              fontSize: 30,
+            20.ph,
+            Center(
+              child: AppText(
+                text: 'forget_password'.tr,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            10.ph,
+            Center(
+              child: AppText(
+                text: 'forget_password_message'.tr,
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                maxLines: 3,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: "email_or_phone".tr,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppTextFormField(
+                controller: TextEditingController(),
+                hintText: "enter_email_or_phone".tr,
+              ),
+            ),
+            200.ph,
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: AppButton(
+                text: 'send_otp'.tr,
+                onPressed: () {},
+              ),
+            ),
+            20.ph,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppText(
+                  text: 'remember_the_password'.tr,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+                5.pw,
+                AppText(
+                  text: 'login'.tr,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: context.kPrimaryColor,
+                )
+              ],
             )
           ],
         ),

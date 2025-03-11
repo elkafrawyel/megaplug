@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
-import '../components/wavy_appbar.dart';
+import '../../../widgets/app_widgets/app_bars/wavy_appbar.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
