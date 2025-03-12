@@ -12,9 +12,20 @@ Map<String, String> en = {
   "don't_have_account": "Don't have an account?",
   'create_account': 'Create a new account',
   'forget_password': 'Forget password',
-  'forget_password_message': "Enter your phone number or email, and we'll send you a secure OTP to reset your password quickly and easily.",
-  'send_otp':'Send otp',
+  'forget_password_message':
+      "Enter your phone number or email, and we'll send you a secure OTP to reset your password quickly and easily.",
+  'send_otp': 'Send otp',
   'remember_the_password': 'Member the password?',
-
-
+  'register': 'Register',
+  'otp_code': 'OTP code verification',
+  'otp_code_message':
+      'Enter the OTP sent to your phone or email to verify your identity and proceed with resetting your password.',
+  'you_can_send': 'You can resend code in',
+  'second': 's',
+  'resend': 'Resend',
+  'stations': 'Stations',
+  'wallet': 'Wallet',
+  'charge': 'Charge',
+  'profile': 'Profile',
+  'settings': 'Settings',
 };

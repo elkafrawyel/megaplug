@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../widgets/app_widgets/app_text.dart';
+
 class StationsScreen extends StatefulWidget {
   const StationsScreen({super.key});
 
@@ -12,7 +14,9 @@ class _StationsScreenState extends State<StationsScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Container();
+    return Center(
+      child: AppText(text: 'stations'),
+    );
   }
 
   @override

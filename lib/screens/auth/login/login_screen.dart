@@ -10,6 +10,7 @@ import 'package:megaplug/screens/home/home_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
+import '../../../controller/home/home_binding.dart';
 import '../../../widgets/app_widgets/app_text.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -96,7 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   AppButton(
                     text: 'login'.tr,
                     onPressed: () {
-                      Get.to(() => HomeScreen());
+                      Get.to(
+                        () => HomeScreen(),
+                        binding: HomeBinding(),
+                      );
                     },
                   ),
                   20.ph,

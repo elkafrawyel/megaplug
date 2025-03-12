@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../widgets/app_widgets/app_text.dart';
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -11,7 +13,9 @@ class _ProfileScreenState extends State<ProfileScreen>  with AutomaticKeepAliveC
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return const Placeholder();
+    return Center(
+      child: AppText(text: 'profile'),
+    );
   }
 
 

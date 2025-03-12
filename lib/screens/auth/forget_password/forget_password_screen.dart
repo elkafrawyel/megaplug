@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/screens/auth/otp_code/otp_code_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
@@ -28,6 +30,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.kBackgroundColor,
+
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,13 +49,19 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             ),
             10.ph,
             Center(
-              child: AppText(
-                text: 'forget_password_message'.tr,
-                fontSize: 13,
-                fontWeight: FontWeight.w400,
-                maxLines: 3,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                child: AppText(
+                  text: 'forget_password_message'.tr,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  centerText: true,
+                  color: context.kHintTextColor,
+                  maxLines: 3,
+                ),
               ),
             ),
+            20.ph,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppText(
@@ -70,7 +80,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               padding: const EdgeInsets.all(12.0),
               child: AppButton(
                 text: 'send_otp'.tr,
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(()=>OtpCodeScreen());
+                },
               ),
             ),
             20.ph,
@@ -83,11 +95,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   fontWeight: FontWeight.w400,
                 ),
                 5.pw,
-                AppText(
-                  text: 'login'.tr,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: context.kPrimaryColor,
+                GestureDetector(
+                  onTap: Get.back,
+                  child: AppText(
+                    text: 'login'.tr,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    color: context.kPrimaryColor,
+                  ),
                 )
               ],
             )

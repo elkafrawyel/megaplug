@@ -6,12 +6,12 @@ import 'package:megaplug/widgets/custom_painter/home_header.dart';
 import '../../../config/res.dart';
 import '../app_text.dart';
 
-class HomeAppbar extends StatefulWidget {
+class RegisterAppbar extends StatefulWidget {
   final String title;
   final List<Widget>? actions;
   final bool withBackButton;
 
-  const HomeAppbar({
+  const RegisterAppbar({
     super.key,
     required this.title,
     this.actions,
@@ -19,10 +19,10 @@ class HomeAppbar extends StatefulWidget {
   });
 
   @override
-  State<HomeAppbar> createState() => _AppAppbarState();
+  State<RegisterAppbar> createState() => _AppAppbarState();
 }
 
-class _AppAppbarState extends State<HomeAppbar> {
+class _AppAppbarState extends State<RegisterAppbar> {
   bool _isBackVisible = false;
   bool _isTitleVisible = false;
 
@@ -54,13 +54,10 @@ class _AppAppbarState extends State<HomeAppbar> {
     return Stack(
       clipBehavior: Clip.hardEdge,
       children: [
-        CustomPaint(
-          // Adjust size as needed
-          size: Size(
-            width,
-            height,
-          ),
-          painter: HomeHeader(),
+        SvgPicture.asset(
+          Res.registerAppBarBgIcon,
+          width: width,
+          fit: BoxFit.fitHeight,
         ),
         if (widget.withBackButton)
           AnimatedPositionedDirectional(
@@ -75,6 +72,8 @@ class _AppAppbarState extends State<HomeAppbar> {
               },
               child: SvgPicture.asset(
                 Res.backIcon,
+                width: 28,
+                height: 28,
               ),
             ),
           ),

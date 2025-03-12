@@ -20,7 +20,7 @@ class StorageClient {
   }
 
   String getAppLanguage() =>
-      get(StorageClientKeys.language) ?? Get.deviceLocale!.languageCode;
+      get(StorageClientKeys.language) ?? 'en';
 
   bool isLogged() => get(StorageClientKeys.apiToken) != null;
 

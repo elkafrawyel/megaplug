@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../widgets/app_widgets/app_text.dart';
+
 class WalletScreen extends StatefulWidget {
   const WalletScreen({super.key});
 
@@ -12,7 +14,9 @@ class _WalletScreenState extends State<WalletScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return const Placeholder();
+    return Center(
+      child: AppText(text: 'wallet'),
+    );
   }
 
   @override
