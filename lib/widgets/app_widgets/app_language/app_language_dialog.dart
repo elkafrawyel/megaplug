@@ -9,15 +9,20 @@ import '../app_text.dart';
 
 showAppLanguageDialog({
   required BuildContext context,
+  required Function(LanguageData languageData) onLanguageChanged,
 }) {
   showCupertinoModalPopup(
     context: context,
-    builder: (BuildContext context) => const _LanguageDialog(),
+    builder: (BuildContext context) => _LanguageDialog(
+      onLanguageChanged: onLanguageChanged,
+    ),
   );
 }
 
 class _LanguageDialog extends StatelessWidget {
-  const _LanguageDialog();
+  final Function(LanguageData languageData) onLanguageChanged;
+
+  const _LanguageDialog({required this.onLanguageChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +73,7 @@ class _LanguageDialog extends StatelessWidget {
                 onPressed: () async {
                   Navigator.pop(context);
                   await LanguageData.changeLanguage(value);
+                  onLanguageChanged(value);
                 },
               ),
             )

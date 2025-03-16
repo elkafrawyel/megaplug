@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/controller/home/home_binding.dart';
+import 'package:megaplug/screens/home/home_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_bars/register_appbar.dart';
+import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
+import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
 import '../../../widgets/app_widgets/app_bars/wavy_appbar.dart';
 
@@ -17,22 +22,124 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.kBackgroundColor,
-
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             RegisterAppbar(
               title: 'register'.tr,
               withBackButton: true,
             ),
-            AppText(
-              text: 'Register Screen',
-              fontSize: 30,
-            )
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: 'name'.tr,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppTextFormField(
+                controller: nameController,
+                hintText: 'name_hint'.tr,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: 'email'.tr,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppTextFormField(
+                controller: emailController,
+                hintText: 'email_hint'.tr,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: 'phone'.tr,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppTextFormField(
+                controller: phoneController,
+                hintText: 'phone_hint'.tr,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: 'password'.tr,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppTextFormField(
+                controller: passwordController,
+                hintText: 'enter_password'.tr,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppText(
+                text: 're_inter_password'.tr,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppTextFormField(
+                controller: confirmPasswordController,
+                hintText: 're_inter_password_hint'.tr,
+              ),
+            ),
+            100.ph,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AppButton(
+                text: 'register'.tr,
+                onPressed: () {
+                  Get.to(
+                    () => HomeScreen(),
+                    binding: HomeBinding(),
+                  );
+                },
+              ),
+            ),
+            200.ph,
           ],
         ),
       ),

@@ -20,6 +20,7 @@ class Res {
   static const profileIcon = 'assets/icons/profile.svg';
   static const chargeOffIcon = 'assets/icons/charge_off.svg';
   static const chargeOnIcon = 'assets/icons/charge_on.svg';
+  static const homeAppBarBg = 'assets/icons/home_appbar_bg.svg';
 
   static const loadingAnimation = 'assets/anim/loading.json';
   static const errorAnimation = 'assets/anim/error.json';

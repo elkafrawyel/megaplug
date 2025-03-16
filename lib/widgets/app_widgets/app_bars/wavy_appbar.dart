@@ -23,13 +23,13 @@ class _WavyAppBarState extends State<WavyAppBar> {
   void initState() {
     super.initState();
     // Start animation after a short delay
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(milliseconds: 300), () {
       setState(() {
         _isLogoVisible = true;
       });
     });
     if (widget.withBackButton) {
-      Future.delayed(Duration(milliseconds: 1500), () {
+      Future.delayed(Duration(milliseconds: 800), () {
         setState(() {
           _isBackVisible = true;
         });
@@ -49,6 +49,10 @@ class _WavyAppBarState extends State<WavyAppBar> {
           width: width,
           fit: BoxFit.fitHeight,
         ),
+        // CustomPaint(
+        //   size: Size(MediaQuery.of(context).size.width, 150),
+        //   painter: AppBarPainter(),
+        // ),
         AnimatedPositionedDirectional(
           duration: Duration(milliseconds: 1500),
           // Animation duration
@@ -80,10 +84,38 @@ class _WavyAppBarState extends State<WavyAppBar> {
               },
               child: SvgPicture.asset(
                 Res.backIcon,
+                matchTextDirection: true,
               ),
             ),
           )
       ],
     );
   }
+}
+
+class AppBarPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint();
+    Path path = Path();
+
+
+    // Path number 1
+
+
+    paint.color = Color(0xff001cd4);
+    path = Path();
+    path.lineTo(size.width * 0.61, size.height * 0.4);
+    path.cubicTo(size.width * 0.74, size.height * 0.51, size.width * 0.88, size.height * 0.34, size.width * 0.9, size.height * 0.28);
+    path.cubicTo(size.width * 0.9, size.height * 0.28, size.width * 0.45, -0.56, size.width * 0.45, -0.56);
+    path.cubicTo(size.width * 0.45, -0.56, -0.1, size.height * 0.12, -0.1, size.height * 0.12);
+    path.cubicTo(-0.09, size.height * 0.14, -0.08, size.height / 5, -0.02, size.height * 0.27);
+    path.cubicTo(size.width * 0.05, size.height * 0.36, size.width * 0.19, size.height * 0.45, size.width * 0.28, size.height * 0.38);
+    path.cubicTo(size.width * 0.48, size.height * 0.22, size.width * 0.44, size.height * 0.26, size.width * 0.61, size.height * 0.4);
+    path.cubicTo(size.width * 0.61, size.height * 0.4, size.width * 0.61, size.height * 0.4, size.width * 0.61, size.height * 0.4);
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

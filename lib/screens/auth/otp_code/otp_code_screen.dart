@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/screens/auth/new_password/new_password_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_bars/wavy_appbar.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -119,7 +121,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
                 activeColor: Color.fromRGBO(62, 191, 128, 0.1),
                 selectedColor: Color.fromRGBO(62, 191, 128, 0.1),
                 activeFillColor: Colors.white,
-                selectedFillColor:const Color.fromRGBO(62, 191, 128, 0.1),
+                selectedFillColor: const Color.fromRGBO(62, 191, 128, 0.1),
                 inactiveFillColor: const Color.fromRGBO(250, 250, 250, 1),
                 inactiveColor: const Color.fromRGBO(250, 250, 250, 1),
                 fieldOuterPadding: const EdgeInsets.symmetric(
@@ -145,11 +147,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
                 _debounce = Timer(
                   const Duration(milliseconds: 500),
                   () {
-                    // code = verificationCode;
-                    // context.read<OtpCubit>().verifyOtp(
-                    //       email: email,
-                    //       code: verificationCode,
-                    //     );
+                    sendVerificationCode(verificationCode);
                   },
                 );
               },
@@ -211,5 +209,11 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
         ],
       ),
     );
+  }
+
+  void sendVerificationCode(String verificationCode) async {
+    if (verificationCode.isNotEmpty) {
+      Get.to(() => NewPasswordScreen());
+    }
   }
 }

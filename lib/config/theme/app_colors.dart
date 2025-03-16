@@ -153,10 +153,10 @@ class AppColors extends ThemeExtension<AppColors> {
   static AppColors lightModeColors = const AppColors(
     kPrimaryColor: Color(0xff3EBF80),
     kSecondaryColor: Color(0xffE86F00),
-    kBackgroundColor: Colors.white,
-    kTextColor: Colors.black,
+    kBackgroundColor: Color(0xffFCFBFB),
+    kTextColor: Color(0xff231F20),
     kColorOnPrimaryColor: Colors.white,
-    kHintColor: Color(0xff6C7E8E),
+    kHintColor: Color(0xff6D7698),
     kErrorColor: Colors.red,
     kSuccessColor: Colors.green,
     kTextFieldColor: Color(0xffE2E8F0),

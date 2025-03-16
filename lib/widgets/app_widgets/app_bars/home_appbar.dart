@@ -31,7 +31,7 @@ class _AppAppbarState extends State<HomeAppbar> {
     super.initState();
 
     if (widget.withBackButton) {
-      Future.delayed(Duration(milliseconds: 1500), () {
+      Future.delayed(Duration(milliseconds: 800), () {
         setState(() {
           _isBackVisible = true;
         });
@@ -39,7 +39,7 @@ class _AppAppbarState extends State<HomeAppbar> {
     }
 
     // Start animation after a short delay
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(milliseconds: 300), () {
       setState(() {
         _isTitleVisible = true;
       });
@@ -52,16 +52,19 @@ class _AppAppbarState extends State<HomeAppbar> {
     double width = MediaQuery.sizeOf(context).width;
 
     return Stack(
-      clipBehavior: Clip.hardEdge,
       children: [
         CustomPaint(
-          // Adjust size as needed
           size: Size(
             width,
             height,
           ),
-          painter: HomeHeader(),
+          painter: AppBarPainter(),
         ),
+        // SvgPicture.asset(
+        //   Res.homeAppBarBg,
+        //   width: width,
+        //   fit: BoxFit.fitHeight,
+        // ),
         if (widget.withBackButton)
           AnimatedPositionedDirectional(
             duration: Duration(milliseconds: 1000),
@@ -100,4 +103,32 @@ class _AppAppbarState extends State<HomeAppbar> {
       ],
     );
   }
+}
+
+class AppBarPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint ellipsePaint = Paint()
+      ..shader = RadialGradient(
+        colors: [
+          Color(0xff42D99C),
+          Color(0xff3EBF80),
+        ],
+      ).createShader(Rect.fromCircle(
+        center: Offset(183.5, -132.5),
+        radius: 580.5,
+      ));
+
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(183.5, -132.5),
+        width: 580.5 * 2,
+        height: 240.5 * 2,
+      ),
+      ellipsePaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

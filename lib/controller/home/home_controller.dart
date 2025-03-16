@@ -27,7 +27,7 @@ class HomeController extends GetxController {
 
   handleSelectedIndex(int index) {
     selectedIndex = index;
-    pageController.jumpToPage(index);
     update();
+    pageController.jumpToPage(index);
   }
 }
