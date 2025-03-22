@@ -5,6 +5,10 @@ class Res {
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';
   static const authLogo = 'assets/images/auth_logo.png';
+  static const onboarding_1 = 'assets/images/onboarding/onboarding_1.png';
+  static const onboarding_2 = 'assets/images/onboarding/onboarding_2.png';
+  static const onboarding_3 = 'assets/images/onboarding/onboarding_3.png';
+  static const onboardingContentBg = 'assets/images/onboarding/content_bg.png';
 
   static const backIcon = 'assets/icons/back.svg';
   static const registerAppBarBgIcon = 'assets/icons/register_appbar_bg.svg';
@@ -21,6 +25,7 @@ class Res {
   static const chargeOffIcon = 'assets/icons/charge_off.svg';
   static const chargeOnIcon = 'assets/icons/charge_on.svg';
   static const homeAppBarBg = 'assets/icons/home_appbar_bg.svg';
+  static const onboardingArrowBg = 'assets/icons/onboarding_arrow_bg.svg';
 
   static const loadingAnimation = 'assets/anim/loading.json';
   static const errorAnimation = 'assets/anim/error.json';

@@ -6,10 +6,9 @@ import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/controller/home/home_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
-import '../../widgets/app_widgets/app_bars/home_appbar.dart';
+import 'controller/home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

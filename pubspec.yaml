@@ -35,6 +35,7 @@ dependencies:
   flutter_inappwebview: ^6.1.5
   rename: ^3.0.2
   pin_code_fields: ^8.0.1
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:
@@ -49,5 +50,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/launcher/
+    - assets/images/onboarding/
     - assets/icons/
     - assets/anim/

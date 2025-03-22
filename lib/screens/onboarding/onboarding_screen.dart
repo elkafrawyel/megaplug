@@ -1,0 +1,221 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/res.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/screens/auth/login/login_screen.dart';
+import 'package:megaplug/screens/onboarding/data/onboarding_model.dart';
+import 'package:megaplug/widgets/app_widgets/app_text.dart';
+
+import '../../config/clients/storage/storage_client.dart';
+
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  final List<OnBoardingModel> data = [];
+
+  int selectedPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    data.addAll(
+      [
+        OnBoardingModel(
+          imagePath: Res.onboarding_1,
+          headerText: 'onboarding_header_1'.tr,
+          contentText: 'onboarding_content_1'.tr,
+        ),
+        OnBoardingModel(
+          imagePath: Res.onboarding_2,
+          headerText: 'onboarding_header_2'.tr,
+          contentText: 'onboarding_content_2'.tr,
+        ),
+        OnBoardingModel(
+          imagePath: Res.onboarding_3,
+          headerText: 'onboarding_header_3'.tr,
+          contentText: 'onboarding_content_3'.tr,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          PositionedDirectional(
+            top: 0,
+            start: 0,
+            end: 0,
+            child: Image.asset(
+              data[selectedPage].imagePath,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          PositionedDirectional(
+            bottom: 0,
+            start: 0,
+            end: 0,
+            child: Container(
+              height: MediaQuery.sizeOf(context).height / 2.5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.vertical(
+                  top: Radius.circular(24),
+                ),
+                color: Colors.white,
+              ),
+              child: Stack(
+                children: [
+                  Center(
+                    child: Image.asset(
+                      Res.onboardingContentBg,
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      50.ph,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                        child: AppText(
+                          text: data[selectedPage].headerText,
+                          maxLines: 3,
+                          fontSize: 19,
+                          fontWeight: FontWeight.w700,
+                          centerText: true,
+                        ),
+                      ),
+                      10.ph,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 38.0),
+                        child: AppText(
+                          text: data[selectedPage].contentText,
+                          maxLines: 5,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          centerText: true,
+                        ),
+                      ),
+                      20.ph,
+                      Spacer(),
+                      Row(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 28.0),
+                            child: Row(
+                              children: data
+                                  .map(
+                                    (element) => selectedPage ==
+                                            data.indexOf(element)
+                                        ? Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 4),
+                                            width: 25,
+                                            height: 5,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                                color: context.kPrimaryColor),
+                                          )
+                                        : Container(
+                                            margin: EdgeInsets.symmetric(
+                                              horizontal: 4,
+                                            ),
+                                            width: 7,
+                                            height: 7,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+                          Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              if (selectedPage < data.length - 1) {
+                                setState(() {
+                                  selectedPage++;
+                                });
+                              } else {
+                                _skipIntro();
+                              }
+                            },
+                            child: Stack(
+                              children: [
+                                SvgPicture.asset(
+                                  Res.onboardingArrowBg,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                                PositionedDirectional(
+                                  end: 18,
+                                  bottom: 0,
+                                  top: 18,
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          PositionedDirectional(
+            top: kToolbarHeight,
+            start: 18,
+            child: Offstage(
+              offstage: selectedPage == data.length - 1,
+              child: GestureDetector(
+                onTap: () {
+                  _skipIntro();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: context.kSecondaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 8.0,
+                    ),
+                    child: AppText(
+                      text: 'skip'.tr,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _skipIntro() async {
+    await StorageClient().save(StorageClientKeys.intro, 1);
+    Get.offAll(() => LoginScreen());
+  }
+}

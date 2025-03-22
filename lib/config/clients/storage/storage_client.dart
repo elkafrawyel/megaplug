@@ -7,6 +7,7 @@ enum StorageClientKeys {
   notifications, //int
   apiToken, //String
   isDarkMode, //String
+  intro, //int
 }
 
 class StorageClient {

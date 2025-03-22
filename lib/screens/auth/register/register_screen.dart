@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/controller/home/home_binding.dart';
 import 'package:megaplug/screens/home/home_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_bars/register_appbar.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
-import '../../../widgets/app_widgets/app_bars/wavy_appbar.dart';
+import '../../home/controller/home_binding.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

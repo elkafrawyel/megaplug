@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../screens/home/pages/charge/charge_screen.dart';
-import '../../screens/home/pages/profile/profile_screen.dart';
-import '../../screens/home/pages/settings/settings_screen.dart';
-import '../../screens/home/pages/stations/stations_screen.dart';
-import '../../screens/home/pages/wallet/wallet_screen.dart';
+import '../pages/charge/charge_screen.dart';
+import '../pages/profile/profile_screen.dart';
+import '../pages/settings/settings_screen.dart';
+import '../pages/stations/stations_screen.dart';
+import '../pages/wallet/wallet_screen.dart';
 
 class HomeController extends GetxController {
   int selectedIndex = 0;
