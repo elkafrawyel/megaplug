@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:megaplug/widgets/app_widgets/app_bars/home_appbar.dart';
 
 import '../../../../widgets/app_widgets/app_text.dart';
 
@@ -14,8 +16,14 @@ class _WalletScreenState extends State<WalletScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Center(
-      child: AppText(text: 'wallet'),
+    return Scaffold(
+      body: Column(
+        children: [
+          HomeAppbar(
+            title: 'wallet'.tr,
+          ),
+        ],
+      ),
     );
   }
 

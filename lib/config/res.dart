@@ -24,8 +24,15 @@ class Res {
   static const profileIcon = 'assets/icons/profile.svg';
   static const chargeOffIcon = 'assets/icons/charge_off.svg';
   static const chargeOnIcon = 'assets/icons/charge_on.svg';
-  static const homeAppBarBg = 'assets/icons/home_appbar_bg.svg';
+  static const homeAppBarBg = 'assets/icons/home_header_bg.svg';
   static const onboardingArrowBg = 'assets/icons/onboarding_arrow_bg.svg';
+  static const editProfileIcon = 'assets/icons/edit_profile.svg';
+  static const chargingHistoryIcon = 'assets/icons/charging_history.svg';
+  static const logoutIcon = 'assets/icons/logout.svg';
+  static const loyaltyPointsIcon = 'assets/icons/loyalty_points.svg';
+  static const myCarsIcon = 'assets/icons/my_cars.svg';
+  static const menuWalletIcon = 'assets/icons/menu_wallet.svg';
+  static const paymentMethodsIcon = 'assets/icons/payment_methods.svg';
 
   static const loadingAnimation = 'assets/anim/loading.json';
   static const errorAnimation = 'assets/anim/error.json';

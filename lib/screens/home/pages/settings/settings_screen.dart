@@ -4,7 +4,6 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/language/language_model.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_bars/home_appbar.dart';
-import 'package:megaplug/widgets/custom_painter/home_header.dart';
 
 import '../../../../widgets/app_widgets/app_language/app_language_dialog.dart';
 import '../../../../widgets/app_widgets/app_text.dart';

@@ -24,7 +24,8 @@ class AppListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      horizontalTitleGap: 0,
+      tileColor: Colors.white,
+      horizontalTitleGap: 12,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(
           kRadius,
@@ -40,7 +41,7 @@ class AppListTile extends StatelessWidget {
           : AppText(
               text: title!,
               fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w500,
               maxLines: 1,
             ),
       subtitle: body == null

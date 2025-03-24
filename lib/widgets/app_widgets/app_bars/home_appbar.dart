@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/widgets/custom_painter/home_header.dart';
 
 import '../../../config/res.dart';
 import '../app_text.dart';
@@ -11,11 +10,14 @@ class HomeAppbar extends StatefulWidget {
   final List<Widget>? actions;
   final bool withBackButton;
 
+  final double? height;
+
   const HomeAppbar({
     super.key,
     required this.title,
     this.actions,
     this.withBackButton = false,
+    this.height,
   });
 
   @override
@@ -48,23 +50,17 @@ class _AppAppbarState extends State<HomeAppbar> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.sizeOf(context).height * 0.15;
-    double width = MediaQuery.sizeOf(context).width;
-
+    double width =  MediaQuery.sizeOf(context).width;
     return Stack(
       children: [
-        CustomPaint(
-          size: Size(
-            width,
-            height,
+        SizedBox(
+          width: width,
+          child: SvgPicture.asset(
+            Res.homeAppBarBg,
+            height: widget.height,
+            fit: BoxFit.fill,
           ),
-          painter: AppBarPainter(),
         ),
-        // SvgPicture.asset(
-        //   Res.homeAppBarBg,
-        //   width: width,
-        //   fit: BoxFit.fitHeight,
-        // ),
         if (widget.withBackButton)
           AnimatedPositionedDirectional(
             duration: Duration(milliseconds: 1000),
@@ -96,7 +92,7 @@ class _AppAppbarState extends State<HomeAppbar> {
               text: widget.title,
               color: context.kColorOnPrimary,
               fontSize: 14,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
@@ -114,16 +110,19 @@ class AppBarPainter extends CustomPainter {
           Color(0xff42D99C),
           Color(0xff3EBF80),
         ],
-      ).createShader(Rect.fromCircle(
-        center: Offset(183.5, -132.5),
-        radius: 580.5,
-      ));
+      ).createShader(
+        Rect.fromCircle(
+          center: Offset(size.width / 2, size.height / 2),
+          // Center of the canvas
+          radius: 300.5,
+        ),
+      );
 
     canvas.drawOval(
       Rect.fromCenter(
-        center: Offset(183.5, -132.5),
-        width: 580.5 * 2,
-        height: 240.5 * 2,
+        center: Offset(size.width / 2, size.height / 2),
+        width: size.width * 2,
+        height: size.height * 2,
       ),
       ellipsePaint,
     );

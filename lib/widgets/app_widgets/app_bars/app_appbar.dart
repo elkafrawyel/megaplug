@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/widgets/custom_painter/home_header.dart';
 
 import '../../../config/res.dart';
 import '../app_text.dart';
