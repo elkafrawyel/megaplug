@@ -33,6 +33,8 @@ class Res {
   static const myCarsIcon = 'assets/icons/my_cars.svg';
   static const menuWalletIcon = 'assets/icons/menu_wallet.svg';
   static const paymentMethodsIcon = 'assets/icons/payment_methods.svg';
+  static const plusIcon = 'assets/icons/plus.svg';
+  static const chargedIcon = 'assets/icons/charged.svg';
 
   static const loadingAnimation = 'assets/anim/loading.json';
   static const errorAnimation = 'assets/anim/error.json';

@@ -65,4 +65,7 @@ Map<String, String> en = {
       'Track your charging sessions and optimize your journey',
   'onboarding_content_3':
       'Monitor charging progress, save favorite stations, and plan your trips with smart insights. MegaPlug makes EV charging smarter, easier, and more convenient for you.',
+  'points':'Points',
+  'add_credit':'Add Credit',
+  'transactions_history':'Transactions History'
 };

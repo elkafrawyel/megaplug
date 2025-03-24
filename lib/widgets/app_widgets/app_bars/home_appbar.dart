@@ -50,14 +50,14 @@ class _AppAppbarState extends State<HomeAppbar> {
 
   @override
   Widget build(BuildContext context) {
-    double width =  MediaQuery.sizeOf(context).width;
+    double width = MediaQuery.sizeOf(context).width;
     return Stack(
       children: [
         SizedBox(
           width: width,
           child: SvgPicture.asset(
             Res.homeAppBarBg,
-            height: widget.height,
+            height: widget.height ?? 120,
             fit: BoxFit.fill,
           ),
         ),

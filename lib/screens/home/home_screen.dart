@@ -31,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (homeController) {
         int selectedIndex = homeController.selectedIndex;
         return Scaffold(
-          backgroundColor: context.kBackgroundColor,
+          extendBody: true,
+          backgroundColor: Colors.transparent,
           bottomNavigationBar: SafeArea(
             bottom: Platform.isIOS,
             child: Stack(

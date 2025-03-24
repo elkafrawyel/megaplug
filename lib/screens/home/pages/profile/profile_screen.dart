@@ -159,9 +159,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                   height: 30,
                 ),
                 title: 'logout'.tr,
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
-                ),
                 onTap: () {
                   AppLogger.getxLog('logout');
                 },
