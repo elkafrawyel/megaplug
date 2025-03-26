@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "829774053674",
+    "firebase_url": "https://ws-mp-kodepedia-default-rtdb.firebaseio.com",
+    "project_id": "ws-mp-kodepedia",
+    "storage_bucket": "ws-mp-kodepedia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829774053674:android:931099b44b113d18b59e53",
+        "android_client_info": {
+          "package_name": "com.megaplug.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVVvqX3ktJSZpqsmN91hsfLDJ2zKMpxig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
