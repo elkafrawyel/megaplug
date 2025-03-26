@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:logger/logger.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:path_provider/path_provider.dart' as path;
 
@@ -21,7 +22,7 @@ class NotificationsService {
     await _instance.requestPermission(announcement: true);
 
     await _instance.getToken().then(
-          (token) => AppLogger.log('FIREBASE TOKEN : : $token'),
+          (token) => AppLogger.log('FIREBASE TOKEN : : $token',level: Level.warning),
         );
 
     /// ==========================Handle Background Notifications=======================================
