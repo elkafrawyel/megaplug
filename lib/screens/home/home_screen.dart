@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/screens/home/pages/profile/controller/profile_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 import 'controller/home_controller.dart';

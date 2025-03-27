@@ -6,7 +6,7 @@ import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/screens/auth/new_password/new_password_screen.dart';
-import 'package:megaplug/widgets/app_widgets/app_bars/wavy_appbar.dart';
+import 'package:megaplug/screens/auth/components/wavy_appbar.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -61,7 +61,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
     //        '${'${(seconds / 60).floor()}'.padLeft(2, '0')}:${'${seconds % 60}'.padLeft(2, '0')}';
 
     return Scaffold(
-      backgroundColor: context.kBackgroundColor,
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -115,14 +115,14 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
               pinTheme: PinTheme(
                 shape: PinCodeFieldShape.box,
                 borderRadius: BorderRadius.circular(12),
-                fieldHeight: 50,
-                fieldWidth: 60,
-                borderWidth: 0.65,
-                activeColor: Color.fromRGBO(62, 191, 128, 0.1),
+                fieldHeight: 60,
+                fieldWidth: 70,
+                borderWidth: 0.9,
+                activeColor: Color(0xffFAFAFA),
                 selectedColor: Color.fromRGBO(62, 191, 128, 0.1),
-                activeFillColor: Colors.white,
-                selectedFillColor: const Color.fromRGBO(62, 191, 128, 0.1),
-                inactiveFillColor: const Color.fromRGBO(250, 250, 250, 1),
+                activeFillColor: Color.fromRGBO(62, 191, 128, 0.1),
+                selectedFillColor: Color(0xffFAFAFA),
+                inactiveFillColor: Color(0xffFAFAFA),
                 inactiveColor: const Color.fromRGBO(250, 250, 250, 1),
                 fieldOuterPadding: const EdgeInsets.symmetric(
                   horizontal: 8,

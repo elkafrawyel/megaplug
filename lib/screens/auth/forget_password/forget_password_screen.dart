@@ -8,7 +8,7 @@ import 'package:megaplug/screens/auth/otp_code/otp_code_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
-import '../../../widgets/app_widgets/app_bars/wavy_appbar.dart';
+import '../components/wavy_appbar.dart';
 import '../../../widgets/app_widgets/app_text_field/app_text_field.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {

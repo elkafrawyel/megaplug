@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/get.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/screens/home/pages/profile/components/header_view.dart';
+import 'package:megaplug/screens/edit_profile/edit_profile_screen.dart';
+import 'package:megaplug/screens/home/pages/profile/components/profile_appbar.dart';
 import 'package:megaplug/widgets/app_widgets/app_list_tile.dart';
 
 import '../../../../widgets/app_widgets/app_text.dart';
@@ -23,17 +25,22 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     super.build(context);
 
-    double headerBgHeight = MediaQuery.sizeOf(context).height * 0.20;
-    double imageHeight = 120;
+    double appbarHeight = 120;
+    double imageHeight = 100;
     return Scaffold(
+      appBar: ProfileAppbar(
+        svgAssetPath: Res.homeAppBarBg,
+        height: appbarHeight,
+        title: 'profile'.tr,
+        imageHeight: imageHeight,
+        userImage:
+            'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
+      ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            HeaderView(
-              height: headerBgHeight,
-              imageHeight: imageHeight,
-            ),
             (imageHeight / 1.5).ph,
             AppText(
               text: 'Ahmed Bakry',
@@ -49,7 +56,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
             20.ph,
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
               child: AppListTile(
                 leading: SvgPicture.asset(
                   Res.editProfileIcon,
@@ -61,12 +69,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                   Icons.keyboard_arrow_right,
                 ),
                 onTap: () {
-                  AppLogger.getxLog('edit_profile');
+                  Get.to(() => EditProfileScreen());
                 },
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
               child: AppListTile(
                 leading: SvgPicture.asset(
                   Res.myCarsIcon,
@@ -83,7 +92,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
               child: AppListTile(
                 leading: SvgPicture.asset(
                   Res.chargingHistoryIcon,
@@ -100,7 +110,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
               child: AppListTile(
                 leading: SvgPicture.asset(
                   Res.menuWalletIcon,
@@ -117,7 +128,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
               child: AppListTile(
                 leading: SvgPicture.asset(
                   Res.paymentMethodsIcon,
@@ -134,7 +146,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
               child: AppListTile(
                 leading: SvgPicture.asset(
                   Res.loyaltyPointsIcon,
@@ -151,7 +164,8 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
               child: AppListTile(
                 leading: SvgPicture.asset(
                   Res.logoutIcon,
@@ -159,8 +173,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                   height: 30,
                 ),
                 title: 'logout'.tr,
-                onTap: () {
-                  AppLogger.getxLog('logout');
+                onTap: () async {
+                  await StorageClient().signOut();
                 },
               ),
             ),

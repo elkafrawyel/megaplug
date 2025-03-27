@@ -3,7 +3,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/widgets/app_widgets/app_bars/wavy_appbar.dart';
+import 'package:megaplug/screens/auth/components/wavy_appbar.dart';
 import 'package:megaplug/screens/auth/forget_password/forget_password_screen.dart';
 import 'package:megaplug/screens/auth/register/register_screen.dart';
 import 'package:megaplug/screens/home/home_screen.dart';

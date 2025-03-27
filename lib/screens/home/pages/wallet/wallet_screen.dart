@@ -6,7 +6,7 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/screens/home/pages/wallet/components/transactions_history_list.dart';
-import 'package:megaplug/widgets/app_widgets/app_bars/home_appbar.dart';
+import 'package:megaplug/screens/home/components/home_appbar.dart';
 
 import '../../../../widgets/app_widgets/app_text.dart';
 
@@ -24,15 +24,16 @@ class _WalletScreenState extends State<WalletScreen>
     super.build(context);
     return Scaffold(
       backgroundColor: context.kBackgroundColor,
+      appBar: HomeAppbar(
+        svgAssetPath: Res.homeAppBarBg,
+        title: 'wallet'.tr,
+      ),
       body: RefreshIndicator(
         onRefresh: () async {},
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HomeAppbar(
-                title: 'wallet'.tr,
-              ),
               Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: DottedBorder(

@@ -5,10 +5,12 @@ import '../../../config/res.dart';
 
 class WavyAppBar extends StatefulWidget {
   final bool withBackButton;
+  final bool animated;
 
   const WavyAppBar({
     super.key,
     this.withBackButton = true,
+    this.animated = true,
   });
 
   @override
@@ -23,23 +25,28 @@ class _WavyAppBarState extends State<WavyAppBar> {
   void initState() {
     super.initState();
     // Start animation after a short delay
-    Future.delayed(Duration(milliseconds: 300), () {
-      setState(() {
-        _isLogoVisible = true;
-      });
-    });
-    if (widget.withBackButton) {
-      Future.delayed(Duration(milliseconds: 800), () {
+    if (widget.animated) {
+      Future.delayed(Duration(milliseconds: 300), () {
         setState(() {
-          _isBackVisible = true;
+          _isLogoVisible = true;
         });
       });
+
+      if (widget.withBackButton) {
+        Future.delayed(Duration(milliseconds: 800), () {
+          setState(() {
+            _isBackVisible = true;
+          });
+        });
+      }
+    } else {
+      _isBackVisible = true;
+      _isLogoVisible = true;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.sizeOf(context).height * 0.30;
     double width = MediaQuery.sizeOf(context).width;
     return Stack(
       clipBehavior: Clip.hardEdge,
@@ -72,8 +79,8 @@ class _WavyAppBarState extends State<WavyAppBar> {
           AnimatedPositionedDirectional(
             duration: Duration(milliseconds: 1000),
             curve: Curves.easeInOut,
-            start: _isBackVisible ? 12 : -50,
-            top: kToolbarHeight,
+            start: _isBackVisible ? 18 : -50,
+            top: 70,
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();

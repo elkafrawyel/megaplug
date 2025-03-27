@@ -4,7 +4,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/screens/auth/login/login_screen.dart';
-import 'package:megaplug/widgets/app_widgets/app_bars/wavy_appbar.dart';
+import 'package:megaplug/screens/auth/components/wavy_appbar.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';

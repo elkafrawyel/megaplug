@@ -2,6 +2,8 @@ import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../../screens/auth/login/login_screen.dart';
+
 enum StorageClientKeys {
   language, //String
   notifications, //int
@@ -20,8 +22,7 @@ class StorageClient {
     }
   }
 
-  String getAppLanguage() =>
-      get(StorageClientKeys.language) ?? 'en';
+  String getAppLanguage() => get(StorageClientKeys.language) ?? 'en';
 
   bool isLogged() => get(StorageClientKeys.apiToken) != null;
 
@@ -40,7 +41,8 @@ class StorageClient {
 
   Future<void> signOut() async {
     await _box.erase();
-    // Get.offAll(()=>LoginScreen());
+    Get.offAll(() => LoginScreen());
+    await save(StorageClientKeys.intro, 1);
     APIClient.instance.updateTokenHeader(null);
   }
 }

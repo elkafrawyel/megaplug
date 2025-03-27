@@ -21,9 +21,19 @@ class NotificationsService {
   Future<void> init() async {
     await _instance.requestPermission(announcement: true);
 
-    await _instance.getToken().then(
-          (token) => AppLogger.log('FIREBASE TOKEN : : $token',level: Level.warning),
-        );
+    try {
+      await _instance.getToken().then(
+            (token) => AppLogger.log(
+              'FIREBASE TOKEN : : $token',
+              level: Level.warning,
+            ),
+          );
+    } catch (e) {
+      AppLogger.log(
+        e.toString(),
+        level: Level.warning,
+      );
+    }
 
     /// ==========================Handle Background Notifications=======================================
 

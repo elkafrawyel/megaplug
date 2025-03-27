@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/language/language_model.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/widgets/app_widgets/app_bars/home_appbar.dart';
+import 'package:megaplug/screens/home/components/home_appbar.dart';
 
+import '../../../../config/res.dart';
 import '../../../../widgets/app_widgets/app_language/app_language_dialog.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
 
@@ -30,15 +31,14 @@ class _SettingsScreenState extends State<SettingsScreen>
     super.build(context);
     return Scaffold(
       backgroundColor: context.kBackgroundColor,
+      appBar: HomeAppbar(
+        svgAssetPath: Res.homeAppBarBg,
+        title: 'settings'.tr,
+      ),
       body: SingleChildScrollView(
         child: Column(
           spacing: 10,
           children: [
-            HomeAppbar(
-              title: 'settings'.tr,
-              withBackButton: false,
-            ),
-            10.ph,
             Card(
               elevation: 0.0,
               shape: RoundedRectangleBorder(

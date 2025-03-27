@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/screens/home/home_screen.dart';
-import 'package:megaplug/widgets/app_widgets/app_bars/register_appbar.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
+import '../../../config/res.dart';
 import '../../home/controller/home_binding.dart';
-
+import 'components/register_appbar.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -40,14 +40,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.kBackgroundColor,
+      appBar: RegisterAppbar(
+        svgAssetPath: Res.registerAppBarBgIcon,
+        title: 'register'.tr,
+        showBackButton: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RegisterAppbar(
-              title: 'register'.tr,
-              withBackButton: true,
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: AppText(
