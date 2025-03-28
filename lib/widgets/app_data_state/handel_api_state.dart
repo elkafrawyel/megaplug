@@ -3,7 +3,8 @@ import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/widgets/app_data_state/app_empty_view.dart';
 import 'package:megaplug/widgets/app_data_state/app_error_view.dart';
 import 'package:megaplug/widgets/app_data_state/app_loading_view.dart';
-import '../../controller/general_controller.dart';
+
+import '../../config/controller/general_controller.dart';
 
 class HandleApiState extends StatelessWidget {
   final GeneralController? generalController;

@@ -5,12 +5,10 @@ import '../../../config/res.dart';
 
 class WavyAppBar extends StatefulWidget {
   final bool withBackButton;
-  final bool animated;
 
   const WavyAppBar({
     super.key,
     this.withBackButton = true,
-    this.animated = true,
   });
 
   @override
@@ -18,33 +16,6 @@ class WavyAppBar extends StatefulWidget {
 }
 
 class _WavyAppBarState extends State<WavyAppBar> {
-  bool _isLogoVisible = false;
-  bool _isBackVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // Start animation after a short delay
-    if (widget.animated) {
-      Future.delayed(Duration(milliseconds: 300), () {
-        setState(() {
-          _isLogoVisible = true;
-        });
-      });
-
-      if (widget.withBackButton) {
-        Future.delayed(Duration(milliseconds: 800), () {
-          setState(() {
-            _isBackVisible = true;
-          });
-        });
-      }
-    } else {
-      _isBackVisible = true;
-      _isLogoVisible = true;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.sizeOf(context).width;
@@ -61,13 +32,13 @@ class _WavyAppBarState extends State<WavyAppBar> {
           // Animation duration
           curve: Curves.easeInOut,
           // Smooth transition
-          top: _isLogoVisible ? kToolbarHeight : -300,
+          top: kToolbarHeight,
           // Moves up from bottom
           start: 0,
           end: 0,
           child: AnimatedOpacity(
             duration: Duration(seconds: 1),
-            opacity: _isLogoVisible ? 1 : 0.5,
+            opacity: 1,
             child: Image.asset(
               Res.authLogo,
               width: 150,
@@ -79,7 +50,7 @@ class _WavyAppBarState extends State<WavyAppBar> {
           AnimatedPositionedDirectional(
             duration: Duration(milliseconds: 1000),
             curve: Curves.easeInOut,
-            start: _isBackVisible ? 18 : -50,
+            start: 18,
             top: 70,
             child: GestureDetector(
               onTap: () {

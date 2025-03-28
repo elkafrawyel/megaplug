@@ -45,5 +45,29 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+    		<string>Access to photos is needed to allow user to choose account profile picture</string>
+    		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    		<string>This app need location permission to display the user position on maps</string>
+    		<key>NSLocationAlwaysUsageDescription</key>
+    		<string>This app need location permission to display the user position on maps</string>
+    		<key>NSLocationUsageDescription</key>
+    		<string>This app need location permission to display the user position on maps</string>
+    		<key>NSLocationWhenInUseUsageDescription</key>
+    		<string>This app need location permission to display the user position on maps</string>
+    		<key>NSMicrophoneUsageDescription</key>
+    		<string>Need microphone access for uploading audio</string>
+    		<key>NSPhotoLibraryUsageDescription</key>
+    		<string>Access to photos is needed to allow user to choose account profile picture</string>
+    		<key>UIBackgroundModes</key>
+            		<array>
+            			<string>fetch</string>
+            			<string>remote-notification</string>
+            		</array>
+            		<key>LSApplicationQueriesSchemes</key>
+                    		<array>
+                    			<string>sms</string>
+                    			<string>tel</string>
+                    		</array>
 </dict>
 </plist>

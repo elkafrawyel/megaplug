@@ -1,9 +1,6 @@
-import 'package:megaplug/controller/general_controller.dart';
+import 'package:get/get.dart';
 
-class ProfileController extends GeneralController{
-  @override
-  Future<void> refreshApiCall() async{
+class ProfileController extends GetxController{
 
-  }
 
 }
