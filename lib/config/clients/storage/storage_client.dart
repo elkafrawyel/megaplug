@@ -2,7 +2,7 @@ import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../screens/auth/login/login_screen.dart';
+import '../../../presentation/auth/login/login_screen.dart';
 
 enum StorageClientKeys {
   language, //String
