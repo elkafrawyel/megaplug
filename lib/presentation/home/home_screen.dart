@@ -188,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
           body: PageView.builder(
+            physics: NeverScrollableScrollPhysics(),
             controller: homeController.pageController,
             itemCount: homeController.pages.length,
             onPageChanged: (index) {

@@ -11,8 +11,10 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:widget_to_marker/widget_to_marker.dart';
 
 import '../../../../../widgets/app_dialog_view.dart';
+import '../components/custom_marker_view.dart';
 
 class StationsController extends GetxController {
   bool mapView = true;
@@ -40,29 +42,25 @@ class StationsController extends GetxController {
         "lat": 30.934770387046267,
         "lng": 31.176711469888684,
         "text": "25",
-        "key": GlobalKey()
       },
-      // {
-      //   "id": '2',
-      //   "lat": 30.889114139158142,
-      //   "lng": 31.181632317602634,
-      //   "text": "50",
-      //   "key": GlobalKey()
-      // },
-      // {
-      //   "id": '3',
-      //   "lat": 30.97549914890886,
-      //   "lng": 31.138602644205093,
-      //   "text": "70",
-      //   "key": GlobalKey()
-      // },
-      // {
-      //   "id": '4',
-      //   "lat": 31.024742684457404,
-      //   "lng": 31.235533989965912,
-      //   "text": "10",
-      //   "key": GlobalKey()
-      // },
+      {
+        "id": '2',
+        "lat": 30.889114139158142,
+        "lng": 31.181632317602634,
+        "text": "50",
+      },
+      {
+        "id": '3',
+        "lat": 30.97549914890886,
+        "lng": 31.138602644205093,
+        "text": "70",
+      },
+      {
+        "id": '4',
+        "lat": 31.024742684457404,
+        "lng": 31.235533989965912,
+        "text": "10",
+      },
     ];
     addMarkers();
   }
@@ -155,16 +153,8 @@ class StationsController extends GetxController {
     );
   }
 
-  final GlobalKey markerKey = GlobalKey();
-  BitmapDescriptor? customIcon;
-
-  Future<void> loadCustomMarker({
-    required Map<dynamic, dynamic> station,
-  }) async {
-    // WidgetsBinding.instance.addPostFrameCallback((_) async {
-      customIcon = await createMarkerIconFromWidget(station['key']);
-    // });
-    if (customIcon != null) {
+  void addMarkers() async {
+    for (Map station in locations) {
       markers.add(
         Marker(
           markerId: MarkerId(station['lat'].toString()),
@@ -172,35 +162,20 @@ class StationsController extends GetxController {
             station['lat'],
             station['lng'],
           ),
-          icon: customIcon!,
+          onTap: (){
+            AppLogger.log('Count : : ${station['text']}');
+
+          },
+          icon: await CustomMarkerView(
+            count: station['text'],
+          ).toBitmapDescriptor(
+            // logicalSize: const Size(100, 100),
+            // imageSize: const Size(300, 400),
+          ),
         ),
       );
     }
+
     update();
-  }
-
-  Future<BitmapDescriptor> createMarkerIconFromWidget(
-    GlobalKey stationKey,
-  ) async {
-
-    final RenderRepaintBoundary? boundary =
-        stationKey.currentContext?.findRenderObject() as RenderRepaintBoundary?;
-
-    if (boundary == null) return BitmapDescriptor.defaultMarker;
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    final ui.Image image = await boundary.toImage();
-    final ByteData? byteData =
-        await image.toByteData(format: ui.ImageByteFormat.png);
-
-    return byteData == null
-        ? BitmapDescriptor.defaultMarker
-        : BitmapDescriptor.bytes(byteData.buffer.asUint8List());
-  }
-
-  void addMarkers() async {
-    for (Map element in locations) {
-      await loadCustomMarker(station: element);
-    }
   }
 }

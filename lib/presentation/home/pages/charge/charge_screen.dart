@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
+import '../stations/components/custom_marker_view.dart';
+
 class ChargeScreen extends StatefulWidget {
   const ChargeScreen({super.key});
 
@@ -14,7 +16,7 @@ class _ChargeScreenState extends State<ChargeScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Center(
-      child: AppText(text: 'charge'),
+      child: CustomMarkerView(count: '55'),
     );
   }
 
