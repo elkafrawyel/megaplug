@@ -37,7 +37,7 @@ class MapView extends StatelessWidget {
           ),
           PositionedDirectional(
             end: 18,
-            bottom: 180,
+            top: MediaQuery.sizeOf(context).height * 0.8,
             child: GestureDetector(
               onTap: () {
                 stationsController.toggleMapView();
@@ -52,7 +52,7 @@ class MapView extends StatelessWidget {
           ),
           PositionedDirectional(
             end: 18,
-            bottom: 130,
+            top: MediaQuery.sizeOf(context).height * 0.85,
             child: GestureDetector(
               onTap: () {
                 stationsController.moveToMyLocations();

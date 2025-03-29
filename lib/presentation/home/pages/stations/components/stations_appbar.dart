@@ -46,7 +46,7 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.white,
               ),
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(12.0),
                 child: badges.Badge(
                   badgeStyle: badges.BadgeStyle(
                     badgeColor: context.kSecondaryColor,
@@ -55,7 +55,7 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
                   badgeContent: AppText(
                     text: '3',
                     color: Colors.white,
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                   child: Icon(
@@ -90,7 +90,6 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-
             PositionedDirectional(
               bottom: -15,
               start: 0,

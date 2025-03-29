@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final Color unSelectedColor = Color(0xff9DB2CE);
-    final double bottomNavHeight = 80;
+    final double bottomNavHeight = 90;
     return GetBuilder<HomeController>(
       builder: (homeController) {
         int selectedIndex = homeController.selectedIndex;
@@ -50,7 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 12.0,
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

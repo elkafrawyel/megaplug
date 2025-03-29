@@ -9,7 +9,6 @@ class Res {
   static const onboarding_2 = 'assets/images/onboarding/onboarding_2.png';
   static const onboarding_3 = 'assets/images/onboarding/onboarding_3.png';
   static const onboardingContentBg = 'assets/images/onboarding/content_bg.png';
-  static const markerImage = 'assets/images/marker.png';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';
@@ -42,7 +41,6 @@ class Res {
   static const myLocationIcon = 'assets/icons/my_location.svg';
   static const searchIcon = 'assets/icons/search.svg';
   static const filterIcon = 'assets/icons/filter.svg';
-  static const markerIcon = 'assets/icons/marker.svg';
   static const strokeIcon = 'assets/icons/stroke.svg';
 
   ///================================================================

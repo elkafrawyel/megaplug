@@ -24,9 +24,8 @@ class _StationsScreenState extends State<StationsScreen>
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-
       appBar: StationsAppbar(
-        height: 120,
+        height: 100,
       ),
       body: GetBuilder<StationsController>(
         builder: (_) => IndexedStack(
