@@ -24,7 +24,7 @@ class StationsController extends GetxController {
   GoogleMapController? mapController;
   LatLng myLocation = const LatLng(0, 0);
 
-  double cameraZoom = 12;
+  double cameraZoom = 11;
   MapType mapType = MapType.normal;
 
   Set<Marker> markers = {};
@@ -76,6 +76,9 @@ class StationsController extends GetxController {
 
   void moveToMyLocations() {
     if (mapController != null) {
+      // mapController!.moveCamera(
+      //   CameraUpdate.newLatLng(myLocation),
+      // );
       mapController!.animateCamera(
         CameraUpdate.newLatLng(myLocation),
       );

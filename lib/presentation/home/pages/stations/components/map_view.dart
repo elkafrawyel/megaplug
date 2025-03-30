@@ -25,7 +25,7 @@ class MapView extends StatelessWidget {
             // compassEnabled: true,
             scrollGesturesEnabled: true,
             zoomGesturesEnabled: true,
-            zoomControlsEnabled: true,
+            zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
             mapType: stationsController.mapType,
             onTap: (position) {
