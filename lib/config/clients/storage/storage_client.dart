@@ -22,13 +22,14 @@ class StorageClient {
     }
   }
 
-  String getAppLanguage() => get(StorageClientKeys.language) ?? 'en';
+  String getAppLanguage() =>
+      get(StorageClientKeys.language) ?? Get.locale?.languageCode ?? 'en';
 
   bool isLogged() => get(StorageClientKeys.apiToken) != null;
 
   String? apiToken() => get(StorageClientKeys.apiToken);
 
-  bool isAr() => get(StorageClientKeys.language) == 'ar';
+  bool isAr() => getAppLanguage() == 'ar';
 
   /// ============= ============== ===================  =================
   Future save(StorageClientKeys storageClientKeys, dynamic value) async {

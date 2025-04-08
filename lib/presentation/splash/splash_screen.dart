@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
@@ -18,31 +19,57 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Duration animationDuration = Duration(
+    milliseconds: 3000,
+  );
+
+  _redirect() {
+    bool isLoggedIn = StorageClient().isLogged();
+    if (isLoggedIn) {
+      Get.offAll(() => HomeScreen(), binding: HomeBinding());
+      // Get.offAll(() => LoginScreen());
+    } else {
+      Get.offAll(() => OnboardingScreen());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(animationDuration, () => _redirect());
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 2), () {
-      int? intro = StorageClient().get(StorageClientKeys.intro);
-
-      if (intro != null && intro == 1) {
-        Get.offAll(() => HomeScreen(),binding: HomeBinding());
-        // Get.offAll(() => LoginScreen());
-      } else {
-        Get.offAll(() => OnboardingScreen());
-      }
-    });
     return Scaffold(
       backgroundColor: context.kPrimaryColor,
-      body: Center(
-        child: Image.asset(
-          Res.authLogo,
-          width: 240,
-          height: 240,
-        ) // Replace with your logo asset
-            .animate()
-            .fadeIn(duration: 1000.ms)
-            .scale(duration: 1000.ms, begin: Offset(0.5, 0.5))
-            .then(),
-        // .shake(duration: 500.ms),
+      body: Stack(
+        children: [
+          Center(
+              child: Image.asset(
+            StorageClient().isAr() ? Res.arabicLogo : Res.authLogo,
+            width: 240,
+            height: 240,
+          ) // Replace with your logo asset
+                  .animate()
+                  .fadeIn(duration: 1000.ms)
+                  .scale(duration: 1000.ms, begin: Offset(0.5, 0.5))
+              // .then(delay: Duration(milliseconds: 500))
+              // .shake(duration: 500.ms),
+              ),
+          PositionedDirectional(
+            bottom: 30,
+            start: 0,
+            end: 0,
+            child: SvgPicture.asset(
+              Res.chargeIcon, // replace with your SVG path
+              width: 48,
+              height: 48,
+            ).animate().rotate(
+                  duration: animationDuration,
+                ),
+          )
+        ],
       ),
     );
   }

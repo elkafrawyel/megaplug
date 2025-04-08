@@ -24,7 +24,7 @@ class StationsController extends GetxController {
   GoogleMapController? mapController;
   LatLng myLocation = const LatLng(0, 0);
 
-  double cameraZoom = 11;
+  double cameraZoom = 13;
   MapType mapType = MapType.normal;
 
   Set<Marker> markers = {};
@@ -170,10 +170,12 @@ class StationsController extends GetxController {
 
           },
           icon: await CustomMarkerView(
+            key: UniqueKey(),
+
             count: station['text'],
           ).toBitmapDescriptor(
-            // logicalSize: const Size(100, 100),
-            // imageSize: const Size(300, 400),
+            logicalSize: const Size(200, 200),
+            imageSize: const Size(400, 500),
           ),
         ),
       );

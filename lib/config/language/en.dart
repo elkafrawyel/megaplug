@@ -74,10 +74,10 @@ Map<String, String> en = {
   'payment_methods': 'Payment Methods',
   'loyalty_points': 'Loyalty Points',
   'logout': 'Logout',
-  'search_hint':'Search station or connector type',
+  'search_hint': 'Search station or connector type',
   'location_permission': 'Location Permission',
   'location_permission_message':
-  'Location permission is not enabled ,we need you to enable it so that we can get your exact location.',
+      'Location permission is not enabled ,we need you to enable it so that we can get your exact location.',
   'getting_location': 'Finding your location...',
 
 };

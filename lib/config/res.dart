@@ -5,6 +5,7 @@ class Res {
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';
   static const authLogo = 'assets/images/auth_logo.png';
+  static const arabicLogo = 'assets/images/arabic_logo.png';
   static const onboarding_1 = 'assets/images/onboarding/onboarding_1.png';
   static const onboarding_2 = 'assets/images/onboarding/onboarding_2.png';
   static const onboarding_3 = 'assets/images/onboarding/onboarding_3.png';
@@ -42,6 +43,7 @@ class Res {
   static const searchIcon = 'assets/icons/search.svg';
   static const filterIcon = 'assets/icons/filter.svg';
   static const strokeIcon = 'assets/icons/stroke.svg';
+  static const chargeIcon = 'assets/icons/charge.svg';
 
   ///================================================================
 

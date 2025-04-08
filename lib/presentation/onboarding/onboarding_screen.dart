@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
@@ -48,6 +49,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -107,71 +110,90 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                       20.ph,
                       Spacer(),
-                      Row(
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 28.0),
-                            child: Row(
-                              children: data
-                                  .map(
-                                    (element) => selectedPage ==
-                                            data.indexOf(element)
-                                        ? Container(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 4),
-                                            width: 25,
-                                            height: 5,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
-                                                color: context.kPrimaryColor),
-                                          )
-                                        : Container(
-                                            margin: EdgeInsets.symmetric(
-                                              horizontal: 4,
-                                            ),
-                                            width: 7,
-                                            height: 7,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                  )
-                                  .toList(),
+                      Directionality(
+                        textDirection:
+                            isRtl ? TextDirection.rtl : TextDirection.ltr,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 28.0),
+                              child: Row(
+                                children: data
+                                    .map(
+                                      (element) => GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedPage =
+                                                data.indexOf(element);
+                                          });
+                                        },
+                                        child: selectedPage ==
+                                                data.indexOf(element)
+                                            ? Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 4),
+                                                width: 25,
+                                                height: 5,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4),
+                                                    color:
+                                                        context.kPrimaryColor),
+                                              )
+                                            : Container(
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 4,
+                                                ),
+                                                width: 7,
+                                                height: 7,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
                             ),
-                          ),
-                          Spacer(),
-                          GestureDetector(
-                            onTap: () {
-                              if (selectedPage < data.length - 1) {
-                                setState(() {
-                                  selectedPage++;
-                                });
-                              } else {
-                                _skipIntro();
-                              }
-                            },
-                            child: Stack(
-                              children: [
-                                SvgPicture.asset(
-                                  Res.onboardingArrowBg,
-                                  fit: BoxFit.fitHeight,
-                                ),
-                                PositionedDirectional(
-                                  end: 18,
-                                  bottom: 0,
-                                  top: 18,
-                                  child: Icon(
-                                    Icons.arrow_forward,
-                                    color: Colors.white,
+                            Spacer(),
+                            GestureDetector(
+                              onTap: () {
+                                if (selectedPage < data.length - 1) {
+                                  setState(() {
+                                    selectedPage++;
+                                  });
+                                } else {
+                                  _skipIntro();
+                                }
+                              },
+                              child: Stack(
+                                children: [
+                                  Transform(
+                                    alignment: Alignment.center,
+                                    transform:
+                                        Matrix4.rotationY(isRtl ? 3.1416 : 0),
+                                    child: SvgPicture.asset(
+                                      Res.onboardingArrowBg,
+                                      fit: BoxFit.fitHeight,
+                                    ),
                                   ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                                  PositionedDirectional(
+                                    end: 18,
+                                    bottom: 0,
+                                    top: 18,
+                                    child: Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   ),
