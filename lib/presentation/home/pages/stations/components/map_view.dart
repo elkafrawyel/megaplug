@@ -17,7 +17,7 @@ class MapView extends StatelessWidget {
         children: [
           GoogleMap(
             initialCameraPosition: CameraPosition(
-              target: stationsController.myLocation,
+              target: stationsController.myLocation ?? LatLng(0, 0),
               zoom: stationsController.cameraZoom,
             ),
             myLocationEnabled: false,
@@ -31,7 +31,8 @@ class MapView extends StatelessWidget {
             onTap: (position) {
               AppLogger.log(position, level: Level.info);
             },
-            onCameraMove: (position) {},
+            onCameraMove: stationsController.clusterManager?.onCameraMove,
+            onCameraIdle: stationsController.clusterManager?.updateMap,
             onMapCreated: stationsController.onMapCreated,
             markers: stationsController.markers,
           ),

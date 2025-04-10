@@ -1,86 +1,131 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/presentation/home/pages/stations/repo/stations_repo.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
 import '../../../../../widgets/app_dialog_view.dart';
 import '../components/custom_marker_view.dart';
+import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
+    as cluster_manager;
+
+import '../data/place_model.dart';
 
 class StationsController extends GetxController {
+  final StationsRepository _stationsRepository;
+
+  StationsController(this._stationsRepository);
+
   bool mapView = true;
   int stationMarkerWidth = 40;
-  late TextEditingController searchTextEditingController;
+  TextEditingController searchTextEditingController = TextEditingController();
 
   GoogleMapController? mapController;
-  LatLng myLocation = const LatLng(0, 0);
-
-  double cameraZoom = 13;
-  MapType mapType = MapType.normal;
 
   Set<Marker> markers = {};
 
-  List<Map<String, dynamic>> locations = [];
+  LatLng? myLocation;
+
+  double cameraZoom = 8;
+  MapType mapType = MapType.normal;
+
+  late cluster_manager.ClusterManager<StationModel> clusterManager;
 
   @override
-  onInit() {
+  onInit() async {
     super.onInit();
-    searchTextEditingController = TextEditingController();
-    getMyPosition(loading: true);
-    locations = [
-      {
-        "id": '1',
-        "lat": 30.934770387046267,
-        "lng": 31.176711469888684,
-        "text": "25",
-      },
-      {
-        "id": '2',
-        "lat": 30.889114139158142,
-        "lng": 31.181632317602634,
-        "text": "50",
-      },
-      {
-        "id": '3',
-        "lat": 30.97549914890886,
-        "lng": 31.138602644205093,
-        "text": "70",
-      },
-      {
-        "id": '4',
-        "lat": 31.024742684457404,
-        "lng": 31.235533989965912,
-        "text": "10",
-      },
-    ];
-    addMarkers();
+    await getMyPosition(loading: true);
+
+    clusterManager = _initClusterManager();
   }
 
-  toggleMapView() {
-    mapView = !mapView;
+  cluster_manager.ClusterManager<StationModel> _initClusterManager() {
+    return cluster_manager.ClusterManager(
+      [],
+      _updateMarkers,
+      markerBuilder: markerBuilder,
+    );
+  }
+
+  Future<Marker> Function(cluster_manager.Cluster) get markerBuilder =>
+      (cluster) async {
+        return Marker(
+          markerId: MarkerId(cluster.getId()),
+          position: cluster.location,
+          onTap: () {
+            print(cluster.items);
+            animateToArea(cluster.location);
+          },
+          icon: await CustomMarkerView(
+            key: UniqueKey(),
+            stationStatus:
+                cluster.isMultiple ? StationStatus.busy : StationStatus.down,
+            count: cluster.isMultiple ? cluster.count.toString() : null,
+          ).toBitmapDescriptor(
+            logicalSize: const Size(200, 200),
+            imageSize: const Size(400, 500),
+          ),
+        );
+      };
+
+  void _updateMarkers(Set<Marker> markers) {
+    AppLogger.log('Updated ${markers.length} markers');
+    this.markers = markers;
     update();
   }
 
   void onMapCreated(GoogleMapController controller) async {
+    AppLogger.log('onMapCreated');
+
     mapController = controller;
+    clusterManager!.setMapId(controller.mapId);
+
+    await updateClusterItems();
   }
 
-  void moveToMyLocations() {
+  Future updateClusterItems() async {
+    AppLogger.log('_initClusterManager');
+
+    ApiResult apiResult = await _stationsRepository.getAllStations();
+    List<StationModel> stations = apiResult.getData();
+
+    clusterManager?.setItems(stations);
+  }
+
+  void animateToArea(LatLng latLng) async {
     if (mapController != null) {
-      // mapController!.moveCamera(
-      //   CameraUpdate.newLatLng(myLocation),
-      // );
+      double oldZoom = await mapController!.getZoomLevel();
       mapController!.animateCamera(
-        CameraUpdate.newLatLng(myLocation),
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: latLng,
+              zoom: oldZoom + 2,
+            ),
+          ),
+          duration: 2000.ms);
+    }
+  }
+
+  ///==========================================================================
+  void moveToMyLocations() {
+    if (myLocation != null && mapController != null) {
+      mapController!.animateCamera(
+        CameraUpdate.newLatLng(myLocation!),
       );
     }
   }
@@ -128,10 +173,7 @@ class StationsController extends GetxController {
     Position position = await Geolocator.getCurrentPosition();
     myLocation = LatLng(position.latitude, position.longitude);
     AppLogger.log(
-        'My Location : :   ${myLocation.latitude},${myLocation.longitude}   ');
-    // await _getMyAddress(myLocation);
-    // await _addMyMarker();
-    // await getGaragesListFromApi();
+        'My Location : :   ${myLocation?.latitude},${myLocation?.longitude}');
     if (loading) {
       EasyLoading.dismiss();
     }
@@ -156,31 +198,8 @@ class StationsController extends GetxController {
     );
   }
 
-  void addMarkers() async {
-    for (Map station in locations) {
-      markers.add(
-        Marker(
-          markerId: MarkerId(station['lat'].toString()),
-          position: LatLng(
-            station['lat'],
-            station['lng'],
-          ),
-          onTap: (){
-            AppLogger.log('Count : : ${station['text']}');
-
-          },
-          icon: await CustomMarkerView(
-            key: UniqueKey(),
-
-            count: station['text'],
-          ).toBitmapDescriptor(
-            logicalSize: const Size(200, 200),
-            imageSize: const Size(400, 500),
-          ),
-        ),
-      );
-    }
-
+  toggleMapView() {
+    mapView = !mapView;
     update();
   }
 }

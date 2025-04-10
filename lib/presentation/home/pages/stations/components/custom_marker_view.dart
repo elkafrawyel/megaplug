@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/presentation/home/pages/stations/components/marker_bg.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
-import '../../../../../config/helpers/logging_helper.dart';
-
 class CustomMarkerView extends StatelessWidget {
-  final String count;
+  final String? count;
+  final StationStatus stationStatus;
 
-  const CustomMarkerView({super.key, required this.count});
+  const CustomMarkerView({super.key, this.count, required this.stationStatus});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        MarkerBgShape(width: 70, height: 85),
+        MarkerBgShape(
+          width: 70,
+          height: 85,
+          color: stationStatus.color,
+        ),
         Padding(
           padding: const EdgeInsets.all(4.0),
           child: Container(
@@ -31,13 +35,16 @@ class CustomMarkerView extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     Res.strokeIcon,
-                    width: 13,
+                    width: count == null ? 20 : 13,
                   ),
-                  AppText(
-                    text: count,
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  Offstage(
+                    offstage: count == null,
+                    child: AppText(
+                      text: count ?? '',
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),

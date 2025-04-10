@@ -16,7 +16,6 @@ class _ChargeScreenState extends State<ChargeScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Center(
-      child: CustomMarkerView(count: '55'),
     );
   }
 
