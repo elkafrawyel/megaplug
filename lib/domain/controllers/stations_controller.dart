@@ -1,12 +1,7 @@
 import 'dart:async';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,26 +10,25 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
-import 'package:megaplug/presentation/home/pages/stations/repo/stations_repo.dart';
+import 'package:megaplug/data/repositories/stations_repo.dart';
+import 'package:megaplug/presentation/home/pages/stations/components/station_card_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
-import '../../../../../widgets/app_dialog_view.dart';
-import '../components/custom_marker_view.dart';
+import '../../widgets/app_dialog_view.dart';
+import '../../presentation/home/pages/stations/components/custom_marker_view.dart';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
     as cluster_manager;
 
-import '../data/place_model.dart';
+import '../entities/station_model.dart';
 
 class StationsController extends GetxController {
-  final StationsRepository _stationsRepository;
+  final StationsRepositoryImpl _stationsRepository;
 
   StationsController(this._stationsRepository);
 
   bool mapView = true;
-  int stationMarkerWidth = 40;
   TextEditingController searchTextEditingController = TextEditingController();
-
   GoogleMapController? mapController;
 
   Set<Marker> markers = {};
@@ -49,9 +43,10 @@ class StationsController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    await getMyPosition(loading: true);
 
     clusterManager = _initClusterManager();
+
+    await getMyPosition(loading: true);
   }
 
   cluster_manager.ClusterManager<StationModel> _initClusterManager() {
@@ -62,26 +57,39 @@ class StationsController extends GetxController {
     );
   }
 
-  Future<Marker> Function(cluster_manager.Cluster) get markerBuilder =>
-      (cluster) async {
-        return Marker(
-          markerId: MarkerId(cluster.getId()),
-          position: cluster.location,
-          onTap: () {
-            print(cluster.items);
-            animateToArea(cluster.location);
-          },
-          icon: await CustomMarkerView(
-            key: UniqueKey(),
-            stationStatus:
-                cluster.isMultiple ? StationStatus.busy : StationStatus.down,
-            count: cluster.isMultiple ? cluster.count.toString() : null,
-          ).toBitmapDescriptor(
-            logicalSize: const Size(200, 200),
-            imageSize: const Size(400, 500),
-          ),
-        );
-      };
+  Future<Marker> Function(cluster_manager.Cluster<StationModel>)
+      get markerBuilder => (cluster) async {
+            return Marker(
+              markerId: MarkerId(cluster.getId()),
+              position: cluster.location,
+              onTap: () {
+                if (cluster.isMultiple) {
+                  animateToArea(cluster.location);
+                } else {
+                  print(cluster.items.first.name);
+                  showStationCard(cluster.items.first);
+                }
+              },
+              icon: await CustomMarkerView(
+                key: UniqueKey(),
+                stationStatus: cluster.isMultiple
+                    ? StationStatus.area
+                    : cluster.items.first.stationStatus,
+                count: cluster.isMultiple ? cluster.count.toString() : null,
+              ).toBitmapDescriptor(
+                logicalSize: const Size(150, 150),
+                imageSize: const Size(400, 500),
+              ),
+            );
+          };
+
+  void showStationCard(StationModel stationModel) {
+    Get.dialog(
+        StationCardView(
+          stationModel: stationModel,
+        ),
+        barrierColor: Colors.black54);
+  }
 
   void _updateMarkers(Set<Marker> markers) {
     AppLogger.log('Updated ${markers.length} markers');
@@ -117,7 +125,7 @@ class StationsController extends GetxController {
               zoom: oldZoom + 2,
             ),
           ),
-          duration: 2000.ms);
+          duration: 1000.ms);
     }
   }
 

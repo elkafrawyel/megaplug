@@ -5,7 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
-import '../controller/stations_controller.dart';
+import '../../../../../domain/controllers/stations_controller.dart';
+import 'station_card_view.dart';
 
 class MapView extends StatelessWidget {
   const MapView({super.key});
@@ -31,8 +32,8 @@ class MapView extends StatelessWidget {
             onTap: (position) {
               AppLogger.log(position, level: Level.info);
             },
-            onCameraMove: stationsController.clusterManager?.onCameraMove,
-            onCameraIdle: stationsController.clusterManager?.updateMap,
+            onCameraMove: stationsController.clusterManager.onCameraMove,
+            onCameraIdle: stationsController.clusterManager.updateMap,
             onMapCreated: stationsController.onMapCreated,
             markers: stationsController.markers,
           ),

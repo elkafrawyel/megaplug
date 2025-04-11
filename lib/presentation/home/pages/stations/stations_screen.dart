@@ -5,7 +5,7 @@ import '../../../../config/res.dart';
 import 'components/map_view.dart';
 import 'components/stations_appbar.dart';
 import 'components/stations_list.dart';
-import 'controller/stations_controller.dart';
+import '../../../../domain/controllers/stations_controller.dart';
 
 class StationsScreen extends StatefulWidget {
   const StationsScreen({super.key});

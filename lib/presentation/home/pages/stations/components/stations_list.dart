@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../../config/res.dart';
-import '../controller/stations_controller.dart';
+import '../../../../../domain/controllers/stations_controller.dart';
 
 class StationsList extends StatelessWidget {
   const StationsList({super.key});

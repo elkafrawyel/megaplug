@@ -44,6 +44,8 @@ class Res {
   static const filterIcon = 'assets/icons/filter.svg';
   static const strokeIcon = 'assets/icons/stroke.svg';
   static const chargeIcon = 'assets/icons/charge.svg';
+  static const connectCarIcon = 'assets/icons/connect_car.svg';
+  static const directionsIcon = 'assets/icons/directions.svg';
 
   ///================================================================
 

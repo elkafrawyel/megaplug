@@ -5,7 +5,7 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 
-import '../controller/stations_controller.dart';
+import '../../../../../domain/controllers/stations_controller.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});

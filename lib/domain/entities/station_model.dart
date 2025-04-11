@@ -11,9 +11,14 @@ class StationModel with ClusterItem {
   StationModel({
     required this.name,
     required this.latLng,
-    this.stationStatus = StationStatus.area,
+    this.stationStatus = StationStatus.active,
   });
 
   @override
   LatLng get location => latLng;
+
+  @override
+  String toString() {
+    return name;
+  }
 }
