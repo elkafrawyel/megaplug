@@ -19,7 +19,7 @@ extension ThemeExtensions on BuildContext {
 
   Color get kErrorColor => _dynamicColors.kErrorColor;
 
-  Color get kSuccessColor => _dynamicColors.kErrorColor;
+  Color get kSuccessColor => _dynamicColors.kSuccessColor;
 
   Color get kTextFieldColor => _dynamicColors.kTextFieldColor;
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/constants.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
@@ -45,6 +46,8 @@ class AppTextFormField extends StatefulWidget {
   final bool checkRules;
   final bool alwaysShowRules;
 
+  final List<AuthFormRule>? rules;
+
   const AppTextFormField({
     super.key,
     required this.controller,
@@ -70,6 +73,7 @@ class AppTextFormField extends StatefulWidget {
     this.checkRules = true,
     this.required = true,
     this.alwaysShowRules = false,
+    this.rules,
   });
 
   @override
@@ -150,15 +154,15 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                     case AppFieldType.name:
                       break;
                     case AppFieldType.email:
-                      _validateRules(value, emailRules);
+                      _validateRules(value);
                       break;
                     case AppFieldType.password:
-                      _validateRules(value, passwordRules);
+                      _validateRules(value);
                       break;
                     case AppFieldType.confirmPassword:
                       break;
                     case AppFieldType.phone:
-                      _validateRules(value, phoneNumberRules);
+                      _validateRules(value);
                       break;
                   }
                 },
@@ -331,25 +335,38 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   Future shake() async {
     _shakerKey.currentState?.shake();
     _focusNode.requestFocus();
-    if ((await Vibration.hasVibrator()) ?? false) {
+    if ((await Vibration.hasVibrator())) {
       Vibration.vibrate();
     }
   }
 
-  _validateRules(String value, List<AuthFormRule> rules) {
-    if (!widget.required) {
+  _validateRules(
+    String value,
+  ) {
+    if (!widget.required && widget.rules == null) {
       return;
     }
     List<Widget>? errors = [];
 
-    for (var element in rules) {
-      final text = AppText(
-        text: element.ruleText,
-        color: element.condition(value)
-            ? context.kSuccessColor
-            : context.kErrorColor,
-        fontSize: 14,
-        fontWeight: FontWeight.normal,
+    for (var element in widget.rules!) {
+      final text = Row(
+        children: [
+          Icon(
+            element.condition(value) ? Icons.done : Icons.clear,
+            color: element.condition(value)
+                ? context.kSuccessColor
+                : context.kErrorColor,
+          ),
+          5.pw,
+          AppText(
+            text: element.ruleText,
+            color: element.condition(value)
+                ? context.kSuccessColor
+                : context.kErrorColor,
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+          ),
+        ],
       );
       if (widget.alwaysShowRules && element.condition(value)) {
         errors.add(text);
@@ -374,75 +391,5 @@ class AppTextFormFieldState extends State<AppTextFormField> {
     });
   }
 
-  final List<AuthFormRule> emailRules = [
-    AuthFormRule(
-      ruleText: StorageClient().isAr()
-          ? '.البريد الالكتروني غير صحيح'
-          : 'Email address is not valid.',
-      condition: (value) {
-        return GetUtils.isEmail(value);
-      },
-    )
-  ];
-  final List<AuthFormRule> phoneNumberRules = [
-    AuthFormRule(
-      ruleText: StorageClient().isAr()
-          ? '.رقم الهاتف غير صحيح'
-          : 'Phone number is not valid.',
-      condition: (value) {
-        return GetUtils.isPhoneNumber(value);
-      },
-    ),
-  ];
-  final List<AuthFormRule> passwordRules = [
-    AuthFormRule(
-      ruleText:
-          StorageClient().isAr() ? '.أقل عدد ٦ حروف' : 'At least 6 letters.',
-      condition: (value) {
-        return value.length >= 6;
-      },
-    ),
-    // AuthFormRule(
-    //   ruleText: '1Lowercase'.tr,
-    //   condition: (value) {
-    //     return RegExp(r'(?=[a-z])').hasMatch(value);
-    //   },
-    // ),
-    // AuthFormRule(
-    //   ruleText: '1Uppercase'.tr,
-    //   condition: (value) {
-    //     return GetUtils.hasCapitalletter(value);
-    //   },
-    // ),
-    // AuthFormRule(
-    //   ruleText: '1SpecialCharacters'.tr,
-    //   condition: (value) {
-    //     return RegExp(r'(?=[!@#$&%^{}/|])').hasMatch(value);
-    //   },
-    // ),
-    // AuthFormRule(
-    //   ruleText: '1NumericValue'.tr,
-    //   condition: (value) {
-    //     return RegExp(r'(?=[0-9])').hasMatch(value);
-    //   },
-    // ),
-  ];
 
-//   final List<AuthFormRule> idRules = [
-//   AuthFormRule(
-//     ruleText: 'min_14_char'.tr,
-//     condition: (value) {
-//       return value.length >= 14;
-//     },
-//   ),
-// ];
-
-// final List<AuthFormRule> nameRules = [
-//   AuthFormRule(
-//     ruleText: 'invalid_username'.tr,
-//     condition: (value) {
-//       return GetUtils.isUsername(value);
-//     },
-//   ),
-// ];
 }
