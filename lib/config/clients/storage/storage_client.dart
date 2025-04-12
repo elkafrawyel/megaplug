@@ -42,8 +42,10 @@ class StorageClient {
 
   Future<void> signOut() async {
     await _box.erase();
+    String? language = getAppLanguage();
     Get.offAll(() => LoginScreen());
     await save(StorageClientKeys.intro, 1);
+    await save(StorageClientKeys.language, language);
     APIClient.instance.updateTokenHeader(null);
   }
 }

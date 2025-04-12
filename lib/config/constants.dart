@@ -4,5 +4,5 @@ class Constants {
 }
 
 double kRadius = 12;
-double kBorderWidth = 0.5;
-double kSelectedBorderWidth = 1;
+double kBorderWidth = 0.3;
+double kSelectedBorderWidth = 0.5;

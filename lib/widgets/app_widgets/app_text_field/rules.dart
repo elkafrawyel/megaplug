@@ -2,7 +2,19 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/get_utils/src/get_utils/get_utils.dart';
 
 import '../../../config/clients/storage/storage_client.dart';
+import '../../../config/helpers/regex.dart';
 import 'auth_form_rules.dart';
+
+final List<AuthFormRule> emailOrPhoneRules = [
+  AuthFormRule(
+    ruleText: StorageClient().isAr()
+        ? '.البريد الالكتروني أو رقم الهاتف غير صحيح'
+        : 'Email address or phone number is not valid.',
+    condition: (value) {
+      return (isEmail(value) || isPhone(value) && isEgyptianPhone(value));
+    },
+  ),
+];
 
 final List<AuthFormRule> emailRules = [
   AuthFormRule(
@@ -14,6 +26,7 @@ final List<AuthFormRule> emailRules = [
     },
   )
 ];
+
 final List<AuthFormRule> phoneNumberRules = [
   AuthFormRule(
     ruleText: StorageClient().isAr()

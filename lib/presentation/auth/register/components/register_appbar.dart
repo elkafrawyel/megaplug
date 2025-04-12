@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 
 import '../../../../config/res.dart';
+import '../../../../widgets/app_transformtion_view.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
 
 class RegisterAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -45,9 +46,11 @@ class RegisterAppbar extends StatelessWidget implements PreferredSizeWidget {
                 Navigator.of(context).pop();
               },
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SvgPicture.asset(
-                  Res.backIcon,
+                padding: const EdgeInsets.all(12.0),
+                child: AppTransformationView(
+                  child: SvgPicture.asset(
+                    Res.backIcon,
+                  ),
                 ),
               ),
             )
@@ -56,14 +59,16 @@ class RegisterAppbar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           // SVG Background
           Positioned.fill(
-            child: Opacity(
-              opacity: svgOpacity,
-              child: SvgPicture.asset(
-                svgAssetPath,
-                fit: BoxFit.fill,
+            child: AppTransformationView(
+              child: Opacity(
+                opacity: svgOpacity,
+                child: SvgPicture.asset(
+                  svgAssetPath,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );

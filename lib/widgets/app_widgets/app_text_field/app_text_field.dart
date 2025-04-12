@@ -100,7 +100,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = Color(0xffE2E8F0);
+    final borderColor = hasError ? Color.fromRGBO(229, 57, 53, 1) : Color(0xffE2E8F0);
     return CustomShakeWidget(
       key: _shakerKey,
       shakeCount: 4,
@@ -129,9 +129,9 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                     return !widget.required
                         ? null
                         : (widget.validateEmptyText ??
-                            (StorageClient().isAr()
-                                ? 'قم بإدخال البيانات المطلوبة *'
-                                : '* Please enter the required information'));
+                        (StorageClient().isAr()
+                            ? 'قم بإدخال البيانات المطلوبة *'
+                            : '* Please enter the required information'));
                   } else {
                     return null;
                   }
@@ -147,23 +147,8 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                     });
                     return;
                   }
-
-                  switch (widget.appFieldType) {
-                    case AppFieldType.text:
-                      break;
-                    case AppFieldType.name:
-                      break;
-                    case AppFieldType.email:
-                      _validateRules(value);
-                      break;
-                    case AppFieldType.password:
-                      _validateRules(value);
-                      break;
-                    case AppFieldType.confirmPassword:
-                      break;
-                    case AppFieldType.phone:
-                      _validateRules(value);
-                      break;
+                  if(widget.checkRules&& (widget.rules?.isNotEmpty??false)){
+                    _validateRules(value);
                   }
                 },
                 textInputAction: widget.textInputAction,
@@ -179,7 +164,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                 cursorWidth: 2,
                 decoration: InputDecoration(
                   helperText:
-                      (_helperText?.isEmpty ?? true) ? null : _helperText,
+                  (_helperText?.isEmpty ?? true) ? null : _helperText,
                   helperMaxLines: 4,
                   helperStyle: TextStyle(
                     color: context.kErrorColor,
@@ -208,23 +193,23 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   alignLabelWithHint: true,
                   prefixIcon: widget.prefixIcon != null
                       ? Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                            start: 15.0,
-                            end: 8,
-                            top: 15,
-                            bottom: 15,
-                          ),
-                          child: SvgPicture.asset(
-                            widget.prefixIcon!,
-                            fit: BoxFit.fitHeight,
-                            height: 20,
-                            width: 20,
-                            colorFilter: ColorFilter.mode(
-                              context.kHintTextColor,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        )
+                    padding: const EdgeInsetsDirectional.only(
+                      start: 15.0,
+                      end: 8,
+                      top: 15,
+                      bottom: 15,
+                    ),
+                    child: SvgPicture.asset(
+                      widget.prefixIcon!,
+                      fit: BoxFit.fitHeight,
+                      height: 20,
+                      width: 20,
+                      colorFilter: ColorFilter.mode(
+                        context.kHintTextColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  )
                       : null,
                   suffixText: widget.suffixText ?? '',
                   suffixStyle: TextStyle(
@@ -232,17 +217,17 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   ),
                   suffixIcon: widget.suffixIcon != null || _isPasswordField
                       ? GestureDetector(
-                          onTap: _isPasswordField ? _toggle : null,
-                          child: Icon(
-                            _isPasswordField
-                                ? _isSecure
-                                    ? Icons.remove_red_eye
-                                    : Icons.visibility_off
-                                : widget.suffixIcon,
-                            size: 20,
-                            color: context.kHintTextColor,
-                          ),
-                        )
+                    onTap: _isPasswordField ? _toggle : null,
+                    child: Icon(
+                      _isPasswordField
+                          ? _isSecure
+                          ? Icons.visibility_off
+                          : Icons.remove_red_eye
+                          : widget.suffixIcon,
+                      size: 20,
+                      color: context.kHintTextColor,
+                    ),
+                  )
                       : null,
                   enabled: widget.enabled,
                   errorStyle: TextStyle(
@@ -258,25 +243,25 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   enabledBorder: !widget.enabled
                       ? const OutlineInputBorder(borderSide: BorderSide.none)
                       : OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            widget.radius ?? kRadius,
-                          ),
-                          borderSide: BorderSide(
-                            width: kBorderWidth,
-                            color: borderColor,
-                          ),
-                        ),
+                    borderRadius: BorderRadius.circular(
+                      widget.radius ?? kRadius,
+                    ),
+                    borderSide: BorderSide(
+                      width: kBorderWidth,
+                      color: borderColor,
+                    ),
+                  ),
                   border: !widget.enabled
                       ? const OutlineInputBorder(borderSide: BorderSide.none)
                       : OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            widget.radius ?? kRadius,
-                          ),
-                          borderSide: BorderSide(
-                            width: kBorderWidth,
-                            color: borderColor,
-                          ),
-                        ),
+                    borderRadius: BorderRadius.circular(
+                      widget.radius ?? kRadius,
+                    ),
+                    borderSide: BorderSide(
+                      width: kBorderWidth,
+                      color: borderColor,
+                    ),
+                  ),
                   errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       widget.radius ?? kRadius,
@@ -341,8 +326,8 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   }
 
   _validateRules(
-    String value,
-  ) {
+      String value,
+      ) {
     if (!widget.required && widget.rules == null) {
       return;
     }

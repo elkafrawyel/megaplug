@@ -63,9 +63,9 @@ class _MegaPlugState extends State<MegaPlug> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            initialBinding: HomeBinding(),
-            home: const HomeScreen(),
-            // home: const SplashScreen(),
+            // initialBinding: HomeBinding(),
+            // home: const HomeScreen(),
+            home: const SplashScreen(),
             builder: (context, child) {
               child = EasyLoading.init()(context, child);
               EasyLoading.instance

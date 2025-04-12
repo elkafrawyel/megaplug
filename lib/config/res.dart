@@ -6,6 +6,7 @@ class Res {
   static const logo = 'assets/images/launcher/icon.png';
   static const authLogo = 'assets/images/auth_logo.png';
   static const arabicLogo = 'assets/images/arabic_logo.png';
+  static const englishLogo = 'assets/images/english_logo.png';
   static const onboarding_1 = 'assets/images/onboarding/onboarding_1.png';
   static const onboarding_2 = 'assets/images/onboarding/onboarding_2.png';
   static const onboarding_3 = 'assets/images/onboarding/onboarding_3.png';

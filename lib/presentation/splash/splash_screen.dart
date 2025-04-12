@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Center(
               child: Image.asset(
-            StorageClient().isAr() ? Res.arabicLogo : Res.authLogo,
+            StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
             width: 240,
             height: 240,
           ) // Replace with your logo asset

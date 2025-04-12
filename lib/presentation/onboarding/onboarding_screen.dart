@@ -8,6 +8,7 @@ import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 import '../../config/clients/storage/storage_client.dart';
+import '../../widgets/app_transformtion_view.dart';
 import '../auth/login/login_screen.dart';
 import 'data/onboarding_model.dart';
 
@@ -78,9 +79,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
               child: Stack(
                 children: [
-                  Center(
-                    child: Image.asset(
-                      Res.onboardingContentBg,
+                  Padding(
+                    padding: const EdgeInsets.all(28.0),
+                    child: Center(
+                      child: Image.asset(
+                        Res.onboardingContentBg,
+                        fit: BoxFit.fitHeight,
+                      ),
                     ),
                   ),
                   Column(
@@ -171,10 +176,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               },
                               child: Stack(
                                 children: [
-                                  Transform(
-                                    alignment: Alignment.center,
-                                    transform:
-                                        Matrix4.rotationY(isRtl ? 3.1416 : 0),
+                                  AppTransformationView(
                                     child: SvgPicture.asset(
                                       Res.onboardingArrowBg,
                                       fit: BoxFit.fitHeight,
