@@ -168,25 +168,4 @@ class _LoginScreenState extends State<LoginScreen> {
       binding: HomeBinding(),
     );
   }
-
-  bool validateEmailOrPhone(String value) {
-    String input = value.trim();
-
-    print(input);
-    if (isEmail(input)) {
-      print('User entered an email');
-      return true;
-    } else if (isPhone(input)) {
-      if (isEgyptianPhone(input)) {
-        print('Entered an Egyptian phone number');
-        return true;
-      } else {
-        print('Entered a phone number, but not Egyptian');
-        return true;
-      }
-    } else {
-      print('Input is neither valid email nor phone number');
-      return false;
-    }
-  }
 }

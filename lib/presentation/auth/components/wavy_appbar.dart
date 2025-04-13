@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../config/clients/storage/storage_client.dart';
 import '../../../config/res.dart';
 
 class WavyAppBar extends StatefulWidget {
@@ -32,17 +33,20 @@ class _WavyAppBarState extends State<WavyAppBar> {
           // Animation duration
           curve: Curves.easeInOut,
           // Smooth transition
-          top: kToolbarHeight,
+          top: 0,
           // Moves up from bottom
           start: 0,
           end: 0,
+          bottom: 0,
           child: AnimatedOpacity(
             duration: Duration(seconds: 1),
             opacity: 1,
-            child: Image.asset(
-              Res.authLogo,
-              width: 150,
-              height: 150,
+            child: Center(
+              child: Image.asset(
+                StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
+                width: 250,
+                height: 250,
+              ),
             ),
           ),
         ),
