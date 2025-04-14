@@ -77,4 +77,17 @@ Map<String, String> ar = {
   'location_permission_message':
       'لم يتم تمكين إذن الموقع، نحتاج إلى تمكينه للحصول على موقعك الدقيق.',
   'getting_location': 'جارٍ تحديد موقعك...',
+  'filter_stations': 'فلتر المحطات',
+  'all': 'الكل',
+  'available': 'المتاح',
+  'available_and_in_use': 'المتاح والمستخدم',
+  'min_8_char': 'على الأقل 8 أحرف',
+  'one_lower_letter': 'حرف واحد صغير على الأقل',
+  'one_upper_letter': 'حرف واحد كبير على الأقل',
+  'special_char': 'رمز خاص واحد على الأقل',
+  'one_num': 'رقم واحد على الأقل',
+  'confirm_password_does_not_match':
+      "تأكيد كلمة المرور وكلمة المرور غير متطابقين",
+  'agree_to': 'من خلال إنشاء حساب، فإنك توافق على شروطنا',
+  'terms': 'الشروط والأحكام.'
 };

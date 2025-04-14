@@ -42,9 +42,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.kPrimaryColor,
       body: Stack(
         children: [
+          Image.asset(
+            Res.splashBg,
+            fit: BoxFit.fill,
+            width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height,
+          ),
           Center(
               child: Image.asset(
             StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,

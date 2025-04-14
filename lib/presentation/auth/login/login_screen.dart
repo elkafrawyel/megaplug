@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
+import 'package:megaplug/config/app_loader.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/data/api_requests/login_request.dart';
+import 'package:megaplug/data/api_responses/login_response.dart';
+import 'package:megaplug/data/repositories/auth_repo.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/rules.dart';
@@ -24,6 +32,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  AuthRepositoryImpl authRepositoryImpl = AuthRepositoryImpl();
   final TextEditingController emailController = TextEditingController();
   final GlobalKey<AppTextFormFieldState> emailState = GlobalKey();
   final TextEditingController passwordController = TextEditingController();
@@ -83,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: emailController,
                       hintText: "enter_email_or_phone".tr,
                       validateEmptyText: 'email_or_phone_required'.tr,
-                      rules: emailOrPhoneRules,
+                      rules: AppTextFieldRules.emailOrPhoneRules,
                       autoFillHints: const [
                         AutofillHints.email,
                         AutofillHints.telephoneNumber
@@ -163,9 +172,30 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    Get.offAll(
-      () => HomeScreen(),
-      binding: HomeBinding(),
+    AppLoader.loading();
+    ApiResult<LoginResponse> apiResult = await authRepositoryImpl.login(
+      loginRequest: LoginRequest(
+        username: emailController.text,
+        password: passwordController.text,
+      ),
     );
+
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      LoginResponse loginResponse = apiResult.getData();
+      await StorageClient().saveUser(userResponse: loginResponse.data);
+
+      Get.offAll(
+        () => HomeScreen(),
+        binding: HomeBinding(),
+      );
+    } else {
+      if (mounted) {
+        InformationViewer.showSnackBar(
+          msg: apiResult.getError(),
+          bgColor: context.kErrorColor,
+        );
+      }
+    }
   }
 }

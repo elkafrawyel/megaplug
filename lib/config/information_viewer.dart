@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:oktoast/oktoast.dart' as ok_toast;
 
 abstract class InformationViewer {
@@ -47,25 +48,28 @@ abstract class InformationViewer {
     );
   }
 
-  static showSnackBar(
-    String? message, {
+  static showSnackBar({
+    required String msg,
     bool popPage = false,
     int duration = 5,
     Color? bgColor,
+
   }) {
     BuildContext? context = Get.context;
 
-    if (context == null || (message ?? '').isEmpty) {
+    if (context == null) {
       return;
     }
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: bgColor ?? Theme.of(Get.context!).primaryColor,
+        backgroundColor: bgColor ?? context.kPrimaryColor,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
         content: Text(
-          message!,
+          msg,
           style: const TextStyle(
             color: Colors.white,
             fontSize: 16,
@@ -74,6 +78,7 @@ abstract class InformationViewer {
           maxLines: 3,
         ),
         duration: Duration(seconds: duration),
+        showCloseIcon: true,
       ),
     );
     if (popPage) {

@@ -1,9 +1,9 @@
 class Environment {
-  static const AppMode appMode = AppMode.live;
+  static const AppMode appMode = AppMode.testing;
   final String _liveBaseUrl =
-      'http://mohammedzakii-001-site3.htempurl.com/api/';
+      'http://138.68.71.240/api/v1/';
   final String _testBaseUrl =
-      'http://mohammedzakii-001-site3.htempurl.com/api/';
+      'http://138.68.71.240/api/v1/';
 
   url() {
     switch (appMode) {

@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/app_loader.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/data/api_requests/register_request.dart';
+import 'package:megaplug/data/api_responses/register_response.dart';
+import 'package:megaplug/data/repositories/auth_repo.dart';
+import 'package:megaplug/presentation/home/controller/home_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
@@ -20,17 +28,21 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final AuthRepositoryImpl authRepositoryImpl = AuthRepositoryImpl();
   final TextEditingController nameController = TextEditingController();
-
+  GlobalKey<AppTextFormFieldState> nameState = GlobalKey();
   final TextEditingController emailController = TextEditingController();
+  GlobalKey<AppTextFormFieldState> emailState = GlobalKey();
+
   final TextEditingController phoneController = TextEditingController();
+  GlobalKey<AppTextFormFieldState> phoneState = GlobalKey();
+
   final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<AppTextFormFieldState> _passwordState = GlobalKey();
+  GlobalKey<AppTextFormFieldState> passwordState = GlobalKey();
+
   final TextEditingController confirmPasswordController =
       TextEditingController();
-
-  final GlobalKey<FormState> _formKey= GlobalKey();
-
+  GlobalKey<AppTextFormFieldState> confirmPasswordState = GlobalKey();
 
   @override
   void dispose() {
@@ -52,8 +64,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         showBackButton: true,
       ),
       body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -68,8 +80,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppTextFormField(
+                  key: nameState,
                   controller: nameController,
                   hintText: 'name_hint'.tr,
+                  autoFillHints: [AutofillHints.name],
+                  appFieldType: AppFieldType.name,
                 ),
               ),
               Padding(
@@ -83,8 +98,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppTextFormField(
+                  key: emailState,
                   controller: emailController,
                   hintText: 'email_hint'.tr,
+                  autoFillHints: [AutofillHints.email],
+                  appFieldType: AppFieldType.email,
+                  rules: AppTextFieldRules.emailRules,
                 ),
               ),
               Padding(
@@ -98,8 +117,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppTextFormField(
+                  key: phoneState,
                   controller: phoneController,
                   hintText: 'phone_hint'.tr,
+                  appFieldType: AppFieldType.phone,
+                  autoFillHints: [AutofillHints.telephoneNumber],
+                  rules: AppTextFieldRules.phoneNumberRules,
                 ),
               ),
               Padding(
@@ -113,14 +136,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppTextFormField(
-                  key: _passwordState,
+                  key: passwordState,
                   controller: passwordController,
                   hintText: 'enter_password'.tr,
-                  validateEmptyText: 'password_is_required'.tr,
                   appFieldType: AppFieldType.password,
                   textInputAction: TextInputAction.next,
-                  rules: passwordRules,
+                  rules: AppTextFieldRules.passwordRules,
                   alwaysShowRules: true,
+                  onChanged: (value) {
+                    if (value.isNotEmpty &&
+                        confirmPasswordController.text != value &&
+                        confirmPasswordController.text.isNotEmpty) {
+                      confirmPasswordState.currentState
+                          ?.setHelperText('confirm_password_does_not_match'.tr);
+                    } else {
+                      confirmPasswordState.currentState?.clearHelperText();
+                    }
+                  },
                 ),
               ),
               Padding(
@@ -134,8 +166,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppTextFormField(
+                  key: confirmPasswordState,
                   controller: confirmPasswordController,
                   hintText: 're_inter_password_hint'.tr,
+                  appFieldType: AppFieldType.password,
+                  textInputAction: TextInputAction.done,
+                  rules: AppTextFieldRules.passwordRules,
+                  alwaysShowRules: true,
+                  checkRules: false,
+                  onChanged: (value) {
+                    if (value.isNotEmpty && passwordController.text != value) {
+                      confirmPasswordState.currentState
+                          ?.setHelperText('confirm_password_does_not_match'.tr);
+                    } else {
+                      confirmPasswordState.currentState?.clearHelperText();
+                    }
+                  },
                 ),
               ),
               20.ph,
@@ -144,16 +190,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Row(
                   children: [
                     AppText(
-                      text: 'By creating an account, you agree to our',
+                      text: 'agree_to'.tr,
                       fontSize: 11.5,
                       fontWeight: FontWeight.w500,
                       color: Color(0xff6D7698),
                     ),
                     5.pw,
                     GestureDetector(
-                      onTap: (){},
+                      onTap: () {},
                       child: AppText(
-                        text: 'Terms and Conditions.',
+                        text: 'terms'.tr,
                         fontSize: 11.5,
                         fontWeight: FontWeight.w500,
                         color: context.kPrimaryColor,
@@ -162,17 +208,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
-              100.ph,
+              20.ph,
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppButton(
                   text: 'register'.tr,
                   onPressed: () {
-                    // Get.to(
-                    //   () => HomeScreen(),
-                    //   binding: HomeBinding(),
-                    // );
-
                     _register();
                   },
                 ),
@@ -185,19 +226,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _register() {
-    if (_passwordState.currentState?.validate() ?? false) {
-    } else {
-      _passwordState.currentState?.shake();
+  void _register() async {
+    if (nameController.text.isEmpty ||
+        (nameState.currentState?.hasError ?? false)) {
+      nameState.currentState?.shake();
+      return;
+    } else if (emailController.text.isEmpty ||
+        (emailState.currentState?.hasError ?? false)) {
+      emailState.currentState?.shake();
+      return;
+    } else if (phoneController.text.isEmpty ||
+        (phoneState.currentState?.hasError ?? false)) {
+      phoneState.currentState?.shake();
+      return;
+    } else if (passwordController.text.isEmpty ||
+        (passwordState.currentState?.hasError ?? false)) {
+      passwordState.currentState?.shake();
+      return;
+    } else if (confirmPasswordController.text.isEmpty ||
+        (confirmPasswordState.currentState?.hasError ?? false)) {
+      confirmPasswordState.currentState?.shake();
+      return;
     }
 
-    // InformationViewer.showErrorToast(msg: operationReply.message);
-    // if (operationReply.message.contains('email')) {
-    //   emailState.currentState?.updateHelperText(operationReply.message);
-    //   emailState.currentState?.shake();
-    // } else if (operationReply.message.contains('phone')) {
-    //   phoneState.currentState?.updateHelperText(operationReply.message);
-    //   phoneState.currentState?.shake();
-    // }
+
+    AppLoader.loading();
+
+    ApiResult<RegisterResponse> apiResult = await authRepositoryImpl.register(
+      registerRequest: RegisterRequest(
+        name: nameController.text,
+        email: emailController.text,
+        phone: phoneController.text,
+        password: passwordController.text,
+        passwordConfirmation: confirmPasswordController.text,
+        language: StorageClient().getAppLanguage().toUpperCase(),
+      ),
+    );
+
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      RegisterResponse registerResponse = apiResult.getData();
+      await StorageClient().saveUser(userResponse: registerResponse.data);
+
+      Get.offAll(() => HomeScreen(), binding: HomeBinding());
+    } else {
+      InformationViewer.showSnackBar(msg: apiResult.getError());
+      List<String> errors = apiResult.getError().split('\n');
+
+      for (String error in errors) {
+        if (error.contains('email')) {
+          emailState.currentState?.setHelperText(error);
+          emailState.currentState?.shake();
+        } else if (error.contains('phone')) {
+          phoneState.currentState?.setHelperText(error);
+          phoneState.currentState?.shake();
+        }
+      }
+    }
   }
 }

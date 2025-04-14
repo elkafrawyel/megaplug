@@ -79,5 +79,17 @@ Map<String, String> en = {
   'location_permission_message':
       'Location permission is not enabled ,we need you to enable it so that we can get your exact location.',
   'getting_location': 'Finding your location...',
-
+  'filter_stations': 'Filter Station',
+  'all': 'All',
+  'available': 'Available',
+  'available_and_in_use': 'Available & in use',
+  'min_8_char': 'Minimum 8 characters',
+  'one_lower_letter': 'At least 1 lowercase letter (a-z)',
+  'one_upper_letter': 'At least 1 uppercase letter (A-Z)',
+  'special_char': 'At least 1 special character (@, #, \$, %, &, *, etc.)',
+  'one_num': 'At least 1 number (0-9)',
+  'confirm_password_does_not_match':
+      "Confirm password doesn't match with password",
+  'agree_to': 'By creating an account, you agree to our',
+  'terms': 'Terms and Conditions.'
 };

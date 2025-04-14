@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/extension/station_filter_type.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/home/pages/stations/components/filter_bottom_sheet.dart';
+import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
 
 import '../../../../../domain/controllers/stations_controller.dart';
 
@@ -35,19 +38,30 @@ class SearchView extends StatelessWidget {
                       controller:
                           stationsController.searchTextEditingController,
                       decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'search_hint'.tr,
-                        hintStyle: TextStyle(
-                          color: context.kHintTextColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                        )
-                      ),
+                          border: InputBorder.none,
+                          hintText: 'search_hint'.tr,
+                          hintStyle: TextStyle(
+                            color: context.kHintTextColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          )),
                     ),
                   ),
                   10.pw,
-                  SvgPicture.asset(
-                    Res.filterIcon,
+                  GestureDetector(
+                    onTap: () {
+                      showAppModalBottomSheet(
+                        context: context,
+                        builder: (
+                          context,
+                          scrollController,
+                        ) =>
+                            FilterBottomSheet(),
+                      );
+                    },
+                    child: SvgPicture.asset(
+                      Res.filterIcon,
+                    ),
                   ),
                 ],
               ),

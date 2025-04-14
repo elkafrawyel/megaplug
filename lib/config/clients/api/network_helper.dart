@@ -25,29 +25,20 @@ class NetworkHelper {
         StorageClient().signOut();
         return ApiFailure(isAr ? 'يجب تسجيل الدخول' : 'Unauthenticated');
       } else if (response.statusCode == notFoundCode) {
-        return ApiFailure(isAr ? 'رابط غير موجود' : 'Not Found Error ');
+        return ApiFailure(isAr ? 'رابط غير موجود' : 'Not Found Error');
       } else if (response.statusCode == serverErrorCode) {
         return ApiFailure(isAr ? 'خطأ في السيرفر' : 'Server Error');
-      } else if (body != null && body['errors'] != null) {
-        // handle laravel post request api errors
+      } else if (body != null &&
+          body['errors'] != null &&
+          body['errors'].isNotEmpty) {
         Map<String, dynamic> errorMap = body['errors'];
         errorMap.forEach((key, value) {
           List errors = value;
-          errorMessage = errorMessage + errors.first.toString();
+          errorMessage = '$errorMessage\n${errors.join('\n')}';
         });
         return ApiFailure(errorMessage);
-      } else if (body != null && body['error'] != null) {
-        String errorMessage = '';
-        if (body['error'] is String) {
-          errorMessage = body['error'];
-          return ApiFailure(errorMessage);
-        } else {
-          Map<String, dynamic> errorMap = body['error'];
-          errorMap.forEach(
-            (key, value) => errorMessage = errorMessage + value.toString(),
-          );
-          return ApiFailure(errorMessage);
-        }
+      } else if (body != null && body['message'] != null) {
+        return ApiFailure(body['message']);
       } else {
         return ApiFailure(isAr ? 'حدث خطأ ما' : 'General Error');
       }
@@ -62,9 +53,9 @@ class NetworkHelper {
     if (error.type == DioExceptionType.connectionError) {
       return ApiFailure(isAr ? 'لا يوجد إتصال بالانترنت' : 'Network Error');
     } else if (error.type == DioExceptionType.connectionTimeout) {
-      return const ApiFailure('Request Timedout');
+      return const ApiFailure('Request Timeout');
     } else if (error.type == DioExceptionType.receiveTimeout) {
-      return const ApiFailure('Receive Timedout');
+      return const ApiFailure('Receive Timeout');
     } else if (error.type == DioExceptionType.badCertificate) {
       return const ApiFailure('Bad Certificate');
     } else if (error.type == DioExceptionType.badResponse) {

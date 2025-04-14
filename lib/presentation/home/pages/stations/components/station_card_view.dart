@@ -24,151 +24,145 @@ class StationCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          color: Colors.white,
-          elevation: 10,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      color: Colors.white,
+      elevation: 10,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 8.0),
-                    child: AppNetworkImage(
-                      imageUrl:
-                          'https://img.freepik.com/free-vector/cartoon-style-gas-station-background_52683-79920.jpg',
-                      height: 70,
-                      width: 70,
-                      fit: BoxFit.cover,
-                      radius: 8,
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 8.0),
+                child: AppNetworkImage(
+                  imageUrl:
+                      'https://img.freepik.com/free-vector/cartoon-style-gas-station-background_52683-79920.jpg',
+                  height: 70,
+                  width: 70,
+                  fit: BoxFit.cover,
+                  radius: 8,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: AppText(
-                                text: stationModel.name,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: context.kPrimaryColor,
-                                borderRadius: BorderRadiusDirectional.only(
-                                  topEnd: Radius.circular(12),
-                                  bottomStart: Radius.circular(12),
-                                ),
-                              ),
-                              child: AppText(
-                                text: 'Available',
-                                color: context.kColorOnPrimary,
-                              ),
-                            ),
-                          ],
+                        Expanded(
+                          child: AppText(
+                            text: stationModel.name,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        SizedBox(height: 4),
-                        AppText(
-                          text: 'Station Location',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_on,
-                              size: 20,
-                              color: context.kPrimaryColor,
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: context.kPrimaryColor,
+                            borderRadius: BorderRadiusDirectional.only(
+                              topEnd: Radius.circular(12),
+                              bottomStart: Radius.circular(12),
                             ),
-                            SizedBox(width: 4),
-                            Text('${'10'} Km'),
-                            SizedBox(width: 8),
-                            Icon(
-                              Icons.power,
-                              size: 20,
-                              color: context.kPrimaryColor,
-                            ),
-                            SizedBox(width: 4),
-                            Text('${8} connectors'),
-                            SizedBox(width: 8),
-                            Icon(
-                              Icons.bolt,
-                              size: 20,
-                              color: context.kPrimaryColor,
-                            ),
-                            SizedBox(width: 4),
-                            Text('${'22-50 W'}'),
-                          ],
+                          ),
+                          child: AppText(
+                            text: 'Available',
+                            color: context.kColorOnPrimary,
+                          ),
                         ),
                       ],
                     ),
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        icon: SvgPicture.asset(
-                          Res.directionsIcon,
-                        ),
-                        label: AppText(
-                          text: 'Get Directions',
-                          color: context.kColorOnPrimary,
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueGrey,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: () {},
-                      ),
+                    SizedBox(height: 4),
+                    AppText(
+                      text: 'Station Location',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 13,
                     ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        icon: SvgPicture.asset(
-                          Res.connectCarIcon,
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          size: 20,
+                          color: context.kPrimaryColor,
                         ),
-                        label: AppText(
-                          text: 'Station Details',
-                          color: context.kColorOnPrimary,
+                        SizedBox(width: 4),
+                        Text('${'10'} Km'),
+                        SizedBox(width: 8),
+                        Icon(
+                          Icons.power,
+                          size: 20,
+                          color: context.kPrimaryColor,
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                        SizedBox(width: 4),
+                        Text('${8} connectors'),
+                        SizedBox(width: 8),
+                        Icon(
+                          Icons.bolt,
+                          size: 20,
+                          color: context.kPrimaryColor,
                         ),
-                        onPressed: () {
-                          Get.to(() => StationDetailsScreen());
-                        },
-                      ),
+                        SizedBox(width: 4),
+                        Text('${'22-50 W'}'),
+                      ],
                     ),
                   ],
                 ),
-              ),
+              )
             ],
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: SvgPicture.asset(
+                      Res.directionsIcon,
+                    ),
+                    label: AppText(
+                      text: 'Get Directions',
+                      color: context.kColorOnPrimary,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff6C7E8E),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    icon: SvgPicture.asset(
+                      Res.connectCarIcon,
+                    ),
+                    label: AppText(
+                      text: 'Station Details',
+                      color: context.kColorOnPrimary,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff3EBF80),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Get.to(() => StationDetailsScreen());
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

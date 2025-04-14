@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
@@ -100,7 +101,8 @@ class AppTextFormFieldState extends State<AppTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = hasError ? Color.fromRGBO(229, 57, 53, 1) : Color(0xffE2E8F0);
+    final borderColor =
+        hasError ? Color.fromRGBO(229, 57, 53, 1) : Color(0xffE2E8F0);
     return CustomShakeWidget(
       key: _shakerKey,
       shakeCount: 4,
@@ -129,9 +131,9 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                     return !widget.required
                         ? null
                         : (widget.validateEmptyText ??
-                        (StorageClient().isAr()
-                            ? 'قم بإدخال البيانات المطلوبة *'
-                            : '* Please enter the required information'));
+                            (StorageClient().isAr()
+                                ? 'هذا الحقل مطلوب *'
+                                : '* This field is Required'));
                   } else {
                     return null;
                   }
@@ -147,7 +149,8 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                     });
                     return;
                   }
-                  if(widget.checkRules&& (widget.rules?.isNotEmpty??false)){
+                  if (widget.checkRules &&
+                      (widget.rules?.isNotEmpty ?? false)) {
                     _validateRules(value);
                   }
                 },
@@ -163,8 +166,25 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                 cursorColor: context.kPrimaryColor,
                 cursorWidth: 2,
                 decoration: InputDecoration(
-                  helperText:
-                  (_helperText?.isEmpty ?? true) ? null : _helperText,
+                  helper: (_helperText?.isEmpty ?? true)
+                      ? null
+                      : Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                Res.errorIcon,
+                                width: 15,
+                                height: 15,
+                              ),
+                              10.pw,
+                              Text(
+                                _helperText ?? '',
+                                style: TextStyle(color: context.kErrorColor),
+                              ),
+                            ],
+                          ),
+                      ),
                   helperMaxLines: 4,
                   helperStyle: TextStyle(
                     color: context.kErrorColor,
@@ -193,23 +213,23 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   alignLabelWithHint: true,
                   prefixIcon: widget.prefixIcon != null
                       ? Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                      start: 15.0,
-                      end: 8,
-                      top: 15,
-                      bottom: 15,
-                    ),
-                    child: SvgPicture.asset(
-                      widget.prefixIcon!,
-                      fit: BoxFit.fitHeight,
-                      height: 20,
-                      width: 20,
-                      colorFilter: ColorFilter.mode(
-                        context.kHintTextColor,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  )
+                          padding: const EdgeInsetsDirectional.only(
+                            start: 15.0,
+                            end: 8,
+                            top: 15,
+                            bottom: 15,
+                          ),
+                          child: SvgPicture.asset(
+                            widget.prefixIcon!,
+                            fit: BoxFit.fitHeight,
+                            height: 20,
+                            width: 20,
+                            colorFilter: ColorFilter.mode(
+                              context.kHintTextColor,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        )
                       : null,
                   suffixText: widget.suffixText ?? '',
                   suffixStyle: TextStyle(
@@ -217,17 +237,17 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   ),
                   suffixIcon: widget.suffixIcon != null || _isPasswordField
                       ? GestureDetector(
-                    onTap: _isPasswordField ? _toggle : null,
-                    child: Icon(
-                      _isPasswordField
-                          ? _isSecure
-                          ? Icons.visibility_off
-                          : Icons.remove_red_eye
-                          : widget.suffixIcon,
-                      size: 20,
-                      color: context.kHintTextColor,
-                    ),
-                  )
+                          onTap: _isPasswordField ? _toggle : null,
+                          child: Icon(
+                            _isPasswordField
+                                ? _isSecure
+                                    ? Icons.visibility_off
+                                    : Icons.remove_red_eye
+                                : widget.suffixIcon,
+                            size: 20,
+                            color: context.kHintTextColor,
+                          ),
+                        )
                       : null,
                   enabled: widget.enabled,
                   errorStyle: TextStyle(
@@ -243,25 +263,25 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   enabledBorder: !widget.enabled
                       ? const OutlineInputBorder(borderSide: BorderSide.none)
                       : OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      widget.radius ?? kRadius,
-                    ),
-                    borderSide: BorderSide(
-                      width: kBorderWidth,
-                      color: borderColor,
-                    ),
-                  ),
+                          borderRadius: BorderRadius.circular(
+                            widget.radius ?? kRadius,
+                          ),
+                          borderSide: BorderSide(
+                            width: kBorderWidth,
+                            color: borderColor,
+                          ),
+                        ),
                   border: !widget.enabled
                       ? const OutlineInputBorder(borderSide: BorderSide.none)
                       : OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      widget.radius ?? kRadius,
-                    ),
-                    borderSide: BorderSide(
-                      width: kBorderWidth,
-                      color: borderColor,
-                    ),
-                  ),
+                          borderRadius: BorderRadius.circular(
+                            widget.radius ?? kRadius,
+                          ),
+                          borderSide: BorderSide(
+                            width: kBorderWidth,
+                            color: borderColor,
+                          ),
+                        ),
                   errorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       widget.radius ?? kRadius,
@@ -282,7 +302,9 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   ),
                 ),
               ),
-              if (hasError) formFieldState.value ?? const SizedBox(),
+              if (hasError ||
+                  (widget.alwaysShowRules && widget.controller.text.isNotEmpty))
+                formFieldState.value ?? const SizedBox(),
             ],
           );
         },
@@ -325,38 +347,38 @@ class AppTextFormFieldState extends State<AppTextFormField> {
     }
   }
 
-  _validateRules(
-      String value,
-      ) {
+  _validateRules(String value) {
     if (!widget.required && widget.rules == null) {
       return;
     }
-    List<Widget>? errors = [];
+    List<Widget> errors = [];
+    List<Widget> passedRules = [];
 
     for (var element in widget.rules!) {
+      bool passed = element.condition(value);
       final text = Row(
         children: [
           Icon(
-            element.condition(value) ? Icons.done : Icons.clear,
-            color: element.condition(value)
-                ? context.kSuccessColor
-                : context.kErrorColor,
+            passed ? Icons.done : Icons.clear,
+            color: passed ? context.kSuccessColor : context.kErrorColor,
+            size: 15,
           ),
           5.pw,
           AppText(
             text: element.ruleText,
-            color: element.condition(value)
-                ? context.kSuccessColor
-                : context.kErrorColor,
+            color: passed ? context.kSuccessColor : context.kErrorColor,
             fontSize: 14,
             fontWeight: FontWeight.normal,
           ),
         ],
       );
-      if (widget.alwaysShowRules && element.condition(value)) {
+
+      if (!passed) {
+        //condition failed
         errors.add(text);
-      } else if (element.condition(value) == false) {
-        errors.add(text);
+      } else {
+        //condition passed
+        passedRules.add(text);
       }
     }
 
@@ -366,7 +388,10 @@ class AppTextFormFieldState extends State<AppTextFormField> {
         padding: const EdgeInsetsDirectional.only(start: 8, top: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: errors,
+          children: [
+            ...errors,
+            ...passedRules,
+          ],
         ),
       ),
     );
@@ -375,6 +400,4 @@ class AppTextFormFieldState extends State<AppTextFormField> {
       hasError = errors.isNotEmpty && widget.required;
     });
   }
-
-
 }

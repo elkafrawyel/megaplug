@@ -1,15 +1,21 @@
+import 'dart:convert';
+
 import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 
+import '../../../data/api_responses/user_response.dart';
 import '../../../presentation/auth/login/login_screen.dart';
 
 enum StorageClientKeys {
   language, //String
   notifications, //int
   apiToken, //String
+  apiTokenType, //String
   isDarkMode, //String
   intro, //int
+  user, //jsonString
 }
 
 class StorageClient {
@@ -29,6 +35,8 @@ class StorageClient {
 
   String? apiToken() => get(StorageClientKeys.apiToken);
 
+  String? apiTokenType() => get(StorageClientKeys.apiTokenType);
+
   bool isAr() => getAppLanguage() == 'ar';
 
   /// ============= ============== ===================  =================
@@ -40,7 +48,24 @@ class StorageClient {
     return GetStorage().read(storageClientKeys.name);
   }
 
-  Future<void> signOut() async {
+  Future saveUser({UserResponse? userResponse}) async {
+    if (userResponse?.accessToken != null && userResponse?.user != null) {
+      await save(
+        StorageClientKeys.user,
+        jsonEncode(userResponse!.user!.toJson()),
+      );
+
+      await save(StorageClientKeys.apiToken, userResponse.accessToken);
+      await save(StorageClientKeys.apiTokenType, userResponse.tokenType);
+      APIClient.instance.updateTokenHeader(userResponse.accessToken,tokenType: userResponse.tokenType);
+      AppLogger.log('User Saved Successfully !!');
+    }else{
+      AppLogger.log('User Failed To Be Saved !!');
+
+    }
+  }
+
+  Future signOut() async {
     await _box.erase();
     String? language = getAppLanguage();
     Get.offAll(() => LoginScreen());

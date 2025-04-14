@@ -1,6 +1,7 @@
 class Res {
   /// ========================= END POINTS ========================================
-  static const apiNotifications = 'Notification/getAllNotifications';
+  static const apiLogin = 'login';
+  static const apiRegister = 'register';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';
@@ -10,6 +11,8 @@ class Res {
   static const onboarding_2 = 'assets/images/onboarding/onboarding_2.png';
   static const onboarding_3 = 'assets/images/onboarding/onboarding_3.png';
   static const onboardingContentBg = 'assets/images/onboarding/content_bg.png';
+
+  static const splashBg = 'assets/images/splash_background.png';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';
@@ -46,6 +49,7 @@ class Res {
   static const chargeIcon = 'assets/icons/charge.svg';
   static const connectCarIcon = 'assets/icons/connect_car.svg';
   static const directionsIcon = 'assets/icons/directions.svg';
+  static const errorIcon = 'assets/icons/error.svg';
 
   ///================================================================
 

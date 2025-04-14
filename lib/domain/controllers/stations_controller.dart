@@ -15,6 +15,7 @@ import 'package:megaplug/presentation/home/pages/stations/components/station_car
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
+import '../../config/extension/station_filter_type.dart';
 import '../../widgets/app_dialog_view.dart';
 import '../../presentation/home/pages/stations/components/custom_marker_view.dart';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
@@ -26,6 +27,18 @@ class StationsController extends GetxController {
   final StationsRepositoryImpl _stationsRepository;
 
   StationsController(this._stationsRepository);
+
+  static final String filterViewControllerId = 'filer_view_id';
+
+  StationsFilterType? _stationsFilterType;
+
+  StationsFilterType? get stationsFilterType => _stationsFilterType;
+
+  List<StationModel> stations =[];
+  set stationsFilterType(StationsFilterType? value) {
+    _stationsFilterType = value;
+    update([filterViewControllerId]);
+  }
 
   bool mapView = true;
   TextEditingController searchTextEditingController = TextEditingController();
@@ -85,8 +98,14 @@ class StationsController extends GetxController {
 
   void showStationCard(StationModel stationModel) {
     Get.dialog(
-        StationCardView(
-          stationModel: stationModel,
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StationCardView(
+              stationModel: stationModel,
+            ),
+          ),
         ),
         barrierColor: Colors.black54);
   }
@@ -110,9 +129,9 @@ class StationsController extends GetxController {
     AppLogger.log('_initClusterManager');
 
     ApiResult apiResult = await _stationsRepository.getAllStations();
-    List<StationModel> stations = apiResult.getData();
+     stations = apiResult.getData();
 
-    clusterManager?.setItems(stations);
+    clusterManager.setItems(stations);
   }
 
   void animateToArea(LatLng latLng) async {
