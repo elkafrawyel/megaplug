@@ -1,4 +1,5 @@
 import 'package:get/instance_manager.dart';
+import 'package:megaplug/data/repositories/profile_repo.dart';
 import 'package:megaplug/data/repositories/stations_repo.dart';
 
 import '../pages/profile/controller/profile_controller.dart';
@@ -11,6 +12,8 @@ class HomeBinding implements Bindings {
     Get.lazyPut(() => HomeController());
     Get.lazyPut(() => StationsRepositoryImpl());
     Get.lazyPut(() => StationsController(Get.find<StationsRepositoryImpl>()));
-    Get.lazyPut(() => ProfileController());
+
+    Get.lazyPut(()=>ProfileRepositoryImpl());
+    Get.lazyPut(() => ProfileController(Get.find<ProfileRepositoryImpl>()));
   }
 }

@@ -81,7 +81,7 @@ class APIClient {
   Future<ApiResult<T>> post<T>({
     required String endPoint,
     required T Function(dynamic) fromJson,
-    required Map<String, dynamic> requestBody,
+    Map<String, dynamic>? requestBody,
     List<MapEntry<String, File>> files = const [],
     Function(double percentage)? onUploadProgress,
     Function(double percentage)? onDownloadProgress,
@@ -91,7 +91,7 @@ class APIClient {
       FormData formData = FormData.fromMap({});
       if (files.isNotEmpty) {
         haveFiles = true;
-        formData = FormData.fromMap(requestBody);
+        formData = FormData.fromMap(requestBody ?? {});
         formData.files.addAll(files
             .map(
               (e) => MapEntry(

@@ -13,7 +13,7 @@ enum StorageClientKeys {
   notifications, //int
   apiToken, //String
   apiTokenType, //String
-  isDarkMode, //String
+  isDarkMode, //bool
   intro, //int
   user, //jsonString
 }
@@ -23,15 +23,15 @@ class StorageClient {
 
   Future init() async {
     await GetStorage.init();
-    if (get(StorageClientKeys.isDarkMode) == null) {
-      await save(StorageClientKeys.isDarkMode, false);
-    }
+
   }
 
   String getAppLanguage() =>
       get(StorageClientKeys.language) ?? Get.locale?.languageCode ?? 'en';
 
   bool isLogged() => get(StorageClientKeys.apiToken) != null;
+
+  bool isDarkMode() => get(StorageClientKeys.isDarkMode) ?? false;
 
   String? apiToken() => get(StorageClientKeys.apiToken);
 
@@ -57,11 +57,11 @@ class StorageClient {
 
       await save(StorageClientKeys.apiToken, userResponse.accessToken);
       await save(StorageClientKeys.apiTokenType, userResponse.tokenType);
-      APIClient.instance.updateTokenHeader(userResponse.accessToken,tokenType: userResponse.tokenType);
+      APIClient.instance.updateTokenHeader(userResponse.accessToken,
+          tokenType: userResponse.tokenType);
       AppLogger.log('User Saved Successfully !!');
-    }else{
+    } else {
       AppLogger.log('User Failed To Be Saved !!');
-
     }
   }
 

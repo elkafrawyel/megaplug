@@ -36,10 +36,14 @@ abstract class InformationViewer {
   }
 
   static showSuccessToast({
-    required String msg,
+    String? msg,
     double fontSize = 16.0,
     Color textColor = Colors.white,
   }) {
+    if (msg == null) {
+      return;
+    }
+
     showToast(
       msg: msg,
       backgroundColor: Colors.green,
@@ -53,7 +57,6 @@ abstract class InformationViewer {
     bool popPage = false,
     int duration = 5,
     Color? bgColor,
-
   }) {
     BuildContext? context = Get.context;
 

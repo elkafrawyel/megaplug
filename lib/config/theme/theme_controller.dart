@@ -15,8 +15,7 @@ class ThemeController extends GetxController {
   }
 
   Future toggleAppTheme() async {
-    bool? isDarkMode = StorageClient().get(StorageClientKeys.isDarkMode);
-    if (isDarkMode ?? false) {
+    if (StorageClient().isLogged()) {
       await StorageClient().save(StorageClientKeys.isDarkMode, false);
       _updateColorsTheme(AppColors.lightModeColors);
     } else {
@@ -27,9 +26,8 @@ class ThemeController extends GetxController {
 
   void _applySavedColors() async {
     if (hasDarkMode) {
-      bool? isDarkMode = StorageClient().get(StorageClientKeys.isDarkMode);
       _updateColorsTheme(
-        (isDarkMode ?? false)
+        (StorageClient().isLogged())
             ? AppColors.darkModeColors
             : AppColors.lightModeColors,
       );

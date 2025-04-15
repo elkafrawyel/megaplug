@@ -41,6 +41,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey();
 
   @override
+  void initState() {
+    super.initState();
+    // emailController.text = '01019744661';
+    // passwordController.text = 'Flutter123456!';
+  }
+
+  @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
@@ -111,18 +118,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     16.ph,
                     Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          Get.to(() => ForgetPasswordScreen());
-                        },
-                        child: AppText(
-                          text: "forget_password?".tr,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            // Get.to(() => ForgetPasswordScreen());
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: AppText(
+                              text: "forget_password?".tr,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        )),
                     SizedBox(height: 16),
                     AppButton(
                       text: 'login'.tr,
@@ -138,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         5.pw,
                         GestureDetector(
                           onTap: () {
-                            Get.to(() => RegisterScreen());
+                            // Get.to(() => RegisterScreen());
                           },
                           child: AppText(
                             text: "create_account".tr,
@@ -183,12 +192,15 @@ class _LoginScreenState extends State<LoginScreen> {
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {
       LoginResponse loginResponse = apiResult.getData();
-      await StorageClient().saveUser(userResponse: loginResponse.data);
 
-      Get.offAll(
-        () => HomeScreen(),
-        binding: HomeBinding(),
-      );
+      InformationViewer.showSuccessToast(msg: loginResponse.message);
+
+      // await StorageClient().saveUser(userResponse: loginResponse.data);
+
+      // Get.offAll(
+      //   () => HomeScreen(),
+      //   binding: HomeBinding(),
+      // );
     } else {
       if (mounted) {
         InformationViewer.showSnackBar(

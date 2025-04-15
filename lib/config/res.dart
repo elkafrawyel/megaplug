@@ -2,6 +2,7 @@ class Res {
   /// ========================= END POINTS ========================================
   static const apiLogin = 'login';
   static const apiRegister = 'register';
+  static const apiLogout = 'logout';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';

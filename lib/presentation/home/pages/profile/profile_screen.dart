@@ -6,6 +6,9 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/auth/login/login_screen.dart';
+import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
+import 'package:megaplug/widgets/app_widgets/app_dialogs/logout_dialog.dart';
 import 'package:megaplug/widgets/app_widgets/app_list_tile.dart';
 
 import '../../../../widgets/app_widgets/app_text.dart';
@@ -21,6 +24,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen>
     with AutomaticKeepAliveClientMixin {
+  final ProfileController profileController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -166,15 +171,24 @@ class _ProfileScreenState extends State<ProfileScreen>
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-              child: AppListTile(
-                leading: SvgPicture.asset(
-                  Res.logoutIcon,
-                  width: 30,
-                  height: 30,
-                ),
-                title: 'logout'.tr,
-                onTap: () async {
-                  await StorageClient().signOut();
+              child: GetBuilder<ProfileController>(
+                builder: (_) {
+                  return AppListTile(
+                    leading: SvgPicture.asset(
+                      Res.logoutIcon,
+                      width: 30,
+                      height: 30,
+                    ),
+                    title: 'logout'.tr,
+                    onTap: () async {
+                      showLogoutAlertDialog(
+                        context,
+                        () async {
+                           profileController.logout();
+                        },
+                      );
+                    },
+                  );
                 },
               ),
             ),

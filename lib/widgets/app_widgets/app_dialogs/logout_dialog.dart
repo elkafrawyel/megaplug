@@ -17,6 +17,9 @@ void scaleAlertDialog({
   bool barrierDismissible = false,
   int animationDuration = 400,
 }) {
+  if (!context.mounted) {
+    return;
+  }
   showGeneralDialog(
     context: context,
     barrierDismissible: barrierDismissible,
@@ -29,52 +32,13 @@ void scaleAlertDialog({
         scale: curve,
         child: GetPlatform.isIOS
             ? CupertinoTheme(
-                data: CupertinoThemeData(
-                  brightness: StorageClient().get(StorageClientKeys.isDarkMode)
-                      ? Brightness.dark
-                      : Brightness.light,
-                  scaffoldBackgroundColor: context.kBackgroundColor,
-                ),
-                child: CupertinoAlertDialog(
-                  title: AppText(
-                    text: title,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                  content: AppText(
-                    text: body,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    maxLines: 5,
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: onConfirmClick,
-                      child: Text(
-                        confirmText,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: context.kErrorColor,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: Text(
-                        cancelText,
-                        style: TextStyle(
-                          color: context.kPrimaryColor,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : AlertDialog(
-                // insetPadding: EdgeInsets.zero,
+              data: CupertinoThemeData(
+                brightness: StorageClient().isDarkMode()
+                    ? Brightness.dark
+                    : Brightness.light,
+                scaffoldBackgroundColor: ctx.kBackgroundColor,
+              ),
+              child: CupertinoAlertDialog(
                 title: AppText(
                   text: title,
                   fontWeight: FontWeight.bold,
@@ -84,9 +48,48 @@ void scaleAlertDialog({
                   text: body,
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
+                  maxLines: 5,
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: onConfirmClick,
+                    child: Text(
+                      confirmText,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: ctx.kErrorColor,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text(
+                      cancelText,
+                      style: TextStyle(
+                        color: ctx.kPrimaryColor,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+            : AlertDialog(
+                // insetPadding: EdgeInsets.zero,
+                title: AppText(
+                  text: title,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+                content: AppText(
+                  text: body,
+                  fontWeight: FontWeight.w300,
+                  fontSize: 14,
                   maxLines: 2,
                 ),
-                backgroundColor: context.kBackgroundColor,
+                backgroundColor: ctx.kBackgroundColor,
                 // contentPadding: EdgeInsets.zero,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(kRadius),
@@ -98,7 +101,7 @@ void scaleAlertDialog({
                       confirmText,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: context.kErrorColor,
+                        color: ctx.kErrorColor,
                       ),
                     ),
                   ),
@@ -109,7 +112,7 @@ void scaleAlertDialog({
                     child: Text(
                       cancelText,
                       style: TextStyle(
-                        color: context.kPrimaryColor,
+                        color: ctx.kPrimaryColor,
                         fontWeight: FontWeight.w700,
                       ),
                     ),

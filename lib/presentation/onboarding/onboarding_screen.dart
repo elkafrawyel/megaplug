@@ -54,7 +54,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
     return Scaffold(
       body: Stack(
-        fit: StackFit.expand,
         children: [
           PositionedDirectional(
             top: 0,
@@ -67,139 +66,50 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           PositionedDirectional(
             bottom: 0,
-            start: 0,
             end: 0,
+            start: 0,
             child: Container(
-              height: MediaQuery.sizeOf(context).height / 2.5,
+              height: 350,
               decoration: BoxDecoration(
                 borderRadius: BorderRadiusDirectional.vertical(
                   top: Radius.circular(24),
                 ),
                 color: Colors.white,
+                image: DecorationImage(
+                  image: AssetImage(
+                    Res.onboardingContentBg,
+                  ),
+                ),
               ),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(28.0),
-                    child: Center(
-                      child: Image.asset(
-                        Res.onboardingContentBg,
-                        fit: BoxFit.fitHeight,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    30.ph,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                      child: AppText(
+                        text: data[selectedPage].headerText,
+                        maxLines: 3,
+                        fontSize: 19,
+                        fontWeight: FontWeight.w700,
+                        centerText: true,
                       ),
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      50.ph,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 48.0),
-                        child: AppText(
-                          text: data[selectedPage].headerText,
-                          maxLines: 3,
-                          fontSize: 19,
-                          fontWeight: FontWeight.w700,
-                          centerText: true,
-                        ),
+                    10.ph,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 38.0),
+                      child: AppText(
+                        text: data[selectedPage].contentText,
+                        maxLines: 5,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        centerText: true,
                       ),
-                      10.ph,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 38.0),
-                        child: AppText(
-                          text: data[selectedPage].contentText,
-                          maxLines: 5,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          centerText: true,
-                        ),
-                      ),
-                      20.ph,
-                      Spacer(),
-                      Directionality(
-                        textDirection:
-                            isRtl ? TextDirection.rtl : TextDirection.ltr,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 28.0),
-                              child: Row(
-                                children: data
-                                    .map(
-                                      (element) => GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedPage =
-                                                data.indexOf(element);
-                                          });
-                                        },
-                                        child: selectedPage ==
-                                                data.indexOf(element)
-                                            ? Container(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 4),
-                                                width: 25,
-                                                height: 5,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                    color:
-                                                        context.kPrimaryColor),
-                                              )
-                                            : Container(
-                                                margin: EdgeInsets.symmetric(
-                                                  horizontal: 4,
-                                                ),
-                                                width: 7,
-                                                height: 7,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () {
-                                if (selectedPage < data.length - 1) {
-                                  setState(() {
-                                    selectedPage++;
-                                  });
-                                } else {
-                                  _skipIntro();
-                                }
-                              },
-                              child: Stack(
-                                children: [
-                                  AppTransformationView(
-                                    child: SvgPicture.asset(
-                                      Res.onboardingArrowBg,
-                                      fit: BoxFit.fitHeight,
-                                    ),
-                                  ),
-                                  PositionedDirectional(
-                                    end: 18,
-                                    bottom: 0,
-                                    top: 18,
-                                    child: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -229,6 +139,83 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       fontSize: 14,
                     ),
                   ),
+                ),
+              ),
+            ),
+          ),
+          PositionedDirectional(
+            bottom: 0,
+            end: 0,
+            child: GestureDetector(
+              onTap: () {
+                if (selectedPage < data.length - 1) {
+                  setState(() {
+                    selectedPage++;
+                  });
+                } else {
+                  _skipIntro();
+                }
+              },
+              child: Stack(
+                children: [
+                  AppTransformationView(
+                    child: SvgPicture.asset(
+                      Res.onboardingArrowBg,
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                  PositionedDirectional(
+                    end: 18,
+                    bottom: 0,
+                    top: 18,
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          PositionedDirectional(
+            start: 10,
+            bottom: 60,
+            child: Directionality(
+              textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                child: Row(
+                  children: data
+                      .map(
+                        (element) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedPage = data.indexOf(element);
+                            });
+                          },
+                          child: selectedPage == data.indexOf(element)
+                              ? Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 4),
+                                  width: 25,
+                                  height: 5,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(4),
+                                      color: context.kPrimaryColor),
+                                )
+                              : Container(
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: 4,
+                                  ),
+                                  width: 7,
+                                  height: 7,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ),

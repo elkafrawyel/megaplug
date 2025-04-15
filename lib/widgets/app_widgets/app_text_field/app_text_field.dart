@@ -367,7 +367,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
           AppText(
             text: element.ruleText,
             color: passed ? context.kSuccessColor : context.kErrorColor,
-            fontSize: 14,
+            fontSize: 12,
             fontWeight: FontWeight.normal,
           ),
         ],

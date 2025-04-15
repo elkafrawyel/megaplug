@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../config/clients/storage/storage_client.dart';
@@ -28,13 +29,8 @@ class _WavyAppBarState extends State<WavyAppBar> {
           width: width,
           fit: BoxFit.fitHeight,
         ),
-        AnimatedPositionedDirectional(
-          duration: Duration(milliseconds: 1500),
-          // Animation duration
-          curve: Curves.easeInOut,
-          // Smooth transition
+        PositionedDirectional(
           top: 0,
-          // Moves up from bottom
           start: 0,
           end: 0,
           bottom: 0,
@@ -51,9 +47,7 @@ class _WavyAppBarState extends State<WavyAppBar> {
           ),
         ),
         if (widget.withBackButton)
-          AnimatedPositionedDirectional(
-            duration: Duration(milliseconds: 1000),
-            curve: Curves.easeInOut,
+          PositionedDirectional(
             start: 18,
             top: 70,
             child: GestureDetector(
