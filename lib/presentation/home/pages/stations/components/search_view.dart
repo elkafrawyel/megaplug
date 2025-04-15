@@ -50,13 +50,17 @@ class SearchView extends StatelessWidget {
                   10.pw,
                   GestureDetector(
                     onTap: () {
+                      stationsController.getAllConnectors();
                       showAppModalBottomSheet(
+                        initialChildSize: 0.7,
                         context: context,
                         builder: (
                           context,
                           scrollController,
                         ) =>
-                            FilterBottomSheet(),
+                            FilterBottomSheet(
+                              scrollController: scrollController,
+                            ),
                       );
                     },
                     child: SvgPicture.asset(

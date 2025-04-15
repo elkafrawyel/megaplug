@@ -132,7 +132,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                         ? null
                         : (widget.validateEmptyText ??
                             (StorageClient().isAr()
-                                ? 'هذا الحقل مطلوب *'
+                                ? ' * هذا الحقل مطلوب'
                                 : '* This field is Required'));
                   } else {
                     return null;
@@ -252,7 +252,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   enabled: widget.enabled,
                   errorStyle: TextStyle(
                     fontStyle: FontStyle.normal,
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.normal,
                     color: context.kErrorColor,
                     fontFamily: Constants.fontFamily,

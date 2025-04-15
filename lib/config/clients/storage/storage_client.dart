@@ -23,7 +23,7 @@ class StorageClient {
 
   Future init() async {
     await GetStorage.init();
-
+    // await save(StorageClientKeys.language, 'en');
   }
 
   String getAppLanguage() =>

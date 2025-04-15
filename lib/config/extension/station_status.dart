@@ -14,10 +14,8 @@ extension StationStatusEx on StationStatus {
         return Color(0xff3EBF80);
       case StationStatus.active:
         return Color(0xff3EBF80);
-
       case StationStatus.down:
         return Color(0xffF41F52);
-
       case StationStatus.busy:
         return Color(0xffE86F00);
     }

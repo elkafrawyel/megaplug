@@ -91,5 +91,8 @@ Map<String, String> en = {
   'confirm_password_does_not_match':
       "Confirm password doesn't match with password",
   'agree_to': 'By creating an account, you agree to our',
-  'terms': 'Terms and Conditions.'
+  'terms': 'Terms and Conditions.',
+  'connector_type':'Connector Type',
+  'charge_power':'Charge Power',
+  'kwh':'Kwh',
 };

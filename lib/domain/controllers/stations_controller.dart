@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,6 +10,7 @@ import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/data/repositories/stations_repo.dart';
+import 'package:megaplug/domain/entities/connector_type_model.dart';
 import 'package:megaplug/presentation/home/pages/stations/components/station_card_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
@@ -34,7 +34,9 @@ class StationsController extends GetxController {
 
   StationsFilterType? get stationsFilterType => _stationsFilterType;
 
-  List<StationModel> stations =[];
+  List<StationModel> stations = [];
+  ApiResult<List<ConnectorTypeModel>> connectorsApiResult = ApiStart();
+
   set stationsFilterType(StationsFilterType? value) {
     _stationsFilterType = value;
     update([filterViewControllerId]);
@@ -52,6 +54,18 @@ class StationsController extends GetxController {
   MapType mapType = MapType.normal;
 
   late cluster_manager.ClusterManager<StationModel> clusterManager;
+
+  double? _chargePowerValue;
+
+  double get chargePowerValue => _chargePowerValue ?? minChargePower;
+
+  set chargePowerValue(double? value) {
+    _chargePowerValue = value;
+    update([filterViewControllerId]);
+  }
+
+  double minChargePower = 5;
+  double maxChargePower = 50;
 
   @override
   onInit() async {
@@ -96,6 +110,20 @@ class StationsController extends GetxController {
             );
           };
 
+  Future<void> getAllConnectors() async {
+    connectorsApiResult = ApiLoading();
+    update([filterViewControllerId]);
+    connectorsApiResult = await _stationsRepository.getAllConnectorTypes();
+    update([filterViewControllerId]);
+  }
+
+  void toggleSelectedConnector(ConnectorTypeModel connectorTypeModel) {
+    int index = connectorsApiResult.getData().indexOf(connectorTypeModel);
+    connectorsApiResult.getData()[index].isSelected =
+        !connectorsApiResult.getData()[index].isSelected;
+    update([filterViewControllerId]);
+  }
+
   void showStationCard(StationModel stationModel) {
     Get.dialog(
         Align(
@@ -129,7 +157,7 @@ class StationsController extends GetxController {
     AppLogger.log('_initClusterManager');
 
     ApiResult apiResult = await _stationsRepository.getAllStations();
-     stations = apiResult.getData();
+    stations = apiResult.getData();
 
     clusterManager.setItems(stations);
   }

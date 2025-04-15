@@ -1,32 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/extension/station_filter_type.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/domain/controllers/stations_controller.dart';
+import 'package:megaplug/domain/entities/connector_type_model.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
+import '../../../../../widgets/app_widgets/circular_checkbox.dart';
+
 class FilterBottomSheet extends StatelessWidget {
-  const FilterBottomSheet({super.key});
+  final ScrollController scrollController;
+
+  const FilterBottomSheet({super.key, required this.scrollController});
 
   @override
   Widget build(BuildContext context) {
     Color selectedColor = context.kSecondaryColor;
     Color unSelectedColor = Color(0xffF5F6F8);
     return GetBuilder<StationsController>(
-        id: StationsController.filterViewControllerId,
-        builder: (stationController) {
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadiusDirectional.vertical(
-                top: Radius.circular(16),
-              ),
+      id: StationsController.filterViewControllerId,
+      builder: (stationController) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadiusDirectional.vertical(
+              top: Radius.circular(16),
             ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            child: SingleChildScrollView(
+              controller: scrollController,
               child: Column(
                 children: [
                   Row(
@@ -116,10 +123,117 @@ class FilterBottomSheet extends StatelessWidget {
                     ),
                   ),
                   10.ph,
+                  switch (stationController.connectorsApiResult) {
+                    ApiStart<List<ConnectorTypeModel>>() => SizedBox(),
+                    ApiLoading<List<ConnectorTypeModel>>() =>
+                      CircularProgressIndicator.adaptive(),
+                    ApiEmpty<List<ConnectorTypeModel>>() => Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(48.0),
+                          child: AppText(
+                            text: 'No Connectors Found',
+                          ),
+                        ),
+                      ),
+                    ApiSuccess<List<ConnectorTypeModel>>() => Column(
+                        children: stationController.connectorsApiResult
+                            .getData()
+                            .map(
+                              (connector) => GestureDetector(
+                                onTap: () {
+                                  stationController.toggleSelectedConnector(
+                                    connector,
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        connector.image,
+                                      ),
+                                      10.pw,
+                                      Expanded(
+                                          child: AppText(text: connector.text)),
+                                      CircularCheckbox(
+                                        value: connector.isSelected,
+                                        onChanged: (bool? value) {
+                                          stationController
+                                              .toggleSelectedConnector(
+                                            connector,
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ApiFailure<List<ConnectorTypeModel>>() => Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(48.0),
+                          child: AppText(
+                            text: 'Connectors Failed To Load',
+                          ),
+                        ),
+                      ),
+                  },
+                  10.ph,
+                  Divider(
+                    indent: 12,
+                    endIndent: 12,
+                    thickness: 0.4,
+                  ),
+                  10.ph,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        AppText(
+                          text: 'charge_power'.tr,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        Spacer(),
+                        AppText(
+                            text:
+                                '${stationController.chargePowerValue.toInt()} ${'kwh'.tr}')
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Slider(
+                      value: stationController.chargePowerValue,
+                      min: stationController.minChargePower,
+                      max: stationController.maxChargePower,
+                      thumbColor: Colors.white,
+                      activeColor: context.kPrimaryColor,
+                      inactiveColor: Color(0xffF5F6F8),
+                      onChanged: (double value) {
+                        stationController.chargePowerValue = value;
+                      },
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      AppText(
+                          text:
+                              '${stationController.minChargePower.toInt()} ${'kwh'.tr}'),
+                      Spacer(),
+                      AppText(
+                          text:
+                              '${stationController.maxChargePower.toInt()} ${'kwh'.tr}')
+                    ],
+                  )
                 ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

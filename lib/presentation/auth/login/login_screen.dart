@@ -43,8 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    // emailController.text = '01019744661';
-    // passwordController.text = 'Flutter123456!';
+    emailController.text = '01019744661';
+    passwordController.text = 'Flutter123456!';
   }
 
   @override
@@ -98,7 +98,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       key: emailState,
                       controller: emailController,
                       hintText: "enter_email_or_phone".tr,
-                      validateEmptyText: 'email_or_phone_required'.tr,
                       rules: AppTextFieldRules.emailOrPhoneRules,
                       autoFillHints: const [
                         AutofillHints.email,
@@ -113,7 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: passwordController,
                       hintText: "enter_password".tr,
                       appFieldType: AppFieldType.password,
-                      validateEmptyText: 'password_required'.tr,
                       autoFillHints: const [AutofillHints.password],
                     ),
                     16.ph,
@@ -147,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         5.pw,
                         GestureDetector(
                           onTap: () {
-                            // Get.to(() => RegisterScreen());
+                            Get.to(() => RegisterScreen());
                           },
                           child: AppText(
                             text: "create_account".tr,
@@ -195,12 +193,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
       InformationViewer.showSuccessToast(msg: loginResponse.message);
 
-      // await StorageClient().saveUser(userResponse: loginResponse.data);
+      await StorageClient().saveUser(userResponse: loginResponse.data);
 
-      // Get.offAll(
-      //   () => HomeScreen(),
-      //   binding: HomeBinding(),
-      // );
+      Get.offAll(
+        () => HomeScreen(),
+        binding: HomeBinding(),
+      );
     } else {
       if (mounted) {
         InformationViewer.showSnackBar(
