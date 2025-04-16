@@ -7,6 +7,7 @@ import 'package:megaplug/config/extension/station_filter_type.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/domain/controllers/stations_controller.dart';
 import 'package:megaplug/domain/entities/connector_type_model.dart';
+import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 import '../../../../../widgets/app_widgets/circular_checkbox.dart';
@@ -31,7 +32,7 @@ class FilterBottomSheet extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
             child: SingleChildScrollView(
               controller: scrollController,
               child: Column(
@@ -198,34 +199,76 @@ class FilterBottomSheet extends StatelessWidget {
                         ),
                         Spacer(),
                         AppText(
-                            text:
-                                '${stationController.chargePowerValue.toInt()} ${'kwh'.tr}')
+                          text:
+                              '${stationController.chargePowerValue.toInt()} ${'kwh'.tr}',
+                          fontSize: 12,
+                        )
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
+                  SliderTheme(
+                    data: SliderThemeData(
+                      trackHeight: 15,
+                      inactiveTrackColor: const Color(0xFFF5F6F8),
+                      activeTrackColor: context.kPrimaryColor,
+                      trackShape: const RoundedRectSliderTrackShape(),
+                      thumbShape: const CustomThumbShape(),
+
+                    ),
                     child: Slider(
                       value: stationController.chargePowerValue,
                       min: stationController.minChargePower,
                       max: stationController.maxChargePower,
-                      thumbColor: Colors.white,
-                      activeColor: context.kPrimaryColor,
-                      inactiveColor: Color(0xffF5F6F8),
                       onChanged: (double value) {
                         stationController.chargePowerValue = value;
                       },
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      children: [
+                        AppText(
+                          text:
+                              '${stationController.minChargePower.toInt()} ${'kwh'.tr}',
+                          fontSize: 12,
+                        ),
+                        Spacer(),
+                        AppText(
+                          text:
+                              '${stationController.maxChargePower.toInt()} ${'kwh'.tr}',
+                          fontSize: 12,
+                        )
+                      ],
+                    ),
+                  ),
+                  30.ph,
                   Row(
                     children: [
-                      AppText(
-                          text:
-                              '${stationController.minChargePower.toInt()} ${'kwh'.tr}'),
-                      Spacer(),
-                      AppText(
-                          text:
-                              '${stationController.maxChargePower.toInt()} ${'kwh'.tr}')
+                      Expanded(
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(color: context.kPrimaryColor),
+                          ),
+                          child: AppText(
+                            text: 'reset'.tr,
+                            color: context.kPrimaryColor,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
+                      10.pw,
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: context.kPrimaryColor),
+                          child: AppText(
+                            text: 'apply'.tr,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
                     ],
                   )
                 ],
@@ -235,5 +278,49 @@ class FilterBottomSheet extends StatelessWidget {
         );
       },
     );
+  }
+
+
+
+}
+
+
+class CustomThumbShape extends SliderComponentShape {
+  const CustomThumbShape();
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) => const Size(30, 30);
+
+  @override
+  void paint(
+      PaintingContext context,
+      Offset center, {
+        required Animation<double> activationAnimation,
+        required Animation<double> enableAnimation,
+        required bool isDiscrete,
+        required TextPainter labelPainter,
+        required RenderBox parentBox,
+        required SliderThemeData sliderTheme,
+        required TextDirection textDirection,
+        required double value,
+        required double textScaleFactor,
+        required Size sizeWithOverflow,
+      }) {
+    final Canvas canvas = context.canvas;
+
+    final Paint shadowPaint = Paint()
+      ..color = Colors.black.withOpacity(0.15)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+
+    canvas.drawCircle(center, 15, shadowPaint);
+
+    final Paint thumbPaint = Paint()..color = Colors.white;
+    final Paint borderPaint = Paint()
+      ..color = sliderTheme.activeTrackColor!
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 4;
+
+    canvas.drawCircle(center, 15, thumbPaint);
+    canvas.drawCircle(center, 15, borderPaint);
   }
 }

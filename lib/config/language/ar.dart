@@ -93,4 +93,6 @@ Map<String, String> ar = {
   'connector_type': 'نوع الكابل',
   'charge_power': 'سرعة الشحن',
   'kwh': 'ك وات /س',
+  'reset': 'تفريغ',
+  'apply': 'تطبيق'
 };

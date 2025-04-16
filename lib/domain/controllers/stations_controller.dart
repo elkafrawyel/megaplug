@@ -28,6 +28,7 @@ class StationsController extends GetxController {
 
   StationsController(this._stationsRepository);
 
+  static final String searchViewControllerId = 'search_view_id';
   static final String filterViewControllerId = 'filer_view_id';
 
   StationsFilterType? _stationsFilterType;
@@ -256,5 +257,14 @@ class StationsController extends GetxController {
   toggleMapView() {
     mapView = !mapView;
     update();
+  }
+
+  void clearSearchBox() {
+    searchTextEditingController.clear();
+    update([searchViewControllerId]);
+  }
+
+  void handleSearchText({required String text}) {
+    update([searchViewControllerId]);
   }
 }
