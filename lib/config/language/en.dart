@@ -96,5 +96,6 @@ Map<String, String> en = {
   'charge_power': 'Charge Power',
   'kwh': 'Kwh',
   'reset': 'Reset',
-  'apply': 'Apply'
+  'apply': 'Apply',
+  'contact_info': 'Contact Information'
 };

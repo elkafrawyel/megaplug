@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -26,8 +27,8 @@ class StorageClient {
     // await save(StorageClientKeys.language, 'en');
   }
 
-  String getAppLanguage() =>
-      get(StorageClientKeys.language) ?? Get.locale?.languageCode ?? 'en';
+  String getAppLanguage({BuildContext? context}) =>
+      get(StorageClientKeys.language) ?? Get.deviceLocale?.languageCode ?? 'en';
 
   bool isLogged() => get(StorageClientKeys.apiToken) != null;
 

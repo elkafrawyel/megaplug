@@ -214,6 +214,9 @@ class FilterBottomSheet extends StatelessWidget {
                       trackShape: const RoundedRectSliderTrackShape(),
                       thumbShape: const CustomThumbShape(),
 
+                      showValueIndicator: ShowValueIndicator.always,
+                      valueIndicatorColor: context.kPrimaryColor,
+                      valueIndicatorTextStyle: TextStyle(fontSize: 20),
                     ),
                     child: Slider(
                       value: stationController.chargePowerValue,
@@ -222,6 +225,7 @@ class FilterBottomSheet extends StatelessWidget {
                       onChanged: (double value) {
                         stationController.chargePowerValue = value;
                       },
+                      label: stationController.chargePowerValue.toInt().toString(),
                     ),
                   ),
                   Padding(

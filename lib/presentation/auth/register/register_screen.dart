@@ -45,6 +45,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   GlobalKey<AppTextFormFieldState> confirmPasswordState = GlobalKey();
 
   @override
+  void initState() {
+    super.initState();
+    nameController.text = 'Mahmoud';
+    emailController.text = 'mahmoud@gmail.com';
+    phoneController.text = '01019744661';
+    passwordController.text = 'Flutter123456!';
+    confirmPasswordController.text = 'Flutter123456!';
+  }
+
+  @override
   void dispose() {
     super.dispose();
     nameController.dispose();
@@ -83,6 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   key: nameState,
                   controller: nameController,
                   hintText: 'name_hint'.tr,
+                  textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.name],
                   appFieldType: AppFieldType.name,
                 ),
@@ -101,6 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   key: emailState,
                   controller: emailController,
                   hintText: 'email_hint'.tr,
+                  textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.email],
                   appFieldType: AppFieldType.email,
                   rules: AppTextFieldRules.emailRules,
@@ -121,6 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: phoneController,
                   hintText: 'phone_hint'.tr,
                   appFieldType: AppFieldType.phone,
+                  textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.telephoneNumber],
                   rules: AppTextFieldRules.phoneNumberRules,
                 ),
@@ -227,6 +240,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _register() async {
+
+    FocusScope.of(context).unfocus();
+
+    emailState.currentState?.clearHelperText();
+    phoneState.currentState?.clearHelperText();
     if (nameController.text.isEmpty ||
         (nameState.currentState?.hasError ?? false)) {
       nameState.currentState?.shake();
@@ -249,7 +267,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-
     AppLoader.loading();
 
     ApiResult<RegisterResponse> apiResult = await authRepositoryImpl.register(
@@ -266,20 +283,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {
       RegisterResponse registerResponse = apiResult.getData();
-      await StorageClient().saveUser(userResponse: registerResponse.data);
+      InformationViewer.showSuccessToast(msg: registerResponse.message);
 
-      Get.offAll(() => HomeScreen(), binding: HomeBinding());
+      // await StorageClient().saveUser(userResponse: registerResponse.data);
+      //
+      // Get.offAll(() => HomeScreen(), binding: HomeBinding());
     } else {
       InformationViewer.showSnackBar(msg: apiResult.getError());
       List<String> errors = apiResult.getError().split('\n');
 
       for (String error in errors) {
-        if (error.contains('email')) {
-          emailState.currentState?.setHelperText(error);
-          emailState.currentState?.shake();
-        } else if (error.contains('phone')) {
+        if (error.contains('phone')) {
           phoneState.currentState?.setHelperText(error);
-          phoneState.currentState?.shake();
+        } else if (error.contains('email')) {
+          emailState.currentState?.setHelperText(error);
         }
       }
     }

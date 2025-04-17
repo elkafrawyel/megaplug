@@ -14,6 +14,7 @@ class Res {
   static const onboardingContentBg = 'assets/images/onboarding/content_bg.png';
 
   static const splashBg = 'assets/images/splash_background.png';
+  static const contactUsImage = 'assets/images/contact_us_image.png';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';
@@ -51,6 +52,12 @@ class Res {
   static const connectCarIcon = 'assets/icons/connect_car.svg';
   static const directionsIcon = 'assets/icons/directions.svg';
   static const errorIcon = 'assets/icons/error.svg';
+  static const facebookIcon = 'assets/icons/facebook.svg';
+  static const whatsappIcon = 'assets/icons/whatsapp.svg';
+  static const xIcon = 'assets/icons/x.svg';
+  static const instagramIcon = 'assets/icons/instagram.svg';
+  static const callIcon = 'assets/icons/call.svg';
+  static const youtubeIcon = 'assets/icons/youtube.svg';
 
   ///================================================================
 

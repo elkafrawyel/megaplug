@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/language/language_model.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/common_screens/contact_info_screen.dart';
+import 'package:megaplug/presentation/common_screens/contact_us_screen.dart';
 
 import '../../../../config/res.dart';
 import '../../../../widgets/app_widgets/app_language/app_language_dialog.dart';
@@ -207,31 +209,69 @@ class _SettingsScreenState extends State<SettingsScreen>
                 ),
               ),
             ),
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18.0,
-                  vertical: 18.0,
+            GestureDetector(
+              onTap: () {
+                Get.to(() => ContactUsScreen());
+              },
+              child: Card(
+                elevation: 0.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
-                  children: [
-                    AppText(
-                      text: 'contact_us'.tr,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: context.kTextColor,
-                      size: 20,
-                    )
-                  ],
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0,
+                    vertical: 18.0,
+                  ),
+                  child: Row(
+                    children: [
+                      AppText(
+                        text: 'contact_us'.tr,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: context.kTextColor,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => ContactInfoScreen());
+              },
+              child: Card(
+                elevation: 0.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0,
+                    vertical: 18.0,
+                  ),
+                  child: Row(
+                    children: [
+                      AppText(
+                        text: 'contact_info'.tr,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: context.kTextColor,
+                        size: 20,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

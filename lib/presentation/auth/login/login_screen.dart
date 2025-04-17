@@ -43,8 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    emailController.text = '01019744661';
-    passwordController.text = 'Flutter123456!';
+    // emailController.text = '01019744661';
+    // passwordController.text = 'Flutter123456!';
   }
 
   @override
@@ -193,12 +193,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
       InformationViewer.showSuccessToast(msg: loginResponse.message);
 
-      await StorageClient().saveUser(userResponse: loginResponse.data);
-
-      Get.offAll(
-        () => HomeScreen(),
-        binding: HomeBinding(),
-      );
+      // await StorageClient().saveUser(userResponse: loginResponse.data);
+      //
+      // Get.offAll(
+      //   () => HomeScreen(),
+      //   binding: HomeBinding(),
+      // );
     } else {
       if (mounted) {
         InformationViewer.showSnackBar(

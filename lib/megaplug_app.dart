@@ -51,7 +51,7 @@ class _MegaPlugState extends State<MegaPlug> {
             ),
             debugShowCheckedModeBanner:
                 Environment.appMode == AppMode.staging ||
-                    Environment.appMode == AppMode.testing,
+                    Environment.appMode == AppMode.development,
             defaultTransition: Transition.cupertino,
             transitionDuration: const Duration(milliseconds: 300),
             supportedLocales: LanguageData.supportedLocales,

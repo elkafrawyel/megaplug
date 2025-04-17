@@ -94,5 +94,6 @@ Map<String, String> ar = {
   'charge_power': 'سرعة الشحن',
   'kwh': 'ك وات /س',
   'reset': 'تفريغ',
-  'apply': 'تطبيق'
+  'apply': 'تطبيق',
+  'contact_info': 'معلومات التواصل'
 };

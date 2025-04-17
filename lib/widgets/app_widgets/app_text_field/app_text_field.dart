@@ -169,8 +169,8 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   helper: (_helperText?.isEmpty ?? true)
                       ? null
                       : Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
                             children: [
                               SvgPicture.asset(
                                 Res.errorIcon,
@@ -184,7 +184,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                               ),
                             ],
                           ),
-                      ),
+                        ),
                   helperMaxLines: 4,
                   helperStyle: TextStyle(
                     color: context.kErrorColor,
@@ -297,7 +297,9 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                     ),
                     borderSide: BorderSide(
                       width: kSelectedBorderWidth,
-                      color: borderColor,
+                      color: hasError
+                          ? context.kErrorColor
+                          : context.kPrimaryColor,
                     ),
                   ),
                 ),
@@ -330,12 +332,14 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   void setHelperText(String text) {
     setState(() {
       _helperText = text;
+      hasError = true;
     });
   }
 
   void clearHelperText() {
     setState(() {
       _helperText = null;
+      hasError = false;
     });
   }
 

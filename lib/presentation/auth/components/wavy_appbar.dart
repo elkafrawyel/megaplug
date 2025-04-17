@@ -40,8 +40,8 @@ class _WavyAppBarState extends State<WavyAppBar> {
             child: Center(
               child: Image.asset(
                 StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
-                width: 250,
-                height: 250,
+                width: 200,
+                height: 200,
               ),
             ),
           ),

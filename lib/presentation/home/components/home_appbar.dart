@@ -46,7 +46,7 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
                 Navigator.of(context).pop();
               },
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: SvgPicture.asset(
                   Res.backIcon,
                 ),
@@ -55,13 +55,11 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
           : SizedBox(),
       flexibleSpace: Stack(
         children: [
-          // SVG Background
           Positioned.fill(
             child: Opacity(
               opacity: svgOpacity,
-              child: SvgPicture.asset(
-                svgAssetPath,
-                fit: BoxFit.fill,
+              child: CustomPaint(
+                painter: EllipsePainter(),
               ),
             ),
           ),
@@ -72,4 +70,46 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(height);
+}
+
+class EllipsePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
+
+    // Create a mask (though Flutter doesn't have exact SVG mask support)
+    // We'll just draw the ellipse directly
+
+    // Create the radial gradient
+    final gradient = RadialGradient(
+      center: const Alignment(0, -2.45),
+      // Adjusted to match SVG positioning
+      radius: 1.0,
+      colors: const [Color(0xFF42D99C), Color(0xFF3EBF80)],
+      stops: const [0.0, 1.0],
+      transform: const GradientRotation(90 * (3.1415926535 / 180)),
+    );
+
+    // Create the paint with the gradient
+    final paint = Paint()
+      ..shader = gradient.createShader(rect)
+      ..style = PaintingStyle.fill;
+
+    // Draw the ellipse
+    // Note: The ellipse is positioned above the visible area (cy = -132.5)
+    // So we adjust the position to make it partially visible
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(size.width / 2, -132.5),
+        width: 1161, // rx * 2 = 580.5 * 2
+        height: 530, // ry * 2 = 240.5 * 2
+      ),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
+  }
 }

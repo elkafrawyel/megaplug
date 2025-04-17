@@ -5,7 +5,7 @@ import 'package:get/get_core/get_core.dart';
 import 'package:get/get_utils/get_utils.dart';
 
 class NetworkHelper {
-  static const int unAuthenticatedCode = 415;
+  static const int unAuthenticatedCode = 401;
   static const int serverErrorCode = 500;
   static const int notFoundCode = 404;
 
@@ -20,7 +20,6 @@ class NetworkHelper {
     String errorMessage = '';
     try {
       body = response.data;
-
       if (response.statusCode == unAuthenticatedCode) {
         StorageClient().signOut();
         return ApiFailure(isAr ? 'يجب تسجيل الدخول' : 'Unauthenticated');
