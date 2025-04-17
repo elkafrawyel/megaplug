@@ -47,11 +47,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    nameController.text = 'Mahmoud';
-    emailController.text = 'mahmoud@gmail.com';
-    phoneController.text = '01019744661';
-    passwordController.text = 'Flutter123456!';
-    confirmPasswordController.text = 'Flutter123456!';
+    // nameController.text = 'Mahmoud';
+    // emailController.text = 'mahmoud@gmail.com';
+    // phoneController.text = '01019744661';
+    // passwordController.text = 'Flutter123456!';
+    // confirmPasswordController.text = 'Flutter123456!';
   }
 
   @override

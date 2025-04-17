@@ -1,5 +1,5 @@
 class Environment {
-  static const AppMode appMode = AppMode.development;
+  static const AppMode appMode = AppMode.staging;
   final String _liveBaseUrl =
       'http://138.68.71.240/api/v1/';
   final String _stagingBaseUrl =
