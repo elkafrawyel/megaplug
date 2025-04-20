@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
                           onTap: () {
-                            // Get.to(() => ForgetPasswordScreen());
+                            Get.to(() => ForgetPasswordScreen());
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),

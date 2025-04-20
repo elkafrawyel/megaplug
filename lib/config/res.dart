@@ -3,6 +3,7 @@ class Res {
   static const apiLogin = 'login';
   static const apiRegister = 'register';
   static const apiLogout = 'logout';
+  static const apiSendOtp = 'forget_password';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';
@@ -12,7 +13,6 @@ class Res {
   static const onboarding_2 = 'assets/images/onboarding/onboarding_2.png';
   static const onboarding_3 = 'assets/images/onboarding/onboarding_3.png';
   static const onboardingContentBg = 'assets/images/onboarding/content_bg.png';
-
   static const splashBg = 'assets/images/splash_background.png';
   static const contactUsImage = 'assets/images/contact_us_image.png';
 

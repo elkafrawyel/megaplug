@@ -47,11 +47,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    // nameController.text = 'Mahmoud';
-    // emailController.text = 'mahmoud@gmail.com';
-    // phoneController.text = '01019744661';
-    // passwordController.text = 'Flutter123456!';
-    // confirmPasswordController.text = 'Flutter123456!';
+    nameController.text = 'Mahmoud';
+    emailController.text = 'mahmoud@gmail.com';
+    phoneController.text = '01019744661';
+    passwordController.text = 'Flutter123456!';
+    confirmPasswordController.text = 'Flutter123456!';
   }
 
   @override
@@ -112,6 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   key: emailState,
                   controller: emailController,
                   hintText: 'email_hint'.tr,
+                  alwaysShowRules: true,
                   textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.email],
                   appFieldType: AppFieldType.email,
@@ -199,7 +200,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               20.ph,
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
                   children: [
                     AppText(
@@ -231,7 +232,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
               ),
-              200.ph,
+              100.ph,
             ],
           ),
         ),

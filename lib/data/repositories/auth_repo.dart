@@ -4,6 +4,7 @@ import 'package:megaplug/config/res.dart';
 
 import 'package:megaplug/data/api_requests/login_request.dart';
 import 'package:megaplug/data/api_requests/register_request.dart';
+import 'package:megaplug/data/api_responses/general_response.dart';
 
 import 'package:megaplug/data/api_responses/login_response.dart';
 import 'package:megaplug/data/api_responses/register_response.dart';
@@ -30,6 +31,14 @@ class AuthRepositoryImpl extends AuthRepository {
       endPoint: Res.apiRegister,
       fromJson: RegisterResponse.fromJson,
       requestBody: registerRequest.toJson(),
+    );
+  }
+
+  @override
+  Future<ApiResult<GeneralResponse>> sendOtp({required String username}) {
+    return APIClient.instance.post(
+      endPoint: Res.apiSendOtp,
+      fromJson: GeneralResponse.fromJson,
     );
   }
 }

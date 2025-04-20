@@ -139,6 +139,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   }
                 },
                 onChanged: (String? value) {
+                  clearHelperText();
                   if (widget.onChanged != null && value != null) {
                     widget.onChanged!(value);
                   }
@@ -178,9 +179,15 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                                 height: 15,
                               ),
                               10.pw,
-                              Text(
-                                _helperText ?? '',
-                                style: TextStyle(color: context.kErrorColor),
+                              Flexible(
+                                child: Text(
+                                  _helperText ?? '',
+                                  style: TextStyle(
+                                    color: context.kErrorColor,
+                                    fontSize: 12,
+                                  ),
+                                  maxLines: 2,
+                                ),
                               ),
                             ],
                           ),
@@ -304,7 +311,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   ),
                 ),
               ),
-              if (hasError ||
+              if (hasError &&
                   (widget.alwaysShowRules && widget.controller.text.isNotEmpty))
                 formFieldState.value ?? const SizedBox(),
             ],
