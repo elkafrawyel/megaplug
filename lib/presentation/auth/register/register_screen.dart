@@ -47,11 +47,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    nameController.text = 'Mahmoud';
-    emailController.text = 'mahmoud@gmail.com';
-    phoneController.text = '01019744661';
-    passwordController.text = 'Flutter123456!';
-    confirmPasswordController.text = 'Flutter123456!';
+    // nameController.text = 'Mahmoud';
+    // emailController.text = 'mahmoud@gmail.com';
+    // phoneController.text = '01019744661';
+    // passwordController.text = 'Flutter123456!';
+    // confirmPasswordController.text = 'Flutter123456!';
   }
 
   @override
@@ -112,7 +112,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   key: emailState,
                   controller: emailController,
                   hintText: 'email_hint'.tr,
-                  alwaysShowRules: true,
                   textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.email],
                   appFieldType: AppFieldType.email,
@@ -162,9 +161,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         confirmPasswordController.text != value &&
                         confirmPasswordController.text.isNotEmpty) {
                       confirmPasswordState.currentState
-                          ?.setHelperText('confirm_password_does_not_match'.tr);
+                          ?.addApiError('confirm_password_does_not_match'.tr);
                     } else {
-                      confirmPasswordState.currentState?.clearHelperText();
+                      confirmPasswordState.currentState?.clearApiError();
                     }
                   },
                 ),
@@ -185,15 +184,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hintText: 're_inter_password_hint'.tr,
                   appFieldType: AppFieldType.password,
                   textInputAction: TextInputAction.done,
-                  rules: AppTextFieldRules.passwordRules,
                   alwaysShowRules: true,
                   checkRules: false,
                   onChanged: (value) {
                     if (value.isNotEmpty && passwordController.text != value) {
                       confirmPasswordState.currentState
-                          ?.setHelperText('confirm_password_does_not_match'.tr);
+                          ?.addApiError('confirm_password_does_not_match'.tr);
                     } else {
-                      confirmPasswordState.currentState?.clearHelperText();
+                      confirmPasswordState.currentState?.clearApiError();
                     }
                   },
                 ),
@@ -232,7 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   },
                 ),
               ),
-              100.ph,
+              50.ph,
             ],
           ),
         ),
@@ -241,30 +239,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _register() async {
-
     FocusScope.of(context).unfocus();
 
-    emailState.currentState?.clearHelperText();
-    phoneState.currentState?.clearHelperText();
-    if (nameController.text.isEmpty ||
-        (nameState.currentState?.hasError ?? false)) {
-      nameState.currentState?.shake();
-      return;
-    } else if (emailController.text.isEmpty ||
-        (emailState.currentState?.hasError ?? false)) {
-      emailState.currentState?.shake();
-      return;
-    } else if (phoneController.text.isEmpty ||
-        (phoneState.currentState?.hasError ?? false)) {
-      phoneState.currentState?.shake();
-      return;
-    } else if (passwordController.text.isEmpty ||
-        (passwordState.currentState?.hasError ?? false)) {
-      passwordState.currentState?.shake();
-      return;
-    } else if (confirmPasswordController.text.isEmpty ||
-        (confirmPasswordState.currentState?.hasError ?? false)) {
-      confirmPasswordState.currentState?.shake();
+    bool validated = AppTextFieldRules.validateForm(
+      [
+        nameState,
+        emailState,
+        phoneState,
+        passwordState,
+        confirmPasswordState,
+      ],
+    );
+    if (!validated) {
       return;
     }
 
@@ -295,9 +281,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       for (String error in errors) {
         if (error.contains('phone')) {
-          phoneState.currentState?.setHelperText(error);
+          phoneState.currentState?.addApiError(error);
         } else if (error.contains('email')) {
-          emailState.currentState?.setHelperText(error);
+          emailState.currentState?.addApiError(error);
         }
       }
     }

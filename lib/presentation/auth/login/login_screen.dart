@@ -168,17 +168,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _login() async {
-    if (emailController.text.isEmpty ||
-        (emailState.currentState?.hasError ?? false)) {
-      emailState.currentState?.shake();
-      return;
-    }
-    if (passwordController.text.isEmpty ||
-        (passwordState.currentState?.hasError ?? false)) {
-      passwordState.currentState?.shake();
-      return;
-    }
+    FocusScope.of(context).unfocus();
 
+    bool validated = AppTextFieldRules.validateForm(
+      [
+        emailState,
+        passwordState,
+      ],
+    );
+    if (!validated) {
+      return;
+    }
     AppLoader.loading();
     ApiResult<LoginResponse> apiResult = await authRepositoryImpl.login(
       loginRequest: LoginRequest(

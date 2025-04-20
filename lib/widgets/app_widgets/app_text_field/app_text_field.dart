@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/config/helpers/time_debuncer.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:get/get.dart';
@@ -84,12 +86,20 @@ class AppTextFormField extends StatefulWidget {
 class AppTextFormFieldState extends State<AppTextFormField> {
   bool _isSecure = false;
   bool _isPasswordField = false;
-  String? _helperText;
+  String? _apiErrorText;
   FormFieldState<Widget>? formFieldState;
-  bool hasError = false;
   final GlobalKey<CustomShakeWidgetState> _shakerKey = GlobalKey();
 
   final FocusNode _focusNode = FocusNode();
+
+  bool hasError = false;
+
+  Widget? validationView;
+
+  final String _emptyValidationText =
+      StorageClient().isAr() ? 'هذا الحقل مطلوب' : 'This field is Required';
+
+  AppTimeDebuncer debuncer = AppTimeDebuncer.instance;
 
   @override
   void initState() {
@@ -100,230 +110,215 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    debuncer.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final borderColor =
         hasError ? Color.fromRGBO(229, 57, 53, 1) : Color(0xffE2E8F0);
+    final Color fillErrorColor = Color.fromRGBO(255, 0, 0, 0.06);
     return CustomShakeWidget(
       key: _shakerKey,
       shakeCount: 4,
       shakeOffset: 10,
-      child: FormField<Widget>(
-        builder: (formFieldState) {
-          this.formFieldState = formFieldState;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                focusNode: _focusNode,
-                obscureText: _isSecure,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: context.kTextColor,
-                  fontWeight: FontWeight.w400,
-                ),
-                controller: widget.controller,
-                keyboardType: widget.keyboardType ?? TextInputType.text,
-                validator: (String? value) {
-                  if (!widget.required) {
-                    return null;
-                  } else if (value == null || value.isEmpty) {
-                    return !widget.required
-                        ? null
-                        : (widget.validateEmptyText ??
-                            (StorageClient().isAr()
-                                ? ' * هذا الحقل مطلوب'
-                                : '* This field is Required'));
-                  } else {
-                    return null;
-                  }
-                },
-                onChanged: (String? value) {
-                  clearHelperText();
-                  if (widget.onChanged != null && value != null) {
-                    widget.onChanged!(value);
-                  }
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextFormField(
+            focusNode: _focusNode,
+            obscureText: _isSecure,
+            style: TextStyle(
+              fontSize: 14,
+              color: context.kTextColor,
+              fontWeight: FontWeight.w400,
+            ),
+            controller: widget.controller,
+            keyboardType: widget.keyboardType ?? TextInputType.text,
+            onChanged: (String? value) {
+              clearApiError();
+              debuncer.debounce(
+                Duration(milliseconds: 1000),
+                () => _validateRules(),
+              );
 
-                  if (value == null || value.isEmpty || !widget.checkRules) {
-                    setState(() {
-                      hasError = false;
-                    });
-                    return;
-                  }
-                  if (widget.checkRules &&
-                      (widget.rules?.isNotEmpty ?? false)) {
-                    _validateRules(value);
-                  }
-                },
-                textInputAction: widget.textInputAction,
-                onFieldSubmitted: widget.onFieldSubmitted,
-                autofillHints: widget.autoFillHints,
-                onEditingComplete: widget.onEditingComplete,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                textAlignVertical: TextAlignVertical.center,
-                textAlign: TextAlign.start,
-                maxLines: _isPasswordField ? 1 : widget.maxLines,
-                maxLength: widget.maxLength,
-                cursorColor: context.kPrimaryColor,
-                cursorWidth: 2,
-                decoration: InputDecoration(
-                  helper: (_helperText?.isEmpty ?? true)
-                      ? null
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                Res.errorIcon,
-                                width: 15,
-                                height: 15,
-                              ),
-                              10.pw,
-                              Flexible(
-                                child: Text(
-                                  _helperText ?? '',
-                                  style: TextStyle(
-                                    color: context.kErrorColor,
-                                    fontSize: 12,
-                                  ),
-                                  maxLines: 2,
-                                ),
-                              ),
-                            ],
+              if (widget.onChanged != null && value != null) {
+                widget.onChanged!(value);
+              }
+            },
+            textInputAction: widget.textInputAction,
+            onFieldSubmitted: (String? value) {
+              if (widget.onFieldSubmitted != null && value != null) {
+                widget.onFieldSubmitted!(value);
+              }
+
+              validate(withFocus: false);
+            },
+            autofillHints: widget.autoFillHints,
+            onEditingComplete: widget.onEditingComplete,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            textAlignVertical: TextAlignVertical.center,
+            textAlign: TextAlign.start,
+            maxLines: _isPasswordField ? 1 : widget.maxLines,
+            maxLength: widget.maxLength,
+            cursorColor: context.kPrimaryColor,
+            cursorWidth: 2,
+            decoration: InputDecoration(
+              helper: (_apiErrorText?.isEmpty ?? true)
+                  ? null
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            Res.errorIcon,
+                            width: 15,
+                            height: 15,
                           ),
-                        ),
-                  helperMaxLines: 4,
-                  helperStyle: TextStyle(
-                    color: context.kErrorColor,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  labelText: widget.labelText,
-                  labelStyle: TextStyle(
-                    color: context.kTextColor,
-                    fontFamily: Constants.fontFamily,
-                    fontSize: 18,
-                  ),
-                  hintText: widget.hintText ?? '',
-                  fillColor: context.kBackgroundColor,
-                  filled: true,
-                  hintStyle: TextStyle(
-                    fontSize: 11,
-                    color: context.kHintTextColor,
-                    fontFamily: Constants.fontFamily,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 18,
-                    vertical: 12,
-                  ),
-                  alignLabelWithHint: true,
-                  prefixIcon: widget.prefixIcon != null
-                      ? Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                            start: 15.0,
-                            end: 8,
-                            top: 15,
-                            bottom: 15,
-                          ),
-                          child: SvgPicture.asset(
-                            widget.prefixIcon!,
-                            fit: BoxFit.fitHeight,
-                            height: 20,
-                            width: 20,
-                            colorFilter: ColorFilter.mode(
-                              context.kHintTextColor,
-                              BlendMode.srcIn,
+                          10.pw,
+                          Flexible(
+                            child: Text(
+                              _apiErrorText ?? '',
+                              style: TextStyle(
+                                color: context.kErrorColor,
+                                fontSize: 12,
+                              ),
+                              maxLines: 2,
                             ),
                           ),
-                        )
-                      : null,
-                  suffixText: widget.suffixText ?? '',
-                  suffixStyle: TextStyle(
-                    color: context.kHintTextColor,
-                  ),
-                  suffixIcon: widget.suffixIcon != null || _isPasswordField
-                      ? GestureDetector(
-                          onTap: _isPasswordField ? _toggle : null,
-                          child: Icon(
-                            _isPasswordField
-                                ? _isSecure
-                                    ? Icons.visibility_off
-                                    : Icons.remove_red_eye
-                                : widget.suffixIcon,
-                            size: 20,
-                            color: context.kHintTextColor,
-                          ),
-                        )
-                      : null,
-                  enabled: widget.enabled,
-                  errorStyle: TextStyle(
-                    fontStyle: FontStyle.normal,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
-                    color: context.kErrorColor,
-                    fontFamily: Constants.fontFamily,
-                  ),
-                  disabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: !widget.enabled
-                      ? const OutlineInputBorder(borderSide: BorderSide.none)
-                      : OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            widget.radius ?? kRadius,
-                          ),
-                          borderSide: BorderSide(
-                            width: kBorderWidth,
-                            color: borderColor,
-                          ),
+                        ],
+                      ),
+                    ),
+              helperMaxLines: 4,
+              helperStyle: TextStyle(
+                color: context.kErrorColor,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+              labelText: widget.labelText,
+              labelStyle: TextStyle(
+                color: context.kTextColor,
+                fontFamily: Constants.fontFamily,
+                fontSize: 18,
+              ),
+              hintText: widget.hintText ?? '',
+              fillColor: hasError ? fillErrorColor : context.kBackgroundColor,
+              filled: true,
+              hintStyle: TextStyle(
+                fontSize: 11,
+                color: context.kHintTextColor,
+                fontFamily: Constants.fontFamily,
+                fontWeight: FontWeight.w400,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 18,
+                vertical: 12,
+              ),
+              alignLabelWithHint: true,
+              prefixIcon: widget.prefixIcon != null
+                  ? Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                        start: 15.0,
+                        end: 8,
+                        top: 15,
+                        bottom: 15,
+                      ),
+                      child: SvgPicture.asset(
+                        widget.prefixIcon!,
+                        fit: BoxFit.fitHeight,
+                        height: 20,
+                        width: 20,
+                        colorFilter: ColorFilter.mode(
+                          context.kHintTextColor,
+                          BlendMode.srcIn,
                         ),
-                  border: !widget.enabled
-                      ? const OutlineInputBorder(borderSide: BorderSide.none)
-                      : OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            widget.radius ?? kRadius,
-                          ),
-                          borderSide: BorderSide(
-                            width: kBorderWidth,
-                            color: borderColor,
-                          ),
-                        ),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      widget.radius ?? kRadius,
+                      ),
+                    )
+                  : null,
+              suffixText: widget.suffixText ?? '',
+              suffixStyle: TextStyle(
+                color: context.kHintTextColor,
+              ),
+              suffixIcon: widget.suffixIcon != null || _isPasswordField
+                  ? GestureDetector(
+                      onTap: _isPasswordField ? _toggle : null,
+                      child: Icon(
+                        _isPasswordField
+                            ? _isSecure
+                                ? Icons.visibility_off
+                                : Icons.remove_red_eye
+                            : widget.suffixIcon,
+                        size: 20,
+                        color: context.kHintTextColor,
+                      ),
+                    )
+                  : null,
+              enabled: widget.enabled,
+              errorStyle: TextStyle(
+                fontStyle: FontStyle.normal,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                color: context.kErrorColor,
+                fontFamily: Constants.fontFamily,
+              ),
+              disabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: !widget.enabled
+                  ? const OutlineInputBorder(borderSide: BorderSide.none)
+                  : OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        widget.radius ?? kRadius,
+                      ),
+                      borderSide: BorderSide(
+                        width: kBorderWidth,
+                        color: borderColor,
+                      ),
                     ),
-                    borderSide: BorderSide(
-                      width: kSelectedBorderWidth,
-                      color: context.kErrorColor,
+              border: !widget.enabled
+                  ? const OutlineInputBorder(borderSide: BorderSide.none)
+                  : OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        widget.radius ?? kRadius,
+                      ),
+                      borderSide: BorderSide(
+                        width: kBorderWidth,
+                        color: borderColor,
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      widget.radius ?? kRadius,
-                    ),
-                    borderSide: BorderSide(
-                      width: kSelectedBorderWidth,
-                      color: hasError
-                          ? context.kErrorColor
-                          : context.kPrimaryColor,
-                    ),
-                  ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  widget.radius ?? kRadius,
+                ),
+                borderSide: BorderSide(
+                  width: kSelectedBorderWidth,
+                  color: context.kErrorColor,
                 ),
               ),
-              if (hasError &&
-                  (widget.alwaysShowRules && widget.controller.text.isNotEmpty))
-                formFieldState.value ?? const SizedBox(),
-            ],
-          );
-        },
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  widget.radius ?? kRadius,
+                ),
+                borderSide: BorderSide(
+                  width: kSelectedBorderWidth,
+                  color: hasError ? context.kErrorColor : context.kPrimaryColor,
+                ),
+              ),
+            ),
+          ),
+          validationView ?? SizedBox(),
+        ],
       ),
     );
   }
 
-  bool validate() {
-    if (widget.controller.text.isEmpty || hasError) {
-      shake();
+  bool validate({bool withFocus = true}) {
+    bool validated = _validateRules();
+    if (validated) {
+      shake(withFocus: withFocus);
       return false;
     } else {
       return true;
@@ -336,79 +331,94 @@ class AppTextFormFieldState extends State<AppTextFormField> {
     });
   }
 
-  void setHelperText(String text) {
+  void addApiError(String text) {
     setState(() {
-      _helperText = text;
-      hasError = true;
+      _apiErrorText = text;
     });
   }
 
-  void clearHelperText() {
+  void clearApiError() {
     setState(() {
-      _helperText = null;
-      hasError = false;
+      _apiErrorText = null;
     });
   }
 
-  Future shake() async {
+  Future shake({bool withFocus = true}) async {
     _shakerKey.currentState?.shake();
-    _focusNode.requestFocus();
+    if (withFocus) {
+      _focusNode.requestFocus();
+    }
     if ((await Vibration.hasVibrator())) {
       Vibration.vibrate();
     }
   }
 
-  _validateRules(String value) {
-    if (!widget.required && widget.rules == null) {
-      return;
+  bool _validateRules() {
+    AppLogger.log('_validateRules::::::::::');
+    if (!widget.required) {
+      return false;
     }
     List<Widget> errors = [];
     List<Widget> passedRules = [];
 
-    for (var element in widget.rules!) {
-      bool passed = element.condition(value);
-      final text = Row(
-        children: [
-          Icon(
-            passed ? Icons.done : Icons.clear,
-            color: passed ? context.kSuccessColor : context.kErrorColor,
-            size: 15,
-          ),
-          5.pw,
-          AppText(
-            text: element.ruleText,
-            color: passed ? context.kSuccessColor : context.kErrorColor,
-            fontSize: 12,
-            fontWeight: FontWeight.normal,
-          ),
-        ],
+    String input = widget.controller.text;
+    if (input.isEmpty) {
+      errors.add(
+        singleError(
+          (widget.validateEmptyText ?? _emptyValidationText),
+        ),
       );
+    } else if (widget.rules != null) {
+      for (var element in widget.rules!) {
+        bool passed = element.condition(input);
 
-      if (!passed) {
-        //condition failed
-        errors.add(text);
-      } else {
-        //condition passed
-        passedRules.add(text);
+        if (!passed) {
+          //condition failed
+          errors.add(singleError(element.ruleText));
+        } else {
+          //condition passed
+          passedRules.add(singleError(element.ruleText, isError: false));
+        }
       }
     }
 
-    // ignore: invalid_use_of_protected_member
-    formFieldState?.setValue(
-      Padding(
-        padding: const EdgeInsetsDirectional.only(start: 8, top: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ...errors,
-            ...passedRules,
-          ],
-        ),
+    hasError = errors.isNotEmpty;
+
+    validationView = Padding(
+      padding: const EdgeInsetsDirectional.only(start: 8, top: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...errors,
+          if (widget.alwaysShowRules) ...passedRules,
+        ],
       ),
     );
 
-    setState(() {
-      hasError = errors.isNotEmpty && widget.required;
-    });
+    setState(() {});
+
+    return hasError;
   }
+
+  Widget singleError(String text, {bool isError = true}) => text.isEmpty
+      ? SizedBox()
+      : Row(
+          children: [
+            Icon(
+              !isError ? Icons.done : Icons.clear,
+              color: !isError ? context.kSuccessColor : context.kErrorColor,
+              size: 15,
+            ),
+            5.pw,
+            Expanded(
+              child: AppText(
+                text: text,
+                color: !isError ? context.kSuccessColor : context.kErrorColor,
+                fontSize: 12,
+                fontWeight: FontWeight.normal,
+                maxLines: 2,
+              ),
+            ),
+          ],
+        );
 }

@@ -1,11 +1,11 @@
 import 'dart:async';
 
-class TimeDebuncer {
+class AppTimeDebuncer {
   /// private constructor
-  TimeDebuncer._();
+  AppTimeDebuncer._();
 
   /// the one and only instance of this singleton
-  static final instance = TimeDebuncer._();
+  static final instance = AppTimeDebuncer._();
 
   Timer? _debounce;
 

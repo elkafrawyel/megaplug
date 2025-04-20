@@ -1,16 +1,21 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:get/get_utils/src/get_utils/get_utils.dart';
 
 import '../../../config/clients/storage/storage_client.dart';
 import '../../../config/helpers/regex.dart';
+import 'app_text_field.dart';
 import 'auth_form_rules.dart';
 
+class AppTextFieldRules {
+  static validateForm(List<GlobalKey<AppTextFormFieldState>> keys) {
+    bool validated = true;
+    for (GlobalKey<AppTextFormFieldState> key in keys) {
+      validated = key.currentState?.validate(withFocus: false) ?? false;
+    }
+    return validated;
+  }
 
-
-class AppTextFieldRules{
-
-
- static final List<AuthFormRule> emailOrPhoneRules = [
+  static final List<AuthFormRule> emailOrPhoneRules = [
     AuthFormRule(
       ruleText: StorageClient().isAr()
           ? '.البريد الالكتروني أو رقم الهاتف غير صحيح'
@@ -21,7 +26,7 @@ class AppTextFieldRules{
     ),
   ];
 
- static final List<AuthFormRule> emailRules = [
+  static final List<AuthFormRule> emailRules = [
     AuthFormRule(
       ruleText: StorageClient().isAr()
           ? 'رجاء ادخال بريد إلكتروني صحيح'
@@ -32,19 +37,18 @@ class AppTextFieldRules{
     )
   ];
 
- static final List<AuthFormRule> phoneNumberRules = [
+  static final List<AuthFormRule> phoneNumberRules = [
     AuthFormRule(
       ruleText: StorageClient().isAr()
-          ? 'رجاء أدخل رقم هاتف صحيح'
-          : 'please enter correct phone format',
+          ? 'رجاء أدخل رقم هاتف مصري صحيح'
+          : 'please enter correct egyptian phone format',
       condition: (value) {
         return isPhone(value) && isEgyptianPhone(value);
       },
     ),
   ];
 
-
- static final List<AuthFormRule> passwordRules = [
+  static final List<AuthFormRule> passwordRules = [
     AuthFormRule(
       ruleText: 'min_8_char'.tr,
       condition: (value) {
@@ -94,5 +98,4 @@ class AppTextFieldRules{
 //     },
 //   ),
 // ];
-
 }
