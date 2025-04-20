@@ -3,7 +3,8 @@ class Res {
   static const apiLogin = 'login';
   static const apiRegister = 'register';
   static const apiLogout = 'logout';
-  static const apiSendOtp = 'forget_password';
+  static const apiForgetPassword = 'forgot-password';
+  static const apiVerifyOtp = 'otp/verify';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';

@@ -3,8 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
+import 'package:megaplug/config/app_loader.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/data/api_responses/general_response.dart';
+import 'package:megaplug/data/repositories/auth_repo.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -13,7 +19,9 @@ import '../new_password/new_password_screen.dart';
 import 'components/ArabicToEnglishNumberFormatter.dart';
 
 class OtpCodeScreen extends StatefulWidget {
-  const OtpCodeScreen({super.key});
+  final String username;
+
+  const OtpCodeScreen({super.key, required this.username});
 
   @override
   State<OtpCodeScreen> createState() => _OtpCodeScreenState();
@@ -25,6 +33,8 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
   Timer? _debounce;
   StreamController<ErrorAnimationType>? errorController;
   int seconds = 0;
+
+  AuthRepositoryImpl authRepositoryImpl = AuthRepositoryImpl();
 
   @override
   void initState() {
@@ -164,7 +174,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
             ),
           ),
           30.ph,
-          AppText(text: "Didn't receive Code?"),
+          AppText(text: "no_otp_received".tr),
           10.ph,
           _timer.isActive
               ? Row(
@@ -192,13 +202,11 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
                   onTap: () {
                     //send code again
                     initializeTimer();
-                    // context.read<ResetPasswordCubit>().resetPassword(
-                    //       email: email,
-                    //       isOptScreen: true,
-                    //     );
                     setState(() {
                       codeController.clear();
                     });
+                    _senOtp();
+
                   },
                   child: AppText(
                     text: 'resend'.tr,
@@ -213,7 +221,42 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
 
   void sendVerificationCode(String verificationCode) async {
     if (verificationCode.isNotEmpty) {
-      Get.to(() => NewPasswordScreen());
+      AppLoader.loading();
+
+      ApiResult<GeneralResponse> apiResult =
+          await authRepositoryImpl.verifyOtp(otp: verificationCode);
+
+      AppLoader.dismiss();
+
+      if (apiResult.isSuccess()) {
+        GeneralResponse generalResponse = apiResult.getData();
+
+        InformationViewer.showSuccessToast(msg: generalResponse.message);
+        Get.to(() => NewPasswordScreen(otp: verificationCode));
+      } else {
+        InformationViewer.showSnackBar(msg: apiResult.getError());
+      }
+    }
+  }
+
+  void _senOtp() async {
+    AppLoader.loading();
+    ApiResult<GeneralResponse> apiResult =
+        await authRepositoryImpl.forgetPassword(
+      username: widget.username,
+    );
+
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      GeneralResponse loginResponse = apiResult.getData();
+      InformationViewer.showSuccessToast(msg: loginResponse.message);
+    } else {
+      if (mounted) {
+        InformationViewer.showSnackBar(
+          msg: apiResult.getError(),
+          bgColor: context.kErrorColor,
+        );
+      }
     }
   }
 }

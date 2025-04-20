@@ -133,7 +133,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     }
 
     AppLoader.loading();
-    ApiResult<GeneralResponse> apiResult = await authRepositoryImpl.sendOtp(
+    ApiResult<GeneralResponse> apiResult =
+        await authRepositoryImpl.forgetPassword(
       username: emailController.text,
     );
 
@@ -143,7 +144,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
       InformationViewer.showSuccessToast(msg: loginResponse.message);
 
-      Get.to(() => OtpCodeScreen());
+      Get.to(
+        () => OtpCodeScreen(
+          username: emailController.text,
+        ),
+      );
     } else {
       if (mounted) {
         InformationViewer.showSnackBar(

@@ -87,15 +87,10 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   bool _isSecure = false;
   bool _isPasswordField = false;
   String? _apiErrorText;
-  FormFieldState<Widget>? formFieldState;
   final GlobalKey<CustomShakeWidgetState> _shakerKey = GlobalKey();
-
   final FocusNode _focusNode = FocusNode();
-
   bool hasError = false;
-
   Widget? validationView;
-
   final String _emptyValidationText =
       StorageClient().isAr() ? 'هذا الحقل مطلوب' : 'This field is Required';
 

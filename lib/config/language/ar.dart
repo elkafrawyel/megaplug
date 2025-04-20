@@ -95,5 +95,7 @@ Map<String, String> ar = {
   'kwh': 'ك وات /س',
   'reset': 'تفريغ',
   'apply': 'تطبيق',
-  'contact_info': 'معلومات التواصل'
+  'contact_info': 'معلومات التواصل',
+  'no_otp_received':"لم تستلم الرمز؟"
+
 };

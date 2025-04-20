@@ -10,7 +10,9 @@ import '../components/wavy_appbar.dart';
 import '../login/login_screen.dart';
 
 class NewPasswordScreen extends StatefulWidget {
-  const NewPasswordScreen({super.key});
+  final String otp;
+
+  const NewPasswordScreen({super.key, required this.otp});
 
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();

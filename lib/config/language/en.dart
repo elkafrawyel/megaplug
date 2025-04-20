@@ -97,5 +97,6 @@ Map<String, String> en = {
   'kwh': 'Kwh',
   'reset': 'Reset',
   'apply': 'Apply',
-  'contact_info': 'Contact Information'
+  'contact_info': 'Contact Information',
+  'no_otp_received':"Didn't receive Code?"
 };
