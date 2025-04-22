@@ -128,7 +128,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
             obscureText: _isSecure,
             style: TextStyle(
               fontSize: 14,
-              color: context.kTextColor,
+              color: Color(0xff6C7E8E),
               fontWeight: FontWeight.w400,
             ),
             controller: widget.controller,
@@ -196,16 +196,22 @@ class AppTextFormFieldState extends State<AppTextFormField> {
               labelText: widget.labelText,
               labelStyle: TextStyle(
                 color: context.kTextColor,
-                fontFamily: Constants.fontFamily,
+                fontFamily: StorageClient().isAr()
+                    ? Constants.arFontFamily
+                    : Constants.fontFamily,
                 fontSize: 18,
               ),
               hintText: widget.hintText ?? '',
-              fillColor: hasError ? fillErrorColor : context.kBackgroundColor,
+              fillColor: hasError
+                  ? fillErrorColor
+                  : context.kBackgroundColor,
               filled: true,
               hintStyle: TextStyle(
                 fontSize: 11,
                 color: context.kHintTextColor,
-                fontFamily: Constants.fontFamily,
+                fontFamily: StorageClient().isAr()
+                    ? Constants.arFontFamily
+                    : Constants.fontFamily,
                 fontWeight: FontWeight.w400,
               ),
               contentPadding: const EdgeInsets.symmetric(
@@ -257,7 +263,9 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                 fontSize: 12,
                 fontWeight: FontWeight.normal,
                 color: context.kErrorColor,
-                fontFamily: Constants.fontFamily,
+                fontFamily: StorageClient().isAr()
+                    ? Constants.arFontFamily
+                    : Constants.fontFamily,
               ),
               disabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide.none,
@@ -329,6 +337,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   void addApiError(String text) {
     setState(() {
       _apiErrorText = text;
+      hasError = true;
     });
   }
 

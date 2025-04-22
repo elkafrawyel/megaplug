@@ -47,11 +47,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    // nameController.text = 'Mahmoud';
-    // emailController.text = 'mahmoud@gmail.com';
-    // phoneController.text = '01019744661';
-    // passwordController.text = 'Flutter123456!';
-    // confirmPasswordController.text = 'Flutter123456!';
+    nameController.text = 'Mahmoud';
+    emailController.text = 'mahmoud@gmail.com';
+    phoneController.text = '01019744661';
+    passwordController.text = 'Flutter123456!';
+    confirmPasswordController.text = 'Flutter123456!';
   }
 
   @override
@@ -213,7 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: AppText(
                         text: 'terms'.tr,
                         fontSize: 11.5,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                         color: context.kPrimaryColor,
                       ),
                     )
@@ -276,7 +276,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
       //
       // Get.offAll(() => HomeScreen(), binding: HomeBinding());
     } else {
-      InformationViewer.showSnackBar(msg: apiResult.getError());
+      InformationViewer.showSnackBar(
+        msg: apiResult.getError(),
+        bgColor: mounted ? context.kErrorColor : Colors.red,
+      );
       List<String> errors = apiResult.getError().split('\n');
 
       for (String error in errors) {

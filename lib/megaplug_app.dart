@@ -46,7 +46,9 @@ class _MegaPlugState extends State<MegaPlug> {
             title: 'app_name'.tr,
             theme: ThemeData(
               useMaterial3: true,
-              fontFamily: Constants.fontFamily,
+              fontFamily: StorageClient().isAr()
+                  ? Constants.arFontFamily
+                  : Constants.fontFamily,
               extensions: [themeController.appColors.value],
             ),
             debugShowCheckedModeBanner:

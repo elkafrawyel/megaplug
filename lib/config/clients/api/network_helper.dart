@@ -15,7 +15,7 @@ class NetworkHelper {
 
   ///Don't forget to cast it to function return type using [as] method
   static ApiFailure<T> handleCommonNetworkCases<T>(Response response) {
-    bool isAr = Get.locale?.languageCode == 'ar';
+    bool isAr = StorageClient().isAr();
     Map? body;
     String errorMessage = '';
     try {
@@ -52,15 +52,15 @@ class NetworkHelper {
     if (error.type == DioExceptionType.connectionError) {
       return ApiFailure(isAr ? 'لا يوجد إتصال بالانترنت' : 'Network Error');
     } else if (error.type == DioExceptionType.connectionTimeout) {
-      return const ApiFailure('Request Timeout');
+      return ApiFailure(isAr ? 'انتهت مهلة الطلب' : 'Request Timeout');
     } else if (error.type == DioExceptionType.receiveTimeout) {
-      return const ApiFailure('Receive Timeout');
+      return ApiFailure(isAr ? 'انتهت مهلة الارسال' : 'Receive Timeout');
     } else if (error.type == DioExceptionType.badCertificate) {
-      return const ApiFailure('Bad Certificate');
+      return ApiFailure(isAr ? 'اتصال غير موثوق' : 'Bad Certificate');
     } else if (error.type == DioExceptionType.badResponse) {
-      return const ApiFailure('Bad Response');
+      return ApiFailure(isAr ? 'خطا فالرد من الموقع' : 'Bad Response');
     } else {
-      return const ApiFailure('Unexpected Error');
+      return ApiFailure(isAr ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
     }
   }
 }

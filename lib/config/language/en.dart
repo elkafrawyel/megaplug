@@ -98,5 +98,6 @@ Map<String, String> en = {
   'reset': 'Reset',
   'apply': 'Apply',
   'contact_info': 'Contact Information',
-  'no_otp_received':"Didn't receive Code?"
+  'no_otp_received':"Didn't receive Code?",
+  'ok':'Ok'
 };

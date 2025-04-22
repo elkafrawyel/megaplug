@@ -1,6 +1,9 @@
 class Constants {
-    static const String fontFamily = 'IBM Plex Sans';
-    // static const String fontFamily = 'IBM Plex Sans Arabic';
+    //same text in pubspec.yaml
+
+    static const String fontFamily = 'IBMPlexSans';
+
+    static const String arFontFamily = 'Cairo';
 }
 
 double kRadius = 12;

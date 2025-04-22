@@ -116,20 +116,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     16.ph,
                     Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            // Get.to(() => ForgetPasswordScreen());
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: AppText(
-                              text: "forget_password?".tr,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.to(() => ForgetPasswordScreen());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AppText(
+                            text: "forget_password?".tr,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                     SizedBox(height: 16),
                     AppButton(
                       text: 'login'.tr,

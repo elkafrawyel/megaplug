@@ -54,7 +54,6 @@ abstract class InformationViewer {
 
   static showSnackBar({
     required String msg,
-    bool popPage = false,
     int duration = 5,
     Color? bgColor,
   }) {
@@ -81,14 +80,20 @@ abstract class InformationViewer {
           maxLines: 3,
         ),
         duration: Duration(seconds: duration),
-        showCloseIcon: true,
+        showCloseIcon: false,
+        dismissDirection: DismissDirection.down,
+        action: SnackBarAction(
+          label: 'ok'.tr,
+          textColor: Colors.white,
+          onPressed: () {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          },
+        ),
+      ),
+      snackBarAnimationStyle: AnimationStyle(
+        curve: Curves.fastEaseInToSlowEaseOut,
+        duration: Duration(milliseconds: 1000),
       ),
     );
-    if (popPage) {
-      Timer(
-        const Duration(seconds: 5),
-        () => Get.back(closeOverlays: true),
-      );
-    }
   }
 }

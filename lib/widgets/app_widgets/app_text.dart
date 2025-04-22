@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 
 import '../../config/constants.dart';
@@ -32,7 +33,9 @@ class AppText extends StatelessWidget {
       style: TextStyle(
         color: color ?? context.kTextColor,
         fontSize: fontSize,
-        fontFamily: Constants.fontFamily,
+        fontFamily: StorageClient().isAr()
+            ? Constants.arFontFamily
+            : Constants.fontFamily,
         fontWeight: fontWeight,
         decoration: lineThrough
             ? TextDecoration.lineThrough

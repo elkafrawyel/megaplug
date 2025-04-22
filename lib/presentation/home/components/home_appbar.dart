@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/widgets/app_transformtion_view.dart';
 
 import '../../../config/res.dart';
-import '../../../widgets/app_widgets/app_network_image.dart';
 import '../../../widgets/app_widgets/app_text.dart';
 
 class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -47,8 +47,10 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: SvgPicture.asset(
-                  Res.backIcon,
+                child: AppTransformationView(
+                  child: SvgPicture.asset(
+                    Res.backIcon,
+                  ),
                 ),
               ),
             )
@@ -85,9 +87,14 @@ class EllipsePainter extends CustomPainter {
       center: const Alignment(0, -2.45),
       // Adjusted to match SVG positioning
       radius: 1.0,
-      colors: const [Color(0xFF42D99C), Color(0xFF3EBF80)],
+      colors: const [
+        Color(0xFF42D99C),
+        Color(0xFF3EBF80),
+      ],
       stops: const [0.0, 1.0],
-      transform: const GradientRotation(90 * (3.1415926535 / 180)),
+      transform: const GradientRotation(
+        90 * (3.1415926535 / 180),
+      ),
     );
 
     // Create the paint with the gradient

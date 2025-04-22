@@ -70,7 +70,7 @@ class AppTextFieldRules {
     AuthFormRule(
       ruleText: "special_char".tr,
       condition: (value) {
-        return RegExp(r'(?=[!@#$&%^{}/|])').hasMatch(value);
+        return RegExp(r'(?=[!@#_$&%^{}/|])').hasMatch(value);
       },
     ),
     AuthFormRule(

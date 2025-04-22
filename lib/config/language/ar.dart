@@ -96,6 +96,7 @@ Map<String, String> ar = {
   'reset': 'تفريغ',
   'apply': 'تطبيق',
   'contact_info': 'معلومات التواصل',
-  'no_otp_received':"لم تستلم الرمز؟"
+  'no_otp_received':"لم تستلم الرمز؟",
+  'ok':'حسناً',
 
 };

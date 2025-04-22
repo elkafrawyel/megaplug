@@ -58,10 +58,10 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     codeController.dispose();
     _timer.cancel();
     _debounce?.cancel();
+    super.dispose();
   }
 
   @override
@@ -206,7 +206,6 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
                       codeController.clear();
                     });
                     _senOtp();
-
                   },
                   child: AppText(
                     text: 'resend'.tr,
