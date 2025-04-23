@@ -24,7 +24,7 @@ class AppLogger {
     );
   }
 
-  static void getxLog(String message) {
+  static void logWithGetX(String message) {
     Get.log(message);
   }
 }

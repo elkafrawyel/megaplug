@@ -25,8 +25,9 @@ class APIClient {
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.cacheControlHeader: 'no-Cache',
-        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer ${StorageClient().apiToken()}',
+        "Accept-Language": StorageClient().getAppLanguage(),
         HttpHeaders.acceptLanguageHeader: StorageClient().getAppLanguage()
       },
       followRedirects: false,
@@ -41,7 +42,7 @@ class APIClient {
         requestHeader: true,
         error: true,
         logPrint: (Object object) {
-          AppLogger.getxLog(object.toString());
+          AppLogger.logWithGetX(object.toString());
         },
         maxWidth: 1000,
       ),
@@ -74,7 +75,9 @@ class APIClient {
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
-      return const ApiFailure('Unexpected Error');
+      AppLogger.logWithGetX(error.toString());
+
+      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
     }
   }
 
@@ -129,7 +132,8 @@ class APIClient {
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
-      return const ApiFailure('Unexpected Error');
+      AppLogger.logWithGetX(error.toString());
+      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
     }
   }
 
@@ -175,7 +179,9 @@ class APIClient {
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
-      return const ApiFailure('Unexpected Error');
+      AppLogger.logWithGetX(error.toString());
+
+      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
     }
   }
 
@@ -195,7 +201,9 @@ class APIClient {
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
-      return const ApiFailure('Unexpected Error');
+      AppLogger.logWithGetX(error.toString());
+
+      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
     }
   }
 
@@ -215,7 +223,9 @@ class APIClient {
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
-      return const ApiFailure('Unexpected Error');
+      AppLogger.logWithGetX(error.toString());
+
+      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
     }
   }
 }

@@ -40,7 +40,7 @@ class AppListTile extends StatelessWidget {
           ? null
           : AppText(
               text: title!,
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
               maxLines: 1,
             ),
@@ -48,7 +48,7 @@ class AppListTile extends StatelessWidget {
           ? null
           : AppText(
               text: body!,
-              fontSize: 13,
+              fontSize: 12,
               fontWeight: FontWeight.w400,
               maxLines: 5,
             ),

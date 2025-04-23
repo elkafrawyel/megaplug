@@ -99,5 +99,6 @@ Map<String, String> en = {
   'apply': 'Apply',
   'contact_info': 'Contact Information',
   'no_otp_received':"Didn't receive Code?",
-  'ok':'Ok'
+  'ok':'Ok',
+  'old_password':'Old Password',
 };

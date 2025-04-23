@@ -74,14 +74,24 @@ class ProfileAppbar extends StatelessWidget implements PreferredSizeWidget {
             bottom: -imageHeight / 2,
             start: 0,
             end: 0,
-            child: AppNetworkImage(
-              imageUrl: userImage,
-              isCircular: true,
-              height: imageHeight,
-              width: imageHeight,
-              fit: BoxFit.contain,
-              borderColor: Color(0xff9DB2CE),
-              borderWidth: 4,
+            child: Container(
+              padding: EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Color(0xff9DB2CE),
+                  width: 4,
+                ),
+                shape: BoxShape.circle,
+              ),
+              child: AppNetworkImage(
+                imageUrl: userImage,
+                isCircular: true,
+                height: imageHeight,
+                width: imageHeight,
+                fit: BoxFit.fitHeight,
+                borderColor: Color(0xff9DB2CE),
+                borderWidth: 2,
+              ),
             ),
           )
         ],

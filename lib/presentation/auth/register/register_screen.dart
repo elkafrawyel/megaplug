@@ -272,9 +272,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       RegisterResponse registerResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: registerResponse.message);
 
-      // await StorageClient().saveUser(userResponse: registerResponse.data);
-      //
-      // Get.offAll(() => HomeScreen(), binding: HomeBinding());
+      await StorageClient().saveUser(userResponse: registerResponse.data);
+
+      Get.offAll(() => HomeScreen(), binding: HomeBinding());
     } else {
       InformationViewer.showSnackBar(
         msg: apiResult.getError(),

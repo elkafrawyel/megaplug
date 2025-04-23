@@ -96,7 +96,7 @@ class _AppWebViewState extends State<AppWebView> {
               },
               onUpdateVisitedHistory: (controller, url, isReload) {},
               onConsoleMessage: (controller, consoleMessage) =>
-                  AppLogger.getxLog(consoleMessage.message),
+                  AppLogger.logWithGetX(consoleMessage.message),
             ),
           ),
         ],

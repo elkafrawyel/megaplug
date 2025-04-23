@@ -41,159 +41,172 @@ class _ProfileScreenState extends State<ProfileScreen>
         userImage:
             'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
       ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            (imageHeight / 1.5).ph,
-            AppText(
-              text: 'Ahmed Bakry',
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-            5.ph,
-            AppText(
-              text: 'Megaplug@gmail.com',
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: context.kHintTextColor,
-            ),
-            20.ph,
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-              child: AppListTile(
-                leading: SvgPicture.asset(
-                  Res.editProfileIcon,
-                  width: 30,
-                  height: 30,
+      body: RefreshIndicator(
+
+        onRefresh: profileController.refreshData,
+
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: GetBuilder<ProfileController>(builder: (_) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                (imageHeight / 1.5).ph,
+                AppText(
+                  text: profileController.userModel?.name ?? '',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
                 ),
-                title: 'edit_profile'.tr,
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
+                5.ph,
+                AppText(
+                  text: profileController.userModel?.email ?? '',
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: context.kHintTextColor,
                 ),
-                onTap: () {
-                  Get.to(() => EditProfileScreen());
-                },
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-              child: AppListTile(
-                leading: SvgPicture.asset(
-                  Res.myCarsIcon,
-                  width: 30,
-                  height: 30,
-                ),
-                title: 'my_cars'.tr,
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
-                ),
-                onTap: () {
-                  AppLogger.getxLog('my_cars');
-                },
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-              child: AppListTile(
-                leading: SvgPicture.asset(
-                  Res.chargingHistoryIcon,
-                  width: 30,
-                  height: 30,
-                ),
-                title: 'charging_history'.tr,
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
-                ),
-                onTap: () {
-                  AppLogger.getxLog('charging_history');
-                },
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-              child: AppListTile(
-                leading: SvgPicture.asset(
-                  Res.menuWalletIcon,
-                  width: 30,
-                  height: 30,
-                ),
-                title: 'wallet'.tr,
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
-                ),
-                onTap: () {
-                  AppLogger.getxLog('wallet');
-                },
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-              child: AppListTile(
-                leading: SvgPicture.asset(
-                  Res.paymentMethodsIcon,
-                  width: 30,
-                  height: 30,
-                ),
-                title: 'payment_methods'.tr,
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
-                ),
-                onTap: () {
-                  AppLogger.getxLog('payment_methods');
-                },
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-              child: AppListTile(
-                leading: SvgPicture.asset(
-                  Res.loyaltyPointsIcon,
-                  width: 30,
-                  height: 30,
-                ),
-                title: 'loyalty_points'.tr,
-                trailing: Icon(
-                  Icons.keyboard_arrow_right,
-                ),
-                onTap: () {
-                  AppLogger.getxLog('loyalty_points');
-                },
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
-              child: GetBuilder<ProfileController>(
-                builder: (_) {
-                  return AppListTile(
+                20.ph,
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  child: AppListTile(
                     leading: SvgPicture.asset(
-                      Res.logoutIcon,
+                      Res.editProfileIcon,
                       width: 30,
                       height: 30,
                     ),
-                    title: 'logout'.tr,
-                    onTap: () async {
-                      showLogoutAlertDialog(
-                        context,
-                        () async {
-                           profileController.logout();
+                    title: 'edit_profile'.tr,
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                    onTap: () {
+                      Get.to(() => EditProfileScreen());
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  child: AppListTile(
+                    leading: SvgPicture.asset(
+                      Res.myCarsIcon,
+                      width: 30,
+                      height: 30,
+                    ),
+                    title: 'my_cars'.tr,
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                    onTap: () {
+                      AppLogger.logWithGetX('my_cars');
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  child: AppListTile(
+                    leading: SvgPicture.asset(
+                      Res.chargingHistoryIcon,
+                      width: 30,
+                      height: 30,
+                    ),
+                    title: 'charging_history'.tr,
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                    onTap: () {
+                      AppLogger.logWithGetX('charging_history');
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  child: AppListTile(
+                    leading: SvgPicture.asset(
+                      Res.menuWalletIcon,
+                      width: 30,
+                      height: 30,
+                    ),
+                    title: 'wallet'.tr,
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                    onTap: () {
+                      AppLogger.logWithGetX('wallet');
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  child: AppListTile(
+                    leading: SvgPicture.asset(
+                      Res.paymentMethodsIcon,
+                      width: 30,
+                      height: 30,
+                    ),
+                    title: 'payment_methods'.tr,
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                    onTap: () {
+                      AppLogger.logWithGetX('payment_methods');
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  child: AppListTile(
+                    leading: SvgPicture.asset(
+                      Res.loyaltyPointsIcon,
+                      width: 30,
+                      height: 30,
+                    ),
+                    title: 'loyalty_points'.tr,
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15,
+                    ),
+                    onTap: () {
+                      AppLogger.logWithGetX('loyalty_points');
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  child: GetBuilder<ProfileController>(
+                    builder: (_) {
+                      return AppListTile(
+                        leading: SvgPicture.asset(
+                          Res.logoutIcon,
+                          width: 30,
+                          height: 30,
+                        ),
+                        title: 'logout'.tr,
+                        onTap: () async {
+                          showLogoutAlertDialog(
+                            context,
+                            () async {
+                              profileController.logout();
+                            },
+                          );
                         },
                       );
                     },
-                  );
-                },
-              ),
-            ),
-            100.ph,
-          ],
+                  ),
+                ),
+                100.ph,
+              ],
+            );
+          }),
         ),
       ),
     );

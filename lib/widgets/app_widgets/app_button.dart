@@ -45,6 +45,8 @@ class AppButton extends StatelessWidget {
         child: AppText(
           text: text,
           color: textColor ?? context.kColorOnPrimary,
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
         ),
       ),
     );

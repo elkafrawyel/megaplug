@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     16.ph,
                     Align(
-                      alignment: Alignment.centerRight,
+                      alignment: AlignmentDirectional.centerEnd,
                       child: GestureDetector(
                         onTap: () {
                           Get.to(() => ForgetPasswordScreen());
@@ -194,12 +194,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
       InformationViewer.showSuccessToast(msg: loginResponse.message);
 
-      // await StorageClient().saveUser(userResponse: loginResponse.data);
-      //
-      // Get.offAll(
-      //   () => HomeScreen(),
-      //   binding: HomeBinding(),
-      // );
+      await StorageClient().saveUser(userResponse: loginResponse.data);
+
+      Get.offAll(
+        () => HomeScreen(),
+        binding: HomeBinding(),
+      );
     } else {
       if (mounted) {
         InformationViewer.showSnackBar(

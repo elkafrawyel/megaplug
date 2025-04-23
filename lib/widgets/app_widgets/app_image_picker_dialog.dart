@@ -33,7 +33,7 @@ class _ImagePickerDialog extends StatelessWidget {
     bool isAr = StorageClient().isAr();
     return CupertinoTheme(
       data: CupertinoThemeData(
-        brightness: StorageClient().get(StorageClientKeys.isDarkMode)
+        brightness: StorageClient().isDarkMode()
             ? Brightness.dark
             : Brightness.light,
         scaffoldBackgroundColor: context.kBackgroundColor,
