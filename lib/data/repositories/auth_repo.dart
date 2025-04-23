@@ -35,24 +35,47 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<ApiResult<GeneralResponse>> forgetPassword({required String username}) {
+  Future<ApiResult<GeneralResponse>> forgetPassword({
+    required String username,
+  }) {
     return APIClient.instance.post(
       endPoint: Res.apiForgetPassword,
       fromJson: GeneralResponse.fromJson,
       requestBody: {
-        'username':username,
-      }
+        'username': username,
+      },
     );
   }
 
   @override
-  Future<ApiResult<GeneralResponse>> verifyOtp({required String otp}) async{
+  Future<ApiResult<GeneralResponse>> verifyOtp({
+    required String otp,
+    required String username,
+  }) async {
     return APIClient.instance.post(
-        endPoint: Res.apiVerifyOtp,
-        fromJson: GeneralResponse.fromJson,
-        requestBody: {
-          'otp':otp,
-        }
+      endPoint: Res.apiVerifyOtp,
+      fromJson: GeneralResponse.fromJson,
+      requestBody: {
+        'otp': otp,
+        'username': username,
+      },
+    );
+  }
+
+  @override
+  Future<ApiResult<GeneralResponse>> resetPassword({
+    required String otp,
+    required String password,
+    required String confirmPassword,
+  }) async {
+    return APIClient.instance.post(
+      endPoint: Res.apiResetPassword,
+      fromJson: GeneralResponse.fromJson,
+      requestBody: {
+        "otp": otp,
+        "password": password,
+        "password_confirmation": confirmPassword,
+      },
     );
   }
 }

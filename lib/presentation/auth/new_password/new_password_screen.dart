@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/app_loader.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/data/api_responses/general_response.dart';
+import 'package:megaplug/data/repositories/auth_repo.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
+import '../../../widgets/app_widgets/app_text_field/rules.dart';
 import '../components/wavy_appbar.dart';
 import '../login/login_screen.dart';
 
@@ -19,9 +25,14 @@ class NewPasswordScreen extends StatefulWidget {
 }
 
 class _NewPasswordScreenState extends State<NewPasswordScreen> {
+  final AuthRepositoryImpl authRepositoryImpl = AuthRepositoryImpl();
+
   final TextEditingController passwordController = TextEditingController();
+  GlobalKey<AppTextFormFieldState> passwordState = GlobalKey();
+
   final TextEditingController confirmPasswordController =
       TextEditingController();
+  GlobalKey<AppTextFormFieldState> confirmPasswordState = GlobalKey();
 
   @override
   void dispose() {
@@ -70,6 +81,21 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               child: AppTextFormField(
                 controller: passwordController,
                 hintText: 'new_password_hint'.tr,
+                key: passwordState,
+                appFieldType: AppFieldType.password,
+                textInputAction: TextInputAction.next,
+                rules: AppTextFieldRules.passwordRules,
+                alwaysShowRules: true,
+                onChanged: (value) {
+                  if (value.isNotEmpty &&
+                      confirmPasswordController.text != value &&
+                      confirmPasswordController.text.isNotEmpty) {
+                    confirmPasswordState.currentState
+                        ?.addApiError('confirm_password_does_not_match'.tr);
+                  } else {
+                    confirmPasswordState.currentState?.clearApiError();
+                  }
+                },
               ),
             ),
             Padding(
@@ -84,6 +110,19 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               child: AppTextFormField(
                 controller: confirmPasswordController,
                 hintText: 're_inter_new_password_hint'.tr,
+                key: confirmPasswordState,
+                appFieldType: AppFieldType.password,
+                textInputAction: TextInputAction.done,
+                alwaysShowRules: true,
+                checkRules: false,
+                onChanged: (value) {
+                  if (value.isNotEmpty && passwordController.text != value) {
+                    confirmPasswordState.currentState
+                        ?.addApiError('confirm_password_does_not_match'.tr);
+                  } else {
+                    confirmPasswordState.currentState?.clearApiError();
+                  }
+                },
               ),
             ),
             150.ph,
@@ -92,7 +131,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               child: AppButton(
                 text: 'change_password'.tr,
                 onPressed: () {
-                  Get.offAll(() => LoginScreen());
+                  _changePassword();
                 },
               ),
             ),
@@ -101,5 +140,41 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
         ),
       ),
     );
+  }
+
+  void _changePassword() async {
+    FocusScope.of(context).unfocus();
+
+    bool validated = AppTextFieldRules.validateForm(
+      [
+        passwordState,
+        confirmPasswordState,
+      ],
+    );
+    if (!validated) {
+      return;
+    }
+
+    AppLoader.loading();
+
+    ApiResult<GeneralResponse> apiResult =
+        await authRepositoryImpl.resetPassword(
+      otp: widget.otp,
+      password: passwordController.text,
+      confirmPassword: confirmPasswordController.text,
+    );
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      GeneralResponse generalResponse = apiResult.getData();
+      InformationViewer.showSuccessToast(msg: generalResponse.message);
+      Get.offAll(() => LoginScreen());
+    } else {
+      if (mounted) {
+        InformationViewer.showSnackBar(
+          msg: apiResult.getError(),
+          bgColor: context.kErrorColor,
+        );
+      }
+    }
   }
 }

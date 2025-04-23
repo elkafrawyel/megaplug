@@ -222,8 +222,10 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
     if (verificationCode.isNotEmpty) {
       AppLoader.loading();
 
-      ApiResult<GeneralResponse> apiResult =
-          await authRepositoryImpl.verifyOtp(otp: verificationCode);
+      ApiResult<GeneralResponse> apiResult = await authRepositoryImpl.verifyOtp(
+        otp: verificationCode,
+        username: widget.username,
+      );
 
       AppLoader.dismiss();
 
@@ -233,6 +235,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
         InformationViewer.showSuccessToast(msg: generalResponse.message);
         Get.to(() => NewPasswordScreen(otp: verificationCode));
       } else {
+
         InformationViewer.showSnackBar(msg: apiResult.getError());
       }
     }

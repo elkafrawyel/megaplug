@@ -5,6 +5,7 @@ class Res {
   static const apiLogout = 'logout';
   static const apiForgetPassword = 'forgot-password';
   static const apiVerifyOtp = 'otp/verify';
+  static const apiResetPassword = 'reset-password';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';
