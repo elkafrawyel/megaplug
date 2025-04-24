@@ -7,8 +7,6 @@ import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/helpers/time_debuncer.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:vibration/vibration.dart';
 
 import '../app_text.dart';

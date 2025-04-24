@@ -9,7 +9,6 @@ import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_requests/register_request.dart';
 import 'package:megaplug/data/api_responses/register_response.dart';
 import 'package:megaplug/data/repositories/auth_repo.dart';
-import 'package:megaplug/presentation/home/controller/home_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';

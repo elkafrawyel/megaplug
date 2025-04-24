@@ -7,7 +7,6 @@ import 'package:megaplug/config/extension/station_filter_type.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/domain/controllers/stations_controller.dart';
 import 'package:megaplug/domain/entities/connector_type_model.dart';
-import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 import '../../../../../widgets/app_widgets/circular_checkbox.dart';

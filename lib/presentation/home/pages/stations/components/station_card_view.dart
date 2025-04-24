@@ -97,7 +97,7 @@ class StationCardView extends StatelessWidget {
                                 color: context.kPrimaryColor,
                               ),
                               SizedBox(width: 4),
-                              Text('${'22-50 W'}'),
+                              Text('22-50 W'),
                             ],
                           ),
                         ],

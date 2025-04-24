@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/components/home_appbar.dart';
 
 import '../../config/res.dart';

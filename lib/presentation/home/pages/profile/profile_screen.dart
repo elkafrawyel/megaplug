@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/presentation/auth/login/login_screen.dart';
 import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_dialogs/logout_dialog.dart';
 import 'package:megaplug/widgets/app_widgets/app_list_tile.dart';

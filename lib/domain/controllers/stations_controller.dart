@@ -94,7 +94,7 @@ class StationsController extends GetxController {
                 if (cluster.isMultiple) {
                   animateToArea(cluster.location);
                 } else {
-                  print(cluster.items.first.name);
+                  AppLogger.log(cluster.items.first.name);
                   showStationCard(cluster.items.first);
                 }
               },
@@ -149,7 +149,7 @@ class StationsController extends GetxController {
     AppLogger.log('onMapCreated');
 
     mapController = controller;
-    clusterManager!.setMapId(controller.mapId);
+    clusterManager.setMapId(controller.mapId);
 
     await updateClusterItems();
   }

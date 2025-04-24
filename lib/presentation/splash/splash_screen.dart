@@ -3,12 +3,10 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
-import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/controller/home_binding.dart';
 import 'package:megaplug/presentation/home/home_screen.dart';
 
 import '../../config/res.dart';
-import '../auth/login/login_screen.dart';
 import '../onboarding/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {

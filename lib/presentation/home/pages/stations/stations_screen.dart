@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import '../../../../config/res.dart';
 import 'components/map_view.dart';
 import 'components/stations_appbar.dart';
 import 'components/stations_list.dart';

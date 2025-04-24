@@ -6,7 +6,6 @@ import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/presentation/home/home_screen.dart';
 import 'package:oktoast/oktoast.dart';
 
 import 'config/clients/storage/storage_client.dart';
@@ -15,7 +14,6 @@ import 'config/environment.dart';
 import 'config/language/language_model.dart';
 import 'config/language/translation.dart';
 import 'config/theme/theme_controller.dart';
-import 'presentation/home/controller/home_binding.dart';
 import 'presentation/splash/splash_screen.dart';
 import 'widgets/app_widgets/app_focus_remover.dart';
 

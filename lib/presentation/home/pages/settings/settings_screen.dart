@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/language/language_model.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/common_screens/contact_info_screen.dart';
@@ -105,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                   showAppLanguageDialog(
                       context: context,
                       onLanguageChanged: (LanguageData languageData) {
-                        print(languageData.name);
+                        AppLogger.log(languageData.name);
                         setState(() {
                           selectedLanguage = languageData;
                         });

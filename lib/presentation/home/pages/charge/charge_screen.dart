@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:megaplug/widgets/app_widgets/app_text.dart';
-
-import '../stations/components/custom_marker_view.dart';
-
 class ChargeScreen extends StatefulWidget {
   const ChargeScreen({super.key});
 

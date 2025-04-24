@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:get/route_manager.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_requests/login_request.dart';
@@ -16,7 +13,6 @@ import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/rules.dart';
 
-import '../../../config/helpers/regex.dart';
 import '../../home/controller/home_binding.dart';
 import '../../../widgets/app_widgets/app_text.dart';
 import '../../home/home_screen.dart';

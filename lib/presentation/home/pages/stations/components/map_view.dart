@@ -6,7 +6,6 @@ import 'package:logger/logger.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 import '../../../../../domain/controllers/stations_controller.dart';
-import 'station_card_view.dart';
 
 class MapView extends StatelessWidget {
   const MapView({super.key});

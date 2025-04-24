@@ -6,7 +6,6 @@ import 'package:get/route_manager.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';

@@ -5,7 +5,6 @@ import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
-import 'package:megaplug/data/api_responses/user_response.dart';
 import 'package:megaplug/data/repositories/profile_repo.dart';
 import 'package:megaplug/domain/entities/user_model.dart';
 
