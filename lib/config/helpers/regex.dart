@@ -10,7 +10,6 @@ bool isPhone(String input) {
 }
 
 bool isEgyptianPhone(String input) {
-  final phoneRegEx = RegExp(
-      r'^(01)[0-2,5]{1}[0-9]{8}$'); // Accepts international and local formats
+  final phoneRegEx = RegExp(r'^(?:\+2)?01[0-2,5][0-9]{8}$');
   return phoneRegEx.hasMatch(input);
 }

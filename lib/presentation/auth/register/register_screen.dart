@@ -46,11 +46,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    nameController.text = 'Mahmoud';
-    emailController.text = 'mahmoud@gmail.com';
-    phoneController.text = '01019744661';
-    passwordController.text = 'Flutter123456!';
-    confirmPasswordController.text = 'Flutter123456!';
+    // nameController.text = 'Mahmoud';
+    // emailController.text = 'mahmoud@gmail.com';
+    // phoneController.text = '01019744661';
+    // passwordController.text = 'Flutter123456!';
+    // confirmPasswordController.text = 'Flutter123456!';
   }
 
   @override
@@ -271,9 +271,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       RegisterResponse registerResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: registerResponse.message);
 
-      await StorageClient().saveUser(userResponse: registerResponse.data);
-
-      Get.offAll(() => HomeScreen(), binding: HomeBinding());
+      // await StorageClient().saveUser(userResponse: registerResponse.data);
+      //
+      // Get.offAll(() => HomeScreen(), binding: HomeBinding());
     } else {
       InformationViewer.showSnackBar(
         msg: apiResult.getError(),

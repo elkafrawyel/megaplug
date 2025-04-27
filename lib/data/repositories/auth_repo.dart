@@ -10,6 +10,7 @@ import 'package:megaplug/data/api_responses/login_response.dart';
 import 'package:megaplug/data/api_responses/register_response.dart';
 
 import '../../domain/repositories/auth_repo.dart';
+import '../api_requests/reset_password_request.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   @override
@@ -64,18 +65,12 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<ApiResult<GeneralResponse>> resetPassword({
-    required String otp,
-    required String password,
-    required String confirmPassword,
+    required ResetPasswordRequest resetPasswordRequest,
   }) async {
     return APIClient.instance.post(
       endPoint: Res.apiResetPassword,
       fromJson: GeneralResponse.fromJson,
-      requestBody: {
-        "otp": otp,
-        "password": password,
-        "password_confirmation": confirmPassword,
-      },
+      requestBody: resetPasswordRequest.toJson(),
     );
   }
 }

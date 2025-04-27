@@ -11,14 +11,20 @@ import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
+import '../../../data/api_requests/reset_password_request.dart';
 import '../../../widgets/app_widgets/app_text_field/rules.dart';
 import '../components/wavy_appbar.dart';
 import '../login/login_screen.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   final String otp;
+  final String username;
 
-  const NewPasswordScreen({super.key, required this.otp});
+  const NewPasswordScreen({
+    super.key,
+    required this.otp,
+    required this.username,
+  });
 
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();
@@ -125,7 +131,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 },
               ),
             ),
-            150.ph,
+            80.ph,
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: AppButton(
@@ -159,9 +165,12 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
     ApiResult<GeneralResponse> apiResult =
         await authRepositoryImpl.resetPassword(
-      otp: widget.otp,
-      password: passwordController.text,
-      confirmPassword: confirmPasswordController.text,
+      resetPasswordRequest: ResetPasswordRequest(
+        username: widget.username,
+        otp: widget.otp,
+        password: passwordController.text,
+        confirmPassword: confirmPasswordController.text,
+      ),
     );
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {

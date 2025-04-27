@@ -232,9 +232,13 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
         GeneralResponse generalResponse = apiResult.getData();
 
         InformationViewer.showSuccessToast(msg: generalResponse.message);
-        Get.to(() => NewPasswordScreen(otp: verificationCode));
+        Get.to(
+          () => NewPasswordScreen(
+            otp: verificationCode,
+            username: widget.username,
+          ),
+        );
       } else {
-
         InformationViewer.showSnackBar(msg: apiResult.getError());
       }
     }

@@ -4,6 +4,7 @@ import 'package:megaplug/data/api_responses/login_response.dart';
 import '../../config/clients/api/api_result.dart';
 import '../../data/api_requests/login_request.dart';
 import '../../data/api_requests/register_request.dart';
+import '../../data/api_requests/reset_password_request.dart';
 import '../../data/api_responses/register_response.dart';
 
 abstract class AuthRepository {
@@ -25,8 +26,6 @@ abstract class AuthRepository {
   });
 
   Future<ApiResult<GeneralResponse>> resetPassword({
-    required String otp,
-    required String password,
-    required String confirmPassword,
+    required ResetPasswordRequest resetPasswordRequest,
   });
 }

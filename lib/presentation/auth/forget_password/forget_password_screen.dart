@@ -75,7 +75,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(18.0),
               child: AppTextFormField(
                 key: emailState,
                 controller: emailController,
@@ -126,9 +126,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   }
 
   void _senOtp() async {
-    if (emailController.text.isEmpty ||
-        (emailState.currentState?.hasError ?? false)) {
-      emailState.currentState?.shake();
+    FocusScope.of(context).unfocus();
+
+    bool validated = AppTextFieldRules.validateForm(
+      [
+        emailState,
+      ],
+    );
+    if (!validated) {
       return;
     }
 
