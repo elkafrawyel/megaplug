@@ -73,4 +73,19 @@ class AuthRepositoryImpl extends AuthRepository {
       requestBody: resetPasswordRequest.toJson(),
     );
   }
+
+  @override
+  Future<ApiResult<RegisterResponse>> verifyAccount({
+    required String otp,
+    required String username,
+  }) async {
+    return APIClient.instance.post(
+      endPoint: Res.apiVerifyAccount,
+      fromJson: RegisterResponse.fromJson,
+      requestBody: {
+        'otp': otp,
+        'username': username,
+      },
+    );
+  }
 }

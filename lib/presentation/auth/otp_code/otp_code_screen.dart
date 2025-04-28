@@ -5,11 +5,15 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
+import 'package:megaplug/data/api_responses/register_response.dart';
 import 'package:megaplug/data/repositories/auth_repo.dart';
+import 'package:megaplug/presentation/home/controller/home_binding.dart';
+import 'package:megaplug/presentation/home/home_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -19,8 +23,13 @@ import 'components/ArabicToEnglishNumberFormatter.dart';
 
 class OtpCodeScreen extends StatefulWidget {
   final String username;
+  final bool fromRegisterScreen;
 
-  const OtpCodeScreen({super.key, required this.username});
+  const OtpCodeScreen({
+    super.key,
+    required this.username,
+    this.fromRegisterScreen = false,
+  });
 
   @override
   State<OtpCodeScreen> createState() => _OtpCodeScreenState();
@@ -74,7 +83,9 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          WavyAppBar(),
+          WavyAppBar(
+            withBackButton: !widget.fromRegisterScreen,
+          ),
           AppText(
             text: 'otp_code'.tr,
             fontSize: 20,
@@ -221,25 +232,46 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
     if (verificationCode.isNotEmpty) {
       AppLoader.loading();
 
-      ApiResult<GeneralResponse> apiResult = await authRepositoryImpl.verifyOtp(
-        otp: verificationCode,
-        username: widget.username,
-      );
-
-      AppLoader.dismiss();
-
-      if (apiResult.isSuccess()) {
-        GeneralResponse generalResponse = apiResult.getData();
-
-        InformationViewer.showSuccessToast(msg: generalResponse.message);
-        Get.to(
-          () => NewPasswordScreen(
-            otp: verificationCode,
-            username: widget.username,
-          ),
+      if (widget.fromRegisterScreen) {
+        ApiResult<RegisterResponse> apiResult =
+            await authRepositoryImpl.verifyAccount(
+          otp: verificationCode,
+          username: widget.username,
         );
+
+        AppLoader.dismiss();
+
+        if (apiResult.isSuccess()) {
+          RegisterResponse response = apiResult.getData();
+
+          InformationViewer.showSuccessToast(msg: response.message);
+          await StorageClient().saveUser(userResponse: response.data);
+          // Get.offAll(() => HomeScreen(), binding: HomeBinding());
+        } else {
+          InformationViewer.showSnackBar(msg: apiResult.getError());
+        }
       } else {
-        InformationViewer.showSnackBar(msg: apiResult.getError());
+        ApiResult<GeneralResponse> apiResult =
+            await authRepositoryImpl.verifyOtp(
+          otp: verificationCode,
+          username: widget.username,
+        );
+
+        AppLoader.dismiss();
+
+        if (apiResult.isSuccess()) {
+          GeneralResponse generalResponse = apiResult.getData();
+
+          InformationViewer.showSuccessToast(msg: generalResponse.message);
+          Get.to(
+            () => NewPasswordScreen(
+              otp: verificationCode,
+              username: widget.username,
+            ),
+          );
+        } else {
+          InformationViewer.showSnackBar(msg: apiResult.getError());
+        }
       }
     }
   }

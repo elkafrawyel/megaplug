@@ -9,6 +9,7 @@ import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_requests/register_request.dart';
 import 'package:megaplug/data/api_responses/register_response.dart';
 import 'package:megaplug/data/repositories/auth_repo.dart';
+import 'package:megaplug/presentation/auth/otp_code/otp_code_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
@@ -271,9 +272,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       RegisterResponse registerResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: registerResponse.message);
 
-      // await StorageClient().saveUser(userResponse: registerResponse.data);
-      //
-      // Get.offAll(() => HomeScreen(), binding: HomeBinding());
+      Get.offAll(
+        () => OtpCodeScreen(
+          username: phoneController.text,
+          fromRegisterScreen:true,
+        ),
+      );
     } else {
       InformationViewer.showSnackBar(
         msg: apiResult.getError(),

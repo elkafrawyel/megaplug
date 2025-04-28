@@ -25,6 +25,11 @@ abstract class AuthRepository {
     required String username,
   });
 
+  Future<ApiResult<RegisterResponse>> verifyAccount({
+    required String otp,
+    required String username,
+  });
+
   Future<ApiResult<GeneralResponse>> resetPassword({
     required ResetPasswordRequest resetPasswordRequest,
   });
