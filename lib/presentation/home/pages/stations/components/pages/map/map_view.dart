@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
-import '../../../../../domain/controllers/stations_controller.dart';
+import '../../../controller/stations_controller.dart';
 
 class MapView extends StatelessWidget {
   const MapView({super.key});
@@ -13,6 +13,7 @@ class MapView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<StationsController>(
+      id: StationsController.stationsControllerId,
       builder: (stationsController) => Stack(
         children: [
           GoogleMap(

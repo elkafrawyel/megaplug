@@ -5,12 +5,12 @@ import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/domain/controllers/stations_controller.dart';
+import 'package:megaplug/presentation/home/pages/stations/controller/stations_controller.dart';
 import 'package:megaplug/presentation/station_details/station_details_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
-import '../../../../../domain/entities/station_model.dart';
-import '../../../../../widgets/app_widgets/app_text.dart';
+import '../../../../../../../domain/entities/station_model.dart';
+import '../../../../../../../widgets/app_widgets/app_text.dart';
 
 class StationCardView extends StatelessWidget {
   final StationModel stationModel;

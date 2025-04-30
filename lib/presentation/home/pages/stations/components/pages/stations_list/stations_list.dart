@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/presentation/home/pages/stations/components/station_card_view.dart';
+import 'package:megaplug/presentation/home/pages/stations/components/pages/components/station_card_view.dart';
 
-import '../../../../../config/res.dart';
-import '../../../../../domain/controllers/stations_controller.dart';
+import '../../../../../../../config/res.dart';
+import '../../../controller/stations_controller.dart';
 
 class StationsList extends StatelessWidget {
   const StationsList({super.key});
@@ -13,6 +13,7 @@ class StationsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<StationsController>(
+      id: StationsController.stationsControllerId,
       builder: (stationsController) => Stack(
         children: [
           Padding(

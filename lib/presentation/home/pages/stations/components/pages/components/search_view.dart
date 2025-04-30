@@ -4,11 +4,11 @@ import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/presentation/home/pages/stations/components/filter_bottom_sheet.dart';
+import 'package:megaplug/presentation/home/pages/stations/components/filter/filter_bottom_sheet.dart';
 import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
 
-import '../../../../../config/helpers/time_debuncer.dart';
-import '../../../../../domain/controllers/stations_controller.dart';
+import '../../../../../../../config/helpers/time_debuncer.dart';
+import '../../../controller/stations_controller.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
@@ -72,7 +72,6 @@ class SearchView extends StatelessWidget {
                   10.pw,
                   GestureDetector(
                     onTap: () {
-                      stationsController.getAllConnectors();
                       showAppModalBottomSheet(
                         initialChildSize: 0.7,
                         maxChildSize: 0.8,

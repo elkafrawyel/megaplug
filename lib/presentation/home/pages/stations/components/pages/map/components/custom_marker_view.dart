@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/res.dart';
-import 'package:megaplug/presentation/home/pages/stations/components/marker_bg.dart';
+import 'package:megaplug/presentation/home/pages/stations/components/pages/map/components/marker_bg.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 class CustomMarkerView extends StatelessWidget {

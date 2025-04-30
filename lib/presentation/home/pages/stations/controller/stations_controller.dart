@@ -10,38 +10,42 @@ import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/data/repositories/stations_repo.dart';
+import 'package:megaplug/domain/entities/charge_power_model.dart';
 import 'package:megaplug/domain/entities/connector_type_model.dart';
-import 'package:megaplug/presentation/home/pages/stations/components/station_card_view.dart';
+import 'package:megaplug/domain/entities/station_main_filter_type_model.dart';
+import 'package:megaplug/presentation/home/pages/stations/components/pages/components/station_card_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
-import '../../config/extension/station_filter_type.dart';
-import '../../widgets/app_dialog_view.dart';
-import '../../presentation/home/pages/stations/components/custom_marker_view.dart';
+import '../../../../../widgets/app_dialog_view.dart';
+import '../components/pages/map/components/custom_marker_view.dart';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
     as cluster_manager;
 
-import '../entities/station_model.dart';
+import '../../../../../domain/entities/station_model.dart';
 
 class StationsController extends GetxController {
   final StationsRepositoryImpl _stationsRepository;
 
   StationsController(this._stationsRepository);
 
+  static final String stationsControllerId = 'stations_view_id';
   static final String searchViewControllerId = 'search_view_id';
   static final String filterViewControllerId = 'filer_view_id';
 
-  StationsFilterType? _stationsFilterType;
-
-  StationsFilterType? get stationsFilterType => _stationsFilterType;
+  ApiResult<List<StationMainFilterTypeModel>> stationMainFilterTypeApiResult =
+      ApiStart();
+  RxList<StationMainFilterTypeModel> stationsMainFilterTypes =
+      <StationMainFilterTypeModel>[].obs;
+  Rx<StationMainFilterTypeModel?> selectedStationsFilterType = Rx(null);
 
   List<StationModel> stations = [];
-  ApiResult<List<ConnectorTypeModel>> connectorsApiResult = ApiStart();
 
-  set stationsFilterType(StationsFilterType? value) {
-    _stationsFilterType = value;
-    update([filterViewControllerId]);
-  }
+  ApiResult<List<ConnectorTypeModel>> connectorsApiResult = ApiStart();
+  RxList<ConnectorTypeModel> connectorsList = <ConnectorTypeModel>[].obs;
+
+  ApiResult<List<ChargePowerModel>> chargePowersApiResult = ApiStart();
+  RxList<ChargePowerModel> chargePowersList = <ChargePowerModel>[].obs;
 
   bool mapView = true;
   TextEditingController searchTextEditingController = TextEditingController();
@@ -56,18 +60,6 @@ class StationsController extends GetxController {
 
   late cluster_manager.ClusterManager<StationModel> clusterManager;
 
-  double? _chargePowerValue;
-
-  double get chargePowerValue => _chargePowerValue ?? minChargePower;
-
-  set chargePowerValue(double? value) {
-    _chargePowerValue = value;
-    update([filterViewControllerId]);
-  }
-
-  double minChargePower = 5;
-  double maxChargePower = 50;
-
   @override
   onInit() async {
     super.onInit();
@@ -75,6 +67,10 @@ class StationsController extends GetxController {
     clusterManager = _initClusterManager();
 
     await getMyPosition(loading: true);
+
+    getAllStationMainFilterType();
+    getAllChargePowers();
+    getAllConnectors();
   }
 
   cluster_manager.ClusterManager<StationModel> _initClusterManager() {
@@ -111,38 +107,60 @@ class StationsController extends GetxController {
             );
           };
 
+  Future<void> getAllStationMainFilterType() async {
+    stationMainFilterTypeApiResult = ApiLoading();
+    update([filterViewControllerId]);
+    stationMainFilterTypeApiResult =
+        await _stationsRepository.getAllStationMainFilterTypes();
+    update([filterViewControllerId]);
+    stationsMainFilterTypes.value = stationMainFilterTypeApiResult.getData();
+  }
+
   Future<void> getAllConnectors() async {
     connectorsApiResult = ApiLoading();
     update([filterViewControllerId]);
     connectorsApiResult = await _stationsRepository.getAllConnectorTypes();
     update([filterViewControllerId]);
+    connectorsList.value = connectorsApiResult.getData();
+  }
+
+  Future<void> getAllChargePowers() async {
+    chargePowersApiResult = ApiLoading();
+    update([filterViewControllerId]);
+    chargePowersApiResult = await _stationsRepository.getAllChargePowers();
+    update([filterViewControllerId]);
+    chargePowersList.value = chargePowersApiResult.getData();
   }
 
   void toggleSelectedConnector(ConnectorTypeModel connectorTypeModel) {
-    int index = connectorsApiResult.getData().indexOf(connectorTypeModel);
-    connectorsApiResult.getData()[index].isSelected =
-        !connectorsApiResult.getData()[index].isSelected;
-    update([filterViewControllerId]);
+    int index = connectorsList.indexOf(connectorTypeModel);
+    connectorsList[index].isSelected.toggle();
+  }
+
+  void toggleSelectedChargePower(ChargePowerModel chargePowerModel) {
+    int index = chargePowersList.indexOf(chargePowerModel);
+    chargePowersList[index].isSelected.toggle();
   }
 
   void showStationCard(StationModel stationModel) {
     Get.dialog(
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: StationCardView(
-              stationModel: stationModel,
-            ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StationCardView(
+            stationModel: stationModel,
           ),
         ),
-        barrierColor: Colors.black54);
+      ),
+      barrierColor: Colors.black54,
+    );
   }
 
   void _updateMarkers(Set<Marker> markers) {
     AppLogger.log('Updated ${markers.length} markers');
     this.markers = markers;
-    update();
+    update([stationsControllerId]);
   }
 
   void onMapCreated(GoogleMapController controller) async {
@@ -189,7 +207,7 @@ class StationsController extends GetxController {
   switchMapType() {
     mapType = MapType.values[(mapType.index + 1) % MapType.values.length];
     if (mapType == MapType.none) mapType = MapType.normal;
-    update();
+    update([stationsControllerId]);
   }
 
   Future checkLocationPermission() async {
@@ -256,7 +274,7 @@ class StationsController extends GetxController {
 
   toggleMapView() {
     mapView = !mapView;
-    update();
+    update([stationsControllerId]);
   }
 
   void clearSearchBox() {
@@ -266,5 +284,22 @@ class StationsController extends GetxController {
 
   void handleSearchText({required String text}) {
     update([searchViewControllerId]);
+  }
+
+  void resetFilter() {
+    selectedStationsFilterType.value = null;
+    for (var connector in connectorsList) {
+      connector.isSelected.value = false;
+    }
+
+    for (var chargePower in chargePowersList) {
+      chargePower.isSelected.value = false;
+    }
+
+    // todo call api to reset filter
+  }
+
+  void applyFilter() {
+    Get.back();
   }
 }

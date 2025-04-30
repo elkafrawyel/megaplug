@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'components/map_view.dart';
-import 'components/stations_appbar.dart';
-import 'components/stations_list.dart';
-import '../../../../domain/controllers/stations_controller.dart';
+import 'components/pages/map/map_view.dart';
+import 'components/pages/components/stations_appbar.dart';
+import 'components/pages/stations_list/stations_list.dart';
+import 'controller/stations_controller.dart';
 
 class StationsScreen extends StatefulWidget {
   const StationsScreen({super.key});
@@ -26,6 +26,7 @@ class _StationsScreenState extends State<StationsScreen>
         height: 100,
       ),
       body: GetBuilder<StationsController>(
+        id: StationsController.stationsControllerId,
         builder: (_) => IndexedStack(
           index: stationsController.mapView ? 0 : 1,
           children: [

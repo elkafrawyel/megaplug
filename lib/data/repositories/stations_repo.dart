@@ -1,8 +1,11 @@
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/station_status.dart';
+import 'package:megaplug/domain/entities/charge_power_model.dart';
 import 'package:megaplug/domain/entities/connector_type_model.dart';
 import 'package:megaplug/domain/entities/station_model.dart';
+import 'package:megaplug/domain/entities/station_main_filter_type_model.dart';
 
 import '../../domain/repositories/stations_repo.dart';
 
@@ -170,6 +173,49 @@ class StationsRepositoryImpl extends StationsRepository {
           id: '564456',
           image: 'assets/icons/connector_type_1.svg',
           text: 'Tritium Veefil-RT Type 2',
+        ),
+      ],
+    );
+  }
+
+  @override
+  Future<ApiResult<List<ChargePowerModel>>> getAllChargePowers() async {
+    return ApiSuccess(
+      [
+        ChargePowerModel(
+          id: '0',
+          name: 'power 0',
+          power: 10,
+        ),
+        ChargePowerModel(
+          id: '1',
+          name: 'power 1',
+          power: 10,
+        ),
+        ChargePowerModel(
+          id: '2',
+          name: 'power 2',
+          power: 20,
+        ),
+        ChargePowerModel(
+          id: '3',
+          name: 'power 3',
+          power: 30,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Future<ApiResult<List<StationMainFilterTypeModel>>> getAllStationMainFilterTypes() async {
+    return ApiSuccess(
+      [
+        StationMainFilterTypeModel(id: '0', name: 'all', slug: 'all'),
+        StationMainFilterTypeModel(id: '1', name: 'available', slug: 'available'),
+        StationMainFilterTypeModel(
+          id: '2',
+          name: 'available_and_in_use',
+          slug: 'available_and_in_use',
         ),
       ],
     );
