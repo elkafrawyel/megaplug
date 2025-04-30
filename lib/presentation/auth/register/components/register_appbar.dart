@@ -31,9 +31,9 @@ class RegisterAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: kToolbarHeight,
       backgroundColor: backgroundColor ?? Colors.transparent,
-      surfaceTintColor: backgroundColor??Colors.transparent,
+      surfaceTintColor: backgroundColor ?? Colors.transparent,
       elevation: 0,
-
+      centerTitle: true,
       title: AppText(
         text: title,
         color: context.kColorOnPrimary,

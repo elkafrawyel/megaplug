@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/get_core.dart';
 
 import '../../../config/clients/storage/storage_client.dart';
 import '../../../config/res.dart';
@@ -38,7 +40,9 @@ class _WavyAppBarState extends State<WavyAppBar> {
             opacity: 1,
             child: Center(
               child: Image.asset(
-                StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
+                Get.locale?.languageCode == 'ar'
+                    ? Res.arabicLogo
+                    : Res.englishLogo,
                 width: 200,
                 height: 200,
               ),

@@ -10,12 +10,12 @@ Map<String, String> en = {
   'forget_password?': 'Forget password ?',
   'login': 'Login',
   "don't_have_account": "Don't have an account?",
-  'create_account': 'Create a new account',
+  'create_account': 'Create New Account',
   'forget_password': 'Forget password',
   'forget_password_message':
       "Enter your phone number or email, and we'll send you a secure OTP to reset your password quickly and easily.",
-  'send_otp': 'Send otp',
-  'remember_the_password': 'Member the password?',
+  'send_otp': 'Send OTP',
+  'remember_the_password': 'Remember the password?',
   'register': 'Register',
   'otp_code': 'OTP code verification',
   'otp_code_message':

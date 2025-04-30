@@ -66,7 +66,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             ),
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: AppText(
                   text: 'new_password_message'.tr,
                   maxLines: 3,
@@ -76,14 +76,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: AppText(
                 text: 'new_password'.tr,
                 fontWeight: FontWeight.w600,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: AppTextFormField(
                 controller: passwordController,
                 hintText: 'new_password_hint'.tr,
@@ -92,46 +92,29 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 textInputAction: TextInputAction.next,
                 rules: AppTextFieldRules.passwordRules,
                 alwaysShowRules: true,
-                onChanged: (value) {
-                  if (value.isNotEmpty &&
-                      confirmPasswordController.text != value &&
-                      confirmPasswordController.text.isNotEmpty) {
-                    confirmPasswordState.currentState
-                        ?.addApiError('confirm_password_does_not_match'.tr);
-                  } else {
-                    confirmPasswordState.currentState?.clearApiError();
-                  }
-                },
+
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: AppText(
                 text: 're_inter_new_password'.tr,
                 fontWeight: FontWeight.w600,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: AppTextFormField(
                 controller: confirmPasswordController,
                 hintText: 're_inter_new_password_hint'.tr,
                 key: confirmPasswordState,
                 appFieldType: AppFieldType.password,
                 textInputAction: TextInputAction.done,
-                alwaysShowRules: true,
+                alwaysShowRules: false,
                 checkRules: false,
-                onChanged: (value) {
-                  if (value.isNotEmpty && passwordController.text != value) {
-                    confirmPasswordState.currentState
-                        ?.addApiError('confirm_password_does_not_match'.tr);
-                  } else {
-                    confirmPasswordState.currentState?.clearApiError();
-                  }
-                },
               ),
             ),
-            80.ph,
+            40.ph,
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: AppButton(
@@ -141,7 +124,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 },
               ),
             ),
-            100.ph,
+            50.ph,
           ],
         ),
       ),
@@ -157,6 +140,15 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
         confirmPasswordState,
       ],
     );
+
+    if (passwordController.text != confirmPasswordController.text) {
+      confirmPasswordState.currentState?.shake();
+      confirmPasswordState.currentState?.addApiError(
+        'confirm_password_does_not_match'.tr,
+      );
+      return;
+    }
+
     if (!validated) {
       return;
     }
@@ -180,7 +172,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
     } else {
       if (mounted) {
         InformationViewer.showSnackBar(
-          msg: apiResult.getError(),
+          msg: apiResult.getError().trim(),
           bgColor: context.kErrorColor,
         );
       }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
@@ -27,6 +28,7 @@ class AppTextFormField extends StatefulWidget {
   final String? text;
   final String? validateEmptyText;
   final TextEditingController controller;
+
   final TextInputType? keyboardType;
   final int? maxLines;
   final int? maxLength;
@@ -88,11 +90,12 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   final GlobalKey<CustomShakeWidgetState> _shakerKey = GlobalKey();
   final FocusNode _focusNode = FocusNode();
   bool hasError = false;
-  Widget? validationView;
+  Widget validationView = const SizedBox();
   final String _emptyValidationText =
       StorageClient().isAr() ? 'هذا الحقل مطلوب' : 'This field is Required';
 
   AppTimeDebuncer debuncer = AppTimeDebuncer.instance;
+
 
   @override
   void initState() {
@@ -137,7 +140,6 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                 Duration(milliseconds: 1000),
                 () => _validateRules(),
               );
-
               if (widget.onChanged != null && value != null) {
                 widget.onChanged!(value);
               }
@@ -200,9 +202,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                 fontSize: 18,
               ),
               hintText: widget.hintText ?? '',
-              fillColor: hasError
-                  ? fillErrorColor
-                  : context.kBackgroundColor,
+              fillColor: hasError ? fillErrorColor : context.kBackgroundColor,
               filled: true,
               hintStyle: TextStyle(
                 fontSize: 11,
@@ -310,7 +310,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
               ),
             ),
           ),
-          validationView ?? SizedBox(),
+          validationView,
         ],
       ),
     );
@@ -342,6 +342,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   void clearApiError() {
     setState(() {
       _apiErrorText = null;
+      hasError = false;
     });
   }
 
@@ -356,7 +357,6 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   }
 
   bool _validateRules() {
-    AppLogger.log('_validateRules::::::::::');
     if (!widget.required) {
       return false;
     }

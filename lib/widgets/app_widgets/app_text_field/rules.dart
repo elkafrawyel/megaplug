@@ -7,12 +7,13 @@ import 'app_text_field.dart';
 import 'auth_form_rules.dart';
 
 class AppTextFieldRules {
-  static validateForm(List<GlobalKey<AppTextFormFieldState>> keys) {
-    bool validated = true;
+  static bool validateForm(List<GlobalKey<AppTextFormFieldState>> keys) {
+    int errors = 0;
     for (GlobalKey<AppTextFormFieldState> key in keys) {
-      validated = key.currentState?.validate(withFocus: false) ?? false;
+      bool validated = key.currentState?.validate(withFocus: false) ?? false;
+      errors += validated ? 0 : 1;
     }
-    return validated;
+    return errors == 0;
   }
 
   static final List<AuthFormRule> emailOrPhoneRules = [
@@ -47,6 +48,7 @@ class AppTextFieldRules {
       },
     ),
   ];
+
 
   static final List<AuthFormRule> passwordRules = [
     AuthFormRule(
