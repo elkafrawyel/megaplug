@@ -245,7 +245,7 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
           RegisterResponse response = apiResult.getData();
 
           InformationViewer.showSuccessToast(msg: response.message);
-          await StorageClient().saveUser(userResponse: response.data);
+          // await StorageClient().saveUser(userResponse: response.data);
           // Get.offAll(() => HomeScreen(), binding: HomeBinding());
         } else {
           if (mounted) {
