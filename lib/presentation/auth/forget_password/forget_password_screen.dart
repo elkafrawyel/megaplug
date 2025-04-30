@@ -69,13 +69,17 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             ),
             20.ph,
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 18.0,
+                vertical: 8.0,
+              ),
               child: AppText(
                 text: "email_or_phone".tr,
+                fontWeight: FontWeight.w700,
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: AppTextFormField(
                 key: emailState,
                 controller: emailController,
@@ -87,7 +91,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 ],
               ),
             ),
-            200.ph,
+            50.ph,
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: AppButton(
@@ -97,7 +101,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 },
               ),
             ),
-            20.ph,
+            5.ph,
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

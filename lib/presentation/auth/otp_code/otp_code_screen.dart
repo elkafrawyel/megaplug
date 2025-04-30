@@ -248,8 +248,12 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
           await StorageClient().saveUser(userResponse: response.data);
           // Get.offAll(() => HomeScreen(), binding: HomeBinding());
         } else {
-          InformationViewer.showSnackBar(msg: apiResult.getError());
-        }
+          if (mounted) {
+            InformationViewer.showSnackBar(
+              msg: apiResult.getError()..trimLeft(),
+              bgColor: context.kErrorColor,
+            );
+          }        }
       } else {
         ApiResult<GeneralResponse> apiResult =
             await authRepositoryImpl.verifyOtp(
@@ -270,7 +274,12 @@ class _OtpCodeScreenState extends State<OtpCodeScreen> {
             ),
           );
         } else {
-          InformationViewer.showSnackBar(msg: apiResult.getError());
+          if (mounted) {
+            InformationViewer.showSnackBar(
+              msg: apiResult.getError().trimLeft(),
+              bgColor: context.kErrorColor,
+            );
+          }
         }
       }
     }

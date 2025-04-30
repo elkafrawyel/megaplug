@@ -16,6 +16,7 @@ import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart'
 import 'package:megaplug/widgets/app_widgets/app_text_field/rules.dart';
 
 import '../../../config/res.dart';
+import '../../../widgets/app_widgets/app_text_field/auth_form_rules.dart';
 import '../../home/controller/home_binding.dart';
 import '../../home/home_screen.dart';
 import 'components/register_appbar.dart';
@@ -47,11 +48,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
-    // nameController.text = 'Mahmoud';
-    // emailController.text = 'mahmoud@gmail.com';
-    // phoneController.text = '01019744661';
-    // passwordController.text = 'Flutter123456!';
-    // confirmPasswordController.text = 'Flutter123456!';
+    nameController.text = 'Mahmoud';
+    emailController.text = 'mahmoud@gmail.com';
+    phoneController.text = '01019744661';
+    passwordController.text = 'Flutter123456!';
+    confirmPasswordController.text = 'Flutter123456!';
   }
 
   @override
@@ -84,11 +85,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: AppText(
                   text: 'name'.tr,
                   fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AppTextFormField(
                   key: nameState,
                   controller: nameController,
@@ -98,16 +99,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   appFieldType: AppFieldType.name,
                 ),
               ),
+              10.ph,
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppText(
                   text: 'email'.tr,
                   fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AppTextFormField(
                   key: emailState,
                   controller: emailController,
@@ -118,16 +120,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   rules: AppTextFieldRules.emailRules,
                 ),
               ),
+              10.ph,
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppText(
                   text: 'phone'.tr,
                   fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AppTextFormField(
                   key: phoneState,
                   controller: phoneController,
@@ -138,16 +141,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   rules: AppTextFieldRules.phoneNumberRules,
                 ),
               ),
+              10.ph,
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppText(
                   text: 'password'.tr,
                   fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AppTextFormField(
                   key: passwordState,
                   controller: passwordController,
@@ -156,50 +160,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   rules: AppTextFieldRules.passwordRules,
                   alwaysShowRules: true,
-                  onChanged: (value) {
-                    if (value.isNotEmpty &&
-                        confirmPasswordController.text != value &&
-                        confirmPasswordController.text.isNotEmpty) {
-                      confirmPasswordState.currentState
-                          ?.addApiError('confirm_password_does_not_match'.tr);
-                    } else {
-                      confirmPasswordState.currentState?.clearApiError();
-                    }
-                  },
+
                 ),
               ),
+              10.ph,
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: AppText(
                   text: 're_inter_password'.tr,
                   fontSize: 13,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: AppTextFormField(
                   key: confirmPasswordState,
                   controller: confirmPasswordController,
                   hintText: 're_inter_password_hint'.tr,
                   appFieldType: AppFieldType.password,
                   textInputAction: TextInputAction.done,
-                  alwaysShowRules: true,
+                  alwaysShowRules: false,
                   checkRules: false,
-                  onChanged: (value) {
-                    if (value.isNotEmpty && passwordController.text != value) {
-                      confirmPasswordState.currentState
-                          ?.addApiError('confirm_password_does_not_match'.tr);
-                    } else {
-                      confirmPasswordState.currentState?.clearApiError();
-                    }
-                  },
+
                 ),
               ),
-              10.ph,
+              20.ph,
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
+                child: Wrap(
                   children: [
                     AppText(
                       text: 'agree_to'.tr,
@@ -250,6 +239,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         confirmPasswordState,
       ],
     );
+    if (passwordController.text != confirmPasswordController.text) {
+      confirmPasswordState.currentState?.shake();
+      confirmPasswordState.currentState?.addApiError(
+        'confirm_password_does_not_match'.tr,
+      );
+      return;
+    }
     if (!validated) {
       return;
     }
@@ -275,12 +271,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Get.offAll(
         () => OtpCodeScreen(
           username: phoneController.text,
-          fromRegisterScreen:true,
+          fromRegisterScreen: true,
         ),
       );
     } else {
       InformationViewer.showSnackBar(
-        msg: apiResult.getError(),
+        msg: apiResult.getError().trimLeft(),
         bgColor: mounted ? context.kErrorColor : Colors.red,
       );
       List<String> errors = apiResult.getError().split('\n');

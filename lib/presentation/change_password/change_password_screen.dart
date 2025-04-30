@@ -49,7 +49,15 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           horizontal: 18.0,
         ),
         child: AppButton(
-          onPressed: () {},
+          onPressed: () {
+            if (passwordController.text != confirmPasswordController.text) {
+              confirmPasswordState.currentState?.shake();
+              confirmPasswordState.currentState?.addApiError(
+                'confirm_password_does_not_match'.tr,
+              );
+              return;
+            }
+          },
           text: 'change_password'.tr,
         ),
       ),
@@ -76,16 +84,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 textInputAction: TextInputAction.next,
                 rules: AppTextFieldRules.passwordRules,
                 alwaysShowRules: true,
-                onChanged: (value) {
-                  if (value.isNotEmpty &&
-                      confirmPasswordController.text != value &&
-                      confirmPasswordController.text.isNotEmpty) {
-                    confirmPasswordState.currentState
-                        ?.addApiError('confirm_password_does_not_match'.tr);
-                  } else {
-                    confirmPasswordState.currentState?.clearApiError();
-                  }
-                },
               ),
             ),
             Padding(
@@ -106,16 +104,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 textInputAction: TextInputAction.next,
                 rules: AppTextFieldRules.passwordRules,
                 alwaysShowRules: true,
-                onChanged: (value) {
-                  if (value.isNotEmpty &&
-                      confirmPasswordController.text != value &&
-                      confirmPasswordController.text.isNotEmpty) {
-                    confirmPasswordState.currentState
-                        ?.addApiError('confirm_password_does_not_match'.tr);
-                  } else {
-                    confirmPasswordState.currentState?.clearApiError();
-                  }
-                },
               ),
             ),
             Padding(
@@ -134,16 +122,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 hintText: 're_inter_password_hint'.tr,
                 appFieldType: AppFieldType.password,
                 textInputAction: TextInputAction.done,
-                alwaysShowRules: true,
+                alwaysShowRules: false,
                 checkRules: false,
-                onChanged: (value) {
-                  if (value.isNotEmpty && passwordController.text != value) {
-                    confirmPasswordState.currentState
-                        ?.addApiError('confirm_password_does_not_match'.tr);
-                  } else {
-                    confirmPasswordState.currentState?.clearApiError();
-                  }
-                },
               ),
             ),
           ],

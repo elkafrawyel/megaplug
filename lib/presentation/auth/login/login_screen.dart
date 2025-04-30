@@ -4,6 +4,7 @@ import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_requests/login_request.dart';
@@ -39,8 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    // emailController.text = '01019744661';
-    // passwordController.text = 'Flutter123456!';
+    emailController.text = '01019744661';
+    passwordController.text = 'Flutter123456!';
   }
 
   @override
@@ -88,6 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     24.ph,
                     AppText(
                       text: "email_or_phone".tr,
+                      fontWeight: FontWeight.w700,
                     ),
                     16.ph,
                     AppTextFormField(
@@ -101,7 +103,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     16.ph,
-                    AppText(text: "password".tr),
+                    AppText(
+                      text: "password".tr,
+                      fontWeight: FontWeight.w700,
+                    ),
                     16.ph,
                     AppTextFormField(
                       key: passwordState,
@@ -110,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       appFieldType: AppFieldType.password,
                       autoFillHints: const [AutofillHints.password],
                     ),
-                    16.ph,
+                    5.ph,
                     Align(
                       alignment: AlignmentDirectional.centerEnd,
                       child: GestureDetector(
@@ -121,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: const EdgeInsets.all(8.0),
                           child: AppText(
                             text: "forget_password?".tr,
-                            fontSize: 12,
+                            fontSize: 13,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -173,35 +178,37 @@ class _LoginScreenState extends State<LoginScreen> {
         passwordState,
       ],
     );
+    AppLogger.log('validated ::: $validated');
     if (!validated) {
       return;
-    }
-    AppLoader.loading();
-    ApiResult<LoginResponse> apiResult = await authRepositoryImpl.login(
-      loginRequest: LoginRequest(
-        username: emailController.text,
-        password: passwordController.text,
-      ),
-    );
-
-    AppLoader.dismiss();
-    if (apiResult.isSuccess()) {
-      LoginResponse loginResponse = apiResult.getData();
-
-      InformationViewer.showSuccessToast(msg: loginResponse.message);
-
-      // await StorageClient().saveUser(userResponse: loginResponse.data);
-      //
-      // Get.offAll(
-      //   () => HomeScreen(),
-      //   binding: HomeBinding(),
-      // );
     } else {
-      if (mounted) {
-        InformationViewer.showSnackBar(
-          msg: apiResult.getError(),
-          bgColor: context.kErrorColor,
+      AppLoader.loading();
+      ApiResult<LoginResponse> apiResult = await authRepositoryImpl.login(
+        loginRequest: LoginRequest(
+          username: emailController.text,
+          password: passwordController.text,
+        ),
+      );
+
+      AppLoader.dismiss();
+      if (apiResult.isSuccess()) {
+        LoginResponse loginResponse = apiResult.getData();
+
+        InformationViewer.showSuccessToast(msg: loginResponse.message);
+
+        await StorageClient().saveUser(userResponse: loginResponse.data);
+
+        Get.offAll(
+          () => HomeScreen(),
+          binding: HomeBinding(),
         );
+      } else {
+        if (mounted) {
+          InformationViewer.showSnackBar(
+            msg: apiResult.getError().trim(),
+            bgColor: context.kErrorColor,
+          );
+        }
       }
     }
   }
