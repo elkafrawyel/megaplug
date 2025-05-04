@@ -101,7 +101,7 @@ class StationsController extends GetxController {
                     : cluster.items.first.stationStatus,
                 count: cluster.isMultiple ? cluster.count.toString() : null,
               ).toBitmapDescriptor(
-                logicalSize: const Size(150, 150),
+                logicalSize: const Size(200, 200),
                 imageSize: const Size(400, 500),
               ),
             );

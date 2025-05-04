@@ -7,6 +7,21 @@ import 'package:logger/logger.dart';
 class OfflineHandler {
   static bool _dialogOpened = false;
 
+  static Future<bool> isConnected() async {
+    List<ConnectivityResult> connectivityResult =
+        (await Connectivity().checkConnectivity());
+    if (connectivityResult.first == ConnectivityResult.mobile) {
+      AppLogger.logWithGetX('Connected to Mobile Network');
+      return true;
+    } else if (connectivityResult.first == ConnectivityResult.wifi) {
+      AppLogger.logWithGetX('Connected to WiFi');
+      return true;
+    } else {
+      AppLogger.logWithGetX('No internet connection');
+      return false;
+    }
+  }
+
   static handle() async {
     Connectivity().onConnectivityChanged.listen(
       (List<ConnectivityResult> connectivityResult) {

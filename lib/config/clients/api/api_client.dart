@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/config/helpers/offline_handler.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../environment.dart';
@@ -66,18 +67,28 @@ class APIClient {
     required T Function(dynamic) fromJson,
   }) async {
     try {
-      Response response = await _client.get(endPoint);
-      if (NetworkHelper.isSuccess(response)) {
-        return ApiSuccess(fromJson(response.data));
+      if (await OfflineHandler.isConnected()) {
+        Response response = await _client.get(endPoint);
+        if (NetworkHelper.isSuccess(response)) {
+          return ApiSuccess(fromJson(response.data));
+        } else {
+          return NetworkHelper.handleCommonNetworkCases(response);
+        }
       } else {
-        return NetworkHelper.handleCommonNetworkCases(response);
+        return ApiFailure(
+          StorageClient().isAr()
+              ? 'لا يوجد اتصال بالإنترنت'
+              : 'Check your internet status',
+        );
       }
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
       AppLogger.logWithGetX(error.toString());
 
-      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
+      return ApiFailure(StorageClient().isAr()
+          ? 'للأسف حدث خطأ'
+          : 'Unexpected Error Happened');
     }
   }
 
@@ -90,50 +101,60 @@ class APIClient {
     Function(double percentage)? onDownloadProgress,
   }) async {
     try {
-      bool haveFiles = false;
-      FormData formData = FormData.fromMap({});
-      if (files.isNotEmpty) {
-        haveFiles = true;
-        formData = FormData.fromMap(requestBody ?? {});
-        formData.files.addAll(files
-            .map(
-              (e) => MapEntry(
-                e.key,
-                MultipartFile.fromFileSync(e.value.path,
-                    filename: e.value.path.split("/").last),
-              ),
-            )
-            .toList());
-      }
-      Response response = await _client.post(
-        endPoint,
-        data: haveFiles ? formData : requestBody,
-        onReceiveProgress: (received, total) {
-          int percentage = ((received / total) * 100).floor();
+      if (await OfflineHandler.isConnected()) {
+        bool haveFiles = false;
+        FormData formData = FormData.fromMap({});
+        if (files.isNotEmpty) {
+          haveFiles = true;
+          formData = FormData.fromMap(requestBody ?? {});
+          formData.files.addAll(files
+              .map(
+                (e) => MapEntry(
+                  e.key,
+                  MultipartFile.fromFileSync(e.value.path,
+                      filename: e.value.path.split("/").last),
+                ),
+              )
+              .toList());
+        }
+        Response response = await _client.post(
+          endPoint,
+          data: haveFiles ? formData : requestBody,
+          onReceiveProgress: (received, total) {
+            int percentage = ((received / total) * 100).floor();
 
-          if (onDownloadProgress != null) {
-            onDownloadProgress((received / total));
-          }
-          AppLogger.log('Downloading ....$percentage');
-        },
-        onSendProgress: (sent, total) {
-          int percentage = ((sent / total) * 100).floor();
-          if (onUploadProgress != null) {
-            onUploadProgress((sent / total));
-          }
-          AppLogger.log('Uploading ....$percentage');
-        },
-      );
-      if (NetworkHelper.isSuccess(response)) {
-        return ApiSuccess(fromJson(response.data));
+            if (onDownloadProgress != null) {
+              onDownloadProgress((received / total));
+            }
+            AppLogger.log('Downloading ....$percentage');
+          },
+          onSendProgress: (sent, total) {
+            int percentage = ((sent / total) * 100).floor();
+            if (onUploadProgress != null) {
+              onUploadProgress((sent / total));
+            }
+            AppLogger.log('Uploading ....$percentage');
+          },
+        );
+        if (NetworkHelper.isSuccess(response)) {
+          return ApiSuccess(fromJson(response.data));
+        } else {
+          return NetworkHelper.handleCommonNetworkCases(response);
+        }
       } else {
-        return NetworkHelper.handleCommonNetworkCases(response);
+        return ApiFailure(
+          StorageClient().isAr()
+              ? 'لا يوجد اتصال بالإنترنت'
+              : 'Check your internet status',
+        );
       }
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
       AppLogger.logWithGetX(error.toString());
-      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
+      return ApiFailure(StorageClient().isAr()
+          ? 'للأسف حدث خطأ'
+          : 'Unexpected Error Happened');
     }
   }
 
@@ -144,44 +165,54 @@ class APIClient {
     List<MapEntry<String, File>> files = const [],
   }) async {
     try {
-      bool haveFiles = false;
-      FormData formData = FormData.fromMap({});
-      if (files.isNotEmpty) {
-        haveFiles = true;
-        formData = FormData.fromMap(requestBody);
-        formData.files.addAll(files
-            .map(
-              (e) => MapEntry(
-                e.key,
-                MultipartFile.fromFileSync(e.value.path,
-                    filename: e.value.path.split("/").last),
-              ),
-            )
-            .toList());
-      }
-      Response response = await _client.put(
-        endPoint,
-        data: haveFiles ? formData : requestBody,
-        onReceiveProgress: (received, total) {
-          int percentage = ((received / total) * 100).floor();
-          AppLogger.log('Downloading ....$percentage');
-        },
-        onSendProgress: (sent, total) {
-          int percentage = ((sent / total) * 100).floor();
-          AppLogger.log('Uploading ....$percentage');
-        },
-      );
-      if (NetworkHelper.isSuccess(response)) {
-        return ApiSuccess(fromJson(response.data));
+      if (await OfflineHandler.isConnected()) {
+        bool haveFiles = false;
+        FormData formData = FormData.fromMap({});
+        if (files.isNotEmpty) {
+          haveFiles = true;
+          formData = FormData.fromMap(requestBody);
+          formData.files.addAll(files
+              .map(
+                (e) => MapEntry(
+                  e.key,
+                  MultipartFile.fromFileSync(e.value.path,
+                      filename: e.value.path.split("/").last),
+                ),
+              )
+              .toList());
+        }
+        Response response = await _client.put(
+          endPoint,
+          data: haveFiles ? formData : requestBody,
+          onReceiveProgress: (received, total) {
+            int percentage = ((received / total) * 100).floor();
+            AppLogger.log('Downloading ....$percentage');
+          },
+          onSendProgress: (sent, total) {
+            int percentage = ((sent / total) * 100).floor();
+            AppLogger.log('Uploading ....$percentage');
+          },
+        );
+        if (NetworkHelper.isSuccess(response)) {
+          return ApiSuccess(fromJson(response.data));
+        } else {
+          return NetworkHelper.handleCommonNetworkCases(response);
+        }
       } else {
-        return NetworkHelper.handleCommonNetworkCases(response);
+        return ApiFailure(
+          StorageClient().isAr()
+              ? 'لا يوجد اتصال بالإنترنت'
+              : 'Check your internet status',
+        );
       }
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
       AppLogger.logWithGetX(error.toString());
 
-      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
+      return ApiFailure(StorageClient().isAr()
+          ? 'للأسف حدث خطأ'
+          : 'Unexpected Error Happened');
     }
   }
 
@@ -192,18 +223,28 @@ class APIClient {
     List<MapEntry<String, File>> files = const [],
   }) async {
     try {
-      Response response = await _client.delete(endPoint, data: requestBody);
-      if (NetworkHelper.isSuccess(response)) {
-        return ApiSuccess(fromJson(response.data));
+      if (await OfflineHandler.isConnected()) {
+        Response response = await _client.delete(endPoint, data: requestBody);
+        if (NetworkHelper.isSuccess(response)) {
+          return ApiSuccess(fromJson(response.data));
+        } else {
+          return NetworkHelper.handleCommonNetworkCases(response);
+        }
       } else {
-        return NetworkHelper.handleCommonNetworkCases(response);
+        return ApiFailure(
+          StorageClient().isAr()
+              ? 'لا يوجد اتصال بالإنترنت'
+              : 'Check your internet status',
+        );
       }
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
       AppLogger.logWithGetX(error.toString());
 
-      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
+      return ApiFailure(StorageClient().isAr()
+          ? 'للأسف حدث خطأ'
+          : 'Unexpected Error Happened');
     }
   }
 
@@ -214,18 +255,28 @@ class APIClient {
     List<MapEntry<String, File>> files = const [],
   }) async {
     try {
-      Response response = await _client.patch(endPoint, data: requestBody);
-      if (NetworkHelper.isSuccess(response)) {
-        return ApiSuccess(fromJson(response.data));
+      if (await OfflineHandler.isConnected()) {
+        Response response = await _client.patch(endPoint, data: requestBody);
+        if (NetworkHelper.isSuccess(response)) {
+          return ApiSuccess(fromJson(response.data));
+        } else {
+          return NetworkHelper.handleCommonNetworkCases(response);
+        }
       } else {
-        return NetworkHelper.handleCommonNetworkCases(response);
+        return ApiFailure(
+          StorageClient().isAr()
+              ? 'لا يوجد اتصال بالإنترنت'
+              : 'Check your internet status',
+        );
       }
     } on DioException catch (error) {
       return NetworkHelper.handleDioError(error);
     } catch (error) {
       AppLogger.logWithGetX(error.toString());
 
-      return ApiFailure(StorageClient().isAr() ? 'للأسف حدث خطأ' : 'Unexpected Error Happened');
+      return ApiFailure(StorageClient().isAr()
+          ? 'للأسف حدث خطأ'
+          : 'Unexpected Error Happened');
     }
   }
 }
