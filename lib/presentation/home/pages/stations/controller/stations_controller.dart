@@ -24,7 +24,7 @@ import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart
 
 import '../../../../../domain/entities/station_model.dart';
 
-class StationsController extends GetxController {
+class StationsController extends GetxController with WidgetsBindingObserver {
   final StationsRepositoryImpl _stationsRepository;
 
   StationsController(this._stationsRepository);
@@ -46,6 +46,7 @@ class StationsController extends GetxController {
 
   ApiResult<List<ChargePowerModel>> chargePowersApiResult = ApiStart();
   RxList<ChargePowerModel> chargePowersList = <ChargePowerModel>[].obs;
+  Rx<ChargePowerModel?> selectedChargePower = Rx(null);
 
   bool mapView = true;
   TextEditingController searchTextEditingController = TextEditingController();
@@ -63,14 +64,30 @@ class StationsController extends GetxController {
   @override
   onInit() async {
     super.onInit();
+    WidgetsBinding.instance.addObserver(this);
 
     clusterManager = _initClusterManager();
+    getMyPosition(loading: true).then((value) => fetchData());
+  }
 
-    await getMyPosition(loading: true);
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
-    getAllStationMainFilterType();
-    getAllChargePowers();
-    getAllConnectors();
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // App is back from background (including settings)
+      getMyPosition(loading: false).then((value) => fetchData());
+    }
+  }
+
+  Future<void> fetchData() async {
+    await getAllStationMainFilterType();
+    await getAllChargePowers();
+    await getAllConnectors();
   }
 
   cluster_manager.ClusterManager<StationModel> _initClusterManager() {
@@ -137,11 +154,6 @@ class StationsController extends GetxController {
     connectorsList[index].isSelected.toggle();
   }
 
-  void toggleSelectedChargePower(ChargePowerModel chargePowerModel) {
-    int index = chargePowersList.indexOf(chargePowerModel);
-    chargePowersList[index].isSelected.toggle();
-  }
-
   void showStationCard(StationModel stationModel) {
     Get.dialog(
       Align(
@@ -199,7 +211,11 @@ class StationsController extends GetxController {
   void moveToMyLocations() {
     if (myLocation != null && mapController != null) {
       mapController!.animateCamera(
-        CameraUpdate.newLatLng(myLocation!),
+        CameraUpdate.newLatLngZoom(
+          myLocation!,
+          cameraZoom,
+        ),
+        duration: Duration(seconds: 2),
       );
     }
   }
@@ -210,7 +226,7 @@ class StationsController extends GetxController {
     update([stationsControllerId]);
   }
 
-  Future checkLocationPermission() async {
+  Future<bool> checkLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
     // Test if location services are enabled.
@@ -220,27 +236,34 @@ class StationsController extends GetxController {
       // accessing the position and request users of the
       // App to enable the location services.
       Future.error('Location services are disabled.');
+      _openRequestLocationServicesDialog();
+      return false;
     }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        _openSettingDialog();
+        _openRequestLocationDialog();
         Future.error('Location permissions are denied');
-        return;
+        return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      _openSettingDialog();
+      _openRequestLocationDialog();
       Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
-      return;
+      return false;
     }
+    return true;
   }
 
   Future getMyPosition({bool loading = true}) async {
-    await checkLocationPermission();
+    print('getMyPosition:::::::');
+    bool isGranted = await checkLocationPermission();
+    if (!isGranted) {
+      return;
+    }
     if (loading) {
       EasyLoading.show(status: 'getting_location'.tr);
     }
@@ -251,23 +274,43 @@ class StationsController extends GetxController {
     if (loading) {
       EasyLoading.dismiss();
     }
-    update();
+    update([stationsControllerId]);
     if (loading) {
       moveToMyLocations();
     }
   }
 
-  _openSettingDialog() {
+  void _openRequestLocationServicesDialog() async {
     Get.dialog(
       AppDialogView(
-        title: 'location_permission'.tr,
-        message: 'location_permission_message'.tr,
-        onActionClicked: () async {
-          Get.back();
+        title: 'location_services'.tr,
+        message: 'location_services_message'.tr,
+        actionText: 'ok'.tr,
+        onActionClicked: () {
+          Get.back(closeOverlays: true);
           openAppSettings();
         },
-        actionText: 'ok'.tr,
-        // svgName: Res.iconLocation,
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  _openRequestLocationDialog() {
+    Get.dialog(
+      Align(
+        alignment: AlignmentDirectional.center,
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: AppDialogView(
+            title: 'location_permission'.tr,
+            message: 'location_permission_message'.tr,
+            onActionClicked: () async {
+              Get.back(closeOverlays: true);
+              openAppSettings();
+            },
+            actionText: 'ok'.tr,
+          ),
+        ),
       ),
     );
   }
@@ -288,12 +331,9 @@ class StationsController extends GetxController {
 
   void resetFilter() {
     selectedStationsFilterType.value = null;
+    selectedChargePower.value = null;
     for (var connector in connectorsList) {
       connector.isSelected.value = false;
-    }
-
-    for (var chargePower in chargePowersList) {
-      chargePower.isSelected.value = false;
     }
 
     // todo call api to reset filter
@@ -301,5 +341,8 @@ class StationsController extends GetxController {
 
   void applyFilter() {
     Get.back();
+    // Check that if there is no matched data to show
+    //  “No stations found. Please try a different search.”
+    //  “لم يتم العثور على أي محطات. يُرجى تجربة بحث آخر.”.
   }
 }

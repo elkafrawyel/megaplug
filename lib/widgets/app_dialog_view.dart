@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import '../config/constants.dart';
 import 'app_widgets/app_text.dart';
 
@@ -51,61 +53,50 @@ class AppDialogView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      margin: const EdgeInsets.symmetric(
-        vertical: 200,
-        horizontal: 18,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(kRadius),
-        color: Theme.of(context).scaffoldBackgroundColor,
-      ),
-      child: Center(
+    return Align(
+        alignment: Alignment.center,
         child: Padding(
-          padding: const EdgeInsets.all(28.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (svgName != null)
-                Flexible(
-                  child: SvgPicture.asset(svgName!),
-                ),
-              20.ph,
-              AppText(
-                text: title,
-                fontSize: 24,
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.bold,
+            padding: const EdgeInsets.all(28.0),
+            child: Card(
+              color: context.kBackgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(kRadius),
               ),
-              10.ph,
-              AppText(
-                text: message,
-                fontSize: 16,
-                maxLines: 3,
-                centerText: true,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
-              20.ph,
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: onActionClicked.call,
-                  child: AppText(
-                    text: actionText,
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppText(
+                      text: title,
+                      fontSize: 20,
+                      color: context.kPrimaryColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 18,
+                      ),
+                      child: AppText(
+                        text: message,
+                        maxLines: 3,
+                        centerText: true,
+                        color: context.kHintTextColor,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    10.ph,
+                    AppButton(
+                      width: MediaQuery.sizeOf(context).width * 0.5,
+                      onPressed: onActionClicked.call,
+                      text: actionText,
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            )));
   }
 }

@@ -10,6 +10,7 @@ import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_requests/login_request.dart';
 import 'package:megaplug/data/api_responses/login_response.dart';
 import 'package:megaplug/data/repositories/auth_repo.dart';
+import 'package:megaplug/presentation/auth/otp_code/otp_code_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/rules.dart';
@@ -193,15 +194,12 @@ class _LoginScreenState extends State<LoginScreen> {
       AppLoader.dismiss();
       if (apiResult.isSuccess()) {
         LoginResponse loginResponse = apiResult.getData();
-
-        InformationViewer.showSuccessToast(msg: loginResponse.message);
-
-        await StorageClient().saveUser(userResponse: loginResponse.data);
-
-        Get.offAll(
-          () => HomeScreen(),
-          binding: HomeBinding(),
-        );
+          InformationViewer.showSuccessToast(msg: loginResponse.message);
+          await StorageClient().saveUser(userResponse: loginResponse.data);
+          Get.offAll(
+            () => HomeScreen(),
+            binding: HomeBinding(),
+          );
       } else {
         if (mounted) {
           InformationViewer.showSnackBar(

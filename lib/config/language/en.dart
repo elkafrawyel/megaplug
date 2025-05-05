@@ -77,7 +77,7 @@ Map<String, String> en = {
   'search_hint': 'Search station or connector type',
   'location_permission': 'Location Permission',
   'location_permission_message':
-      'Location permission is not enabled ,we need you to enable it so that we can get your exact location.',
+      'Location permission is not granted, We need you to allow it so that we can get your exact location.',
   'getting_location': 'Finding your location...',
   'filter_stations': 'Filter Station',
   'all': 'All',
@@ -101,4 +101,7 @@ Map<String, String> en = {
   'no_otp_received':"Didn't receive Code?",
   'ok':'Ok',
   'old_password':'Old Password',
+  'hi':'Hi, ',
+  'location_services':'Location Service',
+  'location_services_message':'Location services are disabled.please enable it to be able to use the app.',
 };

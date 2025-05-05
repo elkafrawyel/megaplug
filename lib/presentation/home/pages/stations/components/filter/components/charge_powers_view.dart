@@ -45,15 +45,15 @@ class ChargePowersView extends StatelessWidget {
                     .map(
                       (power) => GestureDetector(
                         onTap: () {
-                          stationController.toggleSelectedChargePower(
-                            power,
-                          );
+                          stationController.selectedChargePower.value = power;
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: power.isSelected.value
-                                ? context.kSecondaryColor
-                                : Color(0xffF5F6F8),
+                            color:
+                                stationController.selectedChargePower.value ==
+                                        power
+                                    ? context.kSecondaryColor
+                                    : Color(0xffF5F6F8),
                             borderRadius: BorderRadius.circular(24),
                           ),
                           child: Padding(
@@ -67,13 +67,18 @@ class ChargePowersView extends StatelessWidget {
                                 Icon(
                                   Icons.bolt,
                                   size: 20,
-                                  color: power.isSelected.value
+                                  color: stationController
+                                              .selectedChargePower.value ==
+                                          power
                                       ? Colors.white
                                       : Colors.black,
                                 ),
                                 AppText(
-                                  text: '${power.power.toInt().toString()} ${"kwh".tr}',
-                                  color: power.isSelected.value
+                                  text:
+                                      '${power.power.toInt().toString()} ${"kwh".tr}',
+                                  color: stationController
+                                              .selectedChargePower.value ==
+                                          power
                                       ? Colors.white
                                       : Colors.black,
                                 )

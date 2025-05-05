@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 import 'package:badges/badges.dart' as badges;
 import '../../../../../../../widgets/app_widgets/app_text.dart';
@@ -30,11 +32,31 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: kToolbarHeight,
         backgroundColor: backgroundColor ?? Colors.transparent,
         elevation: 0,
-        title: AppText(
-          text: 'Hi, Ahmed Bakry',
-          color: stationsController.mapView ? Colors.black : Colors.white,
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
+        title: GetBuilder<ProfileController>(
+          builder: (profileController) {
+            return AppText(
+              text: '${'hi'.tr} ${profileController.userModel?.name ?? ''}',
+              color: stationsController.mapView ? Colors.black : Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            );
+          },
+        ),
+        leading: GetBuilder<ProfileController>(
+          builder: (profileController) {
+            // if (profileController.userModel?.image == null) {
+            //   return const SizedBox();
+            // }
+            return Padding(
+              padding: const EdgeInsetsDirectional.only(start: 18.0),
+              child: AppNetworkImage(
+                isCircular: true,
+                fit: BoxFit.cover,
+                imageUrl: profileController.userModel?.image ??
+                    'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
+              ),
+            );
+          },
         ),
         centerTitle: false,
         actions: [
@@ -67,16 +89,6 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
             ),
           )
         ],
-        leadingWidth: 60,
-        leading: Padding(
-          padding: const EdgeInsetsDirectional.only(start: 18.0),
-          child: AppNetworkImage(
-            isCircular: true,
-            fit: BoxFit.cover,
-            imageUrl:
-                'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
-          ),
-        ),
         flexibleSpace: Stack(
           clipBehavior: Clip.none,
           children: [

@@ -185,23 +185,14 @@ class StationsRepositoryImpl extends StationsRepository {
         ChargePowerModel(
           id: '0',
           name: 'power 0',
-          power: 10,
+          power: 22,
         ),
         ChargePowerModel(
           id: '1',
           name: 'power 1',
-          power: 10,
+          power: 50,
         ),
-        ChargePowerModel(
-          id: '2',
-          name: 'power 2',
-          power: 20,
-        ),
-        ChargePowerModel(
-          id: '3',
-          name: 'power 3',
-          power: 30,
-        ),
+
       ],
     );
   }

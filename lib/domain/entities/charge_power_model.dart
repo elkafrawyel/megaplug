@@ -4,14 +4,13 @@ class ChargePowerModel {
   final String id;
   final String name;
   final double power;
-  RxBool isSelected;
 
   ChargePowerModel({
     required this.id,
     required this.name,
     required this.power,
     bool isSelected = false,
-  }) : isSelected = isSelected.obs;
+  });
 
   factory ChargePowerModel.fromJson(Map<String, dynamic> json) {
     return ChargePowerModel(
@@ -28,4 +27,16 @@ class ChargePowerModel {
       'power': power,
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ChargePowerModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          power == other.power;
+
+  @override
+  int get hashCode => id.hashCode ^ name.hashCode ^ power.hashCode;
 }
