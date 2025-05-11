@@ -153,7 +153,8 @@ class FilterBottomSheet extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
+            50.ph,
           ],
         ),
       ),

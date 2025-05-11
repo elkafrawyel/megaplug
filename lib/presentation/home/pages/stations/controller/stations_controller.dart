@@ -69,18 +69,33 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     getMyPosition(loading: true).then((value) => fetchData());
   }
 
-  listenToStations() {
-    _stationsRepository.listenToStations(
-      onChange: (List<FirebaseStationModel> stations) {
+  late StreamSubscription<QuerySnapshot<FirebaseStationModel>> subscription;
+
+  listenToStations() async {
+    Stream<QuerySnapshot<FirebaseStationModel>> stationSubscription =
+        await _stationsRepository.listenToStations(
+      searchQuery: searchTextEditingController.text,
+    );
+
+    stations.clear();
+    clusterManager.setItems([]);
+    subscription = stationSubscription.listen(
+      (event) {
+        for (var doc in event.docs) {
+          stations.add(doc.data());
+        }
+
         clusterManager.setItems(stations);
-        this.stations = stations;
       },
+      onError: (error) =>
+          AppLogger.logWithGetX("Listen failed: $error"), // Add error handler
     );
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     WidgetsBinding.instance.removeObserver(this);
+    await subscription.cancel();
     super.dispose();
   }
 
@@ -318,6 +333,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
 
   void handleSearchText({required String text}) {
     update([searchViewControllerId]);
+    listenToStations();
   }
 
   void resetFilter() {

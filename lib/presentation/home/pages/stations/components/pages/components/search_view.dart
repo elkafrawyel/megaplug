@@ -26,21 +26,29 @@ class SearchView extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+              ),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
                     Res.searchIcon,
                   ),
-                  5.pw,
+                  10.pw,
                   Expanded(
                     child: TextField(
                       controller:
                           stationsController.searchTextEditingController,
                       textInputAction: TextInputAction.search,
                       keyboardType: TextInputType.text,
+                      style: TextStyle(
+                        color: context.kTextColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(vertical: 16),
                         border: InputBorder.none,
                         hintText: 'search_hint'.tr,
                         hintStyle: TextStyle(
