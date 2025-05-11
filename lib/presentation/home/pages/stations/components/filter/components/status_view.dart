@@ -6,8 +6,8 @@ import 'package:megaplug/presentation/home/pages/stations/controller/stations_co
 import '../../../../../../../config/clients/api/api_result.dart';
 import '../../../../../../../widgets/app_widgets/app_text.dart';
 
-class StationsTypeView extends StatelessWidget {
-  const StationsTypeView({super.key});
+class StatusView extends StatelessWidget {
+  const StatusView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class StationsTypeView extends StatelessWidget {
     return GetBuilder<StationsController>(
       id: StationsController.filterViewControllerId,
       builder: (stationController) {
-        return switch (stationController.connectorsApiResult) {
+        return switch (stationController.stationFilterApiResult) {
           ApiStart() => SizedBox(),
           ApiLoading() => CircularProgressIndicator.adaptive(),
           ApiEmpty() => Center(
@@ -61,15 +61,15 @@ class StationsTypeView extends StatelessWidget {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 18.0, vertical: 10),
+                                    horizontal: 24.0, vertical: 12),
                                 child: AppText(
-                                  text: stationsFilter.name.tr,
+                                  text: stationsFilter.value ?? '',
                                   color: stationsFilter ==
                                           stationController
                                               .selectedStationsFilterType.value
                                       ? Colors.white
                                       : Colors.black,
-                                  fontSize: 14,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),

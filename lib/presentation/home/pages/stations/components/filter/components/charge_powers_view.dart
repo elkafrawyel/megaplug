@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/domain/entities/charge_power_model.dart';
-
 import '../../../../../../../config/clients/api/api_result.dart';
 import '../../../controller/stations_controller.dart';
 import '../../../../../../../widgets/app_widgets/app_text.dart';
@@ -17,11 +17,10 @@ class ChargePowersView extends StatelessWidget {
     return GetBuilder<StationsController>(
       id: StationsController.filterViewControllerId,
       builder: (stationController) {
-        return switch (stationController.chargePowersApiResult) {
-          ApiStart<List<ChargePowerModel>>() => SizedBox(),
-          ApiLoading<List<ChargePowerModel>>() =>
-            CircularProgressIndicator.adaptive(),
-          ApiEmpty<List<ChargePowerModel>>() => Center(
+        return switch (stationController.stationFilterApiResult) {
+          ApiStart() => SizedBox(),
+          ApiLoading() => CircularProgressIndicator.adaptive(),
+          ApiEmpty() => Center(
               child: Padding(
                 padding: const EdgeInsets.all(48.0),
                 child: AppText(
@@ -29,7 +28,7 @@ class ChargePowersView extends StatelessWidget {
                 ),
               ),
             ),
-          ApiFailure<List<ChargePowerModel>>() => Center(
+          ApiFailure() => Center(
               child: Padding(
                 padding: const EdgeInsets.all(48.0),
                 child: AppText(
@@ -37,7 +36,7 @@ class ChargePowersView extends StatelessWidget {
                 ),
               ),
             ),
-          ApiSuccess<List<ChargePowerModel>>() => Obx(
+          ApiSuccess() => Obx(
               () => Wrap(
                 runSpacing: 12.0,
                 spacing: 12.0,
@@ -58,29 +57,36 @@ class ChargePowersView extends StatelessWidget {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 18.0,
-                              vertical: 8.0,
+                              horizontal: 24.0,
+                              vertical: 10.0,
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Icon(
-                                  Icons.bolt,
-                                  size: 20,
-                                  color: stationController
-                                              .selectedChargePower.value ==
-                                          power
-                                      ? Colors.white
-                                      : Colors.black,
+                                SvgPicture.asset(
+                                  Res.lightningIcon,
+                                  colorFilter: ColorFilter.mode(
+                                    stationController
+                                                .selectedChargePower.value ==
+                                            power
+                                        ? Colors.white
+                                        : Colors.black,
+                                    BlendMode.srcIn,
+                                  ),
                                 ),
+                                5.pw,
                                 AppText(
-                                  text:
-                                      '${power.power.toInt().toString()} ${"kwh".tr}',
+                                  text: power.nameEn ?? '',
                                   color: stationController
                                               .selectedChargePower.value ==
                                           power
                                       ? Colors.white
                                       : Colors.black,
+                                  fontWeight: stationController
+                                              .selectedChargePower.value ==
+                                          power
+                                      ? FontWeight.w500
+                                      : FontWeight.w400,
                                 )
                               ],
                             ),

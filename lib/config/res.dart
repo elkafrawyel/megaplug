@@ -8,6 +8,8 @@ class Res {
   static const apiVerifyAccount = 'verify-account';
   static const apiResetPassword = 'reset-password';
 
+  static const apiStationFilter = 'filter-stations-setting';
+
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';
   static const arabicLogo = 'assets/images/arabic_logo.png';
@@ -61,6 +63,10 @@ class Res {
   static const instagramIcon = 'assets/icons/instagram.svg';
   static const callIcon = 'assets/icons/call.svg';
   static const youtubeIcon = 'assets/icons/youtube.svg';
+  static const lightningIcon = 'assets/icons/lightning.svg';
+  static const closeIcon = 'assets/icons/close.svg';
+  static const notificationsIcon = 'assets/icons/notifications.svg';
+
 
   ///================================================================
 

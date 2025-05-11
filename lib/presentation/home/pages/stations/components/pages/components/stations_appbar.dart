@@ -80,9 +80,10 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
-                  child: Icon(
-                    Icons.notifications_none,
-                    color: Colors.black,
+                  child: SvgPicture.asset(
+                    Res.notificationsIcon,
+                    width: 22,
+                    height: 22,
                   ),
                 ),
               ),

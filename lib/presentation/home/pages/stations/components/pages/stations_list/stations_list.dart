@@ -18,7 +18,7 @@ class StationsList extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
-              vertical: 30.0,
+              vertical: 18.0,
               horizontal: 8.0,
             ),
             child: ListView.separated(

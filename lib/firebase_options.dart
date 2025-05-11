@@ -67,4 +67,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'ws-mp-kodepedia.firebasestorage.app',
     iosBundleId: 'com.megaplug.app',
   );
+
 }

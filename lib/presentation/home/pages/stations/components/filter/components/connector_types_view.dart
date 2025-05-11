@@ -16,7 +16,7 @@ class ConnectorTypesView extends StatelessWidget {
     return GetBuilder<StationsController>(
       id: StationsController.filterViewControllerId,
       builder: (stationController) {
-        return switch (stationController.connectorsApiResult) {
+        return switch (stationController.stationFilterApiResult) {
           ApiStart() => SizedBox(),
           ApiLoading() => CircularProgressIndicator.adaptive(),
           ApiEmpty() => Center(
@@ -39,7 +39,8 @@ class ConnectorTypesView extends StatelessWidget {
               () => Column(
                 children: stationController.connectorsList.value
                     .map(
-                      (connector) => GestureDetector(
+                      (connector) => InkWell(
+                        splashColor: Colors.grey,
                         onTap: () {
                           stationController.toggleSelectedConnector(
                             connector,
@@ -50,10 +51,15 @@ class ConnectorTypesView extends StatelessWidget {
                           child: Row(
                             children: [
                               SvgPicture.asset(
-                                connector.image,
+                                connector.image ?? '',
                               ),
                               10.pw,
-                              Expanded(child: AppText(text: connector.text)),
+                              Expanded(
+                                child: AppText(
+                                  text: connector.toString(),
+                                  fontSize: 13,
+                                ),
+                              ),
                               CircularCheckbox(
                                 value: connector.isSelected.value,
                                 onChanged: (bool? value) {

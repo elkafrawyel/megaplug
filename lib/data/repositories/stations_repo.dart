@@ -1,11 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/firebase/firebase_fireStore_service.dart';
 import 'package:megaplug/config/extension/station_status.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/config/res.dart';
+import 'package:megaplug/data/api_responses/station_filter_response.dart';
+import 'package:megaplug/domain/entities/firebase_station_model.dart';
 import 'package:megaplug/domain/entities/charge_power_model.dart';
 import 'package:megaplug/domain/entities/connector_type_model.dart';
 import 'package:megaplug/domain/entities/station_model.dart';
-import 'package:megaplug/domain/entities/station_main_filter_type_model.dart';
+import 'package:megaplug/domain/entities/status_filter_model.dart';
 
 import '../../domain/repositories/stations_repo.dart';
 
@@ -150,65 +159,43 @@ class StationsRepositoryImpl extends StationsRepository {
   }
 
   @override
-  Future<ApiResult<List<ConnectorTypeModel>>> getAllConnectorTypes() async {
-    return ApiSuccess(
-      [
-        ConnectorTypeModel(
-          id: '445',
-          image: 'assets/icons/connector_type_1.svg',
-          text: 'ABB Terra 53 CJG Type 1',
-        ),
-        ConnectorTypeModel(
-          id: '5856',
-          image: 'assets/icons/connector_type_1.svg',
-          text: 'Tesla',
-          isSelected: false,
-        ),
-        ConnectorTypeModel(
-          id: '564646',
-          image: 'assets/icons/connector_type_1.svg',
-          text: 'EVBox Troniq 50 CCS2',
-        ),
-        ConnectorTypeModel(
-          id: '564456',
-          image: 'assets/icons/connector_type_1.svg',
-          text: 'Tritium Veefil-RT Type 2',
-        ),
-      ],
+  Future<ApiResult<StationFilterResponse>> getStationFilter() async {
+    return APIClient.instance.get<StationFilterResponse>(
+      endPoint: Res.apiStationFilter,
+      fromJson: StationFilterResponse.fromJson,
     );
   }
 
   @override
-  Future<ApiResult<List<ChargePowerModel>>> getAllChargePowers() async {
-    return ApiSuccess(
-      [
-        ChargePowerModel(
-          id: '0',
-          name: 'power 0',
-          power: 22,
-        ),
-        ChargePowerModel(
-          id: '1',
-          name: 'power 1',
-          power: 50,
-        ),
-
-      ],
+  Future listenToStations({
+    required Function(List<FirebaseStationModel>) onChange,
+  }) async {
+    final databaseName = 'mp-db';
+    final collectionId = 'stations';
+    // Connect to 'mp-db' instead of the default database
+    final FirebaseFirestore firestore = FirebaseFirestore.instanceFor(
+      app: Firebase.app(),
+      databaseId: databaseName,
     );
-  }
 
-  @override
-  Future<ApiResult<List<StationMainFilterTypeModel>>> getAllStationMainFilterTypes() async {
-    return ApiSuccess(
-      [
-        StationMainFilterTypeModel(id: '0', name: 'all', slug: 'all'),
-        StationMainFilterTypeModel(id: '1', name: 'available', slug: 'available'),
-        StationMainFilterTypeModel(
-          id: '2',
-          name: 'available_and_in_use',
-          slug: 'available_and_in_use',
-        ),
-      ],
+    firestore.collection(collectionId).snapshots().listen(
+      (event) {
+        print('Received snapshot with ${event.docs.length} documents');
+        if (event.docs.isEmpty) {
+          print(
+              'No documents found - check collection path and security rules');
+        }
+
+        final List<FirebaseStationModel> stations = event.docs
+            .map(
+              (doc) => FirebaseStationModel.fromJson(
+                doc.data(),
+              ),
+            )
+            .toList();
+        onChange(stations);
+      },
+      onError: (error) => print("Listen failed: $error"), // Add error handler
     );
   }
 }

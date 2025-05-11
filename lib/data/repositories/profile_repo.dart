@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/environment.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 
 import 'package:megaplug/data/api_responses/general_response.dart';

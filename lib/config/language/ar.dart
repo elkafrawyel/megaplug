@@ -103,4 +103,13 @@ Map<String, String> ar = {
   'location_services': 'خدمة الموقع',
   'location_services_message':
       'تم تعطيل خدمات الموقع. يرجى تفعيلها لاستخدام التطبيق.',
+  'area': 'منطقة',
+  'busy': 'مشغول',
+  'down': 'معطل',
+  'km': 'كم',
+  'station_details': 'تفاصيل المحطة',
+  'get_directions': 'احصل على الاتجاهات',
+  'connectors': 'موصلات',
+  'w':'وات'
+
 };

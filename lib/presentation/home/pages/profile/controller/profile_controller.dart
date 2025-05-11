@@ -49,6 +49,7 @@ class ProfileController extends GetxController {
   Future<void> logout() async {
     AppLoader.loading();
 
+
     ApiResult<GeneralResponse> apiResult =
         await _profileRepositoryImpl.logout();
 

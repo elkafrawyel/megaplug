@@ -20,4 +20,17 @@ extension StationStatusEx on StationStatus {
         return Color(0xffE86F00);
     }
   }
+
+  String get text {
+    switch (this) {
+      case StationStatus.area:
+        return 'area';
+      case StationStatus.active:
+        return 'available';
+      case StationStatus.down:
+        return 'down';
+      case StationStatus.busy:
+        return 'busy';
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -7,12 +8,17 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/clients/firebase/firebase_fireStore_service.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/config/information_viewer.dart';
+import 'package:megaplug/data/api_responses/station_filter_response.dart';
+import 'package:megaplug/data/repositories/profile_repo.dart';
 import 'package:megaplug/data/repositories/stations_repo.dart';
+import 'package:megaplug/domain/entities/firebase_station_model.dart';
 import 'package:megaplug/domain/entities/charge_power_model.dart';
 import 'package:megaplug/domain/entities/connector_type_model.dart';
-import 'package:megaplug/domain/entities/station_main_filter_type_model.dart';
+import 'package:megaplug/domain/entities/status_filter_model.dart';
 import 'package:megaplug/presentation/home/pages/stations/components/pages/components/station_card_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
@@ -33,18 +39,11 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   static final String searchViewControllerId = 'search_view_id';
   static final String filterViewControllerId = 'filer_view_id';
 
-  ApiResult<List<StationMainFilterTypeModel>> stationMainFilterTypeApiResult =
-      ApiStart();
-  RxList<StationMainFilterTypeModel> stationsMainFilterTypes =
-      <StationMainFilterTypeModel>[].obs;
-  Rx<StationMainFilterTypeModel?> selectedStationsFilterType = Rx(null);
-
-  List<StationModel> stations = [];
-
-  ApiResult<List<ConnectorTypeModel>> connectorsApiResult = ApiStart();
+  ApiResult<StationFilterResponse> stationFilterApiResult = ApiStart();
+  RxList<StatusFilterModel> stationsMainFilterTypes = <StatusFilterModel>[].obs;
+  Rx<StatusFilterModel?> selectedStationsFilterType = Rx(null);
+  List<FirebaseStationModel> stations = [];
   RxList<ConnectorTypeModel> connectorsList = <ConnectorTypeModel>[].obs;
-
-  ApiResult<List<ChargePowerModel>> chargePowersApiResult = ApiStart();
   RxList<ChargePowerModel> chargePowersList = <ChargePowerModel>[].obs;
   Rx<ChargePowerModel?> selectedChargePower = Rx(null);
 
@@ -59,15 +58,24 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   double cameraZoom = 8;
   MapType mapType = MapType.normal;
 
-  late cluster_manager.ClusterManager<StationModel> clusterManager;
+  late cluster_manager.ClusterManager<FirebaseStationModel> clusterManager;
 
   @override
   onInit() async {
     super.onInit();
-    WidgetsBinding.instance.addObserver(this);
 
+    WidgetsBinding.instance.addObserver(this);
     clusterManager = _initClusterManager();
     getMyPosition(loading: true).then((value) => fetchData());
+  }
+
+  listenToStations() {
+    _stationsRepository.listenToStations(
+      onChange: (List<FirebaseStationModel> stations) {
+        clusterManager.setItems(stations);
+        this.stations = stations;
+      },
+    );
   }
 
   @override
@@ -85,12 +93,10 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> fetchData() async {
-    await getAllStationMainFilterType();
-    await getAllChargePowers();
-    await getAllConnectors();
+    await getStationFilter();
   }
 
-  cluster_manager.ClusterManager<StationModel> _initClusterManager() {
+  cluster_manager.ClusterManager<FirebaseStationModel> _initClusterManager() {
     return cluster_manager.ClusterManager(
       [],
       _updateMarkers,
@@ -98,7 +104,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     );
   }
 
-  Future<Marker> Function(cluster_manager.Cluster<StationModel>)
+  Future<Marker> Function(cluster_manager.Cluster<FirebaseStationModel>)
       get markerBuilder => (cluster) async {
             return Marker(
               markerId: MarkerId(cluster.getId()),
@@ -107,7 +113,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
                 if (cluster.isMultiple) {
                   animateToArea(cluster.location);
                 } else {
-                  AppLogger.log(cluster.items.first.name);
+                  AppLogger.log(cluster.items.first.nameEn);
                   showStationCard(cluster.items.first);
                 }
               },
@@ -115,7 +121,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
                 key: UniqueKey(),
                 stationStatus: cluster.isMultiple
                     ? StationStatus.area
-                    : cluster.items.first.stationStatus,
+                    : cluster.items.first.getStationStatus(),
                 count: cluster.isMultiple ? cluster.count.toString() : null,
               ).toBitmapDescriptor(
                 logicalSize: const Size(200, 200),
@@ -124,29 +130,23 @@ class StationsController extends GetxController with WidgetsBindingObserver {
             );
           };
 
-  Future<void> getAllStationMainFilterType() async {
-    stationMainFilterTypeApiResult = ApiLoading();
+  Future<void> getStationFilter() async {
+    stationFilterApiResult = ApiLoading();
     update([filterViewControllerId]);
-    stationMainFilterTypeApiResult =
-        await _stationsRepository.getAllStationMainFilterTypes();
-    update([filterViewControllerId]);
-    stationsMainFilterTypes.value = stationMainFilterTypeApiResult.getData();
-  }
+    stationFilterApiResult = await _stationsRepository.getStationFilter();
 
-  Future<void> getAllConnectors() async {
-    connectorsApiResult = ApiLoading();
-    update([filterViewControllerId]);
-    connectorsApiResult = await _stationsRepository.getAllConnectorTypes();
-    update([filterViewControllerId]);
-    connectorsList.value = connectorsApiResult.getData();
-  }
+    if (stationFilterApiResult.isSuccess()) {
+      StationFilterResponse stationFilterResponse =
+          stationFilterApiResult.getData();
+      stationsMainFilterTypes.value =
+          stationFilterResponse.data?.statusFilters ?? [];
+      connectorsList.value = stationFilterResponse.data?.connectorTypes ?? [];
+      chargePowersList.value = stationFilterResponse.data?.chargingPowers ?? [];
 
-  Future<void> getAllChargePowers() async {
-    chargePowersApiResult = ApiLoading();
-    update([filterViewControllerId]);
-    chargePowersApiResult = await _stationsRepository.getAllChargePowers();
-    update([filterViewControllerId]);
-    chargePowersList.value = chargePowersApiResult.getData();
+      update([filterViewControllerId]);
+    } else {
+      InformationViewer.showErrorToast(msg: stationFilterApiResult.getError());
+    }
   }
 
   void toggleSelectedConnector(ConnectorTypeModel connectorTypeModel) {
@@ -154,7 +154,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     connectorsList[index].isSelected.toggle();
   }
 
-  void showStationCard(StationModel stationModel) {
+  void showStationCard(FirebaseStationModel stationModel) {
     Get.dialog(
       Align(
         alignment: Alignment.bottomCenter,
@@ -181,16 +181,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     mapController = controller;
     clusterManager.setMapId(controller.mapId);
 
-    await updateClusterItems();
-  }
-
-  Future updateClusterItems() async {
-    AppLogger.log('_initClusterManager');
-
-    ApiResult apiResult = await _stationsRepository.getAllStations();
-    stations = apiResult.getData();
-
-    clusterManager.setItems(stations);
+    listenToStations();
   }
 
   void animateToArea(LatLng latLng) async {
@@ -344,5 +335,20 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     // Check that if there is no matched data to show
     //  “No stations found. Please try a different search.”
     //  “لم يتم العثور على أي محطات. يُرجى تجربة بحث آخر.”.
+  }
+
+  String getDistance(double stationLatitude, double stationLongitude) {
+    if (myLocation != null) {
+      double distanceInMeters = Geolocator.distanceBetween(
+        myLocation!.latitude,
+        myLocation!.longitude,
+        stationLatitude,
+        stationLongitude,
+      );
+      double distanceInKm = distanceInMeters / 1000;
+      return distanceInKm.toStringAsFixed(2);
+    } else {
+      return '0.00';
+    }
   }
 }
