@@ -3,8 +3,9 @@ import 'dart:math';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/domain/entities/firebase/firebase_connector_type_model.dart';
 
-import '../../config/extension/station_status.dart';
+import '../../../config/extension/station_status.dart';
 
 class FirebaseStationModel with ClusterItem {
   FirebaseStationModel({
@@ -17,7 +18,7 @@ class FirebaseStationModel with ClusterItem {
     this.longitude,
     this.addressAr,
     this.addressEn,
-    this.connectorCount,
+    this.connectors,
   });
 
   FirebaseStationModel.fromJson(dynamic json) {
@@ -30,7 +31,12 @@ class FirebaseStationModel with ClusterItem {
     longitude = json['longitude'];
     addressAr = json['address_ar'];
     addressEn = json['address_en'];
-    connectorCount = json['connector_count'];
+    if (json['connectors'] != null) {
+      connectors = [];
+      json['connectors'].forEach((v) {
+        connectors?.add(FirebaseConnectorTypeModel.fromJson(v));
+      });
+    }
   }
 
   String getName() => StorageClient().isAr() ? nameAr! : nameEn!;
@@ -56,8 +62,8 @@ class FirebaseStationModel with ClusterItem {
   bool? isOccupied;
   double? latitude;
   double? longitude;
+  List<FirebaseConnectorTypeModel>? connectors;
 
-  int? connectorCount;
 
   FirebaseStationModel copyWith({
     String? id,
@@ -70,8 +76,8 @@ class FirebaseStationModel with ClusterItem {
     double? longitude,
     String? addressAr,
     String? addressEn,
-    int? connectorCount,
-  }) =>
+    List<FirebaseConnectorTypeModel>? connectors,
+   }) =>
       FirebaseStationModel(
         id: id ?? this.id,
         nameEn: nameEn ?? this.nameEn,
@@ -82,7 +88,7 @@ class FirebaseStationModel with ClusterItem {
         longitude: longitude ?? this.longitude,
         addressAr: addressAr ?? this.addressAr,
         addressEn: addressEn ?? this.addressEn,
-        connectorCount: connectorCount ?? this.connectorCount,
+        connectors: connectors ?? this.connectors,
       );
 
   Map<String, dynamic> toJson() {
@@ -97,13 +103,14 @@ class FirebaseStationModel with ClusterItem {
     map['longitude'] = longitude;
     map['address_ar'] = addressAr;
     map['address_en'] = addressEn;
-    map['connector_count'] = connectorCount;
+    if (connectors != null) {
+      map['connectors'] = connectors?.map((v) => v.toJson()).toList();
+    }
     return map;
   }
 
   @override
   LatLng get location => LatLng(latitude!, longitude!);
-
 
 
 }

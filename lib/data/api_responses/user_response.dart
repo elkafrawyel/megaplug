@@ -1,4 +1,4 @@
-import '../../domain/entities/user_model.dart';
+import '../../domain/entities/api/user_model.dart';
 
 class UserResponse {
   UserResponse({

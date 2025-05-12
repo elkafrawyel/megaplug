@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/instance_manager.dart';
-import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/extension/station_status.dart';
+import 'package:megaplug/config/helpers/map_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/stations/controller/stations_controller.dart';
 import 'package:megaplug/presentation/station_details/station_details_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
-import '../../../../../../../domain/entities/firebase_station_model.dart';
-import '../../../../../../../domain/entities/station_model.dart';
+import '../../../../../../../domain/entities/firebase/firebase_station_model.dart';
 import '../../../../../../../widgets/app_widgets/app_text.dart';
 
 class StationCardView extends StatelessWidget {
@@ -82,44 +80,60 @@ class StationCardView extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 8),
-                          Row(
+                          Wrap(
+                            runSpacing: 8,
+                            spacing: 8,
                             children: [
-                              Icon(
-                                Icons.location_on,
-                                size: 20,
-                                color: statusColor,
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 20,
+                                    color: statusColor,
+                                  ),
+                                  SizedBox(width: 2),
+                                  AppText(
+                                    text: '${stationsController.getDistance(
+                                      stationModel.latitude!,
+                                      stationModel.longitude!,
+                                    )} ${'km'.tr}',
+                                    fontSize: 12,
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 2),
-                              AppText(
-                                text: '${stationsController.getDistance(
-                                  stationModel.latitude!,
-                                  stationModel.longitude!,
-                                )} ${'km'.tr}',
-                                fontSize: 12,
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.power,
+                                    size: 20,
+                                    color: statusColor,
+                                  ),
+                                  SizedBox(width: 2),
+                                  AppText(
+                                    text:
+                                        '${stationModel.connectors?.length ?? 0} ${'connectors'.tr}',
+                                    fontSize: 12,
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 4),
-                              Icon(
-                                Icons.power,
-                                size: 20,
-                                color: statusColor,
-                              ),
-                              SizedBox(width: 2),
-                              AppText(
-                                text:
-                                    '${stationModel.connectorCount ?? 0} ${'connectors'.tr}',
-                                fontSize: 12,
-                              ),
-                              SizedBox(width: 4),
-                              Icon(
-                                Icons.bolt,
-                                size: 20,
-                                color: statusColor,
-                              ),
-                              SizedBox(width: 2),
-                              AppText(
-                                text: '22-50 ${'w'.tr}',
-                                fontSize: 12,
-                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.bolt,
+                                    size: 20,
+                                    color: statusColor,
+                                  ),
+                                  SizedBox(width: 2),
+                                  AppText(
+                                    text:
+                                        '${(stationModel.connectors ?? []).map((connector) => connector.chargePower).join('-')} ${'w'.tr}',
+                                    fontSize: 12,
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ],
@@ -146,7 +160,12 @@ class StationCardView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            MapHelper.openMap(
+                              stationModel.location.latitude,
+                              stationModel.location.longitude,
+                            );
+                          },
                         ),
                       ),
                       SizedBox(width: 12),
@@ -166,7 +185,7 @@ class StationCardView extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            Get.to(() => StationDetailsScreen());
+                            // Get.to(() => StationDetailsScreen());
                           },
                         ),
                       ),

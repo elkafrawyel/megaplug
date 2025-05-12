@@ -7,28 +7,25 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
-import 'package:megaplug/config/clients/firebase/firebase_fireStore_service.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/data/api_responses/station_filter_response.dart';
-import 'package:megaplug/data/repositories/profile_repo.dart';
 import 'package:megaplug/data/repositories/stations_repo.dart';
-import 'package:megaplug/domain/entities/firebase_station_model.dart';
-import 'package:megaplug/domain/entities/charge_power_model.dart';
-import 'package:megaplug/domain/entities/connector_type_model.dart';
-import 'package:megaplug/domain/entities/status_filter_model.dart';
+import 'package:megaplug/domain/entities/firebase/firebase_station_model.dart';
+import 'package:megaplug/domain/entities/api/charge_power_model.dart';
+import 'package:megaplug/domain/entities/api/connector_type_model.dart';
 import 'package:megaplug/presentation/home/pages/stations/components/pages/components/station_card_view.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
+import '../../../../../domain/entities/api/status_filter_model.dart';
 import '../../../../../widgets/app_dialog_view.dart';
 import '../components/pages/map/components/custom_marker_view.dart';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
     as cluster_manager;
-
-import '../../../../../domain/entities/station_model.dart';
 
 class StationsController extends GetxController with WidgetsBindingObserver {
   final StationsRepositoryImpl _stationsRepository;
@@ -72,24 +69,42 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   late StreamSubscription<QuerySnapshot<FirebaseStationModel>> subscription;
 
   listenToStations() async {
+
     Stream<QuerySnapshot<FirebaseStationModel>> stationSubscription =
         await _stationsRepository.listenToStations(
       searchQuery: searchTextEditingController.text,
     );
 
-    stations.clear();
-    clusterManager.setItems([]);
     subscription = stationSubscription.listen(
       (event) {
-        for (var doc in event.docs) {
-          stations.add(doc.data());
-        }
-
-        clusterManager.setItems(stations);
+        mapConnectorsToStations(
+          event.docs.map((doc) => doc.data()).toList(),
+        );
       },
       onError: (error) =>
           AppLogger.logWithGetX("Listen failed: $error"), // Add error handler
     );
+  }
+
+  Future<void> mapConnectorsToStations(
+      List<FirebaseStationModel> stationsWithoutConnectors) async {
+    List<FirebaseStationModel> stationsWithConnectors =
+        await _stationsRepository.mapConnectorsToStations(
+            stations: stationsWithoutConnectors);
+    stations = stationsWithConnectors;
+
+
+    // stations = stationsWithoutConnectors;
+    restartMap();
+
+    print('stations_length ==> ${stations.length}');
+  }
+
+  restartMap() {
+    clusterManager.setItems(stations);
+    clusterManager.updateMap();
+    update([stationsControllerId]);
+
   }
 
   @override

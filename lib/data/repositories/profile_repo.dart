@@ -9,7 +9,7 @@ import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 
 import 'package:megaplug/data/api_responses/general_response.dart';
-import 'package:megaplug/domain/entities/user_model.dart';
+import 'package:megaplug/domain/entities/api/user_model.dart';
 
 import '../../domain/repositories/profile_repo.dart';
 

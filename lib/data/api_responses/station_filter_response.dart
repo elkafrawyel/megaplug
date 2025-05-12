@@ -1,7 +1,7 @@
-import 'package:megaplug/domain/entities/connector_type_model.dart';
+import 'package:megaplug/domain/entities/api/connector_type_model.dart';
 
-import '../../domain/entities/charge_power_model.dart';
-import '../../domain/entities/status_filter_model.dart';
+import '../../domain/entities/api/charge_power_model.dart';
+import '../../domain/entities/api/status_filter_model.dart';
 
 class StationFilterResponse {
   StationFilterResponse({
