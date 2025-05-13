@@ -28,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     super.build(context);
 
+    return SizedBox();
     double appbarHeight = 150;
     double imageHeight = 100;
     return Scaffold(

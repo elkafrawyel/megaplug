@@ -110,6 +110,6 @@ Map<String, String> ar = {
   'station_details': 'تفاصيل المحطة',
   'get_directions': 'احصل على الاتجاهات',
   'connectors': 'موصلات',
-  'w':'وات'
+  'w':'وات',
 
 };

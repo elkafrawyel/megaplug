@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 import 'components/pages/map/map_view.dart';
 import 'components/pages/components/stations_appbar.dart';
 import 'components/pages/stations_list/stations_list.dart';
@@ -22,6 +23,7 @@ class _StationsScreenState extends State<StationsScreen>
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
+      backgroundColor: context.kBackgroundColor,
       appBar: StationsAppbar(
         height: 100,
       ),

@@ -21,6 +21,8 @@ class _WalletScreenState extends State<WalletScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    return SizedBox();
+
     return Scaffold(
       backgroundColor: context.kBackgroundColor,
       appBar: HomeAppbar(

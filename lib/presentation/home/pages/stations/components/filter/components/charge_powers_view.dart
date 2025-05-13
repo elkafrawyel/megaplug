@@ -19,7 +19,10 @@ class ChargePowersView extends StatelessWidget {
       builder: (stationController) {
         return switch (stationController.stationFilterApiResult) {
           ApiStart() => SizedBox(),
-          ApiLoading() => CircularProgressIndicator.adaptive(),
+          ApiLoading() => Center(child: Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: CircularProgressIndicator.adaptive(),
+          )),
           ApiEmpty() => Center(
               child: Padding(
                 padding: const EdgeInsets.all(48.0),

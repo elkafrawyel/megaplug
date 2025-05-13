@@ -11,8 +11,8 @@ class _ChargeScreenState extends State<ChargeScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Center(
-    );
+    return SizedBox();
+
   }
 
   @override

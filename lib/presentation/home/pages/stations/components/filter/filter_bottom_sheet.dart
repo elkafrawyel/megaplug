@@ -96,7 +96,6 @@ class FilterBottomSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: ConnectorTypesView(),
             ),
-
             30.ph,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),

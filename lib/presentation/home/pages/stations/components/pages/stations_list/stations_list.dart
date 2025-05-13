@@ -17,15 +17,20 @@ class StationsList extends StatelessWidget {
       builder: (stationsController) => Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 18.0,
-              horizontal: 8.0,
+            padding: const EdgeInsets.only(
+              top: 24,
+              left: 12,
+              right: 12,
             ),
-            child: ListView.separated(
-              itemBuilder: (context, index) => StationCardView(
-                  stationModel: stationsController.stations[index]),
-              separatorBuilder: (context, index) => 10.ph,
-              itemCount: stationsController.stations.length,
+            child: SafeArea(
+              bottom: false,
+
+              child: ListView.separated(
+                itemBuilder: (context, index) => StationCardView(
+                    stationModel: stationsController.stations[index]),
+                separatorBuilder: (context, index) => 5.ph,
+                itemCount: stationsController.stations.length,
+              ),
             ),
           ),
           PositionedDirectional(

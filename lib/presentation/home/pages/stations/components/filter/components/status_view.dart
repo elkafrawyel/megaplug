@@ -19,7 +19,11 @@ class StatusView extends StatelessWidget {
       builder: (stationController) {
         return switch (stationController.stationFilterApiResult) {
           ApiStart() => SizedBox(),
-          ApiLoading() => CircularProgressIndicator.adaptive(),
+          ApiLoading() => Center(
+                child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: CircularProgressIndicator.adaptive(),
+            )),
           ApiEmpty() => Center(
               child: Padding(
                 padding: const EdgeInsets.all(48.0),
@@ -43,18 +47,17 @@ class StatusView extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Wrap(
                     spacing: 12,
-                    children: stationController.stationsMainFilterTypes
+                    children: stationController.statusFilterTypes
                         .map(
-                          (stationsFilter) => GestureDetector(
+                          (statusFilter) => GestureDetector(
                             onTap: () {
-                              stationController.selectedStationsFilterType
-                                  .value = stationsFilter;
+                              stationController.toggleSelectedStatusFilter(
+                                statusFilter,
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: stationsFilter ==
-                                        stationController
-                                            .selectedStationsFilterType.value
+                                color: statusFilter.isSelected.value
                                     ? selectedColor
                                     : unSelectedColor,
                                 borderRadius: BorderRadius.circular(18),
@@ -63,10 +66,8 @@ class StatusView extends StatelessWidget {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 24.0, vertical: 12),
                                 child: AppText(
-                                  text: stationsFilter.value ?? '',
-                                  color: stationsFilter ==
-                                          stationController
-                                              .selectedStationsFilterType.value
+                                  text: statusFilter.value ?? '',
+                                  color: statusFilter.isSelected.value
                                       ? Colors.white
                                       : Colors.black,
                                   fontSize: 13,

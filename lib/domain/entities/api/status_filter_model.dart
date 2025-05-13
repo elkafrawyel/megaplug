@@ -1,8 +1,11 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
 class StatusFilterModel {
   StatusFilterModel({
     this.key,
     this.value,
-  });
+    bool isSelected = false,
+  }) : isSelected = isSelected.obs;
 
   StatusFilterModel.fromJson(dynamic json) {
     key = json['key'];
@@ -11,6 +14,9 @@ class StatusFilterModel {
 
   String? key;
   String? value;
+
+  RxBool isSelected = false.obs;
+
 
   StatusFilterModel copyWith({
     String? key,

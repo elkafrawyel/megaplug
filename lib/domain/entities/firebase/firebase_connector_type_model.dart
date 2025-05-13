@@ -6,7 +6,7 @@ class FirebaseConnectorTypeModel {
   final int? connectorTypeId;
   final int? connectorId;
   final String? lastStatusUpdate;
-  final String? chargePower;
+  final int? chargePower;
   final bool? isActive;
 
   FirebaseConnectorTypeModel({
@@ -30,7 +30,7 @@ class FirebaseConnectorTypeModel {
       connectorTypeId: json['connector_type_id'] as int,
       connectorId: json['connector_id'] as int,
       lastStatusUpdate: json['last_status_update'] as String,
-      chargePower: json['charge_power'] as String,
+      chargePower: json['charge_power'] as int,
       isActive: json['is_active'] as bool,
     );
   }

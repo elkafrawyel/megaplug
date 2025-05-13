@@ -15,10 +15,12 @@ import '../../../../../../../widgets/app_widgets/app_text.dart';
 
 class StationCardView extends StatelessWidget {
   final FirebaseStationModel stationModel;
+  final bool inMapView;
 
   StationCardView({
     super.key,
     required this.stationModel,
+    this.inMapView = false,
   });
 
   final StationsController stationsController = Get.find<StationsController>();
@@ -36,7 +38,7 @@ class StationCardView extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             color: Colors.white,
-            elevation: 10,
+            elevation: inMapView ? 10 : 0,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -113,7 +115,7 @@ class StationCardView extends StatelessWidget {
                                   SizedBox(width: 2),
                                   AppText(
                                     text:
-                                        '${stationModel.connectors?.length ?? 0} ${'connectors'.tr}',
+                                        '${stationModel.getTotalConnectors()} ${'connectors'.tr}',
                                     fontSize: 12,
                                   ),
                                 ],
@@ -129,7 +131,7 @@ class StationCardView extends StatelessWidget {
                                   SizedBox(width: 2),
                                   AppText(
                                     text:
-                                        '${(stationModel.connectors ?? []).map((connector) => connector.chargePower).join('-')} ${'w'.tr}',
+                                        '${stationModel.getChargingPowerText()} ${'w'.tr}',
                                     fontSize: 12,
                                   ),
                                 ],
@@ -153,8 +155,12 @@ class StationCardView extends StatelessWidget {
                           label: AppText(
                             text: 'get_directions'.tr,
                             color: context.kColorOnPrimary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
                           ),
                           style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 50),
+                            // width, height
                             backgroundColor: Color(0xff6C7E8E),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -177,8 +183,12 @@ class StationCardView extends StatelessWidget {
                           label: AppText(
                             text: 'station_details'.tr,
                             color: context.kColorOnPrimary,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
                           ),
                           style: ElevatedButton.styleFrom(
+                            minimumSize: Size(double.infinity, 50),
+                            // width, height
                             backgroundColor: Color(0xff3EBF80),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
