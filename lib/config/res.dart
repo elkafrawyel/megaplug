@@ -66,6 +66,7 @@ class Res {
   static const lightningIcon = 'assets/icons/lightning.svg';
   static const closeIcon = 'assets/icons/close.svg';
   static const notificationsIcon = 'assets/icons/notifications.svg';
+  static const emptyIcon = 'assets/icons/empty.svg';
 
 
   ///================================================================

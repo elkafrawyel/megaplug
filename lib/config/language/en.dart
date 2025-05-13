@@ -112,5 +112,8 @@ Map<String, String> en = {
   'station_details': 'Station Details',
   'get_directions': 'Get Directions',
   'connectors': 'Connectors',
-  'w':'W'
+  'w': 'W',
+  'no_result': 'No Results Found',
+  'empty_message':
+      "We couldn't find any stations or connector types matching your search. Please try adjusting your keywords or filters and search again."
 };
