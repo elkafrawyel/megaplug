@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
-import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/information_viewer.dart';
@@ -36,78 +35,48 @@ class StationsController extends GetxController with WidgetsBindingObserver {
 
   StationsController(this._stationsRepository);
 
+  //============================ Constants ==========================================
   static final String stationsControllerId = 'stations_view_id';
   static final String searchViewControllerId = 'search_view_id';
   static final String filterViewControllerId = 'filer_view_id';
 
+  //============================ Map ===========================================
+  GoogleMapController? mapController;
+  Set<Marker> markers = {};
+  bool mapView = true;
+  LatLng? myLocation;
+  double cameraZoom = 8;
+  MapType mapType = MapType.normal;
+  late cluster_manager.ClusterManager<FirebaseStationModel> clusterManager;
+
+  //============================ Stations ======================================
   // if null stream to noting
   // if empty stream to all stations
   // if not null and not empty stream to stations with ids
   List<String>? stationIds = [];
+  List<FirebaseStationModel> stations = [];
+  StreamSubscription<QuerySnapshot<FirebaseStationModel>>? subscription;
+  final idsController = BehaviorSubject<List<String>?>.seeded(null);
 
+  //============================ Filter ========================================
   ApiResult<StationFilterResponse> stationFilterApiResult = ApiStart();
   RxList<StatusFilterModel> statusFilterTypes = <StatusFilterModel>[].obs;
-  List<FirebaseStationModel> stations = [];
   RxList<ConnectorTypeModel> connectorsList = <ConnectorTypeModel>[].obs;
   RxList<ChargePowerModel> chargePowersList = <ChargePowerModel>[].obs;
   Rx<ChargePowerModel?> selectedChargePower = Rx(null);
-
-  bool mapView = true;
-  TextEditingController searchTextEditingController = TextEditingController();
-  GoogleMapController? mapController;
-
-  Set<Marker> markers = {};
-
-  LatLng? myLocation;
-
-  double cameraZoom = 8;
-  MapType mapType = MapType.normal;
-
-  late cluster_manager.ClusterManager<FirebaseStationModel> clusterManager;
   FocusNode searchFocusNode = FocusNode();
+  TextEditingController searchTextEditingController = TextEditingController();
+
+  final allKey = 'ALL';
+
+  //============================================================================
 
   @override
   onInit() async {
     super.onInit();
-
     WidgetsBinding.instance.addObserver(this);
     clusterManager = _initClusterManager();
-    getMyPosition(loading: true).then((value) => fetchData());
-  }
-
-  StreamSubscription<QuerySnapshot<FirebaseStationModel>>? subscription;
-  final idsController = BehaviorSubject<List<String>?>.seeded(null);
-
-  _setupStream() async {
-    updateStationIds(stationIds);
-    subscription?.cancel();
-    subscription = idsController.stream
-        .distinct() // Avoid duplicate requests
-        .switchMap((ids) => _stationsRepository.listenToAllStations(ids: ids))
-        .listen(
-      (QuerySnapshot<FirebaseStationModel> event) {
-        stations = event.docs
-            .map(
-                (QueryDocumentSnapshot<FirebaseStationModel> doc) => doc.data())
-            .toList();
-        updateMarkersOnMap();
-      },
-      onError: _handleError,
-    );
-  }
-
-  void updateStationIds(List<String>? ids) {
-    idsController.add(ids);
-  }
-
-  void _handleError(dynamic error) {
-    Get.snackbar('Error', 'Failed to load stations');
-    AppLogger.logWithGetX('Firestore error: $error');
-  }
-
-  updateMarkersOnMap() {
-    clusterManager.setItems(stations);
-    clusterManager.updateMap();
+    getMyPosition(loading: true).then((value) => getStationFilter());
   }
 
   @override
@@ -121,12 +90,15 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       // App is back from background (including settings)
-      getMyPosition(loading: false).then((value) => fetchData());
+      getMyPosition(loading: false).then((value) => getStationFilter());
     }
   }
 
-  Future<void> fetchData() async {
-    await getStationFilter();
+  void onMapCreated(GoogleMapController controller) async {
+    AppLogger.log('onMapCreated');
+    mapController = controller;
+    clusterManager.setMapId(controller.mapId);
+    _setupStream();
   }
 
   cluster_manager.ClusterManager<FirebaseStationModel> _initClusterManager() {
@@ -164,119 +136,39 @@ class StationsController extends GetxController with WidgetsBindingObserver {
             );
           };
 
-  Future<void> getStationFilter() async {
-    stationFilterApiResult = ApiLoading();
-    update([filterViewControllerId]);
-    stationFilterApiResult = await _stationsRepository.getStationFilter();
-
-    if (stationFilterApiResult.isSuccess()) {
-      StationFilterResponse stationFilterResponse =
-          stationFilterApiResult.getData();
-      statusFilterTypes.value = stationFilterResponse.data?.statusFilters ?? [];
-      statusFilterTypes.insert(
-        0,
-        StatusFilterModel(
-          key: 'ALL',
-          value: 'all'.tr,
-          isSelected: false,
-        ),
-      );
-      connectorsList.value = stationFilterResponse.data?.connectorTypes ?? [];
-      chargePowersList.value = stationFilterResponse.data?.chargingPowers ?? [];
-
-      update([filterViewControllerId]);
-    } else {
-      InformationViewer.showErrorToast(msg: stationFilterApiResult.getError());
-    }
-  }
-
-  void toggleSelectedConnector(ConnectorTypeModel connectorTypeModel) {
-    int index = connectorsList.indexOf(connectorTypeModel);
-    connectorsList[index].isSelected.toggle();
-  }
-
-  final allKey = 'ALL';
-
-  void toggleSelectedStatusFilter(StatusFilterModel statusFilterModel) {
-    if (statusFilterModel.key == allKey) {
-      for (var statusFilterModel in statusFilterTypes) {
-        statusFilterModel.isSelected.value = false;
-      }
-      statusFilterModel.isSelected.value = true;
-      return;
-    } else {
-      statusFilterTypes
-          .firstWhere((status) => status.key == allKey)
-          .isSelected
-          .value = false;
-      int index = statusFilterTypes.indexOf(statusFilterModel);
-      statusFilterTypes[index].isSelected.toggle();
-    }
-  }
-
-  void showStationCard(FirebaseStationModel stationModel) {
-    Get.dialog(
-      Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: StationCardView(
-            stationModel: stationModel,
-          ),
-        ),
-      ),
-      barrierColor: Colors.black54,
+  _setupStream() async {
+    _updateStationIds(stationIds);
+    subscription?.cancel();
+    subscription = idsController.stream
+        .distinct() // Avoid duplicate requests
+        .switchMap((ids) => _stationsRepository.listenToAllStations(ids: ids))
+        .listen(
+      (QuerySnapshot<FirebaseStationModel> event) {
+        stations = event.docs
+            .map(
+                (QueryDocumentSnapshot<FirebaseStationModel> doc) => doc.data())
+            .toList();
+        _updateMarkersOnMap();
+      },
+      onError: _handleError,
     );
   }
 
-  void _updateMarkers(Set<Marker> markers) {
-    AppLogger.log('Updated ${markers.length} markers');
-    this.markers = markers;
-    update([stationsControllerId]);
+  void _updateStationIds(List<String>? ids) {
+    idsController.add(ids);
   }
 
-  void onMapCreated(GoogleMapController controller) async {
-    AppLogger.log('onMapCreated');
-
-    mapController = controller;
-    clusterManager.setMapId(controller.mapId);
-
-    _setupStream();
+  void _handleError(dynamic error) {
+    InformationViewer.showErrorToast(msg: 'Failed to load stations');
+    AppLogger.logWithGetX('Firestore error: $error');
   }
 
-  void animateToPoint(LatLng latLng) async {
-    if (mapController != null) {
-      double oldZoom = await mapController!.getZoomLevel();
-      mapController!.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: latLng,
-              zoom: oldZoom + 2,
-            ),
-          ),
-          duration: 1000.ms);
-    }
+  _updateMarkersOnMap() {
+    clusterManager.setItems(stations);
+    clusterManager.updateMap();
   }
 
-  ///==========================================================================
-  void moveToMyLocations() {
-    if (myLocation != null && mapController != null) {
-      mapController!.animateCamera(
-        CameraUpdate.newLatLngZoom(
-          myLocation!,
-          cameraZoom,
-        ),
-        duration: Duration(seconds: 2),
-      );
-    }
-  }
-
-  switchMapType() {
-    mapType = MapType.values[(mapType.index + 1) % MapType.values.length];
-    if (mapType == MapType.none) mapType = MapType.normal;
-    update([stationsControllerId]);
-  }
-
+  //============================  Fetching data ================================
   Future<bool> checkLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -330,6 +222,179 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     }
   }
 
+  Future<void> getStationFilter() async {
+    stationFilterApiResult = ApiLoading();
+    update([filterViewControllerId]);
+    stationFilterApiResult = await _stationsRepository.getStationFilter();
+
+    if (stationFilterApiResult.isSuccess()) {
+      StationFilterResponse stationFilterResponse =
+          stationFilterApiResult.getData();
+      statusFilterTypes.value = stationFilterResponse.data?.statusFilters ?? [];
+      statusFilterTypes.insert(
+        0,
+        StatusFilterModel(
+          key: 'ALL',
+          value: 'all'.tr,
+          isSelected: false,
+        ),
+      );
+      connectorsList.value = stationFilterResponse.data?.connectorTypes ?? [];
+      chargePowersList.value = stationFilterResponse.data?.chargingPowers ?? [];
+
+      update([filterViewControllerId]);
+    } else {
+      InformationViewer.showErrorToast(msg: stationFilterApiResult.getError());
+    }
+  }
+
+  void handleSearchText({required String text}) async {
+    if (text.isEmpty) {
+      stationIds = [];
+      _setupStream();
+      update([searchViewControllerId]);
+      return;
+    }
+    //todo call search api to get search results with ids
+    update([searchViewControllerId]);
+    AppLoader.loading();
+    ApiResult apiResult =
+        await _stationsRepository.searchForStations(query: text);
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      StationSearchResponse searchResponse = apiResult.getData();
+      List<String> ids = searchResponse.data ?? [];
+      if (ids.isEmpty) {
+        //this means that there is no search result.
+        await subscription?.cancel();
+        stationIds = null;
+        stations.clear();
+        _updateMarkersOnMap();
+        update([stationsControllerId]);
+      } else {
+        stationIds = ids;
+        _setupStream();
+      }
+    } else {
+      InformationViewer.showErrorToast(msg: apiResult.getError());
+    }
+  }
+
+  Future applyFilter() async {
+    Get.back();
+    AppLoader.loading();
+    ApiResult apiResult = await _stationsRepository.filterStations(
+      statusFilter:
+          statusFilterTypes.where((status) => status.isSelected.value).toList(),
+      connectorTypesFilter: connectorsList
+          .where((connector) => connector.isSelected.value)
+          .toList(),
+      chargePowerFilter: selectedChargePower.value,
+    );
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      var data = apiResult.getData();
+      stationIds = data?.map((e) => e.id).toList() ?? [];
+      _setupStream();
+    } else {
+      InformationViewer.showErrorToast(msg: apiResult.getError());
+    }
+  }
+
+  void resetFilter() async {
+    selectedChargePower.value = null;
+    for (var status in statusFilterTypes) {
+      status.isSelected.value = false;
+    }
+    for (var connector in connectorsList) {
+      connector.isSelected.value = false;
+    }
+    Get.back();
+    stationIds?.clear();
+    _setupStream();
+  }
+
+  //============================ actions =======================================
+  void toggleSelectedConnector(ConnectorTypeModel connectorTypeModel) {
+    int index = connectorsList.indexOf(connectorTypeModel);
+    connectorsList[index].isSelected.toggle();
+  }
+
+  void toggleSelectedStatusFilter(StatusFilterModel statusFilterModel) {
+    if (statusFilterModel.key == allKey) {
+      for (var statusFilterModel in statusFilterTypes) {
+        statusFilterModel.isSelected.value = false;
+      }
+      statusFilterModel.isSelected.value = true;
+      return;
+    } else {
+      statusFilterTypes
+          .firstWhere((status) => status.key == allKey)
+          .isSelected
+          .value = false;
+      int index = statusFilterTypes.indexOf(statusFilterModel);
+      statusFilterTypes[index].isSelected.toggle();
+    }
+  }
+
+  void _updateMarkers(Set<Marker> markers) {
+    AppLogger.log('Updated ${markers.length} markers');
+    this.markers = markers;
+    update([stationsControllerId]);
+  }
+
+  toggleMapView() {
+    mapView = !mapView;
+    if (mapView) {
+      searchFocusNode.unfocus();
+    } else {
+      searchFocusNode.requestFocus();
+    }
+    update([
+      stationsControllerId,
+      searchViewControllerId,
+    ]);
+  }
+
+  void clearSearchBox() {
+    searchTextEditingController.clear();
+    update([searchViewControllerId]);
+    stationIds = [];
+    _setupStream();
+  }
+
+  void animateToPoint(LatLng latLng) async {
+    if (mapController != null) {
+      double oldZoom = await mapController!.getZoomLevel();
+      mapController!.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: latLng,
+              zoom: oldZoom + 2,
+            ),
+          ),
+          duration: 1000.ms);
+    }
+  }
+
+  void moveToMyLocations() {
+    if (myLocation != null && mapController != null) {
+      mapController!.animateCamera(
+        CameraUpdate.newLatLngZoom(
+          myLocation!,
+          cameraZoom,
+        ),
+        duration: Duration(seconds: 2),
+      );
+    }
+  }
+
+  switchMapType() {
+    mapType = MapType.values[(mapType.index + 1) % MapType.values.length];
+    if (mapType == MapType.none) mapType = MapType.normal;
+    update([stationsControllerId]);
+  }
+
   void _openRequestLocationServicesDialog() async {
     Get.dialog(
       AppDialogView(
@@ -365,92 +430,6 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     );
   }
 
-  toggleMapView() {
-    mapView = !mapView;
-    if (mapView) {
-      searchFocusNode.unfocus();
-    } else {
-      searchFocusNode.requestFocus();
-    }
-    update([
-      stationsControllerId,
-      searchViewControllerId,
-    ]);
-  }
-
-  void clearSearchBox() {
-    searchTextEditingController.clear();
-    update([searchViewControllerId]);
-    stationIds = [];
-    _setupStream();
-  }
-
-  void handleSearchText({required String text}) async {
-    if (text.isEmpty) {
-      stationIds = [];
-      _setupStream();
-      update([searchViewControllerId]);
-      return;
-    }
-    //todo call search api to get search results with ids
-    update([searchViewControllerId]);
-    AppLoader.loading();
-    ApiResult apiResult =
-        await _stationsRepository.searchForStations(query: text);
-    AppLoader.dismiss();
-    if (apiResult.isSuccess()) {
-      StationSearchResponse searchResponse = apiResult.getData();
-      List<String> ids = searchResponse.data ?? [];
-      if (ids.isEmpty) {
-        //this means that there is no search result.
-        await subscription?.cancel();
-        stationIds = null;
-        stations.clear();
-        updateMarkersOnMap();
-        update([stationsControllerId]);
-      } else {
-        stationIds = ids;
-        _setupStream();
-      }
-    } else {
-      InformationViewer.showErrorToast(msg: apiResult.getError());
-    }
-  }
-
-  void resetFilter() async {
-    selectedChargePower.value = null;
-    for (var status in statusFilterTypes) {
-      status.isSelected.value = false;
-    }
-    for (var connector in connectorsList) {
-      connector.isSelected.value = false;
-    }
-    Get.back();
-    stationIds?.clear();
-    _setupStream();
-  }
-
-  Future applyFilter() async {
-    Get.back();
-    AppLoader.loading();
-    ApiResult apiResult = await _stationsRepository.filterStations(
-      statusFilter:
-          statusFilterTypes.where((status) => status.isSelected.value).toList(),
-      connectorTypesFilter: connectorsList
-          .where((connector) => connector.isSelected.value)
-          .toList(),
-      chargePowerFilter: selectedChargePower.value,
-    );
-    AppLoader.dismiss();
-    if (apiResult.isSuccess()) {
-      var data = apiResult.getData();
-      stationIds = data?.map((e) => e.id).toList() ?? [];
-      _setupStream();
-    } else {
-      InformationViewer.showErrorToast(msg: apiResult.getError());
-    }
-  }
-
   String getDistance(double stationLatitude, double stationLongitude) {
     if (myLocation != null) {
       double distanceInMeters = Geolocator.distanceBetween(
@@ -464,5 +443,20 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     } else {
       return '0.00';
     }
+  }
+
+  void showStationCard(FirebaseStationModel stationModel) {
+    Get.dialog(
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StationCardView(
+            stationModel: stationModel,
+          ),
+        ),
+      ),
+      barrierColor: Colors.black54,
+    );
   }
 }
