@@ -8,7 +8,10 @@ class Res {
   static const apiVerifyAccount = 'verify-account';
   static const apiResetPassword = 'reset-password';
 
-  static const apiStationFilter = 'filter-stations-setting';
+  static const apiGetStationFilter = 'filter-stations-setting';
+
+  static const apiStationSearch = 'stations/search';
+  static const apiStationFilter = 'filter-stations';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';
@@ -53,6 +56,7 @@ class Res {
   static const searchIcon = 'assets/icons/search.svg';
   static const filterIcon = 'assets/icons/filter.svg';
   static const strokeIcon = 'assets/icons/stroke.svg';
+  static const dcIcon = 'assets/icons/dc.svg';
   static const chargeIcon = 'assets/icons/charge.svg';
   static const connectCarIcon = 'assets/icons/connect_car.svg';
   static const directionsIcon = 'assets/icons/directions.svg';
@@ -67,7 +71,6 @@ class Res {
   static const closeIcon = 'assets/icons/close.svg';
   static const notificationsIcon = 'assets/icons/notifications.svg';
   static const emptyIcon = 'assets/icons/empty.svg';
-
 
   ///================================================================
 

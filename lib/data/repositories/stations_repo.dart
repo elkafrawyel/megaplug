@@ -5,10 +5,15 @@ import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
+import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/api_responses/station_filter_response.dart';
+import 'package:megaplug/domain/entities/api/charge_power_model.dart';
+import 'package:megaplug/domain/entities/api/connector_type_model.dart';
+import 'package:megaplug/domain/entities/api/status_filter_model.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_station_model.dart';
 
 import '../../domain/repositories/stations_repo.dart';
+import '../api_responses/station_search_response.dart';
 
 class StationsRepositoryImpl extends StationsRepository {
   final stationsCollectionId = 'stations';
@@ -20,15 +25,12 @@ class StationsRepositoryImpl extends StationsRepository {
   );
 
   @override
-   Stream<QuerySnapshot<FirebaseStationModel>> listenToAllStations({
+  Stream<QuerySnapshot<FirebaseStationModel>> listenToAllStations({
     List<String>? ids,
-  })   {
-    AppLogger.logWithGetX("""
-        \n
-        Listening to stations with : : :
-        \nIds  => ${ids.toString()}
-        \n
-        """);
+  }) {
+    AppLogger.logWithGetX("""\nListening to stations with : : :
+                                      \nIds  => ${ids.toString()}
+                                   """);
 
     final collection = firestore
         .collection(stationsCollectionId)
@@ -38,7 +40,10 @@ class StationsRepositoryImpl extends StationsRepository {
           toFirestore: (station, _) => station.toJson(),
         );
 
-    if (ids == null || ids.isEmpty) {
+    if (ids == null) {
+      // Return empty stream if ids is null
+      return const Stream.empty();
+    } else if (ids.isEmpty) {
       // Return ALL stations when ids is null or empty
       return collection.snapshots();
     } else {
@@ -50,8 +55,45 @@ class StationsRepositoryImpl extends StationsRepository {
   @override
   Future<ApiResult<StationFilterResponse>> getStationFilter() async {
     return APIClient.instance.get<StationFilterResponse>(
-      endPoint: Res.apiStationFilter,
+      endPoint: Res.apiGetStationFilter,
       fromJson: StationFilterResponse.fromJson,
+    );
+  }
+
+  @override
+  Future<ApiResult<StationSearchResponse>> searchForStations({
+    required String query,
+  }) async {
+    return APIClient.instance.get<StationSearchResponse>(
+      endPoint: "${Res.apiStationSearch}?query=$query",
+      fromJson: StationSearchResponse.fromJson,
+    );
+  }
+
+  @override
+  Future<ApiResult<GeneralResponse>> filterStations({
+    List<StatusFilterModel>? statusFilter,
+    List<ConnectorTypeModel>? connectorTypesFilter,
+    ChargePowerModel? chargePowerFilter,
+  }) async {
+    AppLogger.logWithGetX('Status Filter ids'
+        ' => ${statusFilter?.map((e) => e.key).toList()}');
+    AppLogger.logWithGetX('Connector Types Filter ids'
+        ' => ${connectorTypesFilter?.map((e) => e.id).toList()}');
+    AppLogger.logWithGetX('Charge Power Filter id'
+        ' => ${chargePowerFilter?.id}');
+
+    return APIClient.instance.post<GeneralResponse>(
+      endPoint: Res.apiStationFilter,
+      fromJson: GeneralResponse.fromJson,
+      requestBody: {
+        if ((statusFilter?.isNotEmpty ?? false) ||
+            statusFilter?.first.key != 'ALL')
+          'status': statusFilter?.map((e) => e.key).toList(),
+        if (connectorTypesFilter?.isNotEmpty ?? false)
+          'connector_types': connectorTypesFilter?.map((e) => e.id).toList(),
+        if (chargePowerFilter != null) 'charge_power': chargePowerFilter.id,
+      },
     );
   }
 }

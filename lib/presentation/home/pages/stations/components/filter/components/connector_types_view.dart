@@ -53,7 +53,7 @@ class ConnectorTypesView extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              SvgPicture.asset(
+                              SvgPicture.network(
                                 connector.image ?? '',
                               ),
                               10.pw,

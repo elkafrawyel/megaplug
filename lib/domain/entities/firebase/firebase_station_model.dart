@@ -127,4 +127,9 @@ class FirebaseStationModel with ClusterItem {
       return StationStatus.area;
     }
   }
+
+  bool hasDcConnectors() {
+    return (chargingPoints ?? []).any((cp) =>
+        cp.connectors?.any((connector) => connector.isDc ?? false) ?? false);
+  }
 }

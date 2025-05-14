@@ -24,6 +24,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
+import '../../../../../data/api_responses/station_search_response.dart';
 import '../../../../../domain/entities/api/status_filter_model.dart';
 import '../../../../../widgets/app_dialog_view.dart';
 import '../components/pages/map/components/custom_marker_view.dart';
@@ -39,7 +40,10 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   static final String searchViewControllerId = 'search_view_id';
   static final String filterViewControllerId = 'filer_view_id';
 
-  List<String> stationIds = [];
+  // if null stream to noting
+  // if empty stream to all stations
+  // if not null and not empty stream to stations with ids
+  List<String>? stationIds = [];
 
   ApiResult<StationFilterResponse> stationFilterApiResult = ApiStart();
   RxList<StatusFilterModel> statusFilterTypes = <StatusFilterModel>[].obs;
@@ -60,6 +64,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   MapType mapType = MapType.normal;
 
   late cluster_manager.ClusterManager<FirebaseStationModel> clusterManager;
+  FocusNode searchFocusNode = FocusNode();
 
   @override
   onInit() async {
@@ -139,7 +144,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
               position: cluster.location,
               onTap: () {
                 if (cluster.isMultiple) {
-                  animateToArea(cluster.location);
+                  animateToPoint(cluster.location);
                 } else {
                   AppLogger.log(cluster.items.first.nameEn);
                   showStationCard(cluster.items.first);
@@ -151,6 +156,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
                     ? StationStatus.area
                     : cluster.items.first.getStationStatus(),
                 count: cluster.isMultiple ? cluster.count.toString() : null,
+                isDc: cluster.items.first.hasDcConnectors(),
               ).toBitmapDescriptor(
                 logicalSize: const Size(200, 200),
                 imageSize: const Size(400, 500),
@@ -238,7 +244,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     _setupStream();
   }
 
-  void animateToArea(LatLng latLng) async {
+  void animateToPoint(LatLng latLng) async {
     if (mapController != null) {
       double oldZoom = await mapController!.getZoomLevel();
       mapController!.animateCamera(
@@ -304,7 +310,6 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   }
 
   Future getMyPosition({bool loading = true}) async {
-    print('getMyPosition:::::::');
     bool isGranted = await checkLocationPermission();
     if (!isGranted) {
       return;
@@ -362,22 +367,54 @@ class StationsController extends GetxController with WidgetsBindingObserver {
 
   toggleMapView() {
     mapView = !mapView;
-    update([stationsControllerId]);
+    if (mapView) {
+      searchFocusNode.unfocus();
+    } else {
+      searchFocusNode.requestFocus();
+    }
+    update([
+      stationsControllerId,
+      searchViewControllerId,
+    ]);
   }
 
   void clearSearchBox() {
     searchTextEditingController.clear();
     update([searchViewControllerId]);
+    stationIds = [];
+    _setupStream();
   }
 
   void handleSearchText({required String text}) async {
+    if (text.isEmpty) {
+      stationIds = [];
+      _setupStream();
+      update([searchViewControllerId]);
+      return;
+    }
+    //todo call search api to get search results with ids
     update([searchViewControllerId]);
-    //todo call filter api to get search results with ids
-    stationIds = [
-      'station_004',
-      'station_005',
-    ];
-    _setupStream();
+    AppLoader.loading();
+    ApiResult apiResult =
+        await _stationsRepository.searchForStations(query: text);
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      StationSearchResponse searchResponse = apiResult.getData();
+      List<String> ids = searchResponse.data ?? [];
+      if (ids.isEmpty) {
+        //this means that there is no search result.
+        await subscription?.cancel();
+        stationIds = null;
+        stations.clear();
+        updateMarkersOnMap();
+        update([stationsControllerId]);
+      } else {
+        stationIds = ids;
+        _setupStream();
+      }
+    } else {
+      InformationViewer.showErrorToast(msg: apiResult.getError());
+    }
   }
 
   void resetFilter() async {
@@ -389,21 +426,29 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       connector.isSelected.value = false;
     }
     Get.back();
-    stationIds.clear();
+    stationIds?.clear();
     _setupStream();
   }
 
   Future applyFilter() async {
     Get.back();
     AppLoader.loading();
-    await Future.delayed(Duration(seconds: 2));
+    ApiResult apiResult = await _stationsRepository.filterStations(
+      statusFilter:
+          statusFilterTypes.where((status) => status.isSelected.value).toList(),
+      connectorTypesFilter: connectorsList
+          .where((connector) => connector.isSelected.value)
+          .toList(),
+      chargePowerFilter: selectedChargePower.value,
+    );
     AppLoader.dismiss();
-    //todo call filter api to get search results with ids
-    stationIds = [
-      'station_004',
-      'station_005',
-    ];
-    _setupStream();
+    if (apiResult.isSuccess()) {
+      var data = apiResult.getData();
+      stationIds = data?.map((e) => e.id).toList() ?? [];
+      _setupStream();
+    } else {
+      InformationViewer.showErrorToast(msg: apiResult.getError());
+    }
   }
 
   String getDistance(double stationLatitude, double stationLongitude) {

@@ -38,6 +38,14 @@ class SearchView extends StatelessWidget {
                   10.pw,
                   Expanded(
                     child: TextField(
+                      readOnly: stationsController.mapView,
+                      // optional: prevents keyboard from showing
+                      onTap: () {
+                        if (stationsController.mapView) {
+                          stationsController.toggleMapView();
+                        }
+                      },
+                      focusNode: stationsController.searchFocusNode,
                       controller:
                           stationsController.searchTextEditingController,
                       textInputAction: TextInputAction.search,
@@ -71,7 +79,7 @@ class SearchView extends StatelessWidget {
                           return;
                         }
                         AppTimeDebuncer.instance
-                            .debounce(Duration(milliseconds: 500), () {
+                            .debounce(Duration(milliseconds: 800), () {
                           stationsController.handleSearchText(text: value);
                         });
                       },

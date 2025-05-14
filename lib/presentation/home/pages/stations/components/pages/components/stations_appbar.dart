@@ -47,22 +47,22 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
               });
         },
       ),
-      leading: GetBuilder<ProfileController>(
-        builder: (profileController) {
-          // if (profileController.userModel?.image == null) {
-          //   return const SizedBox();
-          // }
-          return Padding(
-            padding: const EdgeInsetsDirectional.only(start: 18.0),
-            child: AppNetworkImage(
-              isCircular: true,
-              fit: BoxFit.cover,
-              imageUrl: profileController.userModel?.image ??
-                  'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
-            ),
-          );
-        },
-      ),
+      // leading: GetBuilder<ProfileController>(
+      //   builder: (profileController) {
+      //     // if (profileController.userModel?.image == null) {
+      //     //   return const SizedBox();
+      //     // }
+      //     return Padding(
+      //       padding: const EdgeInsetsDirectional.only(start: 18.0),
+      //       child: AppNetworkImage(
+      //         isCircular: true,
+      //         fit: BoxFit.cover,
+      //         imageUrl: profileController.userModel?.image ??
+      //             'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
+      //       ),
+      //     );
+      //   },
+      // ),
       centerTitle: false,
       actions: [
         Padding(
