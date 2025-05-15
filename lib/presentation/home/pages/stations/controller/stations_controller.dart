@@ -168,7 +168,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     clusterManager.updateMap();
   }
 
-  //============================  Fetching data ================================
+  //============================  Fetching data ========================================
   Future<bool> checkLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -314,7 +314,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     _setupStream();
   }
 
-  //============================ actions =======================================
+  //============================ actions ========================================
   void toggleSelectedConnector(ConnectorTypeModel connectorTypeModel) {
     int index = connectorsList.indexOf(connectorTypeModel);
     connectorsList[index].isSelected.toggle();

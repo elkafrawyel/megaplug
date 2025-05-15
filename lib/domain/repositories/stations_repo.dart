@@ -7,7 +7,6 @@ import 'package:megaplug/data/api_responses/station_filter_response.dart';
 import 'package:megaplug/domain/entities/api/charge_power_model.dart';
 import 'package:megaplug/domain/entities/api/connector_type_model.dart';
 
-import '../../config/extension/station_status.dart';
 import '../../data/api_responses/station_search_response.dart';
 import '../entities/api/status_filter_model.dart';
 import '../entities/firebase/firebase_station_model.dart';

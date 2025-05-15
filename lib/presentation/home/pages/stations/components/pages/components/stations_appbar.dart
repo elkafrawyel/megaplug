@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
-import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 import 'package:badges/badges.dart' as badges;
 import '../../../../../../../widgets/app_widgets/app_text.dart';
 import '../../../controller/stations_controller.dart';

@@ -40,7 +40,7 @@ class ConnectorTypesView extends StatelessWidget {
             ),
           ApiSuccess() => Obx(
               () => Column(
-                children: stationController.connectorsList.value
+                children: stationController.connectorsList
                     .map(
                       (connector) => InkWell(
                         splashColor: Colors.grey,

@@ -16,9 +16,6 @@ import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart'
 import 'package:megaplug/widgets/app_widgets/app_text_field/rules.dart';
 
 import '../../../config/res.dart';
-import '../../../widgets/app_widgets/app_text_field/auth_form_rules.dart';
-import '../../home/controller/home_binding.dart';
-import '../../home/home_screen.dart';
 import 'components/register_appbar.dart';
 
 class RegisterScreen extends StatefulWidget {

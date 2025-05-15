@@ -19,7 +19,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../components/wavy_appbar.dart';
 import '../new_password/new_password_screen.dart';
-import 'components/ArabicToEnglishNumberFormatter.dart';
+import 'components/arabic_to_english_number_formatter.dart';
 
 class OtpCodeScreen extends StatefulWidget {
   final String username;

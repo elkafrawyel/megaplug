@@ -7,7 +7,6 @@ import 'package:megaplug/config/helpers/map_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/stations/controller/stations_controller.dart';
-import 'package:megaplug/presentation/station_details/station_details_screen.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
 import '../../../../../../../domain/entities/firebase/firebase_station_model.dart';

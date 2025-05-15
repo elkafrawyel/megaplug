@@ -7,7 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:logger/logger.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
-import 'package:path_provider/path_provider.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 class NotificationsService {
   static const String _channelId = 'com.general.app';
@@ -107,7 +107,7 @@ class NotificationsService {
   }
 
   Future<String> _downloadAndSaveFile(String url, String fileName) async {
-    final Directory directory = await path.getApplicationDocumentsDirectory();
+    final Directory directory = await getApplicationDocumentsDirectory();
     final String filePath = '${directory.path}/$fileName';
     final Response response = await Dio(
       BaseOptions(

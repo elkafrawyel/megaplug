@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/helpers/time_debuncer.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
