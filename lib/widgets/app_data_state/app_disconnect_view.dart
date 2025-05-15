@@ -3,9 +3,6 @@ import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
-import 'package:lottie/lottie.dart';
-
-import '../../config/res.dart';
 import '../app_widgets/app_text.dart';
 
 class AppDisconnectView extends StatelessWidget {
@@ -27,7 +24,7 @@ class AppDisconnectView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Lottie.asset(Res.disconnectAnimation),
+            // Lottie.asset(Res.disconnectAnimation),
             AppText(
               text: StorageClient().isAr()
                   ? 'تأكد من اتصالك بشبكة'

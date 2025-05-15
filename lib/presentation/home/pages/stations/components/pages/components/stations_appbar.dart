@@ -63,30 +63,35 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
       // ),
       centerTitle: false,
       actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: badges.Badge(
-                badgeStyle: badges.BadgeStyle(
-                  badgeColor: context.kSecondaryColor,
-                ),
-                position: badges.BadgePosition.topStart(top: -10, start: -7),
-                badgeContent: AppText(
-                  text: '3',
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-                child: SvgPicture.asset(
-                  Res.notificationsIcon,
-                  width: 22,
-                  height: 22,
+        GestureDetector(
+          onTap: () {
+            Get.find<StationsController>().showComingSoonDialog();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: badges.Badge(
+                  badgeStyle: badges.BadgeStyle(
+                    badgeColor: context.kSecondaryColor,
+                  ),
+                  position: badges.BadgePosition.topStart(top: -10, start: -7),
+                  badgeContent: AppText(
+                    text: '3',
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  child: SvgPicture.asset(
+                    Res.notificationsIcon,
+                    width: 22,
+                    height: 22,
+                  ),
                 ),
               ),
             ),

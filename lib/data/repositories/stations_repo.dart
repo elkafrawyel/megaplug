@@ -18,11 +18,13 @@ import '../api_responses/station_search_response.dart';
 class StationsRepositoryImpl extends StationsRepository {
   final stationsCollectionId = 'stations';
 
-  // Connect to 'mp-db' instead of the default database
-  final FirebaseFirestore firestore = FirebaseFirestore.instanceFor(
-    app: Firebase.app(),
-    databaseId: 'mp-db',
-  );
+  // // Connect to 'mp-db' instead of the default database
+  // final FirebaseFirestore firestore = FirebaseFirestore.instanceFor(
+  //   app: Firebase.app(),
+  //   databaseId: 'mp-db',
+  // );
+
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   Stream<QuerySnapshot<FirebaseStationModel>> listenToAllStations({

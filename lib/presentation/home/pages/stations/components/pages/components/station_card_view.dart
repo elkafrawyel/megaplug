@@ -194,6 +194,8 @@ class StationCardView extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
+                            Get.find<StationsController>().showComingSoonDialog();
+
                             // Get.to(() => StationDetailsScreen());
                           },
                         ),

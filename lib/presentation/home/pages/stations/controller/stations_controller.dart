@@ -459,4 +459,20 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       barrierColor: Colors.black54,
     );
   }
+
+  void showComingSoonDialog() {
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text("🚧 Coming Soon"),
+        content: Text("We're working hard to bring you this feature."),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
 }
