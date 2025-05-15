@@ -17,8 +17,7 @@ import 'package:megaplug/data/repositories/stations_repo.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_station_model.dart';
 import 'package:megaplug/domain/entities/api/charge_power_model.dart';
 import 'package:megaplug/domain/entities/api/connector_type_model.dart';
-import 'package:megaplug/presentation/home/pages/stations/components/pages/components/station_card_view.dart';
-import 'package:permission_handler/permission_handler.dart';
+ import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
@@ -26,9 +25,11 @@ import 'package:widget_to_marker/widget_to_marker.dart';
 import '../../../../../data/api_responses/station_search_response.dart';
 import '../../../../../domain/entities/api/status_filter_model.dart';
 import '../../../../../widgets/app_dialog_view.dart';
-import '../components/pages/map/components/custom_marker_view.dart';
-import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
+ import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
     as cluster_manager;
+
+import '../pages/components/station_card_view.dart';
+import '../pages/map/components/custom_marker_view.dart';
 
 class StationsController extends GetxController with WidgetsBindingObserver {
   final StationsRepositoryImpl _stationsRepository;
@@ -53,7 +54,6 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   // if null stream to noting
   // if empty stream to all stations
   // if not null and not empty stream to stations with ids
-  List<String>? stationIds = [];
   List<FirebaseStationModel> stations = [];
   StreamSubscription<QuerySnapshot<FirebaseStationModel>>? subscription;
   final idsController = BehaviorSubject<List<String>?>.seeded(null);
@@ -76,7 +76,8 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     super.onInit();
     WidgetsBinding.instance.addObserver(this);
     clusterManager = _initClusterManager();
-    getMyPosition(loading: true).then((value) => getStationFilter());
+    getMyPosition(loading: true);
+    getStationFilter();
   }
 
   @override
@@ -90,14 +91,14 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       // App is back from background (including settings)
-      getMyPosition(loading: false).then((value) => getStationFilter());
+      getMyPosition(loading: false);
     }
   }
 
   void onMapCreated(GoogleMapController controller) async {
     AppLogger.log('onMapCreated');
     mapController = controller;
-    clusterManager.setMapId(controller.mapId);
+    await clusterManager.setMapId(controller.mapId);
     _setupStream();
   }
 
@@ -136,8 +137,10 @@ class StationsController extends GetxController with WidgetsBindingObserver {
             );
           };
 
-  _setupStream() async {
-    _updateStationIds(stationIds);
+  _setupStream({
+    List<String> idsList = const [],
+  }) async {
+    _updateStationIds(idsList);
     subscription?.cancel();
     subscription = idsController.stream
         .distinct() // Avoid duplicate requests
@@ -152,6 +155,19 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       },
       onError: _handleError,
     );
+  }
+
+  _emptyStationsList() async {
+    // there is no need to listen for any thing we will just show an empty view.
+    await subscription?.cancel();
+    stations.clear();
+    // clear markers as well as there is no stations
+    _updateMarkersOnMap();
+    update([stationsControllerId]);
+  }
+
+  _reloadStationsList() async {
+    _setupStream();
   }
 
   void _updateStationIds(List<String>? ids) {
@@ -249,14 +265,14 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   }
 
   void handleSearchText({required String text}) async {
+    //this this for clear button on search bar to manage its visibility
+    update([searchViewControllerId]);
+
     if (text.isEmpty) {
-      stationIds = [];
-      _setupStream();
-      update([searchViewControllerId]);
+      _reloadStationsList();
       return;
     }
     //todo call search api to get search results with ids
-    update([searchViewControllerId]);
     AppLoader.loading();
     ApiResult apiResult =
         await _stationsRepository.searchForStations(query: text);
@@ -266,14 +282,9 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       List<String> ids = searchResponse.data ?? [];
       if (ids.isEmpty) {
         //this means that there is no search result.
-        await subscription?.cancel();
-        stationIds = null;
-        stations.clear();
-        _updateMarkersOnMap();
-        update([stationsControllerId]);
+        _emptyStationsList();
       } else {
-        stationIds = ids;
-        _setupStream();
+        _setupStream(idsList: ids);
       }
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());
@@ -294,8 +305,8 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {
       var data = apiResult.getData();
-      stationIds = data?.map((e) => e.id).toList() ?? [];
-      _setupStream();
+      List<String> idsList = data?.map((e) => e.id).toList() ?? [];
+      _setupStream(idsList: idsList);
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());
     }
@@ -310,7 +321,6 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       connector.isSelected.value = false;
     }
     Get.back();
-    stationIds?.clear();
     _setupStream();
   }
 
@@ -354,13 +364,6 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       stationsControllerId,
       searchViewControllerId,
     ]);
-  }
-
-  void clearSearchBox() {
-    searchTextEditingController.clear();
-    update([searchViewControllerId]);
-    stationIds = [];
-    _setupStream();
   }
 
   void animateToPoint(LatLng latLng) async {

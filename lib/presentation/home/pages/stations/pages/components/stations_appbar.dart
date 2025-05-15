@@ -6,7 +6,7 @@ import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
 import 'package:badges/badges.dart' as badges;
 import '../../../../../../../widgets/app_widgets/app_text.dart';
-import '../../../controller/stations_controller.dart';
+import '../../controller/stations_controller.dart';
 import 'search_view.dart';
 
 class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {

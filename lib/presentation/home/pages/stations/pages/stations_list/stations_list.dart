@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/presentation/home/pages/stations/components/pages/components/station_card_view.dart';
-import 'package:megaplug/presentation/home/pages/stations/components/pages/stations_list/components/empty_view.dart';
-
 import '../../../../../../../config/res.dart';
-import '../../../controller/stations_controller.dart';
+import '../../controller/stations_controller.dart';
+import '../components/station_card_view.dart';
+import 'components/empty_view.dart';
 
 class StationsList extends StatelessWidget {
   const StationsList({super.key});

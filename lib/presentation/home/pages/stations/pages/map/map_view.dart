@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logger/logger.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
-import '../../../controller/stations_controller.dart';
+import '../../controller/stations_controller.dart';
 
 class MapView extends StatefulWidget {
   const MapView({super.key});

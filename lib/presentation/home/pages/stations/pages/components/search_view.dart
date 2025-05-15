@@ -8,7 +8,7 @@ import 'package:megaplug/presentation/home/pages/stations/components/filter/filt
 import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
 
 import '../../../../../../../config/helpers/time_debuncer.dart';
-import '../../../controller/stations_controller.dart';
+import '../../controller/stations_controller.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
@@ -69,7 +69,9 @@ class SearchView extends StatelessWidget {
                             ? null
                             : GestureDetector(
                                 onTap: () {
-                                  stationsController.clearSearchBox();
+                                  stationsController.searchTextEditingController
+                                      .clear();
+                                  stationsController.handleSearchText(text: '');
                                 },
                                 child: Icon(Icons.clear),
                               ),

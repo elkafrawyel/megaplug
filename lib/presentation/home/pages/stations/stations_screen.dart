@@ -1,10 +1,12 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'components/pages/map/map_view.dart';
-import 'components/pages/components/stations_appbar.dart';
-import 'components/pages/stations_list/stations_list.dart';
 import 'controller/stations_controller.dart';
+import 'pages/components/stations_appbar.dart';
+import 'pages/stations_list/stations_list.dart';
+import 'pages/map/map_view.dart';
 
 class StationsScreen extends StatefulWidget {
   const StationsScreen({super.key});

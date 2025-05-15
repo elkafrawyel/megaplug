@@ -47,6 +47,7 @@ class StatusView extends StatelessWidget {
                   alignment: AlignmentDirectional.centerStart,
                   child: Wrap(
                     spacing: 12,
+                    runSpacing: 12,
                     children: stationController.statusFilterTypes
                         .map(
                           (statusFilter) => GestureDetector(

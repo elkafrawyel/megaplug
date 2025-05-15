@@ -9,7 +9,7 @@ import '../pages/stations/stations_screen.dart';
 import '../pages/wallet/wallet_screen.dart';
 
 class HomeController extends GetxController {
-  int selectedIndex = 0;
+  RxInt selectedIndex = 0.obs;
   List<Widget> pages = [];
 
   final PageController pageController = PageController();
@@ -27,12 +27,11 @@ class HomeController extends GetxController {
   }
 
   handleSelectedIndex(int index) {
-    if (index > 0) {
-      Get.find<StationsController>().showComingSoonDialog();
-      return;
-    }
-    selectedIndex = index;
-    update();
+    // if (index > 0) {
+    //   Get.find<StationsController>().showComingSoonDialog();
+    //   return;
+    // }
+    selectedIndex.value = index;
     pageController.jumpToPage(index);
   }
 }
