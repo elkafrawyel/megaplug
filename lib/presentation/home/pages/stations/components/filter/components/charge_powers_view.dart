@@ -19,10 +19,11 @@ class ChargePowersView extends StatelessWidget {
       builder: (stationController) {
         return switch (stationController.stationFilterApiResult) {
           ApiStart() => SizedBox(),
-          ApiLoading() => Center(child: Padding(
-            padding: const EdgeInsets.all(28.0),
-            child: CircularProgressIndicator.adaptive(),
-          )),
+          ApiLoading() => Center(
+                child: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: CircularProgressIndicator.adaptive(),
+            )),
           ApiEmpty() => Center(
               child: Padding(
                 padding: const EdgeInsets.all(48.0),
@@ -47,7 +48,12 @@ class ChargePowersView extends StatelessWidget {
                     .map(
                       (power) => GestureDetector(
                         onTap: () {
-                          stationController.selectedChargePower.value = power;
+                          if (stationController.selectedChargePower.value ==
+                              power) {
+                            stationController.selectedChargePower.value = null;
+                          } else {
+                            stationController.selectedChargePower.value = power;
+                          }
                         },
                         child: Container(
                           decoration: BoxDecoration(

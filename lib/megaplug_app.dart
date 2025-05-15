@@ -87,7 +87,7 @@ class _MegaPlugState extends State<MegaPlug> {
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                 )
-                ..userInteractions = true
+                ..userInteractions = false
                 ..dismissOnTap = false;
               child = MediaQuery(
                 data: MediaQuery.of(context).copyWith(

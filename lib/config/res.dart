@@ -11,7 +11,7 @@ class Res {
   static const apiGetStationFilter = 'filter-stations-setting';
 
   static const apiStationSearch = 'stations/search';
-  static const apiStationFilter = 'filter-stations';
+  static const apiStationFilter = 'stations/filter';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/icon.png';

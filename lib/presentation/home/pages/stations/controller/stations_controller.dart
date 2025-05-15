@@ -17,15 +17,16 @@ import 'package:megaplug/data/repositories/stations_repo.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_station_model.dart';
 import 'package:megaplug/domain/entities/api/charge_power_model.dart';
 import 'package:megaplug/domain/entities/api/connector_type_model.dart';
- import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
 import '../../../../../data/api_responses/station_search_response.dart';
+import '../../../../../data/api_responses/stations_filter_result_response.dart';
 import '../../../../../domain/entities/api/status_filter_model.dart';
 import '../../../../../widgets/app_dialog_view.dart';
- import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
+import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
     as cluster_manager;
 
 import '../pages/components/station_card_view.dart';
@@ -304,8 +305,9 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     );
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {
-      var data = apiResult.getData();
-      List<String> idsList = data?.map((e) => e.id).toList() ?? [];
+      StationsFilterResultResponse response = apiResult.getData();
+      List<String> idsList =
+          response.data?.map((e) => e.stationId!.toString()).toList() ?? [];
       _setupStream(idsList: idsList);
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());

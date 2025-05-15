@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 enum StationStatus {
   area,
-  active,
-  down,
-  busy,
+  available,
+  inUse,
+  unavailable,
 }
 
 extension StationStatusEx on StationStatus {
@@ -12,11 +12,11 @@ extension StationStatusEx on StationStatus {
     switch (this) {
       case StationStatus.area:
         return Color(0xff3EBF80);
-      case StationStatus.active:
+      case StationStatus.available:
         return Color(0xff3EBF80);
-      case StationStatus.down:
+      case StationStatus.unavailable:
         return Color(0xffF41F52);
-      case StationStatus.busy:
+      case StationStatus.inUse:
         return Color(0xffE86F00);
     }
   }
@@ -25,12 +25,12 @@ extension StationStatusEx on StationStatus {
     switch (this) {
       case StationStatus.area:
         return 'area';
-      case StationStatus.active:
+      case StationStatus.available:
         return 'available';
-      case StationStatus.down:
-        return 'down';
-      case StationStatus.busy:
-        return 'busy';
+      case StationStatus.inUse:
+        return 'in_use';
+      case StationStatus.unavailable:
+        return 'unavailable';
     }
   }
 }

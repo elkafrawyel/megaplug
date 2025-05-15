@@ -65,10 +65,14 @@ class APIClient {
   Future<ApiResult<T>> get<T>({
     required String endPoint,
     required T Function(dynamic) fromJson,
+    Map<String, dynamic>? queryParameters,
   }) async {
     try {
       if (await OfflineHandler.isConnected()) {
-        Response response = await _client.get(endPoint);
+        Response response = await _client.get(
+          endPoint,
+          queryParameters: queryParameters,
+        );
         if (NetworkHelper.isSuccess(response)) {
           return ApiSuccess(fromJson(response.data));
         } else {

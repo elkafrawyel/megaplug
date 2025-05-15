@@ -112,17 +112,17 @@ class FirebaseStationModel with ClusterItem {
     return powers.join('-');
   }
 
-  final _active = 'ACTIVE';
-  final _inUse = 'IN_USE';
-  final _down = 'DOWN';
+  final _available = 'Available';
+  final _inUse = 'InUse';
+  final _unavailable = 'Unavailable';
 
   StationStatus getStationStatus() {
-    if (status == _inUse) {
-      return StationStatus.busy;
-    } else if (status == _active) {
-      return StationStatus.active;
-    } else if (status == _down) {
-      return StationStatus.down;
+    if (status == _available) {
+      return StationStatus.available;
+    } else if (status == _unavailable) {
+      return StationStatus.unavailable;
+    } else if (status == _inUse) {
+      return StationStatus.inUse;
     } else {
       return StationStatus.area;
     }

@@ -5,7 +5,6 @@ import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
-import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/api_responses/station_filter_response.dart';
 import 'package:megaplug/domain/entities/api/charge_power_model.dart';
 import 'package:megaplug/domain/entities/api/connector_type_model.dart';
@@ -14,6 +13,7 @@ import 'package:megaplug/domain/entities/firebase/firebase_station_model.dart';
 
 import '../../domain/repositories/stations_repo.dart';
 import '../api_responses/station_search_response.dart';
+import '../api_responses/stations_filter_result_response.dart';
 
 class StationsRepositoryImpl extends StationsRepository {
   final stationsCollectionId = 'stations';
@@ -73,7 +73,7 @@ class StationsRepositoryImpl extends StationsRepository {
   }
 
   @override
-  Future<ApiResult<GeneralResponse>> filterStations({
+  Future<ApiResult<StationsFilterResultResponse>> filterStations({
     List<StatusFilterModel>? statusFilter,
     List<ConnectorTypeModel>? connectorTypesFilter,
     ChargePowerModel? chargePowerFilter,
@@ -85,16 +85,17 @@ class StationsRepositoryImpl extends StationsRepository {
     AppLogger.logWithGetX('Charge Power Filter id'
         ' => ${chargePowerFilter?.id}');
 
-    return APIClient.instance.post<GeneralResponse>(
+    return APIClient.instance.get<StationsFilterResultResponse>(
       endPoint: Res.apiStationFilter,
-      fromJson: GeneralResponse.fromJson,
-      requestBody: {
-        if ((statusFilter?.isNotEmpty ?? false) ||
+      fromJson: StationsFilterResultResponse.fromJson,
+      queryParameters: {
+        if ((statusFilter?.isNotEmpty ?? false) &&
             statusFilter?.first.key != 'ALL')
-          'status': statusFilter?.map((e) => e.key).toList(),
+          'statuses': statusFilter?.map((e) => e.key).toList(),
         if (connectorTypesFilter?.isNotEmpty ?? false)
           'connector_types': connectorTypesFilter?.map((e) => e.id).toList(),
-        if (chargePowerFilter != null) 'charge_power': chargePowerFilter.id,
+        if (chargePowerFilter != null)
+          'charging_powers': [chargePowerFilter.id],
       },
     );
   }

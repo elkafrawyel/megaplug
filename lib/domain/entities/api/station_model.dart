@@ -11,7 +11,7 @@ class StationModel with ClusterItem {
   StationModel({
     required this.name,
     required this.latLng,
-    this.stationStatus = StationStatus.active,
+    this.stationStatus = StationStatus.available,
   });
 
   @override
