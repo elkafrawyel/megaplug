@@ -71,6 +71,9 @@ class Res {
   static const closeIcon = 'assets/icons/close.svg';
   static const notificationsIcon = 'assets/icons/notifications.svg';
   static const emptyIcon = 'assets/icons/empty.svg';
+  static const fastChargeIcon = 'assets/icons/fast_charge.svg';
+  static const fastCharge2Icon = 'assets/icons/fast_charge_2.svg';
+  static const fastChargeBannerIcon = 'assets/icons/fast_charge_banner.svg';
 
   ///================================================================
 

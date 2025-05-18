@@ -81,7 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? context.kPrimaryColor
                                 : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: selectedIndex == 0
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -106,7 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? context.kPrimaryColor
                                 : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: selectedIndex == 1
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -161,7 +165,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? context.kPrimaryColor
                                 : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: selectedIndex == 2
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -186,7 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? context.kPrimaryColor
                                 : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: selectedIndex == 3
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -210,7 +218,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? context.kPrimaryColor
                                 : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: selectedIndex == 4
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                           ),
                         ],
                       ),

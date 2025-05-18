@@ -84,7 +84,7 @@ Map<String, String> en = {
   'available': 'Available',
   'in_use': 'In Use',
   'unavailable': 'Unavailable',
-   'min_8_char': 'Minimum 8 characters',
+  'min_8_char': 'Minimum 8 characters',
   'one_lower_letter': 'At least 1 lowercase letter (a-z)',
   'one_upper_letter': 'At least 1 uppercase letter (A-Z)',
   'special_char': 'At least 1 special character (@, #, \$, %, &, *, etc.)',
@@ -107,12 +107,13 @@ Map<String, String> en = {
   'location_services_message':
       'Location services are disabled.please enable it to be able to use the app.',
   'area': 'Area',
-   'km': 'Km',
+  'km': 'Km',
   'station_details': 'Station Details',
   'get_directions': 'Get Directions',
   'connectors': 'Connectors',
   'w': 'W',
   'no_result': 'No Results Found',
   'empty_message':
-      "We couldn't find any stations or connector types matching your search. Please try adjusting your keywords or filters and search again."
+      "We couldn't find any stations or connector types matching your search. Please try adjusting your keywords or filters and search again.",
+  'fast_charge': 'Fast Charge'
 };

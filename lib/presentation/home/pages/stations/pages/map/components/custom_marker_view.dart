@@ -20,12 +20,13 @@ class CustomMarkerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dcColor = Color(0xffFFA800);
     return Stack(
       children: [
         MarkerBgShape(
           width: 70,
           height: 85,
-          color: stationStatus.color,
+          color: isDc && count == null ? dcColor : stationStatus.color,
         ),
         Padding(
           padding: const EdgeInsets.all(4.0),
@@ -41,8 +42,12 @@ class CustomMarkerView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SvgPicture.asset(
-                    isDc && count == null ? Res.xIcon : Res.strokeIcon,
-                    width: count == null ? 20 : 13,
+                    isDc && count == null ? Res.fastChargeIcon : Res.strokeIcon,
+                    width: count == null
+                        ? isDc && count == null
+                            ? 30
+                            : 20
+                        : 13,
                     colorFilter: ColorFilter.mode(
                       Colors.white,
                       BlendMode.srcIn,

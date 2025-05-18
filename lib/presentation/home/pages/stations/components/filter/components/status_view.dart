@@ -65,13 +65,13 @@ class StatusView extends StatelessWidget {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 24.0, vertical: 12),
+                                    horizontal: 18.0, vertical: 12),
                                 child: AppText(
                                   text: statusFilter.value ?? '',
                                   color: statusFilter.isSelected.value
                                       ? Colors.white
                                       : Colors.black,
-                                  fontSize: 13,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),

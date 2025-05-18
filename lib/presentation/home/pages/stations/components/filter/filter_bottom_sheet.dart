@@ -69,7 +69,7 @@ class FilterBottomSheet extends StatelessWidget {
                 alignment: AlignmentDirectional.centerStart,
                 child: AppText(
                   text: 'filter_stations'.tr,
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -86,7 +86,7 @@ class FilterBottomSheet extends StatelessWidget {
                 alignment: AlignmentDirectional.centerStart,
                 child: AppText(
                   text: 'connector_type'.tr,
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -101,7 +101,7 @@ class FilterBottomSheet extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: AppText(
                 text: 'charge_power'.tr,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -153,7 +153,7 @@ class FilterBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            50.ph,
+            40.ph,
           ],
         ),
       ),

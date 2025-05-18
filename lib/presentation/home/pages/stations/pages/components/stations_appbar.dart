@@ -39,7 +39,6 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
                   text: '${'hi'.tr} ${profileController.userModel?.name ?? ''}',
                   color:
                       stationsController.mapView ? Colors.black : Colors.white,
-                  fontSize: 16,
                   fontWeight: FontWeight.w400,
                 );
               });
@@ -75,7 +74,7 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
                 color: Colors.white,
               ),
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(10.0),
                 child: badges.Badge(
                   badgeStyle: badges.BadgeStyle(
                     badgeColor: context.kSecondaryColor,
@@ -89,8 +88,8 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                   child: SvgPicture.asset(
                     Res.notificationsIcon,
-                    width: 22,
-                    height: 22,
+                    width: 20,
+                    height: 20,
                   ),
                 ),
               ),

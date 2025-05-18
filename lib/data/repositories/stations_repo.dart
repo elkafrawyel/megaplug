@@ -91,11 +91,11 @@ class StationsRepositoryImpl extends StationsRepository {
       queryParameters: {
         if ((statusFilter?.isNotEmpty ?? false) &&
             statusFilter?.first.key != 'ALL')
-          'statuses': statusFilter?.map((e) => e.key).toList(),
+          'statuses[]': statusFilter?.map((e) => e.key).toList(),
         if (connectorTypesFilter?.isNotEmpty ?? false)
-          'connector_types': connectorTypesFilter?.map((e) => e.id).toList(),
+          'connector_types[]': connectorTypesFilter?.map((e) => e.id).toList(),
         if (chargePowerFilter != null)
-          'charging_powers': [chargePowerFilter.id],
+          'charging_powers[]': [chargePowerFilter.id],
       },
     );
   }

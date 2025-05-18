@@ -52,7 +52,7 @@ class SearchView extends StatelessWidget {
                       keyboardType: TextInputType.text,
                       style: TextStyle(
                         color: context.kTextColor,
-                        fontSize: 14,
+                        fontSize: 12,
                         fontWeight: FontWeight.w400,
                       ),
                       decoration: InputDecoration(
@@ -61,7 +61,7 @@ class SearchView extends StatelessWidget {
                         hintText: 'search_hint'.tr,
                         hintStyle: TextStyle(
                           color: context.kHintTextColor,
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.w400,
                         ),
                         suffixIcon: stationsController
@@ -91,9 +91,9 @@ class SearchView extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       showAppModalBottomSheet(
-                        initialChildSize: 0.7,
-                        maxChildSize: 0.8,
-                        minChildSize: 0.6,
+                        initialChildSize: 0.55,
+                        maxChildSize: 0.9,
+                        minChildSize: 0.5,
                         context: context,
                         builder: (
                           context,

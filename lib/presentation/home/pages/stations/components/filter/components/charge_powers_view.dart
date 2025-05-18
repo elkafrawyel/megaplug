@@ -66,7 +66,7 @@ class ChargePowersView extends StatelessWidget {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 24.0,
+                              horizontal: 18.0,
                               vertical: 10.0,
                             ),
                             child: Row(

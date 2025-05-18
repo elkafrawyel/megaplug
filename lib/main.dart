@@ -42,8 +42,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await NotificationsService().init();
-  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
+  // await NotificationsService().init();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
 
   runApp(const MegaPlug());
 }

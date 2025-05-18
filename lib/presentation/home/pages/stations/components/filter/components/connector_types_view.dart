@@ -60,7 +60,7 @@ class ConnectorTypesView extends StatelessWidget {
                               Expanded(
                                 child: AppText(
                                   text: connector.toString(),
-                                  fontSize: 13,
+                                  fontSize: 12,
                                 ),
                               ),
                               CircularCheckbox(

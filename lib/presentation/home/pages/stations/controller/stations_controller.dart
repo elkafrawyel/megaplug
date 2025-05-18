@@ -308,7 +308,12 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       StationsFilterResultResponse response = apiResult.getData();
       List<String> idsList =
           response.data?.map((e) => e.stationId!.toString()).toList() ?? [];
-      _setupStream(idsList: idsList);
+      if (idsList.isEmpty) {
+        //this means that there is no search result.
+        _emptyStationsList();
+      } else {
+        _setupStream(idsList: idsList);
+      }
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());
     }
@@ -391,6 +396,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
         ),
         duration: Duration(seconds: 2),
       );
+      _updateMarkersOnMap();
     }
   }
 

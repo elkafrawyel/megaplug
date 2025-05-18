@@ -7,6 +7,7 @@ import 'package:megaplug/config/helpers/map_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/stations/controller/stations_controller.dart';
+import 'package:megaplug/presentation/home/pages/stations/pages/components/corder_banner.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
 import '../../../../../../../domain/entities/firebase/firebase_station_model.dart';
@@ -27,9 +28,11 @@ class StationCardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color statusColor = stationModel.getStationStatus().color;
+    bool isDc = stationModel.hasDcConnectors();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           Card(
             margin: EdgeInsets.zero,
@@ -44,15 +47,16 @@ class StationCardView extends StatelessWidget {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 18.0,
-                        horizontal: 8.0,
+                      padding: const EdgeInsetsDirectional.only(
+                        start: 18,
+                        end: 4,
+                        top: 24,
                       ),
                       child: AppNetworkImage(
                         imageUrl:
                             'https://img.freepik.com/free-vector/cartoon-style-gas-station-background_52683-79920.jpg',
-                        height: 90,
-                        width: 90,
+                        height: 70,
+                        width: 70,
                         fit: BoxFit.cover,
                         radius: 8,
                       ),
@@ -61,23 +65,25 @@ class StationCardView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          18.ph,
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: AppText(
                               text: stationModel.getName(),
                               fontWeight: FontWeight.bold,
+                              fontSize: 12,
                               maxLines: 3,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          SizedBox(height: 8),
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: AppText(
                               text: stationModel.getAddress(),
                               fontWeight: FontWeight.w400,
-                              fontSize: 12,
+                              fontSize: 11,
                             ),
                           ),
                           SizedBox(height: 8),
@@ -99,7 +105,7 @@ class StationCardView extends StatelessWidget {
                                       stationModel.latitude!,
                                       stationModel.longitude!,
                                     )} ${'km'.tr}',
-                                    fontSize: 12,
+                                    fontSize: 11,
                                   ),
                                 ],
                               ),
@@ -115,23 +121,27 @@ class StationCardView extends StatelessWidget {
                                   AppText(
                                     text:
                                         '${stationModel.getTotalConnectors()} ${'connectors'.tr}',
-                                    fontSize: 12,
+                                    fontSize: 11,
                                   ),
                                 ],
                               ),
                               Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(
-                                    Icons.bolt,
-                                    size: 20,
-                                    color: statusColor,
+                                  SvgPicture.asset(
+                                    isDc
+                                        ? Res.fastCharge2Icon
+                                        : Res.lightningIcon,
+                                    colorFilter: ColorFilter.mode(
+                                      isDc ? Color(0xffFFA800) : statusColor,
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
                                   SizedBox(width: 2),
                                   AppText(
                                     text:
                                         '${stationModel.getChargingPowerText()} ${'w'.tr}',
-                                    fontSize: 12,
+                                    fontSize: 11,
                                   ),
                                 ],
                               )
@@ -142,65 +152,88 @@ class StationCardView extends StatelessWidget {
                     )
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          icon: SvgPicture.asset(
-                            Res.directionsIcon,
-                          ),
-                          label: AppText(
-                            text: 'get_directions'.tr,
-                            color: context.kColorOnPrimary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 50),
-                            // width, height
-                            backgroundColor: Color(0xff6C7E8E),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                20.ph,
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              MapHelper.openMap(
+                                stationModel.location.latitude,
+                                stationModel.location.longitude,
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xff6C7E8E),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SvgPicture.asset(
+                                        Res.directionsIcon,
+                                      ),
+                                      10.pw,
+                                      Flexible(
+                                        child: AppText(
+                                          text: 'get_directions'.tr,
+                                          color: context.kColorOnPrimary,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          onPressed: () {
-                            MapHelper.openMap(
-                              stationModel.location.latitude,
-                              stationModel.location.longitude,
-                            );
-                          },
                         ),
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          icon: SvgPicture.asset(
-                            Res.connectCarIcon,
-                          ),
-                          label: AppText(
-                            text: 'station_details'.tr,
-                            color: context.kColorOnPrimary,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 50),
-                            // width, height
-                            backgroundColor: Color(0xff3EBF80),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                        10.pw,
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.find<StationsController>()
+                                  .showComingSoonDialog();
+                              // Get.to(() => StationDetailsScreen());
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xff3EBF80),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SvgPicture.asset(
+                                        Res.connectCarIcon,
+                                      ),
+                                      10.pw,
+                                      Flexible(
+                                        child: AppText(
+                                          text: 'station_details'.tr,
+                                          color: context.kColorOnPrimary,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                          onPressed: () {
-                            Get.find<StationsController>().showComingSoonDialog();
-
-                            // Get.to(() => StationDetailsScreen());
-                          },
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 10.ph,
@@ -225,9 +258,16 @@ class StationCardView extends StatelessWidget {
               child: AppText(
                 text: stationModel.getStationStatus().text.tr,
                 color: context.kColorOnPrimary,
+                fontSize: 12,
               ),
             ),
           ),
+          if (isDc)
+            PositionedDirectional(
+              top: -5,
+              start: -7,
+              child: CornerBanner(text: 'fast_charge'.tr),
+            ),
         ],
       ),
     );
