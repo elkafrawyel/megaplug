@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
@@ -90,6 +91,10 @@ class SearchView extends StatelessWidget {
                   10.pw,
                   GestureDetector(
                     onTap: () {
+                      if (stationsController.stationFilterApiResult
+                          .isFailure()) {
+                        stationsController.getStationFilter();
+                      }
                       showAppModalBottomSheet(
                         initialChildSize: 0.55,
                         maxChildSize: 0.9,

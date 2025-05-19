@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/helpers/offline_handler.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/stations/controller/stations_controller.dart';
@@ -127,7 +128,7 @@ class FilterBottomSheet extends StatelessWidget {
                         text: 'reset'.tr,
                         color: context.kPrimaryColor,
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         Get.find<StationsController>().resetFilter();
                       },
                     ),

@@ -20,10 +20,11 @@ class StatusView extends StatelessWidget {
         return switch (stationController.stationFilterApiResult) {
           ApiStart() => SizedBox(),
           ApiLoading() => Center(
-                child: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: CircularProgressIndicator.adaptive(),
-            )),
+              child: Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            ),
           ApiEmpty() => Center(
               child: Padding(
                 padding: const EdgeInsets.all(48.0),
@@ -36,7 +37,8 @@ class StatusView extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(48.0),
                 child: AppText(
-                  text: 'Connectors Failed To Load',
+                  text:
+                      'Connectors Failed To Load.',
                 ),
               ),
             ),
