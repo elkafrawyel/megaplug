@@ -13,17 +13,43 @@ import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 import '../../../../../../../domain/entities/firebase/firebase_station_model.dart';
 import '../../../../../../../widgets/app_widgets/app_text.dart';
 
-class StationCardView extends StatelessWidget {
+class StationCardView extends StatefulWidget {
   final FirebaseStationModel stationModel;
   final bool inMapView;
 
-  StationCardView({
+  const StationCardView({
     super.key,
     required this.stationModel,
     this.inMapView = false,
   });
 
-  final StationsController stationsController = Get.find<StationsController>();
+  @override
+  State<StationCardView> createState() => StationCardViewState();
+}
+
+class StationCardViewState extends State<StationCardView> {
+  late FirebaseStationModel stationModel;
+  final StationsController _stationsController = Get.find<StationsController>();
+
+  @override
+  initState() {
+    super.initState();
+    stationModel = widget.stationModel;
+  }
+
+  @override
+  dispose() {
+    //stop updating the dialog
+    _stationsController.stationModelInDialog = null;
+    super.dispose();
+  }
+
+  //only used from maps dialog
+  reBuild({FirebaseStationModel? model}) {
+    setState(() {
+      stationModel = model ?? widget.stationModel;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +66,7 @@ class StationCardView extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             color: Colors.white,
-            elevation: inMapView ? 10 : 0,
+            elevation: widget.inMapView ? 10 : 0,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -88,6 +114,7 @@ class StationCardView extends StatelessWidget {
                           ),
                           SizedBox(height: 8),
                           Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
                             runSpacing: 8,
                             spacing: 8,
                             children: [
@@ -101,7 +128,7 @@ class StationCardView extends StatelessWidget {
                                   ),
                                   SizedBox(width: 2),
                                   AppText(
-                                    text: '${stationsController.getDistance(
+                                    text: '${_stationsController.getDistance(
                                       stationModel.latitude!,
                                       stationModel.longitude!,
                                     )} ${'km'.tr}',

@@ -59,6 +59,11 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   StreamSubscription<QuerySnapshot<FirebaseStationModel>>? subscription;
   final idsController = BehaviorSubject<List<String>?>.seeded(null);
 
+  GlobalKey<StationCardViewState> stationCardKey =
+      GlobalKey<StationCardViewState>();
+
+  FirebaseStationModel? stationModelInDialog;
+
   //============================ Filter ========================================
   ApiResult<StationFilterResponse> stationFilterApiResult = ApiStart();
   RxList<StatusFilterModel> statusFilterTypes = <StatusFilterModel>[].obs;
@@ -121,7 +126,8 @@ class StationsController extends GetxController with WidgetsBindingObserver {
                   animateToPoint(cluster.location);
                 } else {
                   AppLogger.log(cluster.items.first.nameEn);
-                  showStationCard(cluster.items.first);
+                  stationModelInDialog = cluster.items.first;
+                  showStationCard();
                 }
               },
               icon: await CustomMarkerView(
@@ -153,6 +159,12 @@ class StationsController extends GetxController with WidgetsBindingObserver {
                 (QueryDocumentSnapshot<FirebaseStationModel> doc) => doc.data())
             .toList();
         _updateMarkersOnMap();
+        if (stationModelInDialog != null) {
+          stationModelInDialog = stations.firstWhereOrNull(
+              (station) => station.id == stationModelInDialog?.id);
+          stationCardKey.currentState?.reBuild(model: stationModelInDialog);
+          print('Station card rebuild');
+        }
       },
       onError: _handleError,
     );
@@ -456,14 +468,18 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  void showStationCard(FirebaseStationModel stationModel) {
+  void showStationCard() {
+    if (stationModelInDialog == null) {
+      return;
+    }
     Get.dialog(
       Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: StationCardView(
-            stationModel: stationModel,
+            key: stationCardKey,
+            stationModel: stationModelInDialog!,
           ),
         ),
       ),
