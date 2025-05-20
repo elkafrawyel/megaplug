@@ -27,7 +27,7 @@ class HomeController extends GetxController {
   }
 
   handleSelectedIndex(int index) {
-    if (index > 0) {
+    if (index != 0 && index != 1 && index != 2) {
       Get.find<StationsController>().showComingSoonDialog();
       return;
     }

@@ -14,6 +14,8 @@ class AppText extends StatelessWidget {
   final bool lineThrough;
   final bool underLine;
 
+  final double? height;
+
   const AppText({
     super.key,
     required this.text,
@@ -24,6 +26,7 @@ class AppText extends StatelessWidget {
     this.fontWeight,
     this.lineThrough = false,
     this.underLine = false,
+    this.height,
   });
 
   @override
@@ -45,6 +48,7 @@ class AppText extends StatelessWidget {
         decorationThickness: 1,
         decorationColor: color ?? Colors.black,
         overflow: TextOverflow.ellipsis,
+        height: height,
       ),
       textAlign: centerText ? TextAlign.center : TextAlign.start,
       maxLines: maxLines,

@@ -24,65 +24,69 @@ class TransactionsHistoryList extends StatelessWidget {
           child: Card(
             elevation: 0,
             color: Colors.white,
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  index % 2 == 0 ? Res.plusIcon : Res.chargedIcon,
-                ),
-                20.pw,
-                Column(
-                  children: [
-                    AppText(
-                      text: 'Loyalty Points',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    5.ph,
-                    AppText(
-                      text: 'Today • 4:32 pm',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ],
-                ),
-                Spacer(),
-                Column(
-                  children: [
-                    AppText(
-                      text: '+ 32.00 EGP',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    5.ph,
-                    Container(
-                      decoration: BoxDecoration(
-                        color: index % 2 == 0
-                            ? Color.fromRGBO(
-                                74,
-                                222,
-                                128,
-                                0.2,
-                              )
-                            : Color.fromRGBO(255, 113, 113, 0.2),
-                        borderRadius: BorderRadius.circular(8),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    index % 2 == 0 ? Res.plusIcon : Res.chargedIcon,
+                  ),
+                  10.pw,
+                  Column(
+                    children: [
+                      AppText(
+                        text: 'Loyalty Points',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4.0,
-                        ),
-                        child: AppText(
-                          text: 'Loyalty Points ',
+                      5.ph,
+                      AppText(
+                        text: 'Today • 4:32 pm',
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xffA3A3A3),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  Column(
+                    children: [
+                      AppText(
+                        text: '+ 32.00 EGP',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      5.ph,
+                      Container(
+                        decoration: BoxDecoration(
                           color: index % 2 == 0
-                              ? context.kPrimaryColor
-                              : Color(0xffF41F52),
-                          fontSize: 12,
+                              ? Color.fromRGBO(
+                                  74,
+                                  222,
+                                  128,
+                                  0.2,
+                                )
+                              : Color.fromRGBO(255, 113, 113, 0.2),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4.0,
+                          ),
+                          child: AppText(
+                            text: 'Loyalty Points ',
+                            color: index % 2 == 0
+                                ? context.kPrimaryColor
+                                : Color(0xffF41F52),
+                            fontSize: 11,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

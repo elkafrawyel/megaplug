@@ -32,6 +32,7 @@ class HomeAppbar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: kToolbarHeight,
       backgroundColor: backgroundColor ?? Colors.transparent,
       elevation: 0,
+      surfaceTintColor: Colors.transparent,
       title: AppText(
         text: title,
         color: context.kColorOnPrimary,

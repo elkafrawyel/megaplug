@@ -115,5 +115,11 @@ Map<String, String> en = {
   'no_result': 'No Results Found',
   'empty_message':
       "We couldn't find any stations or connector types matching your search. Please try adjusting your keywords or filters and search again.",
-  'fast_charge': 'Fast Charge'
+  'fast_charge': 'Fast Charge',
+  'ready_for_scan': 'Ready for Scan',
+  'charge_description':
+      'Place your phone near the scanner or scan the QR code to start charging your electric vehicle seamlessly.',
+  'have_any_trouble': 'Have any trouble?',
+  'how_to_charge': 'How to charge',
+  'start_charging':'Start Charging',
 };
