@@ -9,6 +9,7 @@ import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 import 'controller/home_controller.dart';
+import 'pages/charge/controller/charge_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -123,21 +124,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Animate(
-                            key: ValueKey(selectedIndex),
-                            // forces animation restart
-                            child: SvgPicture.asset(
-                              key: ValueKey(selectedIndex),
-                              selectedIndex == 2
-                                  ? Res.chargeOnIcon
-                                  : Res.chargeOffIcon,
-                            ),
-                          ).rotate(
-                            begin: 0,
-                            end: 1, // full turn (360 degrees)
-                            duration: 1000.ms,
-                            curve: Curves.linear,
-                          ),
+                          ChargeController.to.isCharging.value
+                              ? SvgPicture.asset(
+                                  key: ValueKey(selectedIndex),
+                                  Res.chargeOnIcon,
+                                )
+                                  .animate(
+                                      onPlay: (controller) =>
+                                          controller.repeat()) // loop
+                                  .rotate(
+                                    duration: Duration(seconds: 2),
+                                  ) // 2-second full rotation
+                              : SvgPicture.asset(
+                                  Res.chargeOffIcon,
+                                ),
+
                           // (selectedIndex == 2
                           //         ? SvgPicture.asset(
                           //             key: ValueKey(1),

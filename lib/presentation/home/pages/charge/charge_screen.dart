@@ -4,6 +4,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/home/pages/charge/controller/charge_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 import '../../../../config/res.dart';
@@ -81,11 +82,35 @@ class _ChargeScreenState extends State<ChargeScreen>
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                ChargeController.to.setTransactionId('sadfasf');
+              },
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: AppText(
                   text: 'start_charging'.tr,
+                  color: context.kColorOnPrimary,
+                ),
+              ),
+            ),
+          ),
+          10.ph,
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width * 0.8,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.kErrorColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                ChargeController.to.clearTransactionId();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: AppText(
+                  text: 'Stop Charging'.tr,
                   color: context.kColorOnPrimary,
                 ),
               ),

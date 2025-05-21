@@ -167,7 +167,7 @@ class StationCardViewState extends State<StationCardView> {
                                   SizedBox(width: 2),
                                   AppText(
                                     text:
-                                        '${stationModel.getChargingPowerText()} ${'w'.tr}',
+                                        '${stationModel.getChargingPowerText()} ${'kw'.tr}',
                                     fontSize: 11,
                                   ),
                                 ],

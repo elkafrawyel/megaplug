@@ -47,8 +47,12 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   Set<Marker> markers = {};
   bool mapView = true;
   LatLng? myLocation;
+
+  //todo use bigger zoom
   double cameraZoom = 8;
-  MapType mapType = MapType.normal;
+
+  // double cameraZoom = 15;
+  MapType mapType = MapType.terrain;
   late cluster_manager.ClusterManager<FirebaseStationModel> clusterManager;
 
   //============================ Stations ======================================

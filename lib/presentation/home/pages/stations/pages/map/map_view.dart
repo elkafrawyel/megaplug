@@ -27,7 +27,7 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
               target: stationsController.myLocation ?? LatLng(0, 0),
               zoom: stationsController.cameraZoom,
             ),
-            myLocationEnabled: false,
+            myLocationEnabled: true,
             tiltGesturesEnabled: true,
             // compassEnabled: true,
             scrollGesturesEnabled: true,

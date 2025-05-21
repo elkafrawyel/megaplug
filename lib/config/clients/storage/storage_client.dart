@@ -17,6 +17,7 @@ enum StorageClientKeys {
   isDarkMode, //bool
   intro, //int
   user, //jsonString
+  transactionId, //String
 }
 
 class StorageClient {
