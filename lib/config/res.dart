@@ -75,6 +75,9 @@ class Res {
   static const fastCharge2Icon = 'assets/icons/fast_charge_2.svg';
   static const fastChargeBannerIcon = 'assets/icons/fast_charge_banner.svg';
   static const chargePicIcon = 'assets/icons/charge_pic.svg';
+  static const timeIcon = 'assets/icons/time.svg';
+  static const totalWattIcon = 'assets/icons/total_watt.svg';
+  static const totalCostIcon = 'assets/icons/total_cost.svg';
 
   ///================================================================
 

@@ -91,7 +91,7 @@ class _MegaPlugState extends State<MegaPlug> {
                 ..dismissOnTap = false;
               child = MediaQuery(
                 data: MediaQuery.of(context).copyWith(
-                  // textScaler: const TextScaler.linear(1.0),
+                  textScaler: const TextScaler.linear(1.0),
                 ),
                 child: child,
               );

@@ -4,6 +4,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/charging_session/charging_session_screen.dart';
 import 'package:megaplug/presentation/home/pages/charge/controller/charge_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
@@ -84,6 +85,7 @@ class _ChargeScreenState extends State<ChargeScreen>
               ),
               onPressed: () {
                 ChargeController.to.setTransactionId('sadfasf');
+                Get.to(()=>ChargingSessionScreen());
               },
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
