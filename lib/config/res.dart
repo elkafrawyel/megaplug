@@ -14,7 +14,7 @@ class Res {
   static const apiStationFilter = 'stations/filter';
 
   ///========================== ASSETS ======================================
-  static const logo = 'assets/images/launcher/icon.png';
+  static const logo = 'assets/images/launcher/ios_icon.png';
   static const arabicLogo = 'assets/images/arabic_logo.png';
   static const englishLogo = 'assets/images/english_logo.png';
   static const onboarding_1 = 'assets/images/onboarding/onboarding_1.png';

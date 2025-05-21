@@ -90,7 +90,7 @@ class _ChargeScreenState extends State<ChargeScreen>
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
                 child: AppText(
-                  text: 'start_charging'.tr,
+                  text: 'scan_qr_now'.tr,
                   color: context.kColorOnPrimary,
                 ),
               ),

@@ -122,4 +122,5 @@ Map<String, String> en = {
   'have_any_trouble': 'Have any trouble?',
   'how_to_charge': 'How to charge',
   'start_charging':'Start Charging',
+  'scan_qr_now':'Scan QR Now',
 };

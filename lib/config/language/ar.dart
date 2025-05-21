@@ -122,4 +122,5 @@ Map<String, String> ar = {
   'have_any_trouble': 'هل لديك أي مشكلة؟',
   'how_to_charge': 'كيفية الشحن',
   'start_charging': 'ابدأ الشحن',
+  'scan_qr_now': 'امسح الرمز الآن',
 };
