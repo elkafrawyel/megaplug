@@ -16,6 +16,8 @@ class AppText extends StatelessWidget {
 
   final double? height;
 
+  final String? fontFamily;
+
   const AppText({
     super.key,
     required this.text,
@@ -27,6 +29,7 @@ class AppText extends StatelessWidget {
     this.lineThrough = false,
     this.underLine = false,
     this.height,
+    this.fontFamily,
   });
 
   @override
@@ -36,9 +39,9 @@ class AppText extends StatelessWidget {
       style: TextStyle(
         color: color ?? context.kTextColor,
         fontSize: fontSize,
-        fontFamily: StorageClient().isAr()
+        fontFamily: fontFamily ??(StorageClient().isAr()
             ? Constants.arFontFamily
-            : Constants.fontFamily,
+            : Constants.fontFamily),
         fontWeight: fontWeight,
         decoration: lineThrough
             ? TextDecoration.lineThrough

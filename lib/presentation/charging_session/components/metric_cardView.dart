@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 
 import '../../../widgets/app_widgets/app_text.dart';
@@ -28,17 +29,16 @@ class MetricCardView extends StatelessWidget {
       child: Column(
         children: [
           SvgPicture.asset(assetName),
-          SizedBox(height: 8),
+          8.ph,
           AppText(
             text: title,
             fontWeight: FontWeight.bold,
-            fontSize: 12,
           ),
-          SizedBox(height: 4),
           AppText(
             text: subtitle,
             color: context.kHintTextColor,
             fontSize: 11,
+            fontWeight: FontWeight.w300,
             centerText: true,
           ),
         ],

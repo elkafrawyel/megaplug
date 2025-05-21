@@ -107,7 +107,7 @@ class _ChargeScreenState extends State<ChargeScreen>
                 ),
               ),
               onPressed: () {
-                ChargeController.to.clearTransactionId();
+                ChargeController.to.stopCharge();
               },
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
