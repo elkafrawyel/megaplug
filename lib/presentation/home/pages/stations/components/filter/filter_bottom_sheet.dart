@@ -11,10 +11,10 @@ import 'package:megaplug/presentation/home/pages/stations/components/filter/comp
 import 'package:megaplug/presentation/home/pages/stations/components/filter/components/status_view.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
-class FilterBottomSheet extends StatelessWidget {
-  final ScrollController scrollController;
+import '../../../../../../widgets/bottom_sheet_header.dart';
 
-  const FilterBottomSheet({super.key, required this.scrollController});
+class FilterBottomSheet extends StatelessWidget {
+  const FilterBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,43 +26,10 @@ class FilterBottomSheet extends StatelessWidget {
         ),
       ),
       child: SingleChildScrollView(
-        controller: scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              alignment: AlignmentDirectional.centerEnd,
-              children: [
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xffF2F2F3),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    width: 80,
-                    height: 6,
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Color(0xffF2F2F3),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SvgPicture.asset(Res.closeIcon),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            BottomSheetHeader(),
             10.ph,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),

@@ -339,12 +339,8 @@ class AppMultiSelectState extends State<AppMultiSelect> {
 
   Future<void> showBottomSheet(BuildContext context) async {
     await showAppModalBottomSheet(
-      context: context,
-      maxChildSize: 0.95,
-      minChildSize: 0.4,
-      initialChildSize: 0.7,
-      builder: (context, scrollController) {
-        return StatefulBuilder(
+        context: context,
+        child: StatefulBuilder(
           builder: (context, setState) {
             return Material(
               color: Colors.transparent,
@@ -386,9 +382,7 @@ class AppMultiSelectState extends State<AppMultiSelect> {
                         _searchBox(setState),
                         _labelView(setState),
                         _selectAllView(setState),
-                        Expanded(
-                            child: mainList(setState,
-                                scrollController: scrollController)),
+                        Expanded(child: mainList(setState)),
                         _actionView(setState),
                         const SizedBox(height: 20),
                       ],
@@ -398,9 +392,7 @@ class AppMultiSelectState extends State<AppMultiSelect> {
               ),
             );
           },
-        );
-      },
-    ).then((value) => setState(() {}));
+        )).then((value) => setState(() {}));
   }
 
   Future<void> showDialogueBox(context) async {

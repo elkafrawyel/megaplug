@@ -37,6 +37,9 @@ class ChargeController extends GetxController {
   }
 
   void startCharge() {
+    if (timer?.isActive ?? false) {
+      return;
+    }
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (percentage.value > 1) {
         timer.cancel();
@@ -48,7 +51,7 @@ class ChargeController extends GetxController {
     timer?.tick;
   }
 
-  void stopCharge()async {
+  Future stopCharge() async {
     await clearTransactionId();
     isCharging.value = false;
     percentage.value = 0.0;

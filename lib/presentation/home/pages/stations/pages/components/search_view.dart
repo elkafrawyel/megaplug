@@ -96,17 +96,8 @@ class SearchView extends StatelessWidget {
                         stationsController.getStationFilter();
                       }
                       showAppModalBottomSheet(
-                        initialChildSize: 0.55,
-                        maxChildSize: 0.9,
-                        minChildSize: 0.5,
                         context: context,
-                        builder: (
-                          context,
-                          scrollController,
-                        ) =>
-                            FilterBottomSheet(
-                          scrollController: scrollController,
-                        ),
+                        child: FilterBottomSheet(),
                       );
                     },
                     child: SvgPicture.asset(

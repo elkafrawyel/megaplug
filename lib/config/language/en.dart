@@ -121,6 +121,13 @@ Map<String, String> en = {
       'Place your phone near the scanner or scan the QR code to start charging your electric vehicle seamlessly.',
   'have_any_trouble': 'Have any trouble?',
   'how_to_charge': 'How to charge',
-  'start_charging':'Start Charging',
-  'scan_qr_now':'Scan QR Now',
+  'start_charging': 'Start Charging',
+  'scan_qr_now': 'Scan QR Now',
+  'stop_charging_desc':
+      'You have stopped charging before reaching 100%. Your vehicle may not have a full charge. Would you like to resume charging or proceed with the current charge level?',
+  'change_my_mind': 'Change my mind',
+  'stop_charging': 'Stop Charging',
+  'rate': 'Rate',
+  'rate_station': 'Rate station',
+  'rate_hint': 'Rate the station Services',
 };

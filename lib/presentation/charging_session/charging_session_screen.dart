@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/charging_session/components/metric_cardView.dart';
+import 'package:megaplug/presentation/charging_session/components/stop_charging_view.dart';
 import 'package:megaplug/presentation/home/components/home_appbar.dart';
 import 'package:megaplug/presentation/home/pages/charge/controller/charge_controller.dart';
+import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
 
 import '../../config/res.dart';
 import '../../widgets/app_widgets/app_text.dart';
@@ -151,11 +154,14 @@ class ChargingSessionScreen extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width,
                   child: ElevatedButton(
                     onPressed: () {
-                      ChargeController.to.stopCharge();
+                      showAppModalBottomSheet(
+                        context: context,
+                        child: StopChargingView(),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFFFF2D55),
-                      padding: EdgeInsets.symmetric(vertical: 16),
+                      padding: EdgeInsets.symmetric(vertical: kButtonHeight),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),

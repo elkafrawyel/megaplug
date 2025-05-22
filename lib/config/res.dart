@@ -78,6 +78,7 @@ class Res {
   static const timeIcon = 'assets/icons/time.svg';
   static const totalWattIcon = 'assets/icons/total_watt.svg';
   static const totalCostIcon = 'assets/icons/total_cost.svg';
+  static const warningIcon = 'assets/icons/warning.svg';
 
   ///================================================================
 

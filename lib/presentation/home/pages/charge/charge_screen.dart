@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
+import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/charging_session/charging_session_screen.dart';
@@ -85,10 +86,10 @@ class _ChargeScreenState extends State<ChargeScreen>
               ),
               onPressed: () {
                 ChargeController.to.setTransactionId('sadfasf');
-                Get.to(()=>ChargingSessionScreen());
+                Get.to(() => ChargingSessionScreen());
               },
               child: Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(kButtonHeight),
                 child: AppText(
                   text: 'scan_qr_now'.tr,
                   color: context.kColorOnPrimary,
@@ -110,7 +111,7 @@ class _ChargeScreenState extends State<ChargeScreen>
                 ChargeController.to.stopCharge();
               },
               child: Padding(
-                padding: const EdgeInsets.all(18.0),
+                padding: const EdgeInsets.all(kButtonHeight),
                 child: AppText(
                   text: 'Stop Charging'.tr,
                   color: context.kColorOnPrimary,
