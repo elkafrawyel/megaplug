@@ -29,14 +29,14 @@ class ChargeController extends GetxController {
     _transactionId = transId;
     isCharging.value = true;
 
-    startCharge();
+   await startCharge();
   }
 
   String? getTransactionId() {
     return StorageClient().get(StorageClientKeys.transactionId);
   }
 
-  void startCharge() {
+  Future startCharge() async{
     if (timer?.isActive ?? false) {
       return;
     }

@@ -4,11 +4,11 @@ import 'package:flutter_animate/flutter_animate.dart';
 ///  this scroll controller must provide to SingleChildScrollView so it
 ///  can scroll on keyboard opening or user actions
 
-showAppModalBottomSheet({
+Future showAppModalBottomSheet({
   required BuildContext context,
   required Widget child,
-}) {
-  showModalBottomSheet(
+})async {
+  await showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
