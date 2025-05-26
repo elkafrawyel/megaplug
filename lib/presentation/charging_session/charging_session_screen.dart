@@ -160,7 +160,7 @@ class ChargingSessionScreen extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFFF2D55),
+                      backgroundColor: context.kErrorColor,
                       padding: EdgeInsets.symmetric(vertical: kButtonHeight),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

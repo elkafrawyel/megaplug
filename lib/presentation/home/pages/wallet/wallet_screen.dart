@@ -34,7 +34,10 @@ class _WalletScreenState extends State<WalletScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PointsView(),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: PointsView(points: 320,),
+              ),
               Center(
                 child: SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.8,

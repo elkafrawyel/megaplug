@@ -80,6 +80,7 @@ class Res {
   static const totalCostIcon = 'assets/icons/total_cost.svg';
   static const warningIcon = 'assets/icons/warning.svg';
   static const chargeWalletIcon = 'assets/icons/charge_wallet.svg';
+  static const chargeCompleteIcon = 'assets/icons/charge_complete.svg';
 
   ///================================================================
 

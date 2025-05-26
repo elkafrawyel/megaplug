@@ -48,7 +48,7 @@ class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
 
   void restartScanner() {
     AppLogger.logWithGetX('Restarting scanner...');
-    qrCodeValue = null;
+    qrCodeValue = '';
     // controller.start();
     AppLogger.logWithGetX('Scanner restarted');
   }
@@ -67,6 +67,11 @@ class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
       scanWindow: scanWindow,
       controller: controller,
       onDetect: (barcodeCapture) {
+        // there is a value and bottom sheet is opened
+        if (qrCodeValue?.isEmpty ?? false) {
+          AppLogger.logWithGetX('Scanner stopped, already scanned');
+          return;
+        }
         AppLogger.logWithGetX(
             '======>${barcodeCapture.barcodes.first.rawValue}');
         if (barcodeCapture.barcodes.first.rawValue != null) {
