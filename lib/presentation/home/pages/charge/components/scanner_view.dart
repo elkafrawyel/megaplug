@@ -22,15 +22,13 @@ class ScannerView extends StatefulWidget {
 
 class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
   late MobileScannerController controller;
+  String? qrCodeValue;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-
-    controller = MobileScannerController(
-      detectionSpeed: DetectionSpeed.noDuplicates,
-    );
+    controller = MobileScannerController();
   }
 
   @override
@@ -50,15 +48,17 @@ class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
 
   void restartScanner() {
     AppLogger.logWithGetX('Restarting scanner...');
-    controller.start();
+    qrCodeValue = null;
+    // controller.start();
     AppLogger.logWithGetX('Scanner restarted');
-
   }
 
   @override
   Widget build(BuildContext context) {
     late final scanWindow = Rect.fromCenter(
-      center: MediaQuery.sizeOf(context).center(const Offset(0, -100)),
+      center: MediaQuery.sizeOf(context).center(
+        const Offset(0, -100),
+      ),
       width: MediaQuery.sizeOf(context).width * 0.8,
       height: MediaQuery.sizeOf(context).width * 0.8,
     );
@@ -70,11 +70,16 @@ class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
         AppLogger.logWithGetX(
             '======>${barcodeCapture.barcodes.first.rawValue}');
         if (barcodeCapture.barcodes.first.rawValue != null) {
-          String qrCodeValue = barcodeCapture.barcodes.first.rawValue!;
-          AppLogger.logWithGetX('Barcode value : : : : $qrCodeValue');
-          widget.onScanCompleted(qrCodeValue);
+          String newQrCodeValue = barcodeCapture.barcodes.first.rawValue!;
+          AppLogger.logWithGetX('Barcode value : : : : $newQrCodeValue');
+
+          if (qrCodeValue == newQrCodeValue) {
+            AppLogger.logWithGetX('QR code value is the same, ignoring scan');
+            return;
+          }
+          qrCodeValue = newQrCodeValue;
+          widget.onScanCompleted(qrCodeValue!);
           AppLogger.logWithGetX('Scanner stopped after scanning');
-          restartScanner();
         }
       },
       onDetectError: (object, stack) =>
@@ -85,8 +90,8 @@ class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
       overlayBuilder: (context, view) {
         return ScanWindowOverlay(
           scanWindow: scanWindow,
-          controller: controller!,
-          borderColor: context.kPrimaryColor,
+          controller: controller,
+          borderColor: Colors.white,
           borderRadius: BorderRadius.circular(kRadius),
         );
       },

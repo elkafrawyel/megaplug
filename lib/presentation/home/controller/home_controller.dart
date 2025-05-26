@@ -9,6 +9,9 @@ import '../pages/stations/stations_screen.dart';
 import '../pages/wallet/wallet_screen.dart';
 
 class HomeController extends GetxController {
+
+  static HomeController get to => Get.find<HomeController>();
+
   RxInt selectedIndex = 0.obs;
   List<Widget> pages = [];
 

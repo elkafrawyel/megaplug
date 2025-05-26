@@ -130,5 +130,8 @@ Map<String, String> ar = {
   'rate': 'قيم',
   'rate_station': 'قيم المحطة',
   'rate_hint': 'قم بتقييم خدمات المحطة',
-
+  'insufficient_balance': 'رصيد غير كافٍ',
+  'insufficient_balance_message':
+      'ليس لديك ما يكفي من الأموال في محفظتك لبدء الشحن. يرجى شحن محفظتك للمتابعة.',
+  'charge_wallet': 'شحن المحفظة',
 };

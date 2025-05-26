@@ -130,4 +130,7 @@ Map<String, String> en = {
   'rate': 'Rate',
   'rate_station': 'Rate station',
   'rate_hint': 'Rate the station Services',
+  'insufficient_balance':'Insufficient balance',
+  'insufficient_balance_message':'You don’t have enough funds in your wallet to start charging.Please top up your wallet to continue.',
+  'charge_wallet':'Charge Wallet',
 };
