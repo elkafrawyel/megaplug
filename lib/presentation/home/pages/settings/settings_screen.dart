@@ -32,7 +32,6 @@ class _SettingsScreenState extends State<SettingsScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return SizedBox();
 
     return Scaffold(
       backgroundColor: context.kBackgroundColor,

@@ -13,8 +13,21 @@ import '../../config/res.dart';
 import '../../widgets/app_widgets/app_text.dart';
 import 'components/rounded_circle_painter.dart';
 
-class ChargingSessionScreen extends StatelessWidget {
-  const ChargingSessionScreen({super.key});
+class ChargingSessionScreen extends StatefulWidget {
+  final String transactionId;
+
+  const ChargingSessionScreen({super.key, required this.transactionId});
+
+  @override
+  State<ChargingSessionScreen> createState() => _ChargingSessionScreenState();
+}
+
+class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
+  @override
+  void initState() {
+    super.initState();
+    ChargeController.to.setTransactionId(widget.transactionId);
+  }
 
   @override
   Widget build(BuildContext context) {

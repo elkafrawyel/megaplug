@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../charging_session/charging_session_screen.dart';
 import '../pages/charge/charge_screen.dart';
+import '../pages/charge/controller/charge_controller.dart';
 import '../pages/profile/profile_screen.dart';
 import '../pages/settings/settings_screen.dart';
 import '../pages/stations/controller/stations_controller.dart';
@@ -9,7 +11,6 @@ import '../pages/stations/stations_screen.dart';
 import '../pages/wallet/wallet_screen.dart';
 
 class HomeController extends GetxController {
-
   static HomeController get to => Get.find<HomeController>();
 
   RxInt selectedIndex = 0.obs;
@@ -29,12 +30,23 @@ class HomeController extends GetxController {
     ];
   }
 
-  handleSelectedIndex(int index) {
-    if (index != 0 && index != 1 && index != 2) {
-      Get.find<StationsController>().showComingSoonDialog();
-      return;
-    }
+  handleSelectedIndex(int index) async {
+    // if (index != 0 && index != 1 && index != 2) {
+    //   Get.find<StationsController>().showComingSoonDialog();
+    //   return;
+    // }
     selectedIndex.value = index;
     pageController.jumpToPage(index);
+    if (index == 2) {
+      String? transactionId = ChargeController.to.getTransactionId();
+      if (transactionId != null) {
+        await Get.to(
+          () => ChargingSessionScreen(
+            transactionId: transactionId,
+          ),
+        );
+        handleSelectedIndex(0);
+      }
+    }
   }
 }

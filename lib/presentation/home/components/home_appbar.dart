@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/widgets/app_transformtion_view.dart';
+import 'package:megaplug/widgets/app_transformation_view.dart';
 
 import '../../../config/res.dart';
 import '../../../widgets/app_widgets/app_text.dart';

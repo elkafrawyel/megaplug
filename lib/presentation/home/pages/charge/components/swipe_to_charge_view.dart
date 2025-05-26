@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/widgets/app_transformtion_view.dart';
+import 'package:megaplug/widgets/app_transformation_view.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 import '../../../../../widgets/bottom_sheet_header.dart';
-import '../../../../charging_session/charging_session_screen.dart';
 import '../controller/charge_controller.dart';
 
 class SwipeToChargeView extends StatelessWidget {
+  final String serial;
+
   const SwipeToChargeView({
     super.key,
+    required this.serial,
   });
 
   @override
@@ -50,7 +50,7 @@ class SwipeToChargeView extends StatelessWidget {
                   10.ph,
                   AppText(
                     text:
-                        '${chargeController.getTransactionId()}\nChilout Madinaty (AC)',
+                        'Chilout Madinaty (AC)',
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -106,7 +106,6 @@ class SwipeToChargeView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: SlideAction(
-                      reversed: true,
                       height: 50,
                       sliderButtonIconPadding: 8,
                       elevation: 0,
@@ -122,11 +121,8 @@ class SwipeToChargeView extends StatelessWidget {
                       innerColor: Colors.white,
                       onSubmit: () async {
                         // todo start charging here
-                        await ChargeController.to.startCharge();
-                        InformationViewer.showSuccessToast(
-                          msg: 'Charging started successfully',
-                        );
-                        Get.to(() => ChargingSessionScreen());
+                        Get.back();
+                        ChargeController.to.swipeToConfirm(serial:serial);
                       },
                     ),
                   ),

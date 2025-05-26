@@ -7,7 +7,7 @@ import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 import '../../config/clients/storage/storage_client.dart';
-import '../../widgets/app_transformtion_view.dart';
+import '../../widgets/app_transformation_view.dart';
 import '../auth/login/login_screen.dart';
 import 'data/onboarding_model.dart';
 
