@@ -1,56 +1,35 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:megaplug/config/constants.dart';
-import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../../../../config/helpers/logging_helper.dart';
+import '../../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
+import '../controller/charge_controller.dart';
 import 'scan_window_overlay.dart';
+import 'swipe_to_charge_view.dart';
 
 class ScannerView extends StatefulWidget {
-  final Function(String qrValue) onScanCompleted;
-
-  const ScannerView({
-    super.key,
-    required this.onScanCompleted,
-  });
+  const ScannerView({super.key});
 
   @override
   State<ScannerView> createState() => ScannerViewState();
 }
 
-class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
-  late MobileScannerController controller;
-  String? qrCodeValue;
+class ScannerViewState extends State<ScannerView> {
+  late MobileScannerController cameraController;
+  bool _isDialogShowing = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    controller = MobileScannerController();
+    cameraController = MobileScannerController();
   }
 
   @override
   Future<void> dispose() async {
     super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
-    await controller.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      // Attempt to resume camera when returning
-      restartScanner();
-    }
-  }
-
-  void restartScanner() {
-    AppLogger.logWithGetX('Restarting scanner...');
-    qrCodeValue = '';
-    // controller.start();
-    AppLogger.logWithGetX('Scanner restarted');
+    await cameraController.dispose();
   }
 
   @override
@@ -65,26 +44,24 @@ class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
 
     return MobileScanner(
       scanWindow: scanWindow,
-      controller: controller,
-      onDetect: (barcodeCapture) {
-        // there is a value and bottom sheet is opened
-        if (qrCodeValue?.isEmpty ?? false) {
-          AppLogger.logWithGetX('Scanner stopped, already scanned');
-          return;
-        }
-        AppLogger.logWithGetX(
-            '======>${barcodeCapture.barcodes.first.rawValue}');
-        if (barcodeCapture.barcodes.first.rawValue != null) {
-          String newQrCodeValue = barcodeCapture.barcodes.first.rawValue!;
-          AppLogger.logWithGetX('Barcode value : : : : $newQrCodeValue');
+      controller: cameraController,
+      onDetect: (barcodeCapture) async {
+        final barcode = barcodeCapture.barcodes.first;
+        final String? code = barcode.rawValue;
 
-          if (qrCodeValue == newQrCodeValue) {
-            AppLogger.logWithGetX('QR code value is the same, ignoring scan');
-            return;
-          }
-          qrCodeValue = newQrCodeValue;
-          widget.onScanCompleted(qrCodeValue!);
-          AppLogger.logWithGetX('Scanner stopped after scanning');
+        if (!_isDialogShowing && code != null) {
+          _isDialogShowing = true;
+
+          //so that the station loading start while the sheet opens
+          ChargeController.to.setTransactionId(code);
+
+          //todo load station by id here
+          await showAppModalBottomSheet(
+            context: context,
+            child: SwipeToChargeView(),
+          );
+
+          _isDialogShowing = false;
         }
       },
       onDetectError: (object, stack) =>
@@ -95,7 +72,7 @@ class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
       overlayBuilder: (context, view) {
         return ScanWindowOverlay(
           scanWindow: scanWindow,
-          controller: controller,
+          controller: cameraController,
           borderColor: Colors.white,
           borderRadius: BorderRadius.circular(kRadius),
         );

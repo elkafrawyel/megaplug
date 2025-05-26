@@ -7,7 +7,6 @@ import '../../../../config/app_loader.dart';
 import '../../../../config/res.dart';
 import '../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../components/home_appbar.dart';
-import 'components/charge_wallet_view.dart';
 import 'components/swipe_to_charge_view.dart';
 
 class ChargeScreen extends StatefulWidget {
@@ -35,30 +34,6 @@ class _ChargeScreenState extends State<ChargeScreen>
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 60.0),
         child: ScannerView(
-          key: scannerKey,
-          onScanCompleted: (String qrValue) async {
-            AppLoader.loading();
-            await Future.delayed(Duration(seconds: 2));
-            AppLoader.dismiss();
-            //todo load station by id here
-            if (context.mounted) {
-              showAppModalBottomSheet(
-                context: context,
-                child: SwipeToChargeView(
-                  barcodeValue: qrValue,
-                ),
-              ).then((_) async {
-                scannerKey.currentState?.restartScanner();
-              });
-            }
-
-            // if (context.mounted) {
-            //   showAppModalBottomSheet(
-            //     context: context,
-            //     child: ChargeWalletView(),
-            //   );
-            // }
-          },
         ),
       ),
     );

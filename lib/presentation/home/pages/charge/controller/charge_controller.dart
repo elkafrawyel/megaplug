@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 
 class ChargeController extends GetxController {
@@ -11,6 +12,8 @@ class ChargeController extends GetxController {
   String? _transactionId;
 
   Timer? timer;
+
+  ApiResult stationApiResult = ApiStart();
 
   @override
   onInit() {
@@ -25,18 +28,26 @@ class ChargeController extends GetxController {
   }
 
   Future setTransactionId(String? transId) async {
+    stationApiResult = ApiLoading();
+    update();
+    await Future.delayed(Duration(seconds: 3));
     await StorageClient().save(StorageClientKeys.transactionId, transId);
     _transactionId = transId;
-    isCharging.value = true;
 
-   await startCharge();
+    //todo loadStation
+    stationApiResult = ApiSuccess('');
+    update();
+
+    // isCharging.value = true;
+    //
+    // await startCharge();
   }
 
   String? getTransactionId() {
     return StorageClient().get(StorageClientKeys.transactionId);
   }
 
-  Future startCharge() async{
+  Future startCharge() async {
     if (timer?.isActive ?? false) {
       return;
     }
