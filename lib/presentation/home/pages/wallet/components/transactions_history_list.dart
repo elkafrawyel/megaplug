@@ -25,76 +25,80 @@ class TransactionsHistoryList extends StatelessWidget {
         child: AppText(text: 'no_transactions_history'.tr),
       ),
       child: (TransactionModel model) {
-        return Card(
-          elevation: 0,
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  model.typeValue == 2 || model.typeValue == 3
-                      ? Res.plusIcon
-                      : Res.chargedIcon,
-                ),
-                10.pw,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(
-                      text: model.description ?? '',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    5.ph,
-                    AppText(
-                      text: DateHelper().formatDateTime(model.createdAt!),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xffA3A3A3),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    AppText(
-                      text:
-                          '${model.typeValue == 2 || model.typeValue == 3 ? '+' : '-'} ${model.amount ?? '0.0'} ${'egp'.tr}',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    5.ph,
-                    Container(
-                      decoration: BoxDecoration(
-                        color: model.typeValue == 2 || model.typeValue == 3
-                            ? Color.fromRGBO(
-                                74,
-                                222,
-                                128,
-                                0.2,
-                              )
-                            : Color.fromRGBO(255, 113, 113, 0.2),
-                        borderRadius: BorderRadius.circular(8),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+          child: Card(
+            elevation: 0,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    model.typeValue == 2 || model.typeValue == 3
+                        ? Res.plusIcon
+                        : Res.chargedIcon,
+
+                  ),
+                  10.pw,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText(
+                        text: model.description ?? '',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4.0,
-                        ),
-                        child: AppText(
-                          text: model.type ?? '',
+                      5.ph,
+                      AppText(
+                        text: DateHelper().formatDateTime(model.createdAt!),
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xffA3A3A3),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      AppText(
+                        text:
+                            '${model.typeValue == 2 || model.typeValue == 3 ? '+' : '-'} ${model.amount ?? '0.0'} ${'egp'.tr}',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      5.ph,
+                      Container(
+                        decoration: BoxDecoration(
                           color: model.typeValue == 2 || model.typeValue == 3
-                              ? context.kPrimaryColor
-                              : Color(0xffF41F52),
-                          fontSize: 11,
+                              ? Color.fromRGBO(
+                                  74,
+                                  222,
+                                  128,
+                                  0.2,
+                                )
+                              : Color.fromRGBO(255, 113, 113, 0.2),
+                          borderRadius: BorderRadius.circular(4.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4.0,
+                          ),
+                          child: AppText(
+                            text: model.type ?? '',
+                            color: model.typeValue == 2 || model.typeValue == 3
+                                ? context.kPrimaryColor
+                                : Color(0xffF41F52),
+                            fontSize: 11,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         );

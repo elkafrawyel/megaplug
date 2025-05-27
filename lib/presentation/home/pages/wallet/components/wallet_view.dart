@@ -57,7 +57,7 @@ class WalletView extends StatelessWidget {
                     ),
                   ),
                   PositionedDirectional(
-                    top: 60,
+                    top: 80,
                     start: 20,
                     child: AppText(
                       text:

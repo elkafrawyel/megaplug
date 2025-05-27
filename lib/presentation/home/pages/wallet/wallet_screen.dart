@@ -32,17 +32,19 @@ class _WalletScreenState extends State<WalletScreen>
         title: 'wallet'.tr,
       ),
       body: RefreshIndicator(
+        backgroundColor: context.kPrimaryColor,
+        color: context.kColorOnPrimary,
         onRefresh: WalletController.to.refreshApi,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             WalletView(),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: PointsView(
-                points: 320,
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(18.0),
+            //   child: PointsView(
+            //     points: 320,
+            //   ),
+            // ),
             Center(
               child: SizedBox(
                 width: MediaQuery.sizeOf(context).width * 0.9,
@@ -72,7 +74,9 @@ class _WalletScreenState extends State<WalletScreen>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(
-                  horizontal: 18.0, vertical: 12.0),
+                horizontal: 18.0,
+                vertical: 12.0,
+              ),
               child: AppText(
                 text: 'transactions_history'.tr,
                 fontWeight: FontWeight.w600,

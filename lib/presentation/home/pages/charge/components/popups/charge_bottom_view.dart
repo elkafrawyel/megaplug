@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:megaplug/presentation/home/pages/charge/components/bottom_sheet_parent.dart';
-import 'package:megaplug/presentation/home/pages/charge/components/charge_wallet_view.dart';
-import 'package:megaplug/presentation/home/pages/charge/components/error_view.dart';
-import 'package:megaplug/presentation/home/pages/charge/components/swipe_to_charge_view.dart';
+import 'package:megaplug/presentation/home/pages/charge/components/popups/bottom_sheet_parent.dart';
+import 'package:megaplug/presentation/home/pages/charge/components/popups/charge_wallet_view.dart';
+import 'package:megaplug/presentation/home/pages/charge/components/popups/swipe_to_charge_view.dart';
 
-import '../../../../../config/clients/api/api_result.dart';
-import '../../../../../widgets/app_widgets/app_text.dart';
-import '../controller/charge_controller.dart';
+import '../../../../../../config/clients/api/api_result.dart';
+import '../../../../../../widgets/app_widgets/app_text.dart';
+import '../../controller/charge_controller.dart';
+import 'error_view.dart';
 
 class ChargeBottomSheet extends StatelessWidget {
   final String serial;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 
-import '../../../../../widgets/bottom_sheet_header.dart';
+import '../../../../../../widgets/bottom_sheet_header.dart';
 
 class BottomSheetParent extends StatelessWidget {
   final Widget child;

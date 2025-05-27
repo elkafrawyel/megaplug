@@ -5,8 +5,8 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
-import '../../../../../config/constants.dart';
-import '../../../../../config/res.dart';
+import '../../../../../../config/constants.dart';
+import '../../../../../../config/res.dart';
 
 class ErrorView extends StatelessWidget {
   const ErrorView({super.key});

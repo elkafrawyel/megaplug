@@ -9,7 +9,7 @@ import 'package:megaplug/widgets/app_transformation_view.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
-import '../controller/charge_controller.dart';
+import '../../controller/charge_controller.dart';
 
 class SwipeToChargeView extends StatelessWidget {
   final String serial;

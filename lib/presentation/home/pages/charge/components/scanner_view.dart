@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:megaplug/config/constants.dart';
-import 'package:megaplug/presentation/home/pages/charge/components/charge_bottom_sheet.dart';
+import 'package:megaplug/presentation/home/pages/charge/components/popups/charge_bottom_view.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../../../../config/helpers/logging_helper.dart';
 import '../../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../controller/charge_controller.dart';
-import 'scan_window_overlay.dart';
-import 'swipe_to_charge_view.dart';
+import 'overlay/scan_window_overlay.dart';
+import 'popups/swipe_to_charge_view.dart';
 
 class ScannerView extends StatefulWidget {
   const ScannerView({super.key});

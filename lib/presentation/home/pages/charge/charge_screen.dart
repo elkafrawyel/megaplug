@@ -10,7 +10,7 @@ import '../../../../config/app_loader.dart';
 import '../../../../config/res.dart';
 import '../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../components/home_appbar.dart';
-import 'components/swipe_to_charge_view.dart';
+import 'components/popups/swipe_to_charge_view.dart';
 
 class ChargeScreen extends StatefulWidget {
   const ChargeScreen({super.key});

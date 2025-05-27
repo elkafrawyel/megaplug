@@ -64,8 +64,8 @@ Map<String, String> ar = {
   'onboarding_content_3':
       "راقب تقدم الشحن، واحفظ محطاتك المفضلة، وخطط لرحلاتك برؤى ذكية. MegaPlug يجعل شحن السيارات الكهربائية أكثر ذكاءً وسهولة وراحة لك.",
   'points': 'النقاط',
-  'add_credit': 'إضافة رصيد',
-  'transactions_history': 'سجل المعاملات',
+  'add_credit': 'شحن المحفظة',
+  'transactions_history': 'سجل العمليات',
   'edit_profile': 'تعديل الملف الشخصي',
   'my_cars': 'سياراتي',
   'charging_history': 'سجل الشحن',
@@ -140,6 +140,6 @@ Map<String, String> ar = {
   'oops': 'عفواً! حدث خطأ ما',
   'try_to_connect': 'حاول الاتصال',
   'current_balance': 'الرصيد الحالي',
-  'EGP': ' جنيه مصري',
-  'no_transactions_history': 'لا توجد سجلات معاملات',
-};
+  'EGP': 'ج.م',
+  'no_transactions_history': 'لا يوجد عمليات مسبقة',
+ };
