@@ -12,6 +12,8 @@ class Res {
 
   static const apiStationSearch = 'stations/search';
   static const apiStationFilter = 'stations/filter';
+  static const apiAddBalance = '/wallet/add-balance';
+  static const apiBalance = '/wallet/balance';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';
@@ -83,7 +85,6 @@ class Res {
   static const chargeCompleteIcon = 'assets/icons/charge_complete.svg';
   static const disconnectedIcon = 'assets/icons/disconnected.svg';
   static const walletBackgroundIcon = 'assets/icons/wallet_background.svg';
-
 
   ///================================================================
 

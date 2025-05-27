@@ -140,4 +140,5 @@ Map<String, String> en = {
   'oops': 'Oops! Something Went Wrong',
   'try_to_connect':'Try To Connect',
   'current_balance':'Current Balance',
+  'egp':' EGP',
 };

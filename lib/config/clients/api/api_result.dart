@@ -10,7 +10,7 @@ sealed class ApiResult<T> {
   bool isFailure() => this is ApiFailure;
 
   T getData() {
-    return (this as ApiSuccess).data;
+    return (this as ApiSuccess).data as T;
   }
 
   String getError() {

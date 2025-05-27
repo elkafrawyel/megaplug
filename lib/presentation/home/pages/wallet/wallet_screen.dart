@@ -6,6 +6,7 @@ import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/wallet/components/points_view.dart';
 import 'package:megaplug/presentation/home/pages/wallet/components/wallet_view.dart';
+import 'package:megaplug/presentation/home/pages/wallet/controller/wallet_controller.dart';
 
 import '../../../../config/constants.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
@@ -31,7 +32,7 @@ class _WalletScreenState extends State<WalletScreen>
         title: 'wallet'.tr,
       ),
       body: RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: WalletController.to.refreshApi,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +55,9 @@ class _WalletScreenState extends State<WalletScreen>
                       ),
                       padding: EdgeInsets.symmetric(vertical: kButtonHeight),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      WalletController.to.addBalance();
+                    },
                     icon: Icon(
                       Icons.add,
                       color: context.kColorOnPrimary,

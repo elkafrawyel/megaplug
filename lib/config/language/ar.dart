@@ -140,4 +140,5 @@ Map<String, String> ar = {
   'oops': 'عفواً! حدث خطأ ما',
   'try_to_connect': 'حاول الاتصال',
   'current_balance': 'الرصيد الحالي',
+  'EGP': ' جنيه مصري',
 };
