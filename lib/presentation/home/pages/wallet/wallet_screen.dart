@@ -5,7 +5,9 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/wallet/components/points_view.dart';
+import 'package:megaplug/presentation/home/pages/wallet/components/wallet_view.dart';
 
+import '../../../../config/constants.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
 import '../../components/home_appbar.dart';
 import 'components/transactions_history_list.dart';
@@ -34,19 +36,23 @@ class _WalletScreenState extends State<WalletScreen>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              WalletView(),
               Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: PointsView(points: 320,),
+                child: PointsView(
+                  points: 320,
+                ),
               ),
               Center(
                 child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  width: MediaQuery.sizeOf(context).width * 0.9,
                   child: ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.kSecondaryColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(kRadius),
                       ),
+                      padding: EdgeInsets.symmetric(vertical: kButtonHeight),
                     ),
                     onPressed: () {},
                     icon: Icon(
@@ -56,8 +62,8 @@ class _WalletScreenState extends State<WalletScreen>
                     label: AppText(
                       text: 'add_credit'.tr,
                       color: context.kColorOnPrimary,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),

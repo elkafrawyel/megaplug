@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:megaplug/config/constants.dart';
+import 'package:megaplug/presentation/home/pages/charge/components/charge_bottom_sheet.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../../../../config/helpers/logging_helper.dart';
 import '../../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
@@ -58,7 +59,7 @@ class ScannerViewState extends State<ScannerView> {
           //todo load station by id here
           await showAppModalBottomSheet(
             context: context,
-            child: SwipeToChargeView(
+            child: ChargeBottomSheet(
               serial: code,
             ),
           );

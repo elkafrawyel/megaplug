@@ -81,6 +81,9 @@ class Res {
   static const warningIcon = 'assets/icons/warning.svg';
   static const chargeWalletIcon = 'assets/icons/charge_wallet.svg';
   static const chargeCompleteIcon = 'assets/icons/charge_complete.svg';
+  static const disconnectedIcon = 'assets/icons/disconnected.svg';
+  static const walletBackgroundIcon = 'assets/icons/wallet_background.svg';
+
 
   ///================================================================
 

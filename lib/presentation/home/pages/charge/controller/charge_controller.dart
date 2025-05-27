@@ -35,6 +35,8 @@ class ChargeController extends GetxController {
     stationApiResult = ApiLoading();
     update();
     await Future.delayed(Duration(seconds: 3));
+    // stationApiResult = ApiFailure('some error occurred');
+    // stationApiResult = ApiFailure('balance is not enough', data: '20');
     stationApiResult = ApiSuccess('Station loaded successfully');
     update();
   }

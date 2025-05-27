@@ -130,8 +130,14 @@ Map<String, String> en = {
   'rate': 'Rate',
   'rate_station': 'Rate station',
   'rate_hint': 'Rate the station Services',
-  'insufficient_balance':'Insufficient balance',
-  'insufficient_balance_message':'You don’t have enough funds in your wallet to start charging.Please top up your wallet to continue.',
-  'charge_wallet':'Charge Wallet',
-  'disconnect_charging':'Disconnect Charging'
+  'insufficient_balance': 'Insufficient balance',
+  'insufficient_balance_message':
+      'You don’t have enough funds in your wallet to start charging.Please top up your wallet to continue.',
+  'charge_wallet': 'Charge Wallet',
+  'disconnect_charging': 'Disconnect Charging',
+  'try_again':
+      'Something went wrong while session. Please try again or check the system.',
+  'oops': 'Oops! Something Went Wrong',
+  'try_to_connect':'Try To Connect',
+  'current_balance':'Current Balance',
 };

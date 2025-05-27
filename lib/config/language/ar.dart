@@ -134,5 +134,10 @@ Map<String, String> ar = {
   'insufficient_balance_message':
       'ليس لديك ما يكفي من الأموال في محفظتك لبدء الشحن. يرجى شحن محفظتك للمتابعة.',
   'charge_wallet': 'شحن المحفظة',
-  'disconnect_charging': 'افصل الشحن'
+  'disconnect_charging': 'افصل الشحن',
+  'try_again':
+      'حدث خطأ أثناء الجلسة. يُرجى المحاولة مرة أخرى أو التحقق من النظام.',
+  'oops': 'عفواً! حدث خطأ ما',
+  'try_to_connect': 'حاول الاتصال',
+  'current_balance': 'الرصيد الحالي',
 };
