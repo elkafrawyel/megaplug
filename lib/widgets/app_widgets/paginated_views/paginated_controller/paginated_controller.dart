@@ -9,7 +9,7 @@ class PaginationController<T> extends GetxController {
   PaginationController(this.configData);
 
   num page = 1;
-  num perPage = 10;
+  num perPage = 15;
   bool isLastPage = false;
   bool _loadingMore = false, _loadingMoreEnd = false;
   bool paginate = true;

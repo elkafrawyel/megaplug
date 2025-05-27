@@ -12,8 +12,9 @@ class Res {
 
   static const apiStationSearch = 'stations/search';
   static const apiStationFilter = 'stations/filter';
-  static const apiAddBalance = '/wallet/add-balance';
-  static const apiBalance = '/wallet/balance';
+  static const apiAddBalance = 'wallet/add-balance';
+  static const apiBalance = 'wallet/balance';
+  static const apiTransactions = 'wallet/transactions';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';

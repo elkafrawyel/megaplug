@@ -141,4 +141,5 @@ Map<String, String> ar = {
   'try_to_connect': 'حاول الاتصال',
   'current_balance': 'الرصيد الحالي',
   'EGP': ' جنيه مصري',
+  'no_transactions_history': 'لا توجد سجلات معاملات',
 };

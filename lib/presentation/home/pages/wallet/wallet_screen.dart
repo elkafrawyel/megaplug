@@ -33,55 +33,53 @@ class _WalletScreenState extends State<WalletScreen>
       ),
       body: RefreshIndicator(
         onRefresh: WalletController.to.refreshApi,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              WalletView(),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: PointsView(
-                  points: 320,
-                ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            WalletView(),
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: PointsView(
+                points: 320,
               ),
-              Center(
-                child: SizedBox(
-                  width: MediaQuery.sizeOf(context).width * 0.9,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.kSecondaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(kRadius),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: kButtonHeight),
+            ),
+            Center(
+              child: SizedBox(
+                width: MediaQuery.sizeOf(context).width * 0.9,
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: context.kSecondaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(kRadius),
                     ),
-                    onPressed: () {
-                      WalletController.to.addBalance();
-                    },
-                    icon: Icon(
-                      Icons.add,
-                      color: context.kColorOnPrimary,
-                    ),
-                    label: AppText(
-                      text: 'add_credit'.tr,
-                      color: context.kColorOnPrimary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    padding: EdgeInsets.symmetric(vertical: kButtonHeight),
+                  ),
+                  onPressed: () {
+                    WalletController.to.addBalance();
+                  },
+                  icon: Icon(
+                    Icons.add,
+                    color: context.kColorOnPrimary,
+                  ),
+                  label: AppText(
+                    text: 'add_credit'.tr,
+                    color: context.kColorOnPrimary,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 18.0, vertical: 12.0),
-                child: AppText(
-                  text: 'transactions_history'.tr,
-                  fontWeight: FontWeight.w600,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 18.0, vertical: 12.0),
+              child: AppText(
+                text: 'transactions_history'.tr,
+                fontWeight: FontWeight.w600,
               ),
-              TransactionsHistoryList(),
-            ],
-          ),
+            ),
+            Expanded(child: TransactionsHistoryList()),
+          ],
         ),
       ),
     );

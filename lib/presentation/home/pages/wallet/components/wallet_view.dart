@@ -42,7 +42,7 @@ class WalletView extends StatelessWidget {
                               .data
                               ?.userName ??
                           '',
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -57,20 +57,20 @@ class WalletView extends StatelessWidget {
                     ),
                   ),
                   PositionedDirectional(
-                    top: 70,
+                    top: 60,
                     start: 20,
                     child: AppText(
                       text:
                           walletController.balanceResult.getData().data?.rfid ??
                               '',
-                      fontSize: 22,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                   PositionedDirectional(
                     start: 20,
-                    bottom: 30,
+                    bottom: 20,
                     child: SvgPicture.asset(
                       Res.walletGrayIcon,
                       width: 40,
@@ -83,7 +83,7 @@ class WalletView extends StatelessWidget {
                   ),
                   PositionedDirectional(
                     end: 20,
-                    bottom: 30,
+                    bottom: 20,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -97,7 +97,7 @@ class WalletView extends StatelessWidget {
                               '${walletController.balanceResult.getData().data?.balance ?? ''} ${'egp'.tr}',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                          fontSize: 22,
+                          fontSize: 20,
                         ),
                       ],
                     ),

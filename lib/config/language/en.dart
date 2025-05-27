@@ -141,4 +141,5 @@ Map<String, String> en = {
   'try_to_connect':'Try To Connect',
   'current_balance':'Current Balance',
   'egp':' EGP',
+  'no_transactions_history':'No Transactions History',
 };

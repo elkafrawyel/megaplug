@@ -6,10 +6,7 @@ class AppLoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      // child:
-      // Lottie.asset(
-      //   Res.loadingAnimation,
-      // ),
+      child: CircularProgressIndicator.adaptive(),
     );
   }
 }
