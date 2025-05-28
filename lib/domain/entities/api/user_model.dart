@@ -7,6 +7,7 @@ class UserModel {
     this.language,
     this.createdAt,
     this.image,
+    this.rfid,
   });
 
   UserModel.fromJson(dynamic json) {
@@ -17,6 +18,7 @@ class UserModel {
     language = json['language'];
     createdAt = json['created_at'];
     image = json['image'];
+    rfid = json['rfid'];
   }
 
   num? id;
@@ -26,6 +28,7 @@ class UserModel {
   String? language;
   String? createdAt;
   String? image;
+  String? rfid;
 
   UserModel copyWith({
     num? id,
@@ -35,6 +38,7 @@ class UserModel {
     String? language,
     String? createdAt,
     String? image,
+    String? rfid,
   }) =>
       UserModel(
         id: id ?? this.id,
@@ -44,6 +48,7 @@ class UserModel {
         language: language ?? this.language,
         createdAt: createdAt ?? this.createdAt,
         image: image ?? this.image,
+        rfid: rfid ?? this.rfid,
       );
 
   Map<String, dynamic> toJson() {
@@ -55,6 +60,7 @@ class UserModel {
     map['language'] = language;
     map['created_at'] = createdAt;
     map['image'] = image;
+    map['rfid'] = rfid;
     return map;
   }
 }

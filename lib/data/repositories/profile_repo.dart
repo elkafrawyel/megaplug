@@ -20,7 +20,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
   }
 
   @override
-  Future<ApiResult<UserModel>> getUserProfile() async {
+  ApiResult<UserModel> getUserProfile() {
     String? userString = StorageClient().get(StorageClientKeys.user);
 
     if (userString == null) {

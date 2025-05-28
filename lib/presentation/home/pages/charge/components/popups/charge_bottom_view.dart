@@ -21,7 +21,8 @@ class ChargeBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ChargeController>(
       builder: (chargeController) {
-        ApiResult apiResult = chargeController.stationApiResult;
+        ApiResult apiResult = chargeController.scanQrApiResult;
+
         return BottomSheetParent(
           child: switch (apiResult) {
             ApiStart() => SizedBox(),
@@ -37,12 +38,14 @@ class ChargeBottomSheet extends StatelessWidget {
                   text: 'There is no station with this result',
                 ),
               ),
-            ApiSuccess() => SwipeToChargeView(
-              serial: serial,
-            ),
-            ApiFailure() => apiResult.getError().contains('balance')
-                ? ChargeWalletView(balance: apiResult.getFailureData())
-                : ErrorView(),
+            ApiSuccess() => SwipeToChargeView(),
+            ApiFailure() => apiResult.getError().contains('INSUFFICIENT_BALANCE')
+                ? ChargeWalletView(
+                    balance: apiResult.getFailureData(),
+                  )
+                : ErrorView(
+                    message: apiResult.getError(),
+                  ),
           },
         );
       },

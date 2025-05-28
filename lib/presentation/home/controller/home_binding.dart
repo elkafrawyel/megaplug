@@ -1,4 +1,5 @@
 import 'package:get/instance_manager.dart';
+import 'package:megaplug/data/repositories/charge_repo.dart';
 import 'package:megaplug/data/repositories/profile_repo.dart';
 import 'package:megaplug/data/repositories/stations_repo.dart';
 import 'package:megaplug/data/repositories/wallet_repo.dart';
@@ -19,7 +20,9 @@ class HomeBinding implements Bindings {
     Get.lazyPut(()=>ProfileRepositoryImpl());
     Get.lazyPut(() => ProfileController(Get.find<ProfileRepositoryImpl>()));
 
-    Get.lazyPut(()=>ChargeController());
+
+    Get.lazyPut(()=>ChargeRepositoryImpl());
+    Get.lazyPut(()=>ChargeController(Get.find<ChargeRepositoryImpl>()));
 
 
     Get.lazyPut(()=>WalletRepositoryImpl());

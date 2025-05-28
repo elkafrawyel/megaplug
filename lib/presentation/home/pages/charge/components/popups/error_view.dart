@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:get/route_manager.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
@@ -9,7 +10,9 @@ import '../../../../../../config/constants.dart';
 import '../../../../../../config/res.dart';
 
 class ErrorView extends StatelessWidget {
-  const ErrorView({super.key});
+  final String? message;
+
+  const ErrorView({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +31,7 @@ class ErrorView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38.0),
           child: AppText(
-            text:
-                'try_again'.tr,
+            text: message ?? 'try_again'.tr,
             color: context.kHintTextColor,
             fontWeight: FontWeight.w300,
             centerText: true,
@@ -41,8 +43,7 @@ class ErrorView extends StatelessWidget {
           width: MediaQuery.sizeOf(context).width * 0.9,
           child: ElevatedButton(
             onPressed: () async {
-              // Get.back();
-              // HomeController.to.handleSelectedIndex(1);
+              Get.back();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: context.kPrimaryColor,

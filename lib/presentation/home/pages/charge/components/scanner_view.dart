@@ -54,7 +54,7 @@ class ScannerViewState extends State<ScannerView> {
           _isDialogShowing = true;
 
           //so that the station loading start while the sheet opens
-          ChargeController.to.loadStation(code);
+          ChargeController.to.scanQr(code);
 
           //todo load station by id here
           await showAppModalBottomSheet(

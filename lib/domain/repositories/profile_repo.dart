@@ -6,5 +6,5 @@ abstract class ProfileRepository {
 
   Future<ApiResult<GeneralResponse>> logout();
 
-  Future<ApiResult<UserModel>> getUserProfile();
+  ApiResult<UserModel> getUserProfile();
 }
