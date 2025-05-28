@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
@@ -9,6 +10,8 @@ import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
 import 'package:megaplug/data/api_responses/start_charge_response.dart';
 import 'package:megaplug/data/repositories/charge_repo.dart';
+import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../../config/information_viewer.dart';
 import '../../../../charging_session/charging_session_screen.dart';
@@ -19,13 +22,16 @@ class ChargeController extends GetxController {
   RxDouble percentage = 0.0.obs;
 
   static ChargeController get to => Get.find<ChargeController>();
+
+  static const String chargingSessionControllerId = 'chargingSessionControllerId';
+
   RxBool isCharging = false.obs;
   String? _transactionId;
   String? _serial;
 
   String? _connectorId;
 
-  Timer? timer;
+  // Timer? timer;
 
   ApiResult<ScanQrResponse> _scanQrApiResult = ApiStart();
 
@@ -59,26 +65,26 @@ class ChargeController extends GetxController {
     }
   }
 
-  Future startCharge() async {
-    if (timer?.isActive ?? false) {
-      return;
-    }
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (percentage.value > 1) {
-        timer.cancel();
-        return;
-      }
-      percentage.value += 0.01;
-    });
-
-    timer?.tick;
-  }
+  // Future startCharge() async {
+  //   if (timer?.isActive ?? false) {
+  //     return;
+  //   }
+  //   timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     if (percentage.value > 1) {
+  //       timer.cancel();
+  //       return;
+  //     }
+  //     percentage.value += 0.01;
+  //   });
+  //
+  //   timer?.tick;
+  // }
 
   Future stopCharge() async {
     await clearTransactionId();
     isCharging.value = false;
     percentage.value = 0.0;
-    timer?.cancel();
+    // timer?.cancel();
   }
 
   ApiResult<GeneralResponse> _swipeApiResult = ApiStart();
@@ -131,15 +137,43 @@ class ChargeController extends GetxController {
     }
   }
 
+  StreamSubscription<DocumentSnapshot<FirebaseChargingSessionModel>>?
+      subscription;
+  final transactionIdController = BehaviorSubject<String?>.seeded(null);
+
+  FirebaseChargingSessionModel? chargingSessionModel;
+
   Future setTransactionId(String? transId) async {
+    if (transId == null) {
+      return;
+    }
     await StorageClient().save(StorageClientKeys.transactionId, transId);
     _transactionId = transId;
     isCharging.value = true;
 
+    transactionIdController.add(transId);
+
     // Firebase call
-    await startCharge();
+    subscription = transactionIdController.stream
+        .distinct() // Avoid duplicate requests
+        .switchMap(
+          (ids) => _chargeRepositoryImpl.listenToChargeSession(
+            transactionId: _transactionId!,
+          ),
+        )
+        .listen(
+      (DocumentSnapshot<FirebaseChargingSessionModel> event) {
+        chargingSessionModel = event.data();
+        update([chargingSessionControllerId]);
+      },
+      onError: _handleError,
+    );
   }
 
+  void _handleError(dynamic error) {
+    InformationViewer.showErrorToast(msg: 'Failed to load charging session');
+    AppLogger.logWithGetX('Firestore error: $error');
+  }
   String? getTransactionId() {
     return StorageClient().get(StorageClientKeys.transactionId);
   }

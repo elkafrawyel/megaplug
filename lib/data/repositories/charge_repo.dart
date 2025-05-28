@@ -2,14 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/instance_manager.dart';
 import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
-import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
 import 'package:megaplug/data/repositories/profile_repo.dart';
 import 'package:megaplug/domain/entities/api/user_model.dart';
+import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
 
+import '../../config/helpers/logging_helper.dart';
 import '../../domain/repositories/charge_repo.dart';
 
 class ChargeRepositoryImpl extends ChargeRepository {
@@ -74,5 +75,26 @@ class ChargeRepositoryImpl extends ChargeRepository {
     String transactionId =
         querySnapshot.docs.isNotEmpty ? querySnapshot.docs.first.id : '';
     return transactionId;
+  }
+
+  @override
+  Stream<DocumentSnapshot<FirebaseChargingSessionModel>> listenToChargeSession({
+    required String transactionId,
+  }) {
+    AppLogger.logWithGetX("""\nListening to charging session : : :
+                                      \nId  => $transactionId}
+                                   """);
+
+    final collection = firestore
+        .collection('transactions')
+        .doc(transactionId)
+        .withConverter<FirebaseChargingSessionModel>(
+          fromFirestore: (snap, _) =>
+              FirebaseChargingSessionModel.fromJson(snap.data()!),
+          toFirestore: (chargingSession, _) => chargingSession.toJson(),
+        )
+        .snapshots();
+
+    return collection;
   }
 }

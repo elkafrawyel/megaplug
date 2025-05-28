@@ -16,8 +16,6 @@ import '../api_responses/station_search_response.dart';
 import '../api_responses/stations_filter_result_response.dart';
 
 class StationsRepositoryImpl extends StationsRepository {
-  final stationsCollectionId = 'stations';
-
   // // Connect to 'mp-db' instead of the default database
   // final FirebaseFirestore firestore = FirebaseFirestore.instanceFor(
   //   app: Firebase.app(),
@@ -34,13 +32,12 @@ class StationsRepositoryImpl extends StationsRepository {
                                       \nIds  => ${ids.toString()}
                                    """);
 
-    final collection = firestore
-        .collection(stationsCollectionId)
-        .withConverter<FirebaseStationModel>(
-          fromFirestore: (snap, _) =>
-              FirebaseStationModel.fromJson(snap.data()!),
-          toFirestore: (station, _) => station.toJson(),
-        );
+    final collection =
+        firestore.collection('stations').withConverter<FirebaseStationModel>(
+              fromFirestore: (snap, _) =>
+                  FirebaseStationModel.fromJson(snap.data()!),
+              toFirestore: (station, _) => station.toJson(),
+            );
 
     if (ids == null) {
       // Return empty stream if ids is null

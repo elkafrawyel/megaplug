@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
 
 import '../../config/clients/api/api_result.dart';
+import '../entities/firebase/firebase_charging_session_model.dart';
 
 abstract class ChargeRepository {
   Future<ApiResult<ScanQrResponse>> scanQr({
@@ -16,5 +18,9 @@ abstract class ChargeRepository {
   Future<String> getTransactionId({
     required String serial,
     String? connectorId,
-});
+  });
+
+  Stream<DocumentSnapshot<FirebaseChargingSessionModel>> listenToChargeSession({
+    required String transactionId,
+  });
 }
