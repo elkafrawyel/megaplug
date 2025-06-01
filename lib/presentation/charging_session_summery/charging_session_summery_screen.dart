@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
 import 'package:megaplug/presentation/home/components/home_appbar.dart';
 
 import '../../config/constants.dart';
@@ -14,7 +15,9 @@ import '../charging_session/components/rate_view.dart';
 import '../home/pages/wallet/components/points_view.dart';
 
 class ChargingSessionSummeryScreen extends StatelessWidget {
-  const ChargingSessionSummeryScreen({super.key});
+  final FirebaseChargingSessionModel chargingModel;
+
+  const ChargingSessionSummeryScreen({super.key, required this.chargingModel});
 
   @override
   Widget build(BuildContext context) {
@@ -45,46 +48,47 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       AppText(
-                        text: 'Tesla Model X',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      10.ph,
-                      AppText(
-                        text: 'ChargePoint Station - Chilout Madinaty',
+                        text:
+                            "${chargingModel.name} - ${chargingModel.address}",
                         color: context.kHintTextColor,
+                        maxLines: 2,
+                        fontSize: 12,
+                        centerText: true,
+                        fontWeight: FontWeight.w700,
                       ),
                       5.ph,
                       AppText(
-                        text: 'ID#135675323',
+                        text:
+                            "#${chargingModel.chargingPointSerialNumber ?? 'N/A'}",
                         color: context.kHintTextColor,
+                        fontSize: 12,
                       ),
                       20.ph,
                       SvgPicture.asset(
                         Res.chargeCompleteIcon,
-                        width: 60,
-                        height: 60,
+                        width: 90,
+                        height: 90,
                       ),
                       20.ph,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           AppText(
-                              text: 'Charging',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 4.0),
-                            child: AppText(
-                                text: '100%',
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                            text: 'charging'.tr,
+                            fontWeight: FontWeight.w500,
                           ),
+                          5.pw,
+                          if (chargingModel.currentSoC != null)
+                            AppText(
+                              text: '${chargingModel.currentSoC}%',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          if (chargingModel.currentSoC != null) 5.pw,
                           AppText(
-                              text: 'Complete!',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
+                            text: '${'complete'.tr}!',
+                            fontWeight: FontWeight.w500,
+                          ),
                         ],
                       ),
                     ],
@@ -96,24 +100,26 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: MetricCardView(
-                      title: "4500 KW",
-                      subtitle: "Total kilowatt\nconsumed",
+                      title:
+                          "${chargingModel.energyDelivered?.toStringAsFixed(2) ?? '0.0'} ${'kw'.tr}",
+                      subtitle: "total_watts".tr,
                       assetName: Res.totalWattIcon,
                     ),
                   ),
                   Expanded(
                     child: MetricCardView(
-                      title: "15.12 EGP",
-                      subtitle: "Total cost accrued\nfor this charge",
+                      title:
+                          "${chargingModel.overallCost?.toStringAsFixed(2) ?? '0.0'} ${'egp'.tr}",
+                      subtitle: "total_cost".tr,
                       assetName: Res.totalCostIcon,
                     ),
                   ),
                 ],
               ),
-              20.ph,
-              PointsView(
-                points: 320,
-              ),
+              // 20.ph,
+              // PointsView(
+              //   points: 320,
+              // ),
               30.ph,
               Center(
                 child: SizedBox(

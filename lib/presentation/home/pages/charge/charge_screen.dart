@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
-import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/charge/components/scanner_view.dart';
 import 'package:megaplug/presentation/home/pages/charge/controller/charge_controller.dart';
 
-import '../../../../config/app_loader.dart';
 import '../../../../config/res.dart';
-import '../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../components/home_appbar.dart';
-import 'components/popups/swipe_to_charge_view.dart';
 
 class ChargeScreen extends StatefulWidget {
   const ChargeScreen({super.key});

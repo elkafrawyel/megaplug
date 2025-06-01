@@ -8,9 +8,9 @@ import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
-import 'package:megaplug/data/api_responses/start_charge_response.dart';
 import 'package:megaplug/data/repositories/charge_repo.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
+import 'package:megaplug/presentation/charging_session_summery/charging_session_summery_screen.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../config/information_viewer.dart';
@@ -19,19 +19,24 @@ import '../../../controller/home_controller.dart';
 
 class ChargeController extends GetxController {
   final ChargeRepositoryImpl _chargeRepositoryImpl;
-  RxDouble percentage = 0.0.obs;
 
   static ChargeController get to => Get.find<ChargeController>();
 
-  static const String chargingSessionControllerId = 'chargingSessionControllerId';
+  static const String chargingSessionControllerId =
+      'chargingSessionControllerId';
 
   RxBool isCharging = false.obs;
   String? _transactionId;
   String? _serial;
-
   String? _connectorId;
+  ApiResult<GeneralResponse> _swipeApiResult = ApiStart();
 
-  // Timer? timer;
+  ApiResult<GeneralResponse> get swipeApiResult => _swipeApiResult;
+
+  set swipeApiResult(ApiResult<GeneralResponse> value) {
+    _swipeApiResult = value;
+    update();
+  }
 
   ApiResult<ScanQrResponse> _scanQrApiResult = ApiStart();
 
@@ -54,6 +59,9 @@ class ChargeController extends GetxController {
   clearTransactionId() async {
     await StorageClient().save(StorageClientKeys.transactionId, null);
     _transactionId = null;
+    isCharging.value = false;
+    _serial = null;
+    _connectorId = null;
   }
 
   Future scanQr(String serial) async {
@@ -65,35 +73,33 @@ class ChargeController extends GetxController {
     }
   }
 
-  // Future startCharge() async {
-  //   if (timer?.isActive ?? false) {
-  //     return;
-  //   }
-  //   timer = Timer.periodic(Duration(seconds: 1), (timer) {
-  //     if (percentage.value > 1) {
-  //       timer.cancel();
-  //       return;
-  //     }
-  //     percentage.value += 0.01;
-  //   });
-  //
-  //   timer?.tick;
-  // }
-
   Future stopCharge() async {
-    await clearTransactionId();
-    isCharging.value = false;
-    percentage.value = 0.0;
-    // timer?.cancel();
-  }
-
-  ApiResult<GeneralResponse> _swipeApiResult = ApiStart();
-
-  ApiResult<GeneralResponse> get swipeApiResult => _swipeApiResult;
-
-  set swipeApiResult(ApiResult<GeneralResponse> value) {
-    _swipeApiResult = value;
-    update();
+    if (chargingSessionModel?.chargingPointSerialNumber == null ||
+        chargingSessionModel?.transactionId == null) {
+      return;
+    }
+    AppLoader.loading();
+    ApiResult apiResult = await _chargeRepositoryImpl.stopCharging(
+      transactionId: chargingSessionModel!.transactionId!.toString(),
+      serial: chargingSessionModel!.chargingPointSerialNumber!,
+    );
+    AppLoader.dismiss();
+    Get.back();
+    if (apiResult.isSuccess()) {
+      GeneralResponse generalResponse = apiResult.getData();
+      InformationViewer.showSuccessToast(msg: generalResponse.message);
+      if (chargingSessionModel != null) {
+        Get.to(
+          () => ChargingSessionSummeryScreen(
+            chargingModel: chargingSessionModel!,
+          ),
+        );
+      }
+    } else {
+      InformationViewer.showErrorToast(
+        msg: apiResult.getError(),
+      );
+    }
   }
 
   void swipeToConfirm() async {
@@ -109,28 +115,33 @@ class ChargeController extends GetxController {
     if (swipeApiResult.isSuccess()) {
       GeneralResponse generalResponse = swipeApiResult.getData();
       InformationViewer.showSuccessToast(msg: generalResponse.message);
-
       await Future.delayed(
-        Duration(seconds: 3),
+        Duration(seconds: 5),
       );
-      //todo get transaction id from firebase
-
-      String transactionId = await _chargeRepositoryImpl.getTransactionId(
+      String? transactionId = await _chargeRepositoryImpl.getTransactionId(
         serial: _serial!,
         connectorId: _connectorId,
       );
-      AppLogger.logWithGetX('Transaction ID: $transactionId');
       AppLoader.dismiss();
       Get.back();
-      await Get.to(
-        () => ChargingSessionScreen(
-          transactionId: transactionId,
-        ),
-      );
-      HomeController.to.handleSelectedIndex(0);
+      if (transactionId == null) {
+        InformationViewer.showErrorToast(
+            msg: StorageClient().isAr()
+                ? 'حدث خطأ ما بدأ عملية الشحن'
+                : 'An error occurred while starting the charging process');
+        throw Exception(
+            'Transaction ID is null, cannot proceed to charging session');
+      } else {
+        AppLogger.logWithGetX('Transaction ID: $transactionId');
+        await Get.to(
+          () => ChargingSessionScreen(
+            transactionId: transactionId,
+          ),
+        );
+        HomeController.to.handleSelectedIndex(0);
+      }
     } else {
       AppLoader.dismiss();
-
       InformationViewer.showErrorToast(
         msg: swipeApiResult.getError(),
       );
@@ -150,9 +161,7 @@ class ChargeController extends GetxController {
     await StorageClient().save(StorageClientKeys.transactionId, transId);
     _transactionId = transId;
     isCharging.value = true;
-
     transactionIdController.add(transId);
-
     // Firebase call
     subscription = transactionIdController.stream
         .distinct() // Avoid duplicate requests
@@ -164,16 +173,40 @@ class ChargeController extends GetxController {
         .listen(
       (DocumentSnapshot<FirebaseChargingSessionModel> event) {
         chargingSessionModel = event.data();
-        update([chargingSessionControllerId]);
+        if (chargingSessionModel == null) {
+          return;
+        }
+        if (chargingSessionModel?.status == 'Charging') {
+          update([chargingSessionControllerId]);
+        } else {
+          // Finished
+          Get.to(
+            () => ChargingSessionSummeryScreen(
+              chargingModel: chargingSessionModel!,
+            ),
+          );
+          stopSubscription();
+        }
       },
       onError: _handleError,
     );
+  }
+
+  stopSubscription()async{
+    if (subscription != null) {
+      await subscription!.cancel();
+      subscription = null;
+    }
+    transactionIdController.add(null);
+    chargingSessionModel = null;
+    await clearTransactionId();
   }
 
   void _handleError(dynamic error) {
     InformationViewer.showErrorToast(msg: 'Failed to load charging session');
     AppLogger.logWithGetX('Firestore error: $error');
   }
+
   String? getTransactionId() {
     return StorageClient().get(StorageClientKeys.transactionId);
   }

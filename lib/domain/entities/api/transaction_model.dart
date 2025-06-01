@@ -3,7 +3,8 @@ class TransactionModel {
     this.id,
     this.amount,
     this.type,
-    this.typeValue,
+    this.tag,
+    this.label,
     this.description,
     this.createdAt,
     this.updatedAt,
@@ -13,7 +14,8 @@ class TransactionModel {
     id = json['id'];
     amount = json['amount'];
     type = json['type'];
-    typeValue = json['type_value'];
+    tag = json['tag'];
+    label = json['label'];
     description = json['description'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -22,7 +24,8 @@ class TransactionModel {
   num? id;
   String? amount;
   String? type;
-  num? typeValue;
+  String? tag;
+  String? label;
   String? description;
   String? createdAt;
   String? updatedAt;
@@ -31,7 +34,8 @@ class TransactionModel {
     num? id,
     String? amount,
     String? type,
-    num? typeValue,
+    String? tag,
+    String? label,
     String? description,
     String? createdAt,
     String? updatedAt,
@@ -40,7 +44,8 @@ class TransactionModel {
         id: id ?? this.id,
         amount: amount ?? this.amount,
         type: type ?? this.type,
-        typeValue: typeValue ?? this.typeValue,
+        tag: tag ?? this.tag,
+        label: label ?? this.label,
         description: description ?? this.description,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
@@ -51,7 +56,8 @@ class TransactionModel {
     map['id'] = id;
     map['amount'] = amount;
     map['type'] = type;
-    map['type_value'] = typeValue;
+    map['tag'] = tag;
+    map['label'] = label;
     map['description'] = description;
     map['created_at'] = createdAt;
     map['updated_at'] = updatedAt;

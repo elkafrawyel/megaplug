@@ -12,6 +12,7 @@ Future showAppModalBottomSheet({
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
+    isDismissible: false,
     builder: (BuildContext context) {
       return Padding(
         // This ensures the sheet content avoids the keyboard and fits content height

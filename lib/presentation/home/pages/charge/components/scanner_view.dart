@@ -8,7 +8,6 @@ import '../../../../../config/helpers/logging_helper.dart';
 import '../../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../controller/charge_controller.dart';
 import 'overlay/scan_window_overlay.dart';
-import 'popups/swipe_to_charge_view.dart';
 
 class ScannerView extends StatefulWidget {
   const ScannerView({super.key});

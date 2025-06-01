@@ -1,10 +1,8 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/presentation/home/pages/wallet/components/points_view.dart';
 import 'package:megaplug/presentation/home/pages/wallet/components/wallet_view.dart';
 import 'package:megaplug/presentation/home/pages/wallet/controller/wallet_controller.dart';
 
@@ -38,6 +36,7 @@ class _WalletScreenState extends State<WalletScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            20.ph,
             WalletView(),
             // Padding(
             //   padding: const EdgeInsets.all(18.0),

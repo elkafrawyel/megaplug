@@ -142,4 +142,14 @@ Map<String, String> ar = {
   'current_balance': 'الرصيد الحالي',
   'EGP': 'ج.م',
   'no_transactions_history': 'لا يوجد عمليات مسبقة',
- };
+  'time_remaining': 'الوقت المتبقي للشحن الكامل',
+  'total_watts': 'إجمالي الكيلوواط المستهلك',
+  'total_cost': 'التكلفة الإجمالية المتراكمة',
+  'stop_message':
+      'يمكنك إيقاف الشحن من التطبيق أو عن طريق فصل رأس الشحن عن سيارتك.',
+  'no_charging_session': 'لم يتم العثور على بيانات الشحن',
+  'your_car_is_charging': 'يتم شحن سيارتك',
+  'charging': 'الشحن',
+  'complete':'اكتمل',
+
+};

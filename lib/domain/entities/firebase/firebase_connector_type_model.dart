@@ -6,7 +6,7 @@ class FirebaseConnectorTypeModel {
   final int? connectorTypeId;
   final int? connectorId;
   final String? lastStatusUpdate;
-  final int? chargePower;
+  final String? chargePower;
   final bool? isActive;
   final bool? isDc;
 
@@ -25,16 +25,16 @@ class FirebaseConnectorTypeModel {
 
   factory FirebaseConnectorTypeModel.fromJson(dynamic json) {
     return FirebaseConnectorTypeModel(
-      chargingPointId: json['charging_point_id'] as String,
-      status: json['status'] as String,
-      connectorType: json['connector_type'] as String,
-      id: json['id'] as String,
-      connectorTypeId: json['connector_type_id'] as int,
-      connectorId: json['connector_id'] as int,
-      lastStatusUpdate: json['last_status_update'] as String,
-      chargePower: json['charge_power'] as int,
-      isActive: json['is_active'] as bool,
-      isDc: json['is_dc'] as bool,
+      chargingPointId: json['charging_point_id'] as String?,
+      status: json['status'] as String?,
+      connectorType: json['connector_type'] as String?,
+      id: json['id'] as String?,
+      connectorTypeId: json['connector_type_id'] as int?,
+      connectorId: json['connector_id'] as int?,
+      lastStatusUpdate: json['last_status_update'] as String?,
+      chargePower: json['charge_power'] as String?,
+      isActive: json['is_active'] as bool?,
+      isDc: json['is_dc'] as bool?,
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
 import 'package:megaplug/presentation/charging_session/components/metric_cardView.dart';
 import 'package:megaplug/presentation/charging_session/components/stop_charging_view.dart';
 import 'package:megaplug/presentation/home/components/home_appbar.dart';
@@ -41,23 +42,25 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
       body: GetBuilder<ChargeController>(
           id: ChargeController.chargingSessionControllerId,
           builder: (chargingController) {
-            if (chargingController.chargingSessionModel == null) {
+            FirebaseChargingSessionModel? chargingSessionModel =
+                chargingController.chargingSessionModel;
+            if (chargingSessionModel == null) {
               return Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Center(
-                    child: AppText(
-                      text: "No charging session found",
-                      fontSize: 16,
-                      color: context.kHintTextColor,
+                    child: Image.asset(
+                      Res.chargingImage,
+                      width: 200,
+                      height: 200,
                     ),
                   ),
                 ],
               );
             }
-
+            int? percentage = chargingSessionModel.currentSoC;
             return SingleChildScrollView(
               child: Padding(
                 padding:
@@ -75,68 +78,84 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                         ),
                         child: Column(
                           children: [
+                            20.ph,
                             AppText(
-                              text: "Tesla Model X",
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            SizedBox(height: 6),
-                            AppText(
-                              text: "ChargePoint Station - Chilout Madinaty",
+                              text:
+                                  "${chargingSessionModel.name} - ${chargingSessionModel.address}",
                               color: context.kHintTextColor,
+                              maxLines: 2,
                               fontSize: 12,
+                              centerText: true,
+                              fontWeight: FontWeight.w700,
                             ),
                             5.ph,
                             AppText(
-                              text: "ID#135675323",
+                              text:
+                                  "#${chargingSessionModel.chargingPointSerialNumber ?? 'N/A'}",
                               color: context.kHintTextColor,
                               fontSize: 12,
                             ),
                             20.ph,
-                            Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                // SizedBox(
-                                //   height: 180,
-                                //   width: 180,
-                                //   child: CircularProgressIndicator(
-                                //     value: 0.68,
-                                //     strokeWidth: 20,
-                                //     backgroundColor: Color(0xffF0FAF5),
-                                //     valueColor: AlwaysStoppedAnimation<Color>(
-                                //       Color(0xFF28C17C),
-                                //     ),
-                                //   ),
-                                // ),
-                                CustomPaint(
-                                  size: Size(200, 200),
-                                  painter: RoundedCirclePainter(
-                                    percentage:
-                                        ChargeController.to.percentage.value,
-                                    foregroundColor: context.kPrimaryColor,
-                                    backgroundColor: Color(0xffF0FAF5),
+                            percentage != null
+                                ? Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      CustomPaint(
+                                        size: Size(200, 200),
+                                        painter: RoundedCirclePainter(
+                                          percentage: percentage / 100,
+                                          foregroundColor:
+                                              context.kPrimaryColor,
+                                          backgroundColor: Color(0xffF0FAF5),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          if (chargingSessionModel.isDc ??
+                                              false)
+                                            Icon(
+                                              Icons.flash_on,
+                                              color: Colors.amber,
+                                            ),
+                                          AppText(
+                                            text: "$percentage%",
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          AppText(
+                                            text:
+                                                '${chargingSessionModel.chargingSpeed?.toStringAsFixed(2)} ${'kw'.tr}',
+                                            color: context.kHintTextColor,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  )
+                                : Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        Res.chargingImage,
+                                        width: 200,
+                                        height: 200,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: AppText(
+                                          text:
+                                              '${chargingSessionModel.chargingSpeed?.toStringAsFixed(2)} ${'kw'.tr}',
+                                          color: context.kHintTextColor,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.flash_on, color: Colors.amber),
-                                    AppText(
-                                      text:
-                                          "${(ChargeController.to.percentage * 100).toInt()}%",
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    Text("125 kW",
-                                        style: TextStyle(color: Colors.grey)),
-                                  ],
-                                )
-                              ],
-                            ),
                             20.ph,
                             AppText(
-                              text: "Your car is being charged",
+                              text: "your_car_is_charging".tr,
                               color: context.kSecondaryColor,
                               fontFamily: 'Inter',
                             ),
@@ -151,24 +170,25 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                       children: [
                         Expanded(
                           child: MetricCardView(
-                            title: chargingController
-                                    .chargingSessionModel?.durationFormatted ??
-                                '',
-                            subtitle: "Remaining time\nfor a full charge",
+                            title: chargingSessionModel.durationFormatted ??
+                                '00:00',
+                            subtitle: "time_remaining".tr,
                             assetName: Res.timeIcon,
                           ),
                         ),
                         Expanded(
                           child: MetricCardView(
-                            title: "4500 KW",
-                            subtitle: "Total kilowatt\nconsumed",
+                            title:
+                                "${chargingSessionModel.energyDelivered?.toStringAsFixed(2) ?? '0.0'} ${'kw'.tr}",
+                            subtitle: "total_watts".tr,
                             assetName: Res.totalWattIcon,
                           ),
                         ),
                         Expanded(
                           child: MetricCardView(
-                            title: "15.12 EGP",
-                            subtitle: "Total cost accrued\nfor this charge",
+                            title:
+                                "${chargingSessionModel.overallCost?.toStringAsFixed(2) ?? 0.0} ${'egp'.tr}",
+                            subtitle: "total_cost".tr,
                             assetName: Res.totalCostIcon,
                           ),
                         ),
@@ -177,8 +197,7 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                     Padding(
                       padding: const EdgeInsets.all(24.0),
                       child: AppText(
-                        text:
-                            "You can stop charging from app or by disconnecting charge head from your vehicle.",
+                        text: "stop_message".tr,
                         color: context.kHintTextColor,
                         centerText: true,
                         maxLines: 2,
@@ -203,7 +222,7 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                           ),
                         ),
                         child: AppText(
-                          text: "Stop Charging",
+                          text: "stop_charging".tr,
                           color: context.kColorOnPrimary,
                         ),
                       ),

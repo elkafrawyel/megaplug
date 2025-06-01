@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/data/api_responses/balance_response.dart';
 import 'package:megaplug/data/repositories/wallet_repo.dart';
+import 'package:megaplug/widgets/app_widgets/paginated_views/app_paginated_listview.dart';
 
 import '../../../../../data/api_responses/general_response.dart';
 
@@ -11,6 +13,8 @@ class WalletController extends GetxController {
   static WalletController get to => Get.find<WalletController>();
   final WalletRepositoryImpl _walletRepositoryImpl;
 
+  GlobalKey<AppPaginatedListviewState> appPaginatedListviewKey =
+      GlobalKey<AppPaginatedListviewState>();
   WalletController(this._walletRepositoryImpl);
 
   // Add your controller logic here
@@ -45,6 +49,7 @@ class WalletController extends GetxController {
       GeneralResponse generalResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: generalResponse.message);
       _getBalance(loading: false);
+      appPaginatedListviewKey.currentState?.refreshApi(loading:false);
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());
     }

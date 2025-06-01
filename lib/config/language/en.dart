@@ -138,8 +138,17 @@ Map<String, String> en = {
   'try_again':
       'Something went wrong while session. Please try again or check the system.',
   'oops': 'Oops! Something Went Wrong',
-  'try_to_connect':'Try To Connect',
-  'current_balance':'Current Balance',
-  'egp':' EGP',
-  'no_transactions_history':'No Logs yet',
+  'try_to_connect': 'Try To Connect',
+  'current_balance': 'Current Balance',
+  'egp': ' EGP',
+  'no_transactions_history': 'No Logs yet',
+  'time_remaining': 'Remaining time\nfor a full charge',
+  'total_watts': 'Total kilowatt\nconsumed',
+  'total_cost': 'Total cost accrued\nfor this charge',
+  'stop_message':
+      'You can stop charging from app or by disconnecting charge head from your vehicle.',
+  'no_charging_session': 'No charging session found',
+  'your_car_is_charging':'Your car is being charged',
+  'charging':'Charging',
+  'complete':'Complete',
 };

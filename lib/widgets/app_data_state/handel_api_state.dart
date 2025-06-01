@@ -44,10 +44,7 @@ class HandleApiState extends StatelessWidget {
           retry: generalController!.refreshApiCall,
         );
       } else if (generalController!.apiResult is ApiEmpty) {
-        return emptyView ??
-            AppEmptyView(
-              emptyText: generalController!.apiResult.getError(),
-            );
+        return emptyView ?? AppEmptyView();
       } else if (generalController!.apiResult is ApiSuccess) {
         return child;
       } else {
@@ -63,10 +60,7 @@ class HandleApiState extends StatelessWidget {
           error: apiResult!.getError(),
         );
       } else if (apiResult is ApiEmpty) {
-        return emptyView ??
-            AppEmptyView(
-              emptyText: apiResult!.getError(),
-            );
+        return emptyView ?? AppEmptyView();
       } else if (apiResult is ApiSuccess) {
         return child;
       } else {

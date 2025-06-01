@@ -24,11 +24,15 @@ class AppPaginatedListview<T> extends StatefulWidget {
 
   @override
   State<AppPaginatedListview<T>> createState() =>
-      _AppPaginatedListviewState<T>();
+      AppPaginatedListviewState<T>();
 }
 
-class _AppPaginatedListviewState<T> extends State<AppPaginatedListview<T>> {
+class AppPaginatedListviewState<T> extends State<AppPaginatedListview<T>> {
   final ScrollController _scrollController = ScrollController();
+
+  refreshApi({bool loading = true}) {
+    Get.find<PaginationController<T>>().refreshApiCall(loading: loading);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +56,7 @@ class _AppPaginatedListviewState<T> extends State<AppPaginatedListview<T>> {
       builder: (controller) {
         return HandleApiState.apiResult(
           apiResult: controller.apiResult,
+          emptyView: widget.emptyView,
           shimmerLoader: widget.shimmerLoading == null
               ? null
               : ListView.builder(

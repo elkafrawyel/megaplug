@@ -15,7 +15,12 @@ abstract class ChargeRepository {
     required String serial,
   });
 
-  Future<String> getTransactionId({
+  Future<ApiResult<GeneralResponse>> stopCharging({
+   required String? transactionId,
+    required String serial,
+  });
+
+  Future<String?> getTransactionId({
     required String serial,
     String? connectorId,
   });

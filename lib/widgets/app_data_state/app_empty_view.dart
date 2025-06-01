@@ -6,7 +6,7 @@ class AppEmptyView extends StatelessWidget {
 
   const AppEmptyView({
     super.key,
-    required this.emptyText,
+    this.emptyText,
   });
 
   @override

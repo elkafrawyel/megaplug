@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseChargingSessionModel {
   final String? chargingPointId;
   final String? chargingPointSerialNumber;
-  final double? chargingSpeed;
+  final num? chargingSpeed;
   final int? connectorId;
   final String? createdAt;
   final double? currentMeterValue;
@@ -12,7 +12,7 @@ class FirebaseChargingSessionModel {
   final String? durationFormatted;
   final int? endSoC;
   final String? endTime;
-  final double? energyDelivered;
+  final num? energyDelivered;
   final bool? isActive;
   final int? latestTimestamp;
   final double? meterStart;
@@ -24,8 +24,13 @@ class FirebaseChargingSessionModel {
   final String? startTime;
   final String? stationId;
   final String? status;
+  final num? overallCost;
   final int? transactionId;
   final String? updatedAt;
+  final bool? isDc;
+  final String? address;
+  final String? name;
+
 
   const FirebaseChargingSessionModel({
     this.chargingPointId,
@@ -51,8 +56,12 @@ class FirebaseChargingSessionModel {
     this.startTime,
     this.stationId,
     this.status,
+    this.overallCost,
     this.transactionId,
     this.updatedAt,
+    this.isDc,
+    this.address,
+    this.name,
   });
 
   factory FirebaseChargingSessionModel.fromJson(Map<String, dynamic> json) {
@@ -80,8 +89,12 @@ class FirebaseChargingSessionModel {
       startTime: json['startTime'] as String?,
       stationId: json['stationId'] as String?,
       status: json['status'] as String?,
+      overallCost: json['overallCost'] as num?,
       transactionId: json['transactionId'] as int?,
       updatedAt: (json['updatedAt'] as Timestamp).toString(),
+      isDc: json['is_dc'] as bool?,
+      address: json['station_address_en'] as String?,
+      name: json['station_name_en'] as String?,
     );
   }
 
@@ -110,8 +123,12 @@ class FirebaseChargingSessionModel {
       'startTime': startTime,
       'stationId': stationId,
       'status': status,
+      'overallCost': overallCost,
       'transactionId': transactionId,
       'updatedAt': updatedAt,
+      'is_dc': isDc,
+      'station_address_en': address,
+      'station_name_en': name,
     };
   }
 }

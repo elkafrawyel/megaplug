@@ -29,6 +29,7 @@ class Res {
   static const onboardingContentBg = 'assets/images/onboarding/content_bg.png';
   static const splashBg = 'assets/images/splash_background.png';
   static const contactUsImage = 'assets/images/contact_us_image.png';
+  static const chargingImage = 'assets/images/charging.gif';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';

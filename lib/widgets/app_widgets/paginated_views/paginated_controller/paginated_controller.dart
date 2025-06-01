@@ -160,7 +160,9 @@ class PaginationController<T> extends GetxController {
     page = 1;
     loadingMoreEnd = false;
     loadingMore = false;
-    paginationList.clear();
+    if (loading) {
+      paginationList.clear();
+    }
     await callApi(loading: loading);
   }
 }

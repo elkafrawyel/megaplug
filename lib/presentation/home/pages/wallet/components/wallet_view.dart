@@ -28,10 +28,11 @@ class WalletView extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Stack(
+                alignment: AlignmentDirectional.center,
                 children: [
                   SvgPicture.asset(
                     Res.walletBackgroundIcon,
-                    width: MediaQuery.sizeOf(context).width * 0.92,
+                    width: MediaQuery.sizeOf(context).width * 0.91,
                   ),
                   PositionedDirectional(
                     start: 20,
@@ -52,18 +53,17 @@ class WalletView extends StatelessWidget {
                     top: 5,
                     child: Image.asset(
                       StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
-                      width: 80,
-                      height: 80,
+                      width: 70,
+                      height: 70,
                     ),
                   ),
                   PositionedDirectional(
-                    top: 80,
                     start: 20,
                     child: AppText(
                       text:
                           walletController.balanceResult.getData().data?.rfid ??
                               '',
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -73,8 +73,8 @@ class WalletView extends StatelessWidget {
                     bottom: 20,
                     child: SvgPicture.asset(
                       Res.walletGrayIcon,
-                      width: 40,
-                      height: 40,
+                      width: 30,
+                      height: 30,
                       colorFilter: ColorFilter.mode(
                         Colors.white,
                         BlendMode.srcIn,
@@ -97,7 +97,7 @@ class WalletView extends StatelessWidget {
                               '${walletController.balanceResult.getData().data?.balance ?? ''} ${'egp'.tr}',
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                          fontSize: 20,
+                          fontSize: 18,
                         ),
                       ],
                     ),

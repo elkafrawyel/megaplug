@@ -31,7 +31,7 @@ class ProfileController extends GetxController {
     AppLoader.loading();
 
     ApiResult<UserModel> apiResult =
-        await _profileRepositoryImpl.getUserProfile();
+          _profileRepositoryImpl.getUserProfile();
 
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {

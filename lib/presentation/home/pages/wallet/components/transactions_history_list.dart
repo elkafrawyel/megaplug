@@ -5,6 +5,7 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/helpers/date_helper.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/domain/entities/api/transaction_model.dart';
+import 'package:megaplug/presentation/home/pages/wallet/controller/wallet_controller.dart';
 import 'package:megaplug/widgets/app_widgets/paginated_views/app_paginated_listview.dart';
 import 'package:megaplug/widgets/app_widgets/paginated_views/paginated_controller/data/config_data.dart';
 
@@ -17,16 +18,22 @@ class TransactionsHistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppPaginatedListview<TransactionModel>(
+      key: WalletController.to.appPaginatedListviewKey,
       configData: ConfigData(
         apiEndPoint: Res.apiTransactions,
         fromJson: TransactionModel.fromJson,
       ),
       emptyView: Center(
-        child: AppText(text: 'no_transactions_history'.tr),
+        child: AppText(
+          text: 'no_transactions_history'.tr,
+          fontSize: 24,
+          fontWeight: FontWeight.w400,
+          color: context.kHintTextColor,
+        ),
       ),
       child: (TransactionModel model) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
           child: Card(
             elevation: 0,
             color: Colors.white,
@@ -35,10 +42,7 @@ class TransactionsHistoryList extends StatelessWidget {
               child: Row(
                 children: [
                   SvgPicture.asset(
-                    model.typeValue == 2 || model.typeValue == 3
-                        ? Res.plusIcon
-                        : Res.chargedIcon,
-
+                    model.type == '+' ? Res.plusIcon : Res.chargedIcon,
                   ),
                   10.pw,
                   Column(
@@ -64,14 +68,14 @@ class TransactionsHistoryList extends StatelessWidget {
                     children: [
                       AppText(
                         text:
-                            '${model.typeValue == 2 || model.typeValue == 3 ? '+' : '-'} ${model.amount ?? '0.0'} ${'egp'.tr}',
+                            '${model.type} ${model.amount ?? '0.0'}${'egp'.tr}',
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
                       5.ph,
                       Container(
                         decoration: BoxDecoration(
-                          color: model.typeValue == 2 || model.typeValue == 3
+                          color: model.type == '+'
                               ? Color.fromRGBO(
                                   74,
                                   222,
@@ -87,11 +91,11 @@ class TransactionsHistoryList extends StatelessWidget {
                             vertical: 4.0,
                           ),
                           child: AppText(
-                            text: model.type ?? '',
-                            color: model.typeValue == 2 || model.typeValue == 3
+                            text: model.tag ?? '',
+                            color: model.type == '+'
                                 ? context.kPrimaryColor
                                 : Color(0xffF41F52),
-                            fontSize: 11,
+                            fontSize: 12,
                           ),
                         ),
                       ),

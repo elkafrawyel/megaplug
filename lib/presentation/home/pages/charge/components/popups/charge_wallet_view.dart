@@ -9,7 +9,6 @@ import 'package:megaplug/presentation/home/controller/home_controller.dart';
 import '../../../../../../config/constants.dart';
 import '../../../../../../config/res.dart';
 import '../../../../../../widgets/app_widgets/app_text.dart';
-import '../../../../../../widgets/bottom_sheet_header.dart';
 
 class ChargeWalletView extends StatelessWidget {
   final String balance;
