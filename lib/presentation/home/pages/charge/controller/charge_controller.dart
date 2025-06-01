@@ -194,10 +194,10 @@ class ChargeController extends GetxController {
 
   stopSubscription()async{
     if (subscription != null) {
+      transactionIdController.add(null);
       await subscription!.cancel();
       subscription = null;
     }
-    transactionIdController.add(null);
     chargingSessionModel = null;
     await clearTransactionId();
   }
