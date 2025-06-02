@@ -38,7 +38,7 @@ class ChargeRepositoryImpl extends ChargeRepository {
       endPoint: Res.apiStartCharging,
       fromJson: GeneralResponse.fromJson,
       requestBody: {
-        'connectorId': connectorId,
+        if (connectorId != null) 'connectorId': connectorId,
         'chargePointSerial': serial,
         'rfid': userModel.rfid,
       },

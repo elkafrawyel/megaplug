@@ -31,10 +31,10 @@ class HomeController extends GetxController {
   }
 
   handleSelectedIndex(int index) async {
-    // if (index != 0 && index != 1 && index != 2) {
-    //   Get.find<StationsController>().showComingSoonDialog();
-    //   return;
-    // }
+    if (index != 0 && index != 1 && index != 2) {
+      Get.find<StationsController>().showComingSoonDialog();
+      return;
+    }
     selectedIndex.value = index;
     pageController.jumpToPage(index);
     if (index == 2) {
