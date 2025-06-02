@@ -170,8 +170,7 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                       children: [
                         Expanded(
                           child: MetricCardView(
-                            title: chargingSessionModel.durationFormatted ??
-                                '00:00',
+                            title: chargingController.elapsedTime ?? '00:00:00',
                             subtitle: "time_remaining".tr,
                             assetName: Res.timeIcon,
                           ),

@@ -177,7 +177,11 @@ class ChargeController extends GetxController {
           return;
         }
         if (chargingSessionModel?.status == 'Charging') {
-          update([chargingSessionControllerId]);
+          if(startTime==null){
+            startTime = DateTime.parse(chargingSessionModel!.startTime!);
+            getSessionTimer();
+          }
+
         } else {
           // Finished
           Get.to(
@@ -192,7 +196,7 @@ class ChargeController extends GetxController {
     );
   }
 
-  stopSubscription()async{
+  stopSubscription() async {
     if (subscription != null) {
       transactionIdController.add(null);
       await subscription!.cancel();
@@ -200,6 +204,7 @@ class ChargeController extends GetxController {
     }
     chargingSessionModel = null;
     await clearTransactionId();
+    stopTimer();
   }
 
   void _handleError(dynamic error) {
@@ -209,5 +214,36 @@ class ChargeController extends GetxController {
 
   String? getTransactionId() {
     return StorageClient().get(StorageClientKeys.transactionId);
+  }
+
+  //================== handle timer of the session =========================
+
+  late Timer _timer;
+  DateTime? startTime;
+  String? elapsedTime;
+
+  getSessionTimer() {
+    if (startTime == null) {
+      elapsedTime == null;
+      return;
+    }
+    Duration elapsed = DateTime.now().difference(startTime!);
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      elapsed = DateTime.now().difference(startTime!);
+      elapsedTime = formatDuration(elapsed);
+      update([chargingSessionControllerId]);
+    });
+  }
+
+  String formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final hours = twoDigits(duration.inHours);
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$hours:$minutes:$seconds";
+  }
+
+  stopTimer() {
+    _timer.cancel();
   }
 }

@@ -1,7 +1,8 @@
+import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_connector_type_model.dart';
 
 class FirebaseChargingPointModel {
-  final int? id;
+  final dynamic id;
   final String? serial;
   final String? meterSerial;
   final String? meterType;
@@ -24,11 +25,18 @@ class FirebaseChargingPointModel {
   });
 
   factory FirebaseChargingPointModel.fromJson(dynamic json) {
-    final connectorsMap = json['connectors'] as Map<String, dynamic>? ?? {};
-    final connectors = connectorsMap.entries.map((e) {
-      final data = Map<String, dynamic>.from(e.value);
-      return FirebaseConnectorTypeModel.fromJson(data);
-    }).toList();
+    var connectors = <FirebaseConnectorTypeModel>[];
+    try {
+      final connectorsMap = json['connectors'] as Map<String, dynamic>? ?? {};
+      connectors = connectorsMap.entries.map((e) {
+        final data = Map<String, dynamic>.from(e.value);
+        return FirebaseConnectorTypeModel.fromJson(data);
+      }).toList();
+    } catch (e) {
+      // Handle the case where 'connectors' is not present or is malformed
+      connectors = <FirebaseConnectorTypeModel>[];
+      AppLogger.logWithGetX('Error parsing connectors: $e');
+    }
 
     return FirebaseChargingPointModel(
       id: json['id'],
