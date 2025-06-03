@@ -44,7 +44,7 @@ class ApiSuccess<T> extends ApiResult<T> {
 
 class ApiFailure<T> extends ApiResult<T> {
   final String message;
-  final String? data;
+  final dynamic data;
 
   const ApiFailure(this.message, {this.data});
 }

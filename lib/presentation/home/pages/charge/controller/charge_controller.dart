@@ -29,14 +29,8 @@ class ChargeController extends GetxController {
   String? _transactionId;
   String? _serial;
   String? _connectorId;
-  ApiResult<GeneralResponse> _swipeApiResult = ApiStart();
-
-  ApiResult<GeneralResponse> get swipeApiResult => _swipeApiResult;
-
-  set swipeApiResult(ApiResult<GeneralResponse> value) {
-    _swipeApiResult = value;
-    update();
-  }
+  ApiResult<GeneralResponse> swipeApiResult = ApiStart();
+  bool haveFailedSwipe = false;
 
   ApiResult<ScanQrResponse> _scanQrApiResult = ApiStart();
 
@@ -107,32 +101,38 @@ class ChargeController extends GetxController {
       return;
     }
     swipeApiResult = ApiLoading();
+    update();
 
     swipeApiResult = await _chargeRepositoryImpl.startCharging(
       connectorId: _connectorId,
       serial: _serial!,
     );
     if (swipeApiResult.isSuccess()) {
-      GeneralResponse generalResponse = swipeApiResult.getData();
-      InformationViewer.showSuccessToast(msg: generalResponse.message);
+      // GeneralResponse generalResponse = swipeApiResult.getData();
+      // InformationViewer.showSuccessToast(msg: generalResponse.message);
       await Future.delayed(
-        Duration(seconds: 5),
+        Duration(seconds: 3),
       );
       String? transactionId = await _chargeRepositoryImpl.getTransactionId(
         serial: _serial!,
         connectorId: _connectorId,
       );
-      AppLoader.dismiss();
-      Get.back();
+
       if (transactionId == null) {
-        InformationViewer.showErrorToast(
-            msg: StorageClient().isAr()
-                ? 'حدث خطأ ما بدأ عملية الشحن'
-                : 'An error occurred while starting the charging process');
+        String errorMessage = StorageClient().isAr()
+            ? 'حدث خطأ ما بدأ عملية الشحن'
+            : 'An error occurred while starting the charging process';
+        InformationViewer.showErrorToast(msg: errorMessage);
+        swipeApiResult = ApiFailure(errorMessage);
+        haveFailedSwipe = true;
+        update();
         throw Exception(
             'Transaction ID is null, cannot proceed to charging session');
       } else {
         AppLogger.logWithGetX('Transaction ID: $transactionId');
+        haveFailedSwipe = false;
+        update();
+        Get.back();
         await Get.to(
           () => ChargingSessionScreen(
             transactionId: transactionId,
@@ -145,6 +145,8 @@ class ChargeController extends GetxController {
       InformationViewer.showErrorToast(
         msg: swipeApiResult.getError(),
       );
+      haveFailedSwipe = true;
+      update();
     }
   }
 
@@ -177,11 +179,10 @@ class ChargeController extends GetxController {
           return;
         }
         if (chargingSessionModel?.status == 'Charging') {
-          if(startTime==null){
+          if (startTime == null) {
             startTime = DateTime.parse(chargingSessionModel!.startTime!);
             getSessionTimer();
           }
-
         } else {
           // Finished
           Get.to(

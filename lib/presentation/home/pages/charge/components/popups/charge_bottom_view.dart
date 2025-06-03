@@ -41,7 +41,7 @@ class ChargeBottomSheet extends StatelessWidget {
             ApiSuccess() => SwipeToChargeView(),
             ApiFailure() => apiResult.getError().contains('INSUFFICIENT_BALANCE')
                 ? ChargeWalletView(
-                    balance: apiResult.getFailureData(),
+                    data: apiResult.getFailureData(),
                   )
                 : ErrorView(
                     message: apiResult.getError(),

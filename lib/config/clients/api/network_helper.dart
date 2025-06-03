@@ -27,6 +27,16 @@ class NetworkHelper {
         return ApiFailure(isAr ? 'رابط غير موجود' : 'Not Found Error');
       } else if (response.statusCode == serverErrorCode) {
         return ApiFailure(isAr ? 'خطأ في السيرفر' : 'Server Error');
+      } else if (response.statusCode == 400 &&
+          body != null &&
+          body['message'] != null &&
+          body['message'] == 'INSUFFICIENT_BALANCE' &&
+          body['errors'] != null) {
+        // "errors": {balance: 0.00, min_balance: 3.75}
+        return ApiFailure(
+          body['message'],
+          data: body['errors'],
+        );
       } else if (body != null &&
           body['errors'] != null &&
           body['errors'].isNotEmpty) {

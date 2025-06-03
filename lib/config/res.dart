@@ -90,6 +90,8 @@ class Res {
   static const chargeCompleteIcon = 'assets/icons/charge_complete.svg';
   static const disconnectedIcon = 'assets/icons/disconnected.svg';
   static const walletBackgroundIcon = 'assets/icons/wallet_background.svg';
+  static const emptyWalletIcon = 'assets/icons/empty_wallet.svg';
+  static const greenWalletIcon = 'assets/icons/green_wallet.svg';
 
   ///================================================================
 
@@ -97,4 +99,7 @@ class Res {
   static const errorAnimation = 'assets/anim/error.json';
   static const emptyAnimation = 'assets/anim/empty.json';
   static const disconnectAnimation = 'assets/anim/disconnect.json';
+
+  static const settingUpAnimation = 'assets/anim/setting_up.json';
+
 }

@@ -26,7 +26,8 @@ class CustomMarkerView extends StatelessWidget {
         MarkerBgShape(
           width: 70,
           height: 85,
-          color: isDc && count == null ? dcColor : stationStatus.color,
+          // color: isDc && count == null ? dcColor : stationStatus.color,
+          color: stationStatus.color,
         ),
         Padding(
           padding: const EdgeInsets.all(4.0),

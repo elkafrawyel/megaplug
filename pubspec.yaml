@@ -54,6 +54,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   slide_to_act: ^2.0.2
   mobile_scanner: ^6.0.10
+  lottie: ^3.3.1
 
 
 

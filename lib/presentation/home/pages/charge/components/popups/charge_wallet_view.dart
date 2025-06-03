@@ -11,49 +11,80 @@ import '../../../../../../config/res.dart';
 import '../../../../../../widgets/app_widgets/app_text.dart';
 
 class ChargeWalletView extends StatelessWidget {
-  final String balance;
-  const ChargeWalletView({super.key, required this.balance});
+  // {balance: 0.00, min_balance: 3.75}
+  final dynamic data;
+
+  const ChargeWalletView({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Center(
-          child: SvgPicture.asset(
-            Res.chargeWalletIcon,
-          ),
+        SvgPicture.asset(
+          Res.emptyWalletIcon,
+          width: 100,
+          height: 100,
         ),
         20.ph,
-        Center(
-          child: AppText(
-            text: 'insufficient_balance'.tr,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+        AppText(
+          text: 'insufficient_balance'.tr,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: AppText(
-              text: '$balance EGP',
+        10.ph,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              Res.greenWalletIcon,
+              width: 20,
+            ),
+            10.pw,
+            AppText(
+              text: 'current_balance'.tr,
+              color: context.kPrimaryColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            5.pw,
+            AppText(
+              text: '${data['balance'] ?? 0.0} EGP',
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: context.kErrorColor,
             ),
-          ),
+          ],
         ),
         20.ph,
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28.0),
-            child: AppText(
-              text: 'insufficient_balance_message'.tr,
-              color: context.kHintTextColor,
-              fontWeight: FontWeight.w300,
-              centerText: true,
-              maxLines: 4,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 28.0),
+          child: RichText(
+            text: TextSpan(
+              style: DefaultTextStyle.of(context).style.copyWith(fontSize: 18),
+              children: <TextSpan>[
+                TextSpan(
+                  text:
+                      'You don’t have enough funds in your wallet to start charging. A minimum balance of ',
+                  style: TextStyle(color: Color(0xff6D7698), fontSize: 14),
+                ),
+                TextSpan(
+                  text: '${data['min_balance'] ?? '0.0'} EGP',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Color(0xff6D7698),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: ' is required. Please top up your wallet to continue.',
+                  style: TextStyle(color: Color(0xff6D7698), fontSize: 14),
+                ),
+              ],
             ),
+            maxLines: 4,
+            textAlign: TextAlign.center,
           ),
         ),
         20.ph,

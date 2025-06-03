@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
 import 'package:megaplug/widgets/app_transformation_view.dart';
@@ -38,7 +40,28 @@ class SwipeToChargeView extends StatelessWidget {
               color: context.kHintTextColor,
               fontSize: 12,
             ),
-            if (scanQrModel?.connector != null)
+            if (chargeController.swipeApiResult.isLoading())
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Lottie.asset(
+                  Res.settingUpAnimation,
+                  width: 100,
+                  height: 100,
+                ),
+              ),
+            if (chargeController.swipeApiResult.isLoading())
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+                child: AppText(
+                  text:
+                      'We’re setting things up.\nYour charging session will begin in just a moment.',
+                  maxLines: 3,
+                  centerText: true,
+                ),
+              ),
+            if (scanQrModel?.connector != null &&
+                chargeController.swipeApiResult.isSuccess())
               Container(
                 margin: EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -93,22 +116,11 @@ class SwipeToChargeView extends StatelessWidget {
                   ],
                 ),
               ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: chargeController.swipeApiResult.isLoading()
-                  ? Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: context.kPrimaryColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      ),
-                    )
-                  : SlideAction(
+            chargeController.swipeApiResult.isLoading()
+                ? SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: SlideAction(
                       height: 50,
                       sliderButtonIconPadding: 8,
                       elevation: 0,
@@ -118,15 +130,17 @@ class SwipeToChargeView extends StatelessWidget {
                           size: 20,
                         ),
                       ),
-                      text: 'Swipe To Start Charging',
-                      textStyle: TextStyle(fontSize: 18, color: Colors.white),
+                      text: chargeController.haveFailedSwipe
+                          ? 'Swipe To Retry Charging'
+                          : 'Swipe To Start Charging',
+                      textStyle: TextStyle(fontSize: 16, color: Colors.white),
                       outerColor: context.kPrimaryColor,
                       innerColor: Colors.white,
                       onSubmit: () async {
                         ChargeController.to.swipeToConfirm();
                       },
                     ),
-            ),
+                  ),
             10.ph,
           ],
         ),

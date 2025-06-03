@@ -52,32 +52,37 @@ class ChargeRepositoryImpl extends ChargeRepository {
     required String serial,
     String? connectorId,
   }) async {
-    ApiResult<UserModel> apiResult =
-        Get.find<ProfileRepositoryImpl>().getUserProfile();
-    UserModel userModel = apiResult.getData();
+    String? transactionId;
+    try {
+      ApiResult<UserModel> apiResult =
+          Get.find<ProfileRepositoryImpl>().getUserProfile();
+      UserModel userModel = apiResult.getData();
 
-    Query<Map<String, dynamic>> transactionIdQuery = connectorId != null
-        ? firestore
-            .collection("transactions")
-            .where("chargingPointSerialNumber", isEqualTo: serial)
-            .where("connectorId", isEqualTo: int.parse(connectorId))
-            .where("rfid", isEqualTo: userModel.rfid)
-            .where("isActive", isEqualTo: true)
-            .orderBy("createdAt", descending: true)
-            .limit(1)
-        : firestore
-            .collection("transactions")
-            .where("chargingPointSerialNumber", isEqualTo: serial)
-            .where("rfid", isEqualTo: userModel.rfid)
-            .where("isActive", isEqualTo: true)
-            .orderBy("createdAt", descending: true)
-            .limit(1);
+      Query<Map<String, dynamic>> transactionIdQuery = connectorId != null
+          ? firestore
+              .collection("transactions")
+              .where("chargingPointSerialNumber", isEqualTo: serial)
+              .where("connectorId", isEqualTo: int.parse(connectorId))
+              .where("rfid", isEqualTo: userModel.rfid)
+              .where("isActive", isEqualTo: true)
+              .orderBy("createdAt", descending: true)
+              .limit(1)
+          : firestore
+              .collection("transactions")
+              .where("chargingPointSerialNumber", isEqualTo: serial)
+              .where("rfid", isEqualTo: userModel.rfid)
+              .where("isActive", isEqualTo: true)
+              .orderBy("createdAt", descending: true)
+              .limit(1);
 
-    QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await transactionIdQuery.get();
-    String? transactionId =
-        querySnapshot.docs.isNotEmpty ? querySnapshot.docs.first.id : null;
-    return transactionId;
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await transactionIdQuery.get();
+      transactionId =
+          querySnapshot.docs.isNotEmpty ? querySnapshot.docs.first.id : null;
+      return transactionId;
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
