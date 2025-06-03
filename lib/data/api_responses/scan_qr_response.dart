@@ -43,6 +43,7 @@ class ScanQrModel {
   ScanQrModel({
     this.station,
     this.connector,
+    this.balance,
   });
 
   ScanQrModel.fromJson(dynamic json) {
@@ -51,18 +52,22 @@ class ScanQrModel {
     connector = json['connector'] != null
         ? Connector.fromJson(json['connector'])
         : null;
+    balance = json['balance'];
   }
 
   Station? station;
   Connector? connector;
+  String? balance;
 
   ScanQrModel copyWith({
     Station? station,
     Connector? connector,
+    String? balance,
   }) =>
       ScanQrModel(
         station: station ?? this.station,
         connector: connector ?? this.connector,
+        balance: balance ?? this.balance,
       );
 
   Map<String, dynamic> toJson() {
@@ -73,6 +78,7 @@ class ScanQrModel {
     if (connector != null) {
       map['connector'] = connector?.toJson();
     }
+    map['balance'] = balance;
     return map;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/presentation/home/pages/wallet/controller/wallet_controller.dart';
 
 import '../../charging_session/charging_session_screen.dart';
 import '../pages/charge/charge_screen.dart';
@@ -34,6 +35,9 @@ class HomeController extends GetxController {
     if (index != 0 && index != 1 && index != 2) {
       Get.find<StationsController>().showComingSoonDialog();
       return;
+    }
+    if (index == 1 && !WalletController.to.balanceResult.isStart()) {
+      WalletController.to.refreshApi();
     }
     selectedIndex.value = index;
     pageController.jumpToPage(index);

@@ -111,7 +111,7 @@ class ChargeController extends GetxController {
       // GeneralResponse generalResponse = swipeApiResult.getData();
       // InformationViewer.showSuccessToast(msg: generalResponse.message);
       await Future.delayed(
-        Duration(seconds: 3),
+        Duration(seconds: 4),
       );
       String? transactionId = await _chargeRepositoryImpl.getTransactionId(
         serial: _serial!,
@@ -130,9 +130,9 @@ class ChargeController extends GetxController {
             'Transaction ID is null, cannot proceed to charging session');
       } else {
         AppLogger.logWithGetX('Transaction ID: $transactionId');
+        Get.back();
         haveFailedSwipe = false;
         update();
-        Get.back();
         await Get.to(
           () => ChargingSessionScreen(
             transactionId: transactionId,
@@ -175,22 +175,21 @@ class ChargeController extends GetxController {
         .listen(
       (DocumentSnapshot<FirebaseChargingSessionModel> event) {
         chargingSessionModel = event.data();
-        if (chargingSessionModel == null) {
-          return;
-        }
-        if (chargingSessionModel?.status == 'Charging') {
-          if (startTime == null) {
-            startTime = DateTime.parse(chargingSessionModel!.startTime!);
+
+        if (chargingSessionModel != null) {
+          update([chargingSessionControllerId]);
+
+          if (chargingSessionModel!.status == 'Charging') {
             getSessionTimer();
+          } else {
+            // Finished
+            Get.to(
+              () => ChargingSessionSummeryScreen(
+                chargingModel: event.data()!,
+              ),
+            );
+            stopSubscription();
           }
-        } else {
-          // Finished
-          Get.to(
-            () => ChargingSessionSummeryScreen(
-              chargingModel: chargingSessionModel!,
-            ),
-          );
-          stopSubscription();
         }
       },
       onError: _handleError,
@@ -203,9 +202,9 @@ class ChargeController extends GetxController {
       await subscription!.cancel();
       subscription = null;
     }
+    stopTimer();
     chargingSessionModel = null;
     await clearTransactionId();
-    stopTimer();
   }
 
   void _handleError(dynamic error) {
@@ -219,21 +218,21 @@ class ChargeController extends GetxController {
 
   //================== handle timer of the session =========================
 
-  late Timer _timer;
+  Timer? _timer;
   DateTime? startTime;
   String? elapsedTime;
 
   getSessionTimer() {
     if (startTime == null) {
-      elapsedTime == null;
-      return;
+      AppLogger.logWithGetX('Timer is starting');
+      startTime = DateTime.parse(chargingSessionModel!.startTime!);
+      Duration elapsed = DateTime.now().difference(startTime!);
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        elapsed = DateTime.now().difference(startTime!);
+        elapsedTime = formatDuration(elapsed);
+        update([chargingSessionControllerId]);
+      });
     }
-    Duration elapsed = DateTime.now().difference(startTime!);
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      elapsed = DateTime.now().difference(startTime!);
-      elapsedTime = formatDuration(elapsed);
-      update([chargingSessionControllerId]);
-    });
   }
 
   String formatDuration(Duration duration) {
@@ -245,6 +244,10 @@ class ChargeController extends GetxController {
   }
 
   stopTimer() {
-    _timer.cancel();
+    AppLogger.logWithGetX('Timer is cancelled');
+    elapsedTime = null;
+    startTime = null;
+    _timer?.cancel();
+    _timer = null;
   }
 }

@@ -30,6 +30,7 @@ class Res {
   static const splashBg = 'assets/images/splash_background.png';
   static const contactUsImage = 'assets/images/contact_us_image.png';
   static const chargingImage = 'assets/images/charging.gif';
+  static const settingUpImage = 'assets/images/setting_up.gif';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';
@@ -101,5 +102,4 @@ class Res {
   static const disconnectAnimation = 'assets/anim/disconnect.json';
 
   static const settingUpAnimation = 'assets/anim/setting_up.json';
-
 }

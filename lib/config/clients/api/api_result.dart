@@ -1,6 +1,7 @@
 sealed class ApiResult<T> {
   const ApiResult();
 
+  bool isStart() => this is ApiStart;
   bool isSuccess() => this is ApiSuccess;
 
   bool isLoading() => this is ApiLoading;

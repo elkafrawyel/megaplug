@@ -15,6 +15,7 @@ class WalletController extends GetxController {
 
   GlobalKey<AppPaginatedListviewState> appPaginatedListviewKey =
       GlobalKey<AppPaginatedListviewState>();
+
   WalletController(this._walletRepositoryImpl);
 
   // Add your controller logic here
@@ -38,7 +39,8 @@ class WalletController extends GetxController {
   }
 
   Future refreshApi() async {
-    _getBalance();
+    _getBalance(loading: false);
+    appPaginatedListviewKey.currentState?.refreshApi(loading: false);
   }
 
   void addBalance() async {
@@ -49,7 +51,7 @@ class WalletController extends GetxController {
       GeneralResponse generalResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: generalResponse.message);
       _getBalance(loading: false);
-      appPaginatedListviewKey.currentState?.refreshApi(loading:false);
+      appPaginatedListviewKey.currentState?.refreshApi(loading: false);
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());
     }

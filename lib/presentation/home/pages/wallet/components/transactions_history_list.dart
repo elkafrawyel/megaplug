@@ -45,24 +45,26 @@ class TransactionsHistoryList extends StatelessWidget {
                     model.type == '+' ? Res.plusIcon : Res.chargedIcon,
                   ),
                   10.pw,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                        text: model.description ?? '',
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      5.ph,
-                      AppText(
-                        text: DateHelper().formatDateTime(model.createdAt!),
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xffA3A3A3),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          text: model.description ?? '',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          maxLines: 3,
+                        ),
+                        5.ph,
+                        AppText(
+                          text: DateHelper().formatDateTime(model.createdAt!),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xffA3A3A3),
+                        ),
+                      ],
+                    ),
                   ),
-                  Spacer(),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
