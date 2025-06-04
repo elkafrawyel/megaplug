@@ -49,9 +49,9 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   LatLng? myLocation;
 
   //todo use bigger zoom
-  double cameraZoom = 8;
+  // double cameraZoom = 8;
 
-  // double cameraZoom = 15;
+  double cameraZoom = 15;
   MapType mapType = MapType.terrain;
   late cluster_manager.ClusterManager<FirebaseStationModel> clusterManager;
 
@@ -241,7 +241,11 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     if (loading) {
       EasyLoading.show(status: 'getting_location'.tr);
     }
-    Position position = await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition(
+      locationSettings: LocationSettings(
+        accuracy: LocationAccuracy.high,
+      )
+    );
     myLocation = LatLng(position.latitude, position.longitude);
     AppLogger.log(
         'My Location : :   ${myLocation?.latitude},${myLocation?.longitude}');
@@ -250,7 +254,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     }
     update([stationsControllerId]);
     if (loading) {
-      moveToMyLocations();
+      moveToMyLocation();
     }
   }
 
@@ -402,7 +406,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  void moveToMyLocations() {
+  void moveToMyLocation() {
     if (myLocation != null && mapController != null) {
       mapController!.animateCamera(
         CameraUpdate.newLatLngZoom(

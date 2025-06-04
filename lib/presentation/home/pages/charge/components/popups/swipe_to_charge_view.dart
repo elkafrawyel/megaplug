@@ -52,16 +52,18 @@ class SwipeToChargeView extends StatelessWidget {
                         ),
                       ),
                       // Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: Lottie.asset(
-                      //       Res.settingUpAnimation,
-                      //       width: 100,
-                      //       height: 100,
-                      //     ),
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Lottie.asset(
+                      //     Res.settingUpAnimation,
+                      //     width: 100,
+                      //     height: 100,
                       //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 18.0, vertical: 8.0),
+                          horizontal: 18.0,
+                          vertical: 8.0,
+                        ),
                         child: AppText(
                           text:
                               'We’re setting things up.\nYour charging session will begin in just a moment.',

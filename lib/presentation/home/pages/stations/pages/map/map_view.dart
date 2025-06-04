@@ -22,27 +22,29 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
       id: StationsController.stationsControllerId,
       builder: (stationsController) => Stack(
         children: [
-          GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: stationsController.myLocation ?? LatLng(0, 0),
-              zoom: stationsController.cameraZoom,
-            ),
-            myLocationEnabled: true,
-            tiltGesturesEnabled: true,
-            // compassEnabled: true,
-            scrollGesturesEnabled: true,
-            zoomGesturesEnabled: true,
-            zoomControlsEnabled: false,
-            myLocationButtonEnabled: false,
-            mapType: stationsController.mapType,
-            onTap: (position) {
-              AppLogger.log(position, level: Level.info);
-            },
-            onCameraMove: stationsController.clusterManager.onCameraMove,
-            onCameraIdle: stationsController.clusterManager.updateMap,
-            onMapCreated: stationsController.onMapCreated,
-            markers: stationsController.markers,
-          ),
+          stationsController.myLocation == null
+              ? Center(child: CircularProgressIndicator())
+              : GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: stationsController.myLocation!,
+                    zoom: stationsController.cameraZoom,
+                  ),
+                  tiltGesturesEnabled: true,
+                  // compassEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
+                  zoomControlsEnabled: false,
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  mapType: stationsController.mapType,
+                  onTap: (position) {
+                    AppLogger.log(position, level: Level.info);
+                  },
+                  onCameraMove: stationsController.clusterManager.onCameraMove,
+                  onCameraIdle: stationsController.clusterManager.updateMap,
+                  onMapCreated: stationsController.onMapCreated,
+                  markers: stationsController.markers,
+                ),
           PositionedDirectional(
             end: 18,
             top: MediaQuery.sizeOf(context).height * 0.84,
@@ -63,7 +65,7 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
             top: MediaQuery.sizeOf(context).height * 0.78,
             child: GestureDetector(
               onTap: () {
-                stationsController.moveToMyLocations();
+                stationsController.moveToMyLocation();
               },
               child: SvgPicture.asset(
                 Res.myLocationIcon,

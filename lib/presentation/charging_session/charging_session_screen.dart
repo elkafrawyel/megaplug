@@ -127,7 +127,7 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                                           ),
                                           AppText(
                                             text:
-                                                '${chargingSessionModel.chargingSpeed?.toStringAsFixed(2)} ${'kw'.tr}',
+                                                '${chargingSessionModel.chargingSpeed?.toStringAsFixed(2)} ${'kw'.tr} ${'power'.tr}',
                                             color: context.kHintTextColor,
                                           ),
                                         ],
@@ -147,7 +147,7 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: AppText(
                                           text:
-                                              '${chargingSessionModel.chargingSpeed?.toStringAsFixed(2)} ${'kw'.tr}',
+                                              '${chargingSessionModel.chargingSpeed?.toStringAsFixed(2)} ${'kw'.tr} ${'power'.tr}',
                                           color: context.kHintTextColor,
                                         ),
                                       ),
