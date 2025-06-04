@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
-import 'package:megaplug/presentation/charging_session/components/metric_cardView.dart';
-import 'package:megaplug/presentation/charging_session/components/stop_charging_view.dart';
-import 'package:megaplug/presentation/home/components/home_appbar.dart';
-import 'package:megaplug/presentation/home/pages/charge/controller/charge_controller.dart';
-import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
 
+import '../../config/constants.dart';
 import '../../config/res.dart';
+import '../../domain/entities/firebase/firebase_charging_session_model.dart';
+import '../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../widgets/app_widgets/app_text.dart';
+import '../home/components/home_appbar.dart';
+import '../home/pages/charge/controller/charge_controller.dart';
+import '../home/pages/profile/controller/profile_controller.dart';
+import 'components/metric_cardView.dart';
 import 'components/rounded_circle_painter.dart';
+import 'components/stop_charging_view.dart';
 
 class ChargingSessionScreen extends StatefulWidget {
   final String transactionId;
@@ -64,7 +65,7 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
             return SingleChildScrollView(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 child: Column(
                   children: [
                     // Car and station info
@@ -78,7 +79,17 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                         ),
                         child: Column(
                           children: [
-                            20.ph,
+                            GetBuilder<ProfileController>(
+                              builder: (profileController) {
+                                return AppText(
+                                  text:
+                                      "${profileController.userModel?.name ?? ''} 's Car",
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                );
+                              },
+                            ),
+                            10.ph,
                             AppText(
                               text:
                                   "${chargingSessionModel.name} - ${chargingSessionModel.address}",
@@ -86,7 +97,7 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                               maxLines: 2,
                               fontSize: 12,
                               centerText: true,
-                              fontWeight: FontWeight.w700,
+                              fontWeight: FontWeight.w500,
                             ),
                             5.ph,
                             AppText(
@@ -166,6 +177,7 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
                     20.ph,
                     // Metrics
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(

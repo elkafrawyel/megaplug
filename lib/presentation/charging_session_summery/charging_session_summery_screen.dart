@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
@@ -12,6 +14,7 @@ import '../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../widgets/app_widgets/app_text.dart';
 import '../charging_session/components/metric_cardView.dart';
 import '../charging_session/components/rate_view.dart';
+import '../home/pages/profile/controller/profile_controller.dart';
 import '../home/pages/wallet/components/points_view.dart';
 
 class ChargingSessionSummeryScreen extends StatelessWidget {
@@ -47,6 +50,18 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
+                      GetBuilder<ProfileController>(
+                        builder: (profileController) {
+                          return AppText(
+                            text: StorageClient().isAr()
+                                ? "${profileController.userModel?.name ?? ''} سيارة"
+                                : "${profileController.userModel?.name ?? ''} 's Car",
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          );
+                        },
+                      ),
+                      10.ph,
                       AppText(
                         text:
                             "${chargingModel.name} - ${chargingModel.address}",
@@ -54,7 +69,7 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                         maxLines: 2,
                         fontSize: 12,
                         centerText: true,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w500,
                       ),
                       5.ph,
                       AppText(
@@ -76,18 +91,20 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                           AppText(
                             text: 'charging'.tr,
                             fontWeight: FontWeight.w500,
+                            fontSize: 16,
                           ),
                           5.pw,
                           if (chargingModel.currentSoC != null)
                             AppText(
                               text: '${chargingModel.currentSoC}%',
-                              fontSize: 18,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           if (chargingModel.currentSoC != null) 5.pw,
                           AppText(
                             text: '${'complete'.tr}!',
                             fontWeight: FontWeight.w500,
+                            fontSize: 16,
                           ),
                         ],
                       ),

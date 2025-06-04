@@ -21,25 +21,31 @@ class MetricCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4),
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
       ),
       child: Column(
         children: [
-          SvgPicture.asset(assetName),
+          SvgPicture.asset(
+            assetName,
+            width: 35,
+            height: 35,
+          ),
           8.ph,
           AppText(
             text: title,
             fontWeight: FontWeight.bold,
           ),
+          5.ph,
           AppText(
             text: subtitle,
             color: context.kHintTextColor,
-            fontSize: 11,
+            fontSize: 12,
             fontWeight: FontWeight.w300,
             centerText: true,
+            maxLines: 2,
           ),
         ],
       ),
