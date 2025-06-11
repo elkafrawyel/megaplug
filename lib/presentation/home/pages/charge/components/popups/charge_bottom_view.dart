@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:megaplug/presentation/home/pages/charge/components/popups/bottom_sheet_parent.dart';
+import 'package:megaplug/widgets/bottom_sheet_parent.dart';
 import 'package:megaplug/presentation/home/pages/charge/components/popups/charge_wallet_view.dart';
 import 'package:megaplug/presentation/home/pages/charge/components/popups/swipe_to_charge_view.dart';
 

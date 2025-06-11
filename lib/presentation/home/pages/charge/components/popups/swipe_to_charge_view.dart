@@ -75,117 +75,138 @@ class SwipeToChargeView extends StatelessWidget {
                         ),
                       ],
                     )
-                  : Column(
-                      children: [
-                        if (scanQrModel?.connector != null)
-                          Container(
-                            margin: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Color(0xffF5F5F5),
-                              borderRadius: BorderRadius.circular(kRadius),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 18.0,
-                                      vertical: 8.0,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                          text: scanQrModel
-                                                  ?.connector?.connectorType
-                                                  ?.toString() ??
-                                              '',
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: AppText(
-                                            text:
-                                                '${scanQrModel?.connector?.chargePower} (${(scanQrModel?.connector?.connectorType?.isDc ?? false) ? 'DC' : 'AC'})',
-                                            color: context.kHintTextColor,
-                                            fontSize: 12,
+                  : scanQrModel?.connector != null
+                      ? Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Color(0xffF5F5F5),
+                                borderRadius: BorderRadius.circular(kRadius),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 18.0,
+                                        vertical: 8.0,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          AppText(
+                                            text: scanQrModel
+                                                    ?.connector?.connectorType
+                                                    ?.toString() ??
+                                                '',
+                                            fontWeight: FontWeight.w700,
                                           ),
-                                        ),
-                                        AppText(
-                                          text:
-                                              '(${scanQrModel?.connector?.pricePerKw} EGP/kWh)',
-                                          color: context.kPrimaryColor,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            child: AppText(
+                                              text:
+                                                  '${scanQrModel?.connector?.chargePower} (${(scanQrModel?.connector?.connectorType?.isDc ?? false) ? 'DC' : 'AC'})',
+                                              color: context.kHintTextColor,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                          AppText(
+                                            text:
+                                                '(${scanQrModel?.connector?.pricePerKw} EGP/kWh)',
+                                            color: context.kPrimaryColor,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ],
+                                      ),
                                     ),
+                                  ),
+                                  if (scanQrModel
+                                          ?.connector?.connectorType?.symbol !=
+                                      null)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SvgPicture.network(scanQrModel
+                                              ?.connector
+                                              ?.connectorType
+                                              ?.symbol ??
+                                          ''),
+                                    ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 18.0),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    Res.greenWalletIcon,
+                                    width: 25,
+                                    height: 25,
+                                  ),
+                                  10.pw,
+                                  AppText(text: 'current_balance'.tr),
+                                  Spacer(),
+                                  AppText(
+                                    text:
+                                        '${scanQrModel?.balance ?? '0.0'} ${'egp'.tr}',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  )
+                                ],
+                              ),
+                            ),
+                            10.ph,
+                            Padding(
+                              padding: const EdgeInsets.all(18.0),
+                              child: SlideAction(
+                                height: 50,
+                                sliderButtonIconPadding: 8,
+                                elevation: 0,
+                                sliderButtonIcon: AppTransformationView(
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 20,
                                   ),
                                 ),
-                                if (scanQrModel
-                                        ?.connector?.connectorType?.symbol !=
-                                    null)
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SvgPicture.network(scanQrModel
-                                            ?.connector
-                                            ?.connectorType
-                                            ?.symbol ??
-                                        ''),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                Res.greenWalletIcon,
-                                width: 25,
-                                height: 25,
+                                text: chargeController.haveFailedSwipe
+                                    ? 'Swipe To Retry Charging'
+                                    : 'Swipe To Start Charging',
+                                textStyle: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                                outerColor: context.kPrimaryColor,
+                                innerColor: Colors.white,
+                                onSubmit: () async {
+                                  ChargeController.to.swipeToConfirm();
+                                },
                               ),
-                              10.pw,
-                              AppText(text: 'current_balance'.tr),
-                              Spacer(),
-                              AppText(
-                                text:
-                                    '${scanQrModel?.balance ?? '0.0'} ${'egp'.tr}',
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                            ),
+                          ],
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                Res.preparingImage,
+                                width: 140,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: AppText(
+                                  text:
+                                      ' Make sure the connector is properly plugged into your car before starting.',
+                                  maxLines: 2,
+                                  centerText: true,
+                                ),
                               )
                             ],
                           ),
                         ),
-                        10.ph,
-                        Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: SlideAction(
-                            height: 50,
-                            sliderButtonIconPadding: 8,
-                            elevation: 0,
-                            sliderButtonIcon: AppTransformationView(
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                size: 20,
-                              ),
-                            ),
-                            text: chargeController.haveFailedSwipe
-                                ? 'Swipe To Retry Charging'
-                                : 'Swipe To Start Charging',
-                            textStyle:
-                                TextStyle(fontSize: 16, color: Colors.white),
-                            outerColor: context.kPrimaryColor,
-                            innerColor: Colors.white,
-                            onSubmit: () async {
-                              ChargeController.to.swipeToConfirm();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
               10.ph,
             ],
           ),

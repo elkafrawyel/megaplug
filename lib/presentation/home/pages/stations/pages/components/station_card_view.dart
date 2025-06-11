@@ -227,7 +227,7 @@ class StationCardViewState extends State<StationCardView> {
                           child: GestureDetector(
                             onTap: () {
                               Get.find<StationsController>()
-                                  .showComingSoonDialog();
+                                  .showComingSoonDialog(context);
                               // Get.to(() => StationDetailsScreen());
                             },
                             child: Container(

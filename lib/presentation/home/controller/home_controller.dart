@@ -33,7 +33,7 @@ class HomeController extends GetxController {
 
   handleSelectedIndex(int index) async {
     if (index != 0 && index != 1 && index != 2) {
-      Get.find<StationsController>().showComingSoonDialog();
+      Get.find<StationsController>().showComingSoonDialog(Get.context!);
       return;
     }
     if (index == 1 && !WalletController.to.balanceResult.isStart()) {

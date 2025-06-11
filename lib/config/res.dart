@@ -31,6 +31,7 @@ class Res {
   static const contactUsImage = 'assets/images/contact_us_image.png';
   static const chargingImage = 'assets/images/charging.gif';
   static const settingUpImage = 'assets/images/setting_up.gif';
+  static const preparingImage = 'assets/images/preparing.gif';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';
@@ -93,6 +94,7 @@ class Res {
   static const walletBackgroundIcon = 'assets/icons/wallet_background.svg';
   static const emptyWalletIcon = 'assets/icons/empty_wallet.svg';
   static const greenWalletIcon = 'assets/icons/green_wallet.svg';
+  static const comingSoonIcon = 'assets/icons/coming_soon.svg';
 
   ///================================================================
 

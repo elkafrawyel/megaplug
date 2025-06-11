@@ -64,7 +64,7 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         GestureDetector(
           onTap: () {
-            Get.find<StationsController>().showComingSoonDialog();
+            Get.find<StationsController>().showComingSoonDialog(context);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),

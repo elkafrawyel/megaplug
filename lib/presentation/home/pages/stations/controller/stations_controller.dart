@@ -4,24 +4,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/information_viewer.dart';
+import 'package:megaplug/config/res.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_responses/station_filter_response.dart';
 import 'package:megaplug/data/repositories/stations_repo.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_station_model.dart';
 import 'package:megaplug/domain/entities/api/charge_power_model.dart';
 import 'package:megaplug/domain/entities/api/connector_type_model.dart';
+import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
+import 'package:megaplug/widgets/app_widgets/app_text.dart';
+import 'package:megaplug/widgets/bottom_sheet_parent.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:rxdart/transformers.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
+import '../../../../../config/constants.dart';
 import '../../../../../data/api_responses/station_search_response.dart';
 import '../../../../../data/api_responses/stations_filter_result_response.dart';
 import '../../../../../domain/entities/api/status_filter_model.dart';
@@ -242,10 +250,9 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       EasyLoading.show(status: 'getting_location'.tr);
     }
     Position position = await Geolocator.getCurrentPosition(
-      locationSettings: LocationSettings(
-        accuracy: LocationAccuracy.high,
-      )
-    );
+        locationSettings: LocationSettings(
+      accuracy: LocationAccuracy.high,
+    ));
     myLocation = LatLng(position.latitude, position.longitude);
     AppLogger.log(
         'My Location : :   ${myLocation?.latitude},${myLocation?.longitude}');
@@ -494,18 +501,52 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     );
   }
 
-  void showComingSoonDialog() {
-    Get.dialog(
-      AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text("🚧 Coming Soon"),
-        content: Text("We're working hard to bring you this feature."),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: Text("OK"),
-          ),
-        ],
+  void showComingSoonDialog(BuildContext context) {
+    showAppModalBottomSheet(
+      context: context,
+      child: BottomSheetParent(
+        child: Column(
+          children: [
+            SvgPicture.asset(
+              Res.comingSoonIcon,
+              width: 120,
+            ),
+            20.ph,
+            AppText(
+              text: ' Coming Soon !',
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            10.ph,
+            AppText(
+              text:
+                  "This feature is still in progress.  We're working hard to bring it to you soon!",
+              color: Color(0xff6D7698),
+              maxLines: 3,
+            ),
+            20.ph,
+            SizedBox(
+              width: MediaQuery.sizeOf(context).width * 0.9,
+              child: ElevatedButton(
+                onPressed: () async {
+                  Get.back();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: context.kPrimaryColor,
+                  padding: EdgeInsets.symmetric(vertical: kButtonHeight),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: AppText(
+                  text: "Sounds good",
+                  color: context.kColorOnPrimary,
+                ),
+              ),
+            ),
+            20.ph,
+          ],
+        ),
       ),
     );
   }

@@ -58,12 +58,19 @@ class ChargeController extends GetxController {
     _connectorId = null;
   }
 
-  Future scanQr(String serial) async {
-    scanQrApiResult = ApiLoading();
+  Future scanQr(String serial, {bool preparing = false}) async {
+    if (!preparing) {
+      scanQrApiResult = ApiLoading();
+    }
     scanQrApiResult = await _chargeRepositoryImpl.scanQr(qrCode: serial);
     if (scanQrApiResult.isSuccess()) {
       _serial = serial;
       _connectorId = scanQrApiResult.getData().data?.connector?.id?.toString();
+      if (_connectorId == null) {
+        await Future.delayed(Duration(seconds: 4), () {
+          scanQr(serial, preparing: true);
+        });
+      }
     }
   }
 
