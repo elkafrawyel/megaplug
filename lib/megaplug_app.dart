@@ -35,7 +35,8 @@ class _MegaPlugState extends State<MegaPlug> {
 
   @override
   Widget build(BuildContext context) {
-    String appLanguage = StorageClient().getAppLanguage();
+    String appLanguage = 'en';
+    // String appLanguage = StorageClient().getAppLanguage();
 
     return Obx(
       () => AppFocusRemover(

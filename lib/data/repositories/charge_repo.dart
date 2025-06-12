@@ -52,6 +52,7 @@ class ChargeRepositoryImpl extends ChargeRepository {
     required String serial,
     String? connectorId,
   }) async {
+    AppLogger.logWithGetX('Getting on time : : : ${DateTime.now().second}');
     String? transactionId;
     try {
       ApiResult<UserModel> apiResult =

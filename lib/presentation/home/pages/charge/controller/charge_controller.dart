@@ -118,7 +118,7 @@ class ChargeController extends GetxController {
       // GeneralResponse generalResponse = swipeApiResult.getData();
       // InformationViewer.showSuccessToast(msg: generalResponse.message);
       await Future.delayed(
-        Duration(seconds: 4),
+        Duration(seconds: 10),
       );
       String? transactionId = await _chargeRepositoryImpl.getTransactionId(
         serial: _serial!,
