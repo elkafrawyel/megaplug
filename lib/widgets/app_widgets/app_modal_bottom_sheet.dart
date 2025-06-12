@@ -32,7 +32,7 @@ Future showAppModalBottomSheet({
           .slide(
             begin: const Offset(0, 1),
             end: const Offset(0, 0),
-            duration: Duration(milliseconds: 700),
+            duration: Duration(milliseconds: 300),
             curve: Curves.easeIn,
           );
     },

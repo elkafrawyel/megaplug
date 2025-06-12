@@ -105,13 +105,12 @@ class AppPaginatedListviewState<T> extends State<AppPaginatedListview<T>> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircularProgressIndicator.adaptive(),
-            10.pw,
+            // const CircularProgressIndicator.adaptive(),
+            // 10.pw,
             AppText(
               text: StorageClient().isAr()
                   ? 'يتم تحميل مزيد من البيانات'
-                  : 'Loading more data from',
-              fontSize: 16,
+                  : 'Loading more data...',
               fontWeight: FontWeight.w700,
               color: context.kHintTextColor,
             ),
@@ -124,7 +123,6 @@ class AppPaginatedListviewState<T> extends State<AppPaginatedListview<T>> {
           text: StorageClient().isAr()
               ? 'لا يوجد المزيد من البيانات'
               : 'End of the data',
-          fontSize: 16,
           fontWeight: FontWeight.w700,
           color: context.kHintTextColor,
         ),

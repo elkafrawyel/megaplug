@@ -6,6 +6,7 @@ import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/presentation/home/controller/home_binding.dart';
 import 'package:megaplug/presentation/home/home_screen.dart';
 
+import '../../config/language/language_model.dart';
 import '../../config/res.dart';
 import '../onboarding/onboarding_screen.dart';
 
@@ -34,6 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    LanguageData.changeLanguage(LanguageData.languageList().first);
+
     Future.delayed(animationDuration, () => _redirect());
   }
 

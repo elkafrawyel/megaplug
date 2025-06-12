@@ -36,7 +36,7 @@ class ScannerViewState extends State<ScannerView> {
   Widget build(BuildContext context) {
     late final scanWindow = Rect.fromCenter(
       center: MediaQuery.sizeOf(context).center(
-        const Offset(0, -100),
+        const Offset(0, 0),
       ),
       width: MediaQuery.sizeOf(context).width * 0.8,
       height: MediaQuery.sizeOf(context).width * 0.8,

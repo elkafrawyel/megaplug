@@ -36,7 +36,7 @@ class _WalletScreenState extends State<WalletScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            20.ph,
+            30.ph,
             WalletView(),
             // Padding(
             //   padding: const EdgeInsets.all(18.0),

@@ -523,6 +523,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
                   "This feature is still in progress.  We're working hard to bring it to you soon!",
               color: Color(0xff6D7698),
               maxLines: 3,
+              centerText: true,
             ),
             20.ph,
             SizedBox(

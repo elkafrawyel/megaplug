@@ -33,10 +33,7 @@ class _ChargeScreenState extends State<ChargeScreen>
         () {
           return ChargeController.to.isCharging.value
               ? SizedBox()
-              : Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 60.0),
-                  child: ScannerView(),
-                );
+              : ScannerView();
         },
       ),
     );
