@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
-import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 
@@ -12,7 +10,6 @@ import 'package:megaplug/data/repositories/profile_repo.dart';
 import 'package:megaplug/domain/entities/api/user_model.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
 
-import '../../config/clients/storage/storage_client.dart';
 import '../../config/helpers/logging_helper.dart';
 import '../../domain/repositories/charge_repo.dart';
 

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Obx(() {
       int selectedIndex = homeController.selectedIndex.value;
       return Scaffold(
+        resizeToAvoidBottomInset: true,
         extendBody: true,
         backgroundColor: Colors.transparent,
         bottomNavigationBar: Stack(
@@ -70,20 +72,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
-                            selectedIndex == 0
-                                ? Res.homeIcon
-                                : Res.homeGrayIcon,
+                            selectedIndex == 0 ? Res.homeIcon : Res.homeGrayIcon,
                           ),
                           5.ph,
                           AppText(
                             text: 'stations'.tr,
-                            color: selectedIndex == 0
-                                ? context.kPrimaryColor
-                                : unSelectedColor,
+                            color: selectedIndex == 0 ? context.kPrimaryColor : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: selectedIndex == 0
-                                ? FontWeight.w600
-                                : FontWeight.w400,
+                            fontWeight: selectedIndex == 0 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -97,20 +93,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
-                            selectedIndex == 1
-                                ? Res.walletIcon
-                                : Res.walletGrayIcon,
+                            selectedIndex == 1 ? Res.walletIcon : Res.walletGrayIcon,
                           ),
                           5.ph,
                           AppText(
                             text: 'wallet'.tr,
-                            color: selectedIndex == 1
-                                ? context.kPrimaryColor
-                                : unSelectedColor,
+                            color: selectedIndex == 1 ? context.kPrimaryColor : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: selectedIndex == 1
-                                ? FontWeight.w600
-                                : FontWeight.w400,
+                            fontWeight: selectedIndex == 1 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -128,9 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   key: ValueKey(selectedIndex),
                                   Res.chargeOnIcon,
                                 )
-                                  .animate(
-                                      onPlay: (controller) =>
-                                          controller.repeat()) // loop
+                                  .animate(onPlay: (controller) => controller.repeat()) // loop
                                   .rotate(
                                     duration: Duration(seconds: 2),
                                   ) // 2-second full rotation
@@ -161,13 +149,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           5.ph,
                           AppText(
                             text: 'charge'.tr,
-                            color: selectedIndex == 2
-                                ? context.kPrimaryColor
-                                : unSelectedColor,
+                            color: selectedIndex == 2 ? context.kPrimaryColor : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: selectedIndex == 2
-                                ? FontWeight.w600
-                                : FontWeight.w400,
+                            fontWeight: selectedIndex == 2 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -181,20 +165,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
-                            selectedIndex == 3
-                                ? Res.profileIcon
-                                : Res.profileGrayIcon,
+                            selectedIndex == 3 ? Res.profileIcon : Res.profileGrayIcon,
                           ),
                           5.ph,
                           AppText(
                             text: 'profile'.tr,
-                            color: selectedIndex == 3
-                                ? context.kPrimaryColor
-                                : unSelectedColor,
+                            color: selectedIndex == 3 ? context.kPrimaryColor : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: selectedIndex == 3
-                                ? FontWeight.w600
-                                : FontWeight.w400,
+                            fontWeight: selectedIndex == 3 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -207,20 +185,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
-                            selectedIndex == 4
-                                ? Res.settingsIcon
-                                : Res.settingsGrayIcon,
+                            selectedIndex == 4 ? Res.settingsIcon : Res.settingsGrayIcon,
                           ),
                           5.ph,
                           AppText(
                             text: 'settings'.tr,
-                            color: selectedIndex == 4
-                                ? context.kPrimaryColor
-                                : unSelectedColor,
+                            color: selectedIndex == 4 ? context.kPrimaryColor : unSelectedColor,
                             fontSize: 12,
-                            fontWeight: selectedIndex == 4
-                                ? FontWeight.w600
-                                : FontWeight.w400,
+                            fontWeight: selectedIndex == 4 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
                       ),
@@ -256,10 +228,8 @@ class BottomNavBarPainter extends CustomPainter {
 
     Path path = Path();
     path.moveTo(0, 0.637848);
-    path.cubicTo(
-        0, 0.637848, size.width * 0.304, 18.5417, size.width * 0.5, 18.5417);
-    path.cubicTo(size.width * 0.696, 18.5417, size.width, 0.637848, size.width,
-        0.637848);
+    path.cubicTo(0, 0.637848, size.width * 0.304, 18.5417, size.width * 0.5, 18.5417);
+    path.cubicTo(size.width * 0.696, 18.5417, size.width, 0.637848, size.width, 0.637848);
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();

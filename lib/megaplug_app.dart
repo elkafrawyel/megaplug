@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -40,63 +42,67 @@ class _MegaPlugState extends State<MegaPlug> {
     return Obx(
       () => AppFocusRemover(
         child: OKToast(
-          child: GetMaterialApp(
-            title: 'app_name'.tr,
-            theme: ThemeData(
-              useMaterial3: true,
-              fontFamily: StorageClient().isAr()
-                  ? Constants.arFontFamily
-                  : Constants.fontFamily,
-              extensions: [themeController.appColors.value],
-            ),
-            debugShowCheckedModeBanner:
-                Environment.appMode == AppMode.staging ||
-                    Environment.appMode == AppMode.development,
-            defaultTransition: Transition.cupertino,
-            transitionDuration: const Duration(milliseconds: 300),
-            supportedLocales: LanguageData.supportedLocales,
-            translations: Translation(),
-            locale: Locale(appLanguage),
-            fallbackLocale: Locale(appLanguage),
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            // initialBinding: HomeBinding(),
-            // home: const HomeScreen(),
-            home: const SplashScreen(),
-            builder: (context, child) {
-              child = EasyLoading.init()(context, child);
-              EasyLoading.instance
-                ..displayDuration = const Duration(milliseconds: 2000)
+          child: SafeArea(
+            top: false,
+            bottom: Platform.isAndroid,
+            child: GetMaterialApp(
+              title: 'app_name'.tr,
+              theme: ThemeData(
+                useMaterial3: true,
+                fontFamily: StorageClient().isAr()
+                    ? Constants.arFontFamily
+                    : Constants.fontFamily,
+                extensions: [themeController.appColors.value],
+              ),
+              debugShowCheckedModeBanner:
+                  Environment.appMode == AppMode.staging ||
+                      Environment.appMode == AppMode.development,
+              defaultTransition: Transition.cupertino,
+              transitionDuration: const Duration(milliseconds: 300),
+              supportedLocales: LanguageData.supportedLocales,
+              translations: Translation(),
+              locale: Locale(appLanguage),
+              fallbackLocale: Locale(appLanguage),
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              // initialBinding: HomeBinding(),
+              // home: const HomeScreen(),
+              home: const SplashScreen(),
+              builder: (context, child) {
+                child = EasyLoading.init()(context, child);
+                EasyLoading.instance
+                  ..displayDuration = const Duration(milliseconds: 2000)
 
-                ///loading circular view
-                ..indicatorType = EasyLoadingIndicatorType.fadingCircle
-                ..loadingStyle = EasyLoadingStyle.custom
-                ..maskType = EasyLoadingMaskType.black
-                ..indicatorSize = 50.0
-                ..radius = 10.0
-                ..progressWidth = 3
-                ..progressColor = context.kPrimaryColor
-                ..textColor = context.kTextColor
-                ..backgroundColor = context.kBackgroundColor
-                ..indicatorColor = context.kPrimaryColor
-                // ..maskColor = Colors.blue.withOpacity(0.5)
-                ..textStyle = const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                )
-                ..userInteractions = false
-                ..dismissOnTap = false;
-              child = MediaQuery(
-                data: MediaQuery.of(context).copyWith(
-                  textScaler: const TextScaler.linear(1.0),
-                ),
-                child: child,
-              );
-              return child;
-            },
+                  ///loading circular view
+                  ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+                  ..loadingStyle = EasyLoadingStyle.custom
+                  ..maskType = EasyLoadingMaskType.black
+                  ..indicatorSize = 50.0
+                  ..radius = 10.0
+                  ..progressWidth = 3
+                  ..progressColor = context.kPrimaryColor
+                  ..textColor = context.kTextColor
+                  ..backgroundColor = context.kBackgroundColor
+                  ..indicatorColor = context.kPrimaryColor
+                  // ..maskColor = Colors.blue.withOpacity(0.5)
+                  ..textStyle = const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  )
+                  ..userInteractions = false
+                  ..dismissOnTap = false;
+                child = MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaler: const TextScaler.linear(1.0),
+                  ),
+                  child: child,
+                );
+                return child;
+              },
+            ),
           ),
         ),
       ),

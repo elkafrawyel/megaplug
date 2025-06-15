@@ -5,7 +5,6 @@ import 'package:get/route_manager.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
-import 'package:megaplug/presentation/charging_session_summery/charging_session_summery_screen.dart';
 import 'package:megaplug/presentation/home/pages/charge/controller/charge_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/bottom_sheet_header.dart';

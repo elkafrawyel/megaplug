@@ -15,7 +15,6 @@ import '../../widgets/app_widgets/app_text.dart';
 import '../charging_session/components/metric_cardView.dart';
 import '../charging_session/components/rate_view.dart';
 import '../home/pages/profile/controller/profile_controller.dart';
-import '../home/pages/wallet/components/points_view.dart';
 
 class ChargingSessionSummeryScreen extends StatelessWidget {
   final FirebaseChargingSessionModel chargingModel;
