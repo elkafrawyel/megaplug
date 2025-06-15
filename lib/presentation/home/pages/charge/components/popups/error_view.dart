@@ -31,7 +31,7 @@ class ErrorView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 38.0),
           child: AppText(
-            text:  'try_again'.tr,
+            text: message ?? 'try_again'.tr,
             color: context.kHintTextColor,
             fontWeight: FontWeight.w300,
             centerText: true,
