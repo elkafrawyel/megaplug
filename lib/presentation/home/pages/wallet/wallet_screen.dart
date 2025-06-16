@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/wallet/components/wallet_view.dart';
 import 'package:megaplug/presentation/home/pages/wallet/controller/wallet_controller.dart';
+import 'package:megaplug/presentation/payment_screen/payment_screen.dart';
 
 import '../../../../config/constants.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
@@ -18,8 +20,7 @@ class WalletScreen extends StatefulWidget {
   State<WalletScreen> createState() => _WalletScreenState();
 }
 
-class _WalletScreenState extends State<WalletScreen>
-    with AutomaticKeepAliveClientMixin {
+class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -55,9 +56,11 @@ class _WalletScreenState extends State<WalletScreen>
                     ),
                     padding: EdgeInsets.symmetric(vertical: kButtonHeight),
                   ),
-                  onPressed: () {
-                    WalletController.to.addBalance();
-                  },
+                  onPressed: ()async {
+                    // WalletController.to.addBalance();
+                   await Get.to(() => PaymentScreen());
+                  WalletController.to.refreshApi();
+                   },
                   icon: Icon(
                     Icons.add,
                     color: context.kColorOnPrimary,

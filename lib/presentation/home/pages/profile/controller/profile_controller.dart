@@ -11,6 +11,9 @@ import 'package:megaplug/domain/entities/api/user_model.dart';
 import '../../../../../config/clients/storage/storage_client.dart';
 
 class ProfileController extends GetxController {
+
+  static ProfileController get to => Get.find<ProfileController>();
+
   final ProfileRepositoryImpl _profileRepositoryImpl;
 
   ProfileController(this._profileRepositoryImpl);

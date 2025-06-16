@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/constants.dart';
@@ -49,6 +50,8 @@ class AppTextFormField extends StatefulWidget {
 
   final List<AuthFormRule>? rules;
 
+  final List<TextInputFormatter>? inputFormatters;
+
   const AppTextFormField({
     super.key,
     required this.controller,
@@ -75,6 +78,7 @@ class AppTextFormField extends StatefulWidget {
     this.required = true,
     this.alwaysShowRules = false,
     this.rules,
+    this.inputFormatters,
   });
 
   @override
@@ -150,6 +154,8 @@ class AppTextFormFieldState extends State<AppTextFormField> {
 
               validate(withFocus: false);
             },
+            inputFormatters: widget.inputFormatters,
+
             autofillHints: widget.autoFillHints,
             onEditingComplete: widget.onEditingComplete,
             autovalidateMode: AutovalidateMode.onUserInteraction,

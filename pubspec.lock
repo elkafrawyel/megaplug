@@ -507,6 +507,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_paymob_egypt:
+    dependency: "direct main"
+    description:
+      name: flutter_paymob_egypt
+      sha256: c8e7d7147997e6024df57911ddb45ce87c0d15f031f54ecc964bc670ba202107
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.9"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
