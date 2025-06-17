@@ -22,8 +22,7 @@ class ChargeController extends GetxController {
 
   static ChargeController get to => Get.find<ChargeController>();
 
-  static const String chargingSessionControllerId =
-      'chargingSessionControllerId';
+  static const String chargingSessionControllerId = 'chargingSessionControllerId';
 
   RxBool isCharging = false.obs;
   String? _transactionId;
@@ -75,8 +74,7 @@ class ChargeController extends GetxController {
   }
 
   Future stopCharge() async {
-    if (chargingSessionModel?.chargingPointSerialNumber == null ||
-        chargingSessionModel?.transactionId == null) {
+    if (chargingSessionModel?.chargingPointSerialNumber == null || chargingSessionModel?.transactionId == null) {
       return;
     }
     AppLoader.loading();
@@ -90,11 +88,12 @@ class ChargeController extends GetxController {
       GeneralResponse generalResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: generalResponse.message);
       if (chargingSessionModel != null) {
-        Get.to(
+        await Get.to(
           () => ChargingSessionSummeryScreen(
             chargingModel: chargingSessionModel!,
           ),
         );
+        Get.until((route) => route.settings.name == '/HomeScreen');
       }
     } else {
       InformationViewer.showErrorToast(
@@ -126,15 +125,12 @@ class ChargeController extends GetxController {
       );
 
       if (transactionId == null) {
-        String errorMessage = StorageClient().isAr()
-            ? 'حدث خطأ ما بدأ عملية الشحن'
-            : 'An error occurred while starting the charging process';
+        String errorMessage = StorageClient().isAr() ? 'حدث خطأ ما بدأ عملية الشحن' : 'An error occurred while starting the charging process';
         InformationViewer.showErrorToast(msg: errorMessage);
         swipeApiResult = ApiFailure(errorMessage);
         haveFailedSwipe = true;
         update();
-        throw Exception(
-            'Transaction ID is null, cannot proceed to charging session');
+        throw Exception('Transaction ID is null, cannot proceed to charging session');
       } else {
         AppLogger.logWithGetX('Transaction ID: $transactionId');
         Get.back();
@@ -157,8 +153,7 @@ class ChargeController extends GetxController {
     }
   }
 
-  StreamSubscription<DocumentSnapshot<FirebaseChargingSessionModel>>?
-      subscription;
+  StreamSubscription<DocumentSnapshot<FirebaseChargingSessionModel>>? subscription;
   final transactionIdController = BehaviorSubject<String?>.seeded(null);
 
   FirebaseChargingSessionModel? chargingSessionModel;
@@ -180,7 +175,7 @@ class ChargeController extends GetxController {
           ),
         )
         .listen(
-      (DocumentSnapshot<FirebaseChargingSessionModel> event) {
+      (DocumentSnapshot<FirebaseChargingSessionModel> event) async {
         chargingSessionModel = event.data();
 
         if (chargingSessionModel != null) {
@@ -190,12 +185,14 @@ class ChargeController extends GetxController {
             getSessionTimer();
           } else {
             // Finished
-            Get.to(
+
+            stopSubscription();
+            await Get.to(
               () => ChargingSessionSummeryScreen(
                 chargingModel: event.data()!,
               ),
             );
-            stopSubscription();
+            Get.until((route) => route.settings.name == '/HomeScreen');
           }
         }
       },

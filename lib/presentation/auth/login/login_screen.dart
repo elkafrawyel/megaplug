@@ -193,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
       AppLoader.dismiss();
       if (apiResult.isSuccess()) {
         LoginResponse loginResponse = apiResult.getData();
-          InformationViewer.showSuccessToast(msg: loginResponse.message);
+          // InformationViewer.showSuccessToast(msg: loginResponse.message);
           await StorageClient().saveUser(userResponse: loginResponse.data);
           Get.offAll(
             () => HomeScreen(),
@@ -205,6 +205,14 @@ class _LoginScreenState extends State<LoginScreen> {
             msg: apiResult.getError().trim(),
             bgColor: context.kErrorColor,
           );
+
+          // Get.snackbar(
+          //   'No Internet Connection',
+          //   apiResult.getError().trim(),
+          //   snackPosition: SnackPosition.BOTTOM,
+          //   backgroundColor: Colors.red.withOpacity(0.8),
+          //   colorText: Colors.white,
+          // );
         }
       }
     }

@@ -15,29 +15,26 @@ class AppDisconnectView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Lottie.asset(Res.disconnectAnimation),
-            AppText(
-              text: StorageClient().isAr() ? 'تأكد من اتصالك بشبكة' : 'Please Check Internet connection',
-              color: context.kHintTextColor,
-              fontSize: 16,
-            ),
-            30.ph,
-            if (retry != null)
-              AppButton(
-                text: StorageClient().isAr() ? 'إاعادة المحاولة' : 'Retry',
-                onPressed: retry,
-              ),
-          ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Lottie.asset(Res.disconnectAnimation),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 28.0),
+          child: AppText(
+            text: StorageClient().isAr() ? 'تأكد من اتصالك بشبكة' : 'Please Check Internet connection',
+            color: context.kHintTextColor,
+            fontSize: 16,
+          ),
         ),
-      ),
+        30.ph,
+        if (retry != null)
+          AppButton(
+            text: StorageClient().isAr() ? 'إاعادة المحاولة' : 'Retry',
+            onPressed: retry,
+          ),
+      ],
     );
   }
 }

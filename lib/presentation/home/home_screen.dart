@@ -1,13 +1,17 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/helpers/offline_mixin.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/home/pages/charge/components/popups/error_view.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
+import '../../widgets/app_data_state/app_disconnect_view.dart';
+import '../../widgets/app_widgets/app_modal_bottom_sheet.dart';
+import '../../widgets/bottom_sheet_parent.dart';
 import 'controller/home_controller.dart';
 import 'pages/charge/controller/charge_controller.dart';
 
@@ -18,7 +22,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
   @override
   void initState() {
     super.initState();
@@ -216,6 +220,31 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     });
+  }
+
+  bool isDisconnectedViewOpened = false;
+
+  @override
+  void onNotify({bool? isConnected}) {
+    if (isConnected == false) {
+
+
+      showAppModalBottomSheet(
+        context: context,
+        child: BottomSheetParent(
+          hideBack: true,
+          child: const ErrorView(
+            message: 'Check your internet connection and try again.',
+          ),
+        ),
+      );
+      isDisconnectedViewOpened = true;
+    } else {
+      if (isDisconnectedViewOpened) {
+        Get.back();
+        isDisconnectedViewOpened = false;
+      }
+    }
   }
 }
 

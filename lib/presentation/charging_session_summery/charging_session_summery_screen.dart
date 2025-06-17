@@ -29,7 +29,6 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
       appBar: HomeAppbar(
         svgAssetPath: Res.homeAppBarBg,
         title: 'charging'.tr,
-        showBackButton: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -130,8 +129,11 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                 ],
               ),
               // 20.ph,
-              PointsView(
-                points: chargingModel.loyalityPoints?.toDouble() ?? 0.0,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 18.0),
+                child: PointsView(
+                  points: chargingModel.loyalityPoints?.toDouble() ?? 0.0,
+                ),
               ),
               30.ph,
               Center(

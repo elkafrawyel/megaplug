@@ -39,25 +39,25 @@ class ErrorView extends StatelessWidget {
           ),
         ),
         20.ph,
-        SizedBox(
-          width: MediaQuery.sizeOf(context).width * 0.9,
-          child: ElevatedButton(
-            onPressed: () async {
-              Get.back();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.kPrimaryColor,
-              padding: EdgeInsets.symmetric(vertical: kButtonHeight),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: AppText(
-              text: "try_to_connect".tr,
-              color: context.kColorOnPrimary,
-            ),
-          ),
-        ),
+        // SizedBox(
+        //   width: MediaQuery.sizeOf(context).width * 0.9,
+        //   child: ElevatedButton(
+        //     onPressed: () async {
+        //       Get.back();
+        //     },
+        //     style: ElevatedButton.styleFrom(
+        //       backgroundColor: context.kPrimaryColor,
+        //       padding: EdgeInsets.symmetric(vertical: kButtonHeight),
+        //       shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(12),
+        //       ),
+        //     ),
+        //     child: AppText(
+        //       text: "try_to_connect".tr,
+        //       color: context.kColorOnPrimary,
+        //     ),
+        //   ),
+        // ),
         40.ph,
       ],
     );

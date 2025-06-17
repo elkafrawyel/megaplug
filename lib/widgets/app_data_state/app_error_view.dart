@@ -27,7 +27,6 @@ class AppErrorView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 38.0),
               child: AppText(
                 text: error!,
-                fontSize: 18,
                 fontWeight: FontWeight.w500,
                 maxLines: 10,
                 centerText: true,

@@ -5,8 +5,9 @@ import 'bottom_sheet_header.dart';
 
 class BottomSheetParent extends StatelessWidget {
   final Widget child;
+  final bool hideBack;
 
-  const BottomSheetParent({super.key, required this.child});
+  const BottomSheetParent({super.key, required this.child, this.hideBack = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class BottomSheetParent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            BottomSheetHeader(),
+            BottomSheetHeader(hideBack: hideBack),
             10.ph,
             child,
             10.ph,

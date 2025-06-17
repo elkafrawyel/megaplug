@@ -33,7 +33,7 @@ class _MegaPlugState extends State<MegaPlug> {
   @override
   void initState() {
     super.initState();
-    OfflineHandler.handle();
+    // OfflineHandler.handle();
   }
 
   @override

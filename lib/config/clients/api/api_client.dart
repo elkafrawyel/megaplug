@@ -82,7 +82,7 @@ class APIClient {
         return ApiFailure(
           StorageClient().isAr()
               ? 'لا يوجد اتصال بالإنترنت'
-              : 'Check your internet status',
+              : 'Check your internet connection and try again.',
         );
       }
     } on DioException catch (error) {
@@ -149,7 +149,7 @@ class APIClient {
         return ApiFailure(
           StorageClient().isAr()
               ? 'لا يوجد اتصال بالإنترنت'
-              : 'Check your internet status',
+              : 'Check your internet connection and try again.',
         );
       }
     } on DioException catch (error) {
@@ -206,7 +206,7 @@ class APIClient {
         return ApiFailure(
           StorageClient().isAr()
               ? 'لا يوجد اتصال بالإنترنت'
-              : 'Check your internet status',
+              : 'Check your internet connection and try again.',
         );
       }
     } on DioException catch (error) {
@@ -238,7 +238,7 @@ class APIClient {
         return ApiFailure(
           StorageClient().isAr()
               ? 'لا يوجد اتصال بالإنترنت'
-              : 'Check your internet status',
+              : 'Check your internet connection and try again.',
         );
       }
     } on DioException catch (error) {
@@ -270,7 +270,7 @@ class APIClient {
         return ApiFailure(
           StorageClient().isAr()
               ? 'لا يوجد اتصال بالإنترنت'
-              : 'Check your internet status',
+              : 'Check your internet connection and try again.',
         );
       }
     } on DioException catch (error) {

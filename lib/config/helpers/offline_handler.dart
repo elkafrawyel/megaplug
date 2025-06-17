@@ -4,6 +4,7 @@ import 'package:megaplug/widgets/app_data_state/app_disconnect_view.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
+import 'package:megaplug/widgets/bottom_sheet_parent.dart';
 
 class OfflineHandler {
   static bool _dialogOpened = false;
@@ -52,14 +53,16 @@ class OfflineHandler {
     }
   }
 
-  static _showNoConnectionDialog() {
+  static _showNoConnectionDialog() async {
     if (_dialogOpened) {
       return;
     }
 
-    showAppModalBottomSheet(
+    await showAppModalBottomSheet(
       context: Get.context!,
-      child: const AppDisconnectView(),
+      child: BottomSheetParent(
+        child: const AppDisconnectView(),
+      ),
     );
     _dialogOpened = true;
     AppLogger.log(

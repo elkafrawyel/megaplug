@@ -29,13 +29,13 @@ class PointsView extends StatelessWidget {
           children: [
             AppText(
               text: 'points'.tr,
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: FontWeight.w600,
             ),
             Spacer(),
             AppText(
               text: '$points ${'points'.tr}',
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.w600,
               color: context.kPrimaryColor,
             ),
