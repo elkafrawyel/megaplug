@@ -15,6 +15,7 @@ import '../../widgets/app_widgets/app_text.dart';
 import '../charging_session/components/metric_cardView.dart';
 import '../charging_session/components/rate_view.dart';
 import '../home/pages/profile/controller/profile_controller.dart';
+import '../home/pages/wallet/components/points_view.dart';
 
 class ChargingSessionSummeryScreen extends StatelessWidget {
   final FirebaseChargingSessionModel chargingModel;
@@ -62,8 +63,7 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                       ),
                       10.ph,
                       AppText(
-                        text:
-                            "${chargingModel.name} - ${chargingModel.address}",
+                        text: "${chargingModel.name} - ${chargingModel.address}",
                         color: context.kHintTextColor,
                         maxLines: 2,
                         fontSize: 12,
@@ -72,8 +72,7 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                       ),
                       5.ph,
                       AppText(
-                        text:
-                            "#${chargingModel.chargingPointSerialNumber ?? 'N/A'}",
+                        text: "#${chargingModel.chargingPointSerialNumber ?? 'N/A'}",
                         color: context.kHintTextColor,
                         fontSize: 12,
                       ),
@@ -116,16 +115,14 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: MetricCardView(
-                      title:
-                          "${chargingModel.energyDelivered?.toStringAsFixed(2) ?? '0.0'} ${'kw'.tr}",
+                      title: "${chargingModel.energyDelivered?.toStringAsFixed(2) ?? '0.0'} ${'kw'.tr}",
                       subtitle: "total_watts".tr,
                       assetName: Res.totalWattIcon,
                     ),
                   ),
                   Expanded(
                     child: MetricCardView(
-                      title:
-                          "${chargingModel.overallCost?.toStringAsFixed(2) ?? '0.0'} ${'egp'.tr}",
+                      title: "${chargingModel.overallCost?.toStringAsFixed(2) ?? '0.0'} ${'egp'.tr}",
                       subtitle: "total_cost".tr,
                       assetName: Res.totalCostIcon,
                     ),
@@ -133,9 +130,9 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                 ],
               ),
               // 20.ph,
-              // PointsView(
-              //   points: 320,
-              // ),
+              PointsView(
+                points: chargingModel.loyalityPoints?.toDouble() ?? 0.0,
+              ),
               30.ph,
               Center(
                 child: SizedBox(

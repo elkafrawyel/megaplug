@@ -8,6 +8,7 @@ import 'package:megaplug/presentation/home/pages/wallet/controller/wallet_contro
 
 import '../../../../../config/clients/storage/storage_client.dart';
 import '../../../../../widgets/app_widgets/app_text.dart';
+import 'points_view.dart';
 
 class WalletView extends StatelessWidget {
   const WalletView({super.key});
@@ -24,87 +25,90 @@ class WalletView extends StatelessWidget {
             ),
           ),
         ApiEmpty<BalanceResponse>() => SizedBox(),
-        ApiSuccess<BalanceResponse>() => Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  SvgPicture.asset(
-                    Res.walletBackgroundIcon,
-                    width: MediaQuery.sizeOf(context).width * 0.91,
-                  ),
-                  PositionedDirectional(
-                    start: 20,
-                    top: 20,
-                    child: AppText(
-                      text: walletController.balanceResult
-                              .getData()
-                              .data
-                              ?.userName ??
-                          '',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  PositionedDirectional(
-                    end: 5,
-                    top: 5,
-                    child: Image.asset(
-                      StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
-                      width: 70,
-                      height: 70,
-                    ),
-                  ),
-                  PositionedDirectional(
-                    start: 20,
-                    child: AppText(
-                      text:
-                          walletController.balanceResult.getData().data?.rfid ??
-                              '',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  PositionedDirectional(
-                    start: 20,
-                    bottom: 20,
-                    child: SvgPicture.asset(
-                      Res.walletGrayIcon,
-                      width: 30,
-                      height: 30,
-                      colorFilter: ColorFilter.mode(
-                        Colors.white,
-                        BlendMode.srcIn,
+        ApiSuccess<BalanceResponse>() => Column(
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      SvgPicture.asset(
+                        Res.walletBackgroundIcon,
+                        width: MediaQuery.sizeOf(context).width * 0.91,
                       ),
-                    ),
-                  ),
-                  PositionedDirectional(
-                    end: 20,
-                    bottom: 20,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText(
-                          text: 'current_balance'.tr,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.white,
-                        ),
-                        AppText(
-                          text:
-                              '${walletController.balanceResult.getData().data?.balance ?? ''} ${'egp'.tr}',
+                      PositionedDirectional(
+                        start: 20,
+                        top: 20,
+                        child: AppText(
+                          text: walletController.balanceResult.getData().data?.userName ?? '',
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
-                          fontSize: 18,
                         ),
-                      ],
-                    ),
+                      ),
+                      PositionedDirectional(
+                        end: 5,
+                        top: 5,
+                        child: Image.asset(
+                          StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
+                          width: 70,
+                          height: 70,
+                        ),
+                      ),
+                      PositionedDirectional(
+                        start: 20,
+                        child: AppText(
+                          text: walletController.balanceResult.getData().data?.rfid ?? '',
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      PositionedDirectional(
+                        start: 20,
+                        bottom: 20,
+                        child: SvgPicture.asset(
+                          Res.walletGrayIcon,
+                          width: 30,
+                          height: 30,
+                          colorFilter: ColorFilter.mode(
+                            Colors.white,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                      PositionedDirectional(
+                        end: 20,
+                        bottom: 20,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText(
+                              text: 'current_balance'.tr,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.white,
+                            ),
+                            AppText(
+                              text: '${walletController.balanceResult.getData().data?.balance ?? ''} ${'egp'.tr}',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+              // Padding(
+              //   padding: const EdgeInsets.all(18.0),
+              //   child: PointsView(
+              //     points: 320,
+              //   ),
+              // ),
+            ],
           ),
         ApiFailure<BalanceResponse>() => SizedBox(
             height: 200,

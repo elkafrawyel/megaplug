@@ -3,13 +3,13 @@ import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/widgets/app_data_state/app_disconnect_view.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
+import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
 
 class OfflineHandler {
   static bool _dialogOpened = false;
 
   static Future<bool> isConnected() async {
-    List<ConnectivityResult> connectivityResult =
-        (await Connectivity().checkConnectivity());
+    List<ConnectivityResult> connectivityResult = (await Connectivity().checkConnectivity());
     if (connectivityResult.first == ConnectivityResult.mobile) {
       AppLogger.logWithGetX('Connected to Mobile Network');
       return true;
@@ -57,9 +57,9 @@ class OfflineHandler {
       return;
     }
 
-    Get.dialog(
-      const AppDisconnectView(),
-      barrierDismissible: false,
+    showAppModalBottomSheet(
+      context: Get.context!,
+      child: const AppDisconnectView(),
     );
     _dialogOpened = true;
     AppLogger.log(

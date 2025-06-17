@@ -30,7 +30,6 @@ class _ChargingSessionScreenState extends State<ChargingSessionScreen> {
     super.initState();
     ChargeController.to.setTransactionId(widget.transactionId);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -13,6 +13,7 @@ import 'package:oktoast/oktoast.dart';
 import 'config/clients/storage/storage_client.dart';
 import 'config/constants.dart';
 import 'config/environment.dart';
+import 'config/helpers/offline_handler.dart';
 import 'config/language/language_model.dart';
 import 'config/language/translation.dart';
 import 'config/theme/theme_controller.dart';
@@ -32,7 +33,7 @@ class _MegaPlugState extends State<MegaPlug> {
   @override
   void initState() {
     super.initState();
-    // OfflineHandler.handle();
+    OfflineHandler.handle();
   }
 
   @override

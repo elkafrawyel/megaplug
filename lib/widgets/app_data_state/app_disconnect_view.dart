@@ -18,17 +18,14 @@ class AppDisconnectView extends StatelessWidget {
     return Material(
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height -
-            MediaQuery.of(context).padding.top,
+        height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Lottie.asset(Res.disconnectAnimation),
             AppText(
-              text: StorageClient().isAr()
-                  ? 'تأكد من اتصالك بشبكة'
-                  : 'Make sure you connected to a network',
+              text: StorageClient().isAr() ? 'تأكد من اتصالك بشبكة' : 'Please Check Internet connection',
               color: context.kHintTextColor,
               fontSize: 16,
             ),

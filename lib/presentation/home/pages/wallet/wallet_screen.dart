@@ -11,6 +11,7 @@ import 'package:megaplug/presentation/payment_screen/payment_screen.dart';
 import '../../../../config/constants.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
 import '../../components/home_appbar.dart';
+import 'components/points_view.dart';
 import 'components/transactions_history_list.dart';
 
 class WalletScreen extends StatefulWidget {
@@ -39,12 +40,7 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
           children: [
             30.ph,
             WalletView(),
-            // Padding(
-            //   padding: const EdgeInsets.all(18.0),
-            //   child: PointsView(
-            //     points: 320,
-            //   ),
-            // ),
+
             Center(
               child: SizedBox(
                 width: MediaQuery.sizeOf(context).width * 0.9,
@@ -56,11 +52,10 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                     ),
                     padding: EdgeInsets.symmetric(vertical: kButtonHeight),
                   ),
-                  onPressed: ()async {
+                  onPressed: () async {
                     // WalletController.to.addBalance();
-                   await Get.to(() => PaymentScreen());
-                  WalletController.to.refreshApi();
-                   },
+                    Get.to(() => PaymentScreen());
+                  },
                   icon: Icon(
                     Icons.add,
                     color: context.kColorOnPrimary,

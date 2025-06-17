@@ -31,6 +31,7 @@ class FirebaseChargingSessionModel {
   final String? address;
   final String? name;
 
+  final num? loyalityPoints;
 
   const FirebaseChargingSessionModel({
     this.chargingPointId,
@@ -62,6 +63,7 @@ class FirebaseChargingSessionModel {
     this.isDc,
     this.address,
     this.name,
+    this.loyalityPoints,
   });
 
   factory FirebaseChargingSessionModel.fromJson(Map<String, dynamic> json) {
@@ -95,6 +97,7 @@ class FirebaseChargingSessionModel {
       isDc: json['is_dc'] as bool?,
       address: json['station_address_en'] as String?,
       name: json['station_name_en'] as String?,
+      loyalityPoints: json['loyalityPoints'] as num?,
     );
   }
 
@@ -129,6 +132,7 @@ class FirebaseChargingSessionModel {
       'is_dc': isDc,
       'station_address_en': address,
       'station_name_en': name,
+      'loyalityPoints': loyalityPoints,
     };
   }
 }
