@@ -66,7 +66,7 @@ class ChargeWalletView extends StatelessWidget {
               children: <TextSpan>[
                 TextSpan(
                   text:
-                      'You don’t have enough funds in your wallet to start charging. A minimum balance of ',
+                      "You don't have sufficient funds in your wallet to proceed with the charging session. A minimum balance of # ",
                   style: TextStyle(color: Color(0xff6D7698), fontSize: 14),
                 ),
                 TextSpan(
@@ -78,7 +78,7 @@ class ChargeWalletView extends StatelessWidget {
                   ),
                 ),
                 TextSpan(
-                  text: ' is required. Please top up your wallet to continue.',
+                  text: ' is required.\nPlease top up your wallet to continue.',
                   style: TextStyle(color: Color(0xff6D7698), fontSize: 14),
                 ),
               ],

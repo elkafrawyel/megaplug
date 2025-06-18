@@ -7,6 +7,7 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
 import 'package:megaplug/config/environment.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
@@ -74,7 +75,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     Get.until((route) => route.settings.name == '/HomeScreen');
                   },
                   errorResult: (error) async {
-                    // InformationViewer.showSuccessToast(msg: 'Payment Failed\n${error.toString()}');
+                    AppLogger.logWithGetX('Payment Failed\n${error.toString()}');
                     await Future.delayed(Duration(seconds: 3));
                     Get.back();
                   },
@@ -82,6 +83,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     email: userModel?.email ?? 'NA',
                     phoneNumber: userModel?.phone ?? 'NA',
                     firstName: userModel?.name ?? 'NA',
+                  ),
+                  appBar: AppBarModel(
+                    centerTitle: true,
                   ),
                 ),
               );

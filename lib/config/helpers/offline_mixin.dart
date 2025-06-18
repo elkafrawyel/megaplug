@@ -31,7 +31,7 @@ mixin OfflineMixin<T extends StatefulWidget> on State<T> {
     } else if (connectivityResult.contains(ConnectivityResult.ethernet)) {
       onNotify(isConnected: true);
     } else if (connectivityResult.contains(ConnectivityResult.vpn)) {
-      onNotify(isConnected: true);
+      onNotify(isConnected: false);
     } else if (connectivityResult.contains(ConnectivityResult.none)) {
       onNotify(isConnected: false);
     } else {

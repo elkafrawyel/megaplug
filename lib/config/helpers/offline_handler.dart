@@ -33,7 +33,7 @@ class OfflineHandler {
         } else if (connectivityResult.contains(ConnectivityResult.ethernet)) {
           _hideGetXDialog();
         } else if (connectivityResult.contains(ConnectivityResult.vpn)) {
-          _hideGetXDialog();
+          _showNoConnectionDialog();
         } else if (connectivityResult.contains(ConnectivityResult.none)) {
           _showNoConnectionDialog();
         } else {
