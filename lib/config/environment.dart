@@ -2,7 +2,7 @@ class Environment {
   static const AppMode appMode = AppMode.development;
   final String _liveBaseUrl = 'http://138.68.71.240/api/v1/';
   final String _stagingBaseUrl = 'http://138.68.71.240:82/api/v1/';
-  final String _developmentBaseUrl = 'http://134.199.221.215:81/api/v1/';
+  final String _developmentBaseUrl = 'https://app.mega-plug.com/api/v1/';
 
   url() {
     switch (appMode) {
