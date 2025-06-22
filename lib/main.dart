@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'config/clients/storage/storage_client.dart';
 import 'config/helpers/logging_helper.dart';
@@ -55,6 +56,8 @@ void main() async {
 
   // await NotificationsService().init();
   // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
+
+  await dotenv.load(fileName: ".env");
 
   runApp(const MegaPlug());
 }

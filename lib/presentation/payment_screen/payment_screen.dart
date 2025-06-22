@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_paymob_egypt/flutter_paymob_egypt.dart';
 import 'package:flutter_paymob_egypt/src/models/billing_data.dart';
 
@@ -58,13 +59,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
           onPressed: () async {
             if (textFieldKey.currentState?.validate() ?? false) {
               UserModel? userModel = ProfileController.to.userModel;
-
               Get.to(
                 () => FlutterPaymobPayment(
                   cardInfo: CardInfo(
-                    apiKey: Environment.paymobApiKey,
-                    iframesID: Environment.iframeId,
-                    integrationID: Environment.integrationCardId,
+                    apiKey: dotenv.env['API_KEY'] ?? '',
+                    iframesID: dotenv.env['IFRAME_ID'] ?? '',
+                    integrationID: dotenv.env['CARD_ID'] ?? '',
                   ),
                   totalPrice: num.parse(controller.text),
                   successResult: (data) async {
