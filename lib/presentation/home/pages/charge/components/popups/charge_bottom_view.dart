@@ -6,6 +6,7 @@ import 'package:megaplug/presentation/home/pages/charge/components/popups/swipe_
 
 import '../../../../../../config/clients/api/api_result.dart';
 import '../../../../../../widgets/app_widgets/app_text.dart';
+import '../../../../controller/home_controller.dart';
 import '../../controller/charge_controller.dart';
 import 'error_view.dart';
 
@@ -42,6 +43,10 @@ class ChargeBottomSheet extends StatelessWidget {
             ApiFailure() => apiResult.getError().contains('INSUFFICIENT_BALANCE')
                 ? ChargeWalletView(
                     data: apiResult.getFailureData(),
+                    redirectAction: () {
+                      Get.back();
+                      HomeController.to.handleSelectedIndex(1);
+                    },
                   )
                 : ErrorView(
                     message: apiResult.getError(),

@@ -23,10 +23,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   final HomeController homeController = Get.find<HomeController>();
 

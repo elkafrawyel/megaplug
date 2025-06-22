@@ -11,6 +11,9 @@ import 'package:megaplug/data/api_responses/scan_qr_response.dart';
 import 'package:megaplug/data/repositories/charge_repo.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_charging_session_model.dart';
 import 'package:megaplug/presentation/charging_session_summery/charging_session_summery_screen.dart';
+import 'package:megaplug/presentation/home/pages/charge/components/popups/charge_wallet_view.dart';
+import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
+import 'package:megaplug/widgets/bottom_sheet_parent.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../config/information_viewer.dart';
@@ -180,12 +183,10 @@ class ChargeController extends GetxController {
 
         if (chargingSessionModel != null) {
           update([chargingSessionControllerId]);
-
           if (chargingSessionModel!.status == 'Charging') {
             getSessionTimer();
           } else {
             // Finished
-
             stopSubscription();
             await Get.to(
               () => ChargingSessionSummeryScreen(

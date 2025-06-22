@@ -13,8 +13,13 @@ import '../../../../../../widgets/app_widgets/app_text.dart';
 class ChargeWalletView extends StatelessWidget {
   // {balance: 0.00, min_balance: 3.75}
   final dynamic data;
+  final VoidCallback redirectAction;
 
-  const ChargeWalletView({super.key, required this.data});
+  const ChargeWalletView({
+    super.key,
+    required this.data,
+    required this.redirectAction,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -65,8 +70,7 @@ class ChargeWalletView extends StatelessWidget {
               style: DefaultTextStyle.of(context).style.copyWith(fontSize: 18),
               children: <TextSpan>[
                 TextSpan(
-                  text:
-                      "You don't have sufficient funds in your wallet to proceed with the charging session. A minimum balance of # ",
+                  text: "You don't have sufficient funds in your wallet to proceed with the charging session. A minimum balance of ",
                   style: TextStyle(color: Color(0xff6D7698), fontSize: 14),
                 ),
                 TextSpan(
@@ -92,10 +96,7 @@ class ChargeWalletView extends StatelessWidget {
           child: SizedBox(
             width: MediaQuery.sizeOf(context).width * 0.9,
             child: ElevatedButton(
-              onPressed: () async {
-                Get.back();
-                HomeController.to.handleSelectedIndex(1);
-              },
+              onPressed: redirectAction,
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.kPrimaryColor,
                 padding: EdgeInsets.symmetric(vertical: kButtonHeight),

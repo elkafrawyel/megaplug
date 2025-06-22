@@ -30,7 +30,9 @@ class FirebaseChargingSessionModel {
   final bool? isDc;
   final String? address;
   final String? name;
-
+  final String? error;
+  final num? price;
+  final num? userBalance;
   final num? loyalityPoints;
 
   const FirebaseChargingSessionModel({
@@ -64,6 +66,9 @@ class FirebaseChargingSessionModel {
     this.address,
     this.name,
     this.loyalityPoints,
+    this.error,
+    this.price,
+    this.userBalance,
   });
 
   factory FirebaseChargingSessionModel.fromJson(Map<String, dynamic> json) {
@@ -98,6 +103,9 @@ class FirebaseChargingSessionModel {
       address: json['station_address_en'] as String?,
       name: json['station_name_en'] as String?,
       loyalityPoints: json['loyalityPoints'] as num?,
+      error: json['error'] as String?,
+      price: (json['price'] as num?)?.toDouble(),
+      userBalance: (json['userBalance'] as num?)?.toDouble(),
     );
   }
 
@@ -133,6 +141,9 @@ class FirebaseChargingSessionModel {
       'station_address_en': address,
       'station_name_en': name,
       'loyalityPoints': loyalityPoints,
+      'error': error,
+      'price': price,
+      'userBalance': userBalance,
     };
   }
 }
