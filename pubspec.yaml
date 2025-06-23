@@ -58,6 +58,7 @@ dependencies:
   firebase_crashlytics: ^4.3.7
   flutter_paymob_egypt: ^0.0.9
   flutter_dotenv: ^5.2.1
+  carousel_slider: ^5.1.1
 
 
 

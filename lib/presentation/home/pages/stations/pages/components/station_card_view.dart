@@ -12,6 +12,7 @@ import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
 import '../../../../../../../domain/entities/firebase/firebase_station_model.dart';
 import '../../../../../../../widgets/app_widgets/app_text.dart';
+import '../../../../../station_details/station_details_screen.dart';
 
 class StationCardView extends StatefulWidget {
   final FirebaseStationModel stationModel;
@@ -226,9 +227,8 @@ class StationCardViewState extends State<StationCardView> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Get.find<StationsController>()
-                                  .showComingSoonDialog(context);
-                              // Get.to(() => StationDetailsScreen());
+
+                              Get.to(() => StationDetailsScreen());
                             },
                             child: Container(
                               decoration: BoxDecoration(

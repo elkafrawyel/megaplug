@@ -96,6 +96,7 @@ class Res {
   static const emptyWalletIcon = 'assets/icons/empty_wallet.svg';
   static const greenWalletIcon = 'assets/icons/green_wallet.svg';
   static const comingSoonIcon = 'assets/icons/coming_soon.svg';
+  static const shareIcon = 'assets/icons/share.svg';
 
   ///================================================================
 
