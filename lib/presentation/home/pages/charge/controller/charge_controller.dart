@@ -90,14 +90,14 @@ class ChargeController extends GetxController {
     if (apiResult.isSuccess()) {
       GeneralResponse generalResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: generalResponse.message);
-      if (chargingSessionModel != null) {
-        await Get.to(
-          () => ChargingSessionSummeryScreen(
-            chargingModel: chargingSessionModel!,
-          ),
-        );
-        Get.until((route) => route.settings.name == '/HomeScreen');
-      }
+      // if (chargingSessionModel != null) {
+      //   await Get.to(
+      //     () => ChargingSessionSummeryScreen(
+      //       chargingModel: chargingSessionModel!,
+      //     ),
+      //   );
+      //   Get.until((route) => route.settings.name == '/HomeScreen');
+      // }
     } else {
       InformationViewer.showErrorToast(
         msg: apiResult.getError(),

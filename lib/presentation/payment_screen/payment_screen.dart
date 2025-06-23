@@ -54,11 +54,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
         showBackButton: true,
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 38.0, horizontal: 28),
+        padding: const EdgeInsets.symmetric(vertical: 58.0, horizontal: 28),
         child: ElevatedButton(
           onPressed: () async {
             if (textFieldKey.currentState?.validate() ?? false) {
               UserModel? userModel = ProfileController.to.userModel;
+              print(dotenv.env['API_KEY']);
               Get.to(
                 () => FlutterPaymobPayment(
                   cardInfo: CardInfo(
@@ -106,7 +107,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(28.0),
+          padding: const EdgeInsets.symmetric(vertical: 48.0,horizontal: 18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
