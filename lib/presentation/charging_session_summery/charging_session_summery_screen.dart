@@ -168,12 +168,16 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                 child: SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.9,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: ()async {
                       if (!context.mounted) return;
-                      showAppModalBottomSheet(
+                      await showAppModalBottomSheet(
                         context: context,
-                        child: RateView(),
+                        child: RateView(
+                          stationId:chargingModel.stationId,
+                        ),
                       );
+                      Get.until((route) => route.settings.name == '/HomeScreen');
+
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.kPrimaryColor,

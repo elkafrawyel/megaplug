@@ -16,7 +16,7 @@ abstract class ChargeRepository {
   });
 
   Future<ApiResult<GeneralResponse>> stopCharging({
-   required String? transactionId,
+    required String? transactionId,
     required String serial,
   });
 
@@ -27,5 +27,11 @@ abstract class ChargeRepository {
 
   Stream<DocumentSnapshot<FirebaseChargingSessionModel>> listenToChargeSession({
     required String transactionId,
+  });
+
+  Future<ApiResult<GeneralResponse>> addReview({
+    required double rating,
+    required String comment,
+    required String stationId,
   });
 }

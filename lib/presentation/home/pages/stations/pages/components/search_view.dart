@@ -90,6 +90,7 @@ class SearchView extends StatelessWidget {
                   10.pw,
                   GestureDetector(
                     onTap: () {
+                      stationsController.searchFocusNode.unfocus();
                       if (stationsController.stationFilterApiResult
                           .isFailure()) {
                         stationsController.getStationFilter();

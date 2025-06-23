@@ -27,8 +27,7 @@ class ChargeRepositoryImpl extends ChargeRepository {
     String? connectorId,
     required String serial,
   }) async {
-    ApiResult<UserModel> apiResult =
-        Get.find<ProfileRepositoryImpl>().getUserProfile();
+    ApiResult<UserModel> apiResult = Get.find<ProfileRepositoryImpl>().getUserProfile();
     UserModel userModel = apiResult.getData();
 
     return APIClient.instance.post(
@@ -52,8 +51,7 @@ class ChargeRepositoryImpl extends ChargeRepository {
     AppLogger.logWithGetX('Getting on time : : : ${DateTime.now().second}');
     String? transactionId;
     try {
-      ApiResult<UserModel> apiResult =
-          Get.find<ProfileRepositoryImpl>().getUserProfile();
+      ApiResult<UserModel> apiResult = Get.find<ProfileRepositoryImpl>().getUserProfile();
       UserModel userModel = apiResult.getData();
 
       Query<Map<String, dynamic>> transactionIdQuery = connectorId != null
@@ -73,10 +71,8 @@ class ChargeRepositoryImpl extends ChargeRepository {
               .orderBy("createdAt", descending: true)
               .limit(1);
 
-      QuerySnapshot<Map<String, dynamic>> querySnapshot =
-          await transactionIdQuery.get();
-      transactionId =
-          querySnapshot.docs.isNotEmpty ? querySnapshot.docs.first.id : null;
+      QuerySnapshot<Map<String, dynamic>> querySnapshot = await transactionIdQuery.get();
+      transactionId = querySnapshot.docs.isNotEmpty ? querySnapshot.docs.first.id : null;
       return transactionId;
     } catch (e) {
       return null;
@@ -95,8 +91,7 @@ class ChargeRepositoryImpl extends ChargeRepository {
         .collection('transactions')
         .doc(transactionId)
         .withConverter<FirebaseChargingSessionModel>(
-          fromFirestore: (snap, _) =>
-              FirebaseChargingSessionModel.fromJson(snap.data()!),
+          fromFirestore: (snap, _) => FirebaseChargingSessionModel.fromJson(snap.data()!),
           toFirestore: (chargingSession, _) => chargingSession.toJson(),
         )
         .snapshots();
@@ -115,6 +110,23 @@ class ChargeRepositoryImpl extends ChargeRepository {
       requestBody: {
         'transactionId': transactionId,
         'chargePointSerial': serial,
+      },
+    );
+  }
+
+  @override
+  Future<ApiResult<GeneralResponse>> addReview({
+    required double rating,
+    required String comment,
+    required String stationId,
+  }) async {
+    return APIClient.instance.post(
+      endPoint: Res.apiAddReview,
+      fromJson: GeneralResponse.fromJson,
+      requestBody: {
+        'rating': rating,
+        'review': comment,
+        'station_id': stationId,
       },
     );
   }

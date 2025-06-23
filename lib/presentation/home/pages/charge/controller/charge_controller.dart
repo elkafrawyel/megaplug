@@ -255,4 +255,32 @@ class ChargeController extends GetxController {
     _timer?.cancel();
     _timer = null;
   }
+
+  void addReview({
+    required double rating,
+    required String comment,
+    required String stationId,
+  }) async {
+    AppLoader.loading();
+
+    ApiResult<GeneralResponse> apiResult = await _chargeRepositoryImpl.addReview(
+      rating: rating,
+      comment: comment,
+      stationId: stationId,
+    );
+
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      GeneralResponse generalResponse = apiResult.getData();
+      InformationViewer.showSuccessToast(msg: generalResponse.message);
+      Get.until((route) => route.settings.name == '/HomeScreen');
+      Future.delayed(Duration(seconds: 1), () {
+        HomeController.to.handleSelectedIndex(0);
+      });
+    } else {
+      InformationViewer.showErrorToast(
+        msg: apiResult.getError(),
+      );
+    }
+  }
 }

@@ -18,6 +18,7 @@ class Res {
   static const apiScanQr = 'stations/charging-point';
   static const apiStartCharging = 'charging/start';
   static const apiStopCharging = 'charging/stop';
+  static const apiAddReview = 'station-reviews';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';
