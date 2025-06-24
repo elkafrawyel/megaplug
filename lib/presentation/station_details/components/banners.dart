@@ -36,9 +36,9 @@ class _StationBannersState extends State<StationBanners> {
           // items: createSliders(imgList),
           options: CarouselOptions(
               autoPlay: true,
-              viewportFraction: 1,
+              viewportFraction: 1.0,
               autoPlayAnimationDuration: const Duration(seconds: 2),
-              aspectRatio: 16 / 9,
+              aspectRatio: 4 / 3,
               enlargeCenterPage: true,
               onPageChanged: (index, reason) {
                 setState(() {

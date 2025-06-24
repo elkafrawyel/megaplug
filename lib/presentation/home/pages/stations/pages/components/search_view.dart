@@ -81,7 +81,7 @@ class SearchView extends StatelessWidget {
                           return;
                         }
                         AppTimeDebuncer.instance
-                            .debounce(Duration(milliseconds: 800), () {
+                            .debounce(Duration(milliseconds: 1500), () {
                           stationsController.handleSearchText(text: value);
                         });
                       },

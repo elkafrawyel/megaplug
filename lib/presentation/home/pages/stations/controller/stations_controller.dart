@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
@@ -34,8 +35,7 @@ import '../../../../../data/api_responses/station_search_response.dart';
 import '../../../../../data/api_responses/stations_filter_result_response.dart';
 import '../../../../../domain/entities/api/status_filter_model.dart';
 import '../../../../../widgets/app_dialog_view.dart';
-import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart'
-    as cluster_manager;
+import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart' as cluster_manager;
 
 import '../pages/components/station_card_view.dart';
 import '../pages/map/components/custom_marker_view.dart';
@@ -57,9 +57,9 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   LatLng? myLocation;
 
   //todo use bigger zoom
-  // double cameraZoom = 8;
+  double cameraZoom = 8;
 
-  double cameraZoom = 15;
+  // double cameraZoom = 15;
   MapType mapType = MapType.terrain;
   late cluster_manager.ClusterManager<FirebaseStationModel> clusterManager;
 
@@ -71,8 +71,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   StreamSubscription<QuerySnapshot<FirebaseStationModel>>? subscription;
   final idsController = BehaviorSubject<List<String>?>.seeded(null);
 
-  GlobalKey<StationCardViewState> stationCardKey =
-      GlobalKey<StationCardViewState>();
+  GlobalKey<StationCardViewState> stationCardKey = GlobalKey<StationCardViewState>();
 
   FirebaseStationModel? stationModelInDialog;
 
@@ -128,33 +127,30 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     );
   }
 
-  Future<Marker> Function(cluster_manager.Cluster<FirebaseStationModel>)
-      get markerBuilder => (cluster) async {
-            return Marker(
-              markerId: MarkerId(cluster.getId()),
-              position: cluster.location,
-              onTap: () {
-                if (cluster.isMultiple) {
-                  animateToPoint(cluster.location);
-                } else {
-                  AppLogger.log(cluster.items.first.nameEn);
-                  stationModelInDialog = cluster.items.first;
-                  showStationCard();
-                }
-              },
-              icon: await CustomMarkerView(
-                key: UniqueKey(),
-                stationStatus: cluster.isMultiple
-                    ? StationStatus.area
-                    : cluster.items.first.getStationStatus(),
-                count: cluster.isMultiple ? cluster.count.toString() : null,
-                isDc: cluster.items.first.hasDcConnectors(),
-              ).toBitmapDescriptor(
-                logicalSize: const Size(200, 200),
-                imageSize: const Size(400, 500),
-              ),
-            );
-          };
+  Future<Marker> Function(cluster_manager.Cluster<FirebaseStationModel>) get markerBuilder => (cluster) async {
+        return Marker(
+          markerId: MarkerId(cluster.getId()),
+          position: cluster.location,
+          onTap: () {
+            if (cluster.isMultiple) {
+              animateToPoint(cluster.location);
+            } else {
+              AppLogger.log(cluster.items.first.nameEn);
+              stationModelInDialog = cluster.items.first;
+              showStationCard();
+            }
+          },
+          icon: await CustomMarkerView(
+            key: UniqueKey(),
+            stationStatus: cluster.isMultiple ? StationStatus.area : cluster.items.first.getStationStatus(),
+            count: cluster.isMultiple ? cluster.count.toString() : null,
+            isDc: cluster.items.first.hasDcConnectors(),
+          ).toBitmapDescriptor(
+            logicalSize: const Size(200, 200),
+            imageSize: const Size(400, 500),
+          ),
+        );
+      };
 
   _setupStream({
     List<String> idsList = const [],
@@ -166,14 +162,14 @@ class StationsController extends GetxController with WidgetsBindingObserver {
         .switchMap((ids) => _stationsRepository.listenToAllStations(ids: ids))
         .listen(
       (QuerySnapshot<FirebaseStationModel> event) {
-        stations = event.docs
-            .map(
-                (QueryDocumentSnapshot<FirebaseStationModel> doc) => doc.data())
-            .toList();
+
+        stations = event.docs.map((QueryDocumentSnapshot<FirebaseStationModel> doc) => doc.data()).toList();
+        AppLogger.logWithGetX('Station Name ${stations.first.nameAr}');
+
         _updateMarkersOnMap();
+
         if (stationModelInDialog != null) {
-          stationModelInDialog = stations.firstWhereOrNull(
-              (station) => station.id == stationModelInDialog?.id);
+          stationModelInDialog = stations.firstWhereOrNull((station) => station.id == stationModelInDialog?.id);
           stationCardKey.currentState?.reBuild(model: stationModelInDialog);
         }
       },
@@ -187,10 +183,10 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     stations.clear();
     // clear markers as well as there is no stations
     _updateMarkersOnMap();
-    update([stationsControllerId]);
   }
 
   _reloadStationsList() async {
+    _updateMarkersOnMap();
     _setupStream();
   }
 
@@ -206,6 +202,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   _updateMarkersOnMap() {
     clusterManager.setItems(stations);
     clusterManager.updateMap();
+    update([stationsControllerId]);
   }
 
   //============================  Fetching data ========================================
@@ -234,8 +231,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     }
     if (permission == LocationPermission.deniedForever) {
       _openRequestLocationDialog();
-      Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      Future.error('Location permissions are permanently denied, we cannot request permissions.');
       return false;
     }
     return true;
@@ -254,8 +250,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       accuracy: LocationAccuracy.high,
     ));
     myLocation = LatLng(position.latitude, position.longitude);
-    AppLogger.log(
-        'My Location : :   ${myLocation?.latitude},${myLocation?.longitude}');
+    AppLogger.log('My Location : :   ${myLocation?.latitude},${myLocation?.longitude}');
     if (loading) {
       EasyLoading.dismiss();
     }
@@ -271,8 +266,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     stationFilterApiResult = await _stationsRepository.getStationFilter();
 
     if (stationFilterApiResult.isSuccess()) {
-      StationFilterResponse stationFilterResponse =
-          stationFilterApiResult.getData();
+      StationFilterResponse stationFilterResponse = stationFilterApiResult.getData();
       statusFilterTypes.value = stationFilterResponse.data?.statusFilters ?? [];
       statusFilterTypes.insert(
         0,
@@ -292,17 +286,15 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   }
 
   void handleSearchText({required String text}) async {
-    //this this for clear button on search bar to manage its visibility
+    //this for clear button on search bar to manage its visibility
     update([searchViewControllerId]);
-
     if (text.isEmpty) {
       _reloadStationsList();
       return;
     }
     //todo call search api to get search results with ids
     AppLoader.loading();
-    ApiResult apiResult =
-        await _stationsRepository.searchForStations(query: text);
+    ApiResult apiResult = await _stationsRepository.searchForStations(query: text);
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {
       StationSearchResponse searchResponse = apiResult.getData();
@@ -322,18 +314,14 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     Get.back();
     AppLoader.loading();
     ApiResult apiResult = await _stationsRepository.filterStations(
-      statusFilter:
-          statusFilterTypes.where((status) => status.isSelected.value).toList(),
-      connectorTypesFilter: connectorsList
-          .where((connector) => connector.isSelected.value)
-          .toList(),
+      statusFilter: statusFilterTypes.where((status) => status.isSelected.value).toList(),
+      connectorTypesFilter: connectorsList.where((connector) => connector.isSelected.value).toList(),
       chargePowerFilter: selectedChargePower.value,
     );
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {
       StationsFilterResultResponse response = apiResult.getData();
-      List<String> idsList =
-          response.data?.map((e) => e.stationId!.toString()).toList() ?? [];
+      List<String> idsList = response.data?.map((e) => e.stationId!.toString()).toList() ?? [];
       if (idsList.isEmpty) {
         //this means that there is no search result.
         _emptyStationsList();
@@ -371,10 +359,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       statusFilterModel.isSelected.value = true;
       return;
     } else {
-      statusFilterTypes
-          .firstWhere((status) => status.key == allKey)
-          .isSelected
-          .value = false;
+      statusFilterTypes.firstWhere((status) => status.key == allKey).isSelected.value = false;
       int index = statusFilterTypes.indexOf(statusFilterModel);
       statusFilterTypes[index].isSelected.toggle();
     }
@@ -423,6 +408,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
         duration: Duration(seconds: 2),
       );
       _updateMarkersOnMap();
+      update([stationsControllerId]);
     }
   }
 
@@ -519,8 +505,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
             ),
             10.ph,
             AppText(
-              text:
-                  "This feature is still in progress.  We're working hard to bring it to you soon!",
+              text: "This feature is still in progress.  We're working hard to bring it to you soon!",
               color: Color(0xff6D7698),
               maxLines: 3,
               centerText: true,
