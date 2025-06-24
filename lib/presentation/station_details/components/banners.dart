@@ -31,51 +31,59 @@ class _StationBannersState extends State<StationBanners> {
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        CarouselSlider(
-          items: createSliders(widget.sliders!),
-          // items: createSliders(imgList),
-          options: CarouselOptions(
-              autoPlay: true,
-              viewportFraction: 1.0,
-              autoPlayAnimationDuration: const Duration(seconds: 2),
-              aspectRatio: 4 / 3,
-              enlargeCenterPage: true,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              }),
+        Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.sizeOf(context).height * 0.4,
+          ),
+          child: CarouselSlider(
+            items: createSliders(widget.sliders!),
+            // items: createSliders(imgList),
+            options: CarouselOptions(
+                autoPlay: true,
+                viewportFraction: 1.0,
+                autoPlayAnimationDuration: const Duration(seconds: 2),
+                aspectRatio: 4 / 3,
+                enlargeCenterPage: true,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _current = index;
+                  });
+                }),
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: widget.sliders!.map((product) {
-            int index = widget.sliders!.indexOf(product);
-            return _current == index
-                ? Container(
-                    width: 30.0,
-                    height: 7.0,
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 2.0,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: context.kPrimaryColor,
-                    ),
-                  )
-                : Container(
-                    width: 7.0,
-                    height: 7.0,
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 2.0,
-                    ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                  );
-          }).toList(),
+        PositionedDirectional(
+          bottom: 20.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: widget.sliders!.map((product) {
+              int index = widget.sliders!.indexOf(product);
+              return _current == index
+                  ? Container(
+                      width: 30.0,
+                      height: 7.0,
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 2.0,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: context.kPrimaryColor,
+                      ),
+                    )
+                  : Container(
+                      width: 7.0,
+                      height: 7.0,
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 2.0,
+                      ),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                    );
+            }).toList(),
+          ),
         ),
       ],
     );
@@ -87,6 +95,7 @@ class _StationBannersState extends State<StationBanners> {
           (item) => AppNetworkImage(
             imageUrl: item,
             width: MediaQuery.sizeOf(context).width,
+            height: MediaQuery.sizeOf(context).height * 0.4,
             radius: 0.0,
           ),
         )

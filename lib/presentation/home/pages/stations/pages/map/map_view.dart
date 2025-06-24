@@ -47,7 +47,7 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
                 ),
           PositionedDirectional(
             end: 18,
-            top: MediaQuery.sizeOf(context).height * 0.84,
+            top: MediaQuery.sizeOf(context).height * 0.81,
             child: GestureDetector(
               onTap: () {
                 stationsController.toggleMapView();
@@ -62,7 +62,7 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
           ),
           PositionedDirectional(
             end: 18,
-            top: MediaQuery.sizeOf(context).height * 0.78,
+            top: MediaQuery.sizeOf(context).height * 0.75,
             child: GestureDetector(
               onTap: () {
                 stationsController.moveToMyLocation();

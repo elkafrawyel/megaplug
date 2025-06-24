@@ -10,38 +10,190 @@ class StationDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
+    return Scaffold(
+      body: Stack(
+        clipBehavior: Clip.none,
+        fit: StackFit.expand,
         children: [
-          Stack(
-            children: [
-              StationBanners(
-                sliders: imgList,
+          PositionedDirectional(
+            top: 0,
+            end: 0,
+            start: 0,
+            child: StationBanners(
+              sliders: imgList,
+            ),
+          ),
+          PositionedDirectional(
+            top: kToolbarHeight,
+            end: 12,
+            start: 12,
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: Get.back,
+                  child: SvgPicture.asset(Res.backIcon),
+                ),
+                Spacer(),
+                AppText(
+                  text: 'station_details'.tr,
+                  color: Colors.white,
+                  centerText: true,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                Spacer(),
+                SvgPicture.asset(Res.shareIcon),
+              ],
+            ),
+          ),
+          PositionedDirectional(
+            top: (MediaQuery.sizeOf(context).height * 0.4) - 50,
+            end: 0,
+            start: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(18.0),
+                ),
               ),
-              PositionedDirectional(
-                top: kToolbarHeight,
-                end: 12,
-                start: 12,
-                child: Row(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    InkWell(
-                      onTap: Get.back,
-                      child: SvgPicture.asset(Res.backIcon),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    Spacer(),
-                    AppText(
-                      text: 'station_details'.tr,
-                      color: Colors.white,
-                      centerText: true,
-                      fontWeight: FontWeight.bold,
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    Spacer(),
-                    SvgPicture.asset(Res.shareIcon),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: AppText(
+                        text: 'Chilout Madinaty',
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+          )
         ],
       ),
     );

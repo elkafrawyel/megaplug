@@ -34,7 +34,7 @@ class StationsList extends StatelessWidget {
                     ),
               PositionedDirectional(
                 end: 18,
-                top: MediaQuery.sizeOf(context).height * 0.85,
+                top: MediaQuery.sizeOf(context).height * 0.80,
                 child: GestureDetector(
                   onTap: () {
                     stationsController.toggleMapView();
