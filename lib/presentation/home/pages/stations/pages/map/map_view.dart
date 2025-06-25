@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -47,13 +49,13 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
                 ),
           PositionedDirectional(
             end: 18,
-            top: MediaQuery.sizeOf(context).height * 0.81,
+            top: MediaQuery.sizeOf(context).height * (Platform.isAndroid ? 0.75 : 0.80),
             child: GestureDetector(
               onTap: () {
-                stationsController.toggleMapView();
+                stationsController.moveToMyLocation();
               },
               child: SvgPicture.asset(
-                Res.listIcon,
+                Res.myLocationIcon,
                 width: 40,
                 height: 40,
                 fit: BoxFit.fill,
@@ -62,13 +64,13 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
           ),
           PositionedDirectional(
             end: 18,
-            top: MediaQuery.sizeOf(context).height * 0.75,
+            top: MediaQuery.sizeOf(context).height * (Platform.isAndroid ? 0.80 : 0.85),
             child: GestureDetector(
               onTap: () {
-                stationsController.moveToMyLocation();
+                stationsController.toggleMapView();
               },
               child: SvgPicture.asset(
-                Res.myLocationIcon,
+                Res.listIcon,
                 width: 40,
                 height: 40,
                 fit: BoxFit.fill,

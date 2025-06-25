@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -34,7 +36,7 @@ class StationsList extends StatelessWidget {
                     ),
               PositionedDirectional(
                 end: 18,
-                top: MediaQuery.sizeOf(context).height * 0.80,
+                top: MediaQuery.sizeOf(context).height * (Platform.isAndroid ? 0.80 : 0.85),
                 child: GestureDetector(
                   onTap: () {
                     stationsController.toggleMapView();
