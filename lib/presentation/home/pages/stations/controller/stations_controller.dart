@@ -57,9 +57,9 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   LatLng? myLocation;
 
   //todo use bigger zoom
-  double cameraZoom = 8;
+  // double cameraZoom = 8;
 
-  // double cameraZoom = 15;
+  double cameraZoom = 15;
   MapType mapType = MapType.terrain;
   late cluster_manager.ClusterManager<FirebaseStationModel> clusterManager;
 
@@ -104,14 +104,14 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     super.dispose();
   }
 
-  bool _shouldHandleResume = false;
+  bool shouldHandleResume = false;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed&& _shouldHandleResume) {
+    if (state == AppLifecycleState.resumed && shouldHandleResume) {
       // App is back from background (including settings)
-      _shouldHandleResume = false;
-      getMyPosition(loading: false);
+      shouldHandleResume = false;
+      getMyPosition(loading: true);
     }
   }
 
@@ -165,7 +165,6 @@ class StationsController extends GetxController with WidgetsBindingObserver {
         .switchMap((ids) => _stationsRepository.listenToAllStations(ids: ids))
         .listen(
       (QuerySnapshot<FirebaseStationModel> event) {
-
         stations = event.docs.map((QueryDocumentSnapshot<FirebaseStationModel> doc) => doc.data()).toList();
         AppLogger.logWithGetX('Station Name ${stations.first.nameAr}');
 
@@ -219,6 +218,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       // accessing the position and request users of the
       // App to enable the location services.
       _openRequestLocationServicesDialog();
+      Future.error('Location services are disabled.');
       return false;
     }
 
@@ -227,10 +227,12 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         _openRequestLocationDialog();
+        Future.error('Location permissions are denied');
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
+      Future.error('Location permissions are permanently denied, we cannot request permissions.');
       _openRequestLocationDialog();
       return false;
     }
@@ -243,7 +245,10 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       return;
     }
     if (loading) {
-      EasyLoading.show(status: 'getting_location'.tr);
+      EasyLoading.show(
+        status: 'getting_location'.tr,
+        dismissOnTap: true,
+      );
     }
     Position position = await Geolocator.getCurrentPosition(
         locationSettings: LocationSettings(
@@ -426,7 +431,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
         actionText: 'ok'.tr,
         onActionClicked: () {
           Get.back(closeOverlays: true);
-          _shouldHandleResume = true;
+          shouldHandleResume = true;
           openAppSettings();
         },
       ),
@@ -436,24 +441,23 @@ class StationsController extends GetxController with WidgetsBindingObserver {
 
   _openRequestLocationDialog() {
     Get.dialog(
-      Align(
-        alignment: AlignmentDirectional.center,
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: AppDialogView(
-            title: 'location_permission'.tr,
-            message: 'location_permission_message'.tr,
-            onActionClicked: () async {
-              Get.back(closeOverlays: true);
-              _shouldHandleResume = true;
-              openAppSettings();
-            },
-            actionText: 'ok'.tr,
+        Align(
+          alignment: AlignmentDirectional.center,
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: AppDialogView(
+              title: 'location_permission'.tr,
+              message: 'location_permission_message'.tr,
+              onActionClicked: () async {
+                Get.back(closeOverlays: true);
+                shouldHandleResume = true;
+                openAppSettings();
+              },
+              actionText: 'ok'.tr,
+            ),
           ),
         ),
-      ),
-      barrierDismissible: false
-    );
+        barrierDismissible: false);
   }
 
   String getDistance(double stationLatitude, double stationLongitude) {

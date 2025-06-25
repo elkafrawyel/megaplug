@@ -10,6 +10,7 @@ import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../controller/stations_controller.dart';
 
 class MapView extends StatefulWidget {
@@ -47,7 +48,8 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
                           ),
                         ),
                         onPressed: () {
-                          stationsController.getMyPosition();
+                          stationsController.shouldHandleResume = true;
+                          openAppSettings();
                         },
                         child: AppText(
                           text: 'enable_location_permission'.tr,
