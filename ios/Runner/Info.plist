@@ -34,7 +34,7 @@
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array/>
 	<key>NSCameraUsageDescription</key>
-	<string>Access to photos is needed to allow user to choose account profile picture</string>
+	<string>Access to photos is needed to allow user to choose account profile picture and scan QR codes</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app need location permission to display the user position on maps and get nearby stations</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -46,7 +46,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Need microphone access for uploading audio</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Access to photos is needed to allow user to choose account profile picture</string>
+	<string>Access to photos is needed to allow user to choose account profile picture and to get QR code from photo library</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

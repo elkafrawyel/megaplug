@@ -15,7 +15,7 @@ import '../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../widgets/app_widgets/app_text.dart';
 import '../../widgets/bottom_sheet_parent.dart';
 import '../charging_session/components/metric_cardView.dart';
-import '../charging_session/components/rate_view.dart';
+import 'components/rate_view.dart';
 import '../home/controller/home_controller.dart';
 import '../home/pages/charge/components/popups/charge_wallet_view.dart';
 import '../home/pages/profile/controller/profile_controller.dart';
@@ -169,15 +169,14 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width * 0.9,
                   child: ElevatedButton(
                     onPressed: ()async {
-                      if (!context.mounted) return;
-                      await showAppModalBottomSheet(
-                        context: context,
-                        child: RateView(
-                          stationId:chargingModel.stationId,
-                        ),
-                      );
+                      // if (!context.mounted) return;
+                      // await showAppModalBottomSheet(
+                      //   context: context,
+                      //   child: RateView(
+                      //     stationId:chargingModel.stationId,
+                      //   ),
+                      // );
                       Get.until((route) => route.settings.name == '/HomeScreen');
-
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.kPrimaryColor,

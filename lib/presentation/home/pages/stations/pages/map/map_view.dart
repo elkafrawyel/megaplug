@@ -5,8 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:logger/logger.dart';
+import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import '../../controller/stations_controller.dart';
 
 class MapView extends StatefulWidget {
@@ -25,7 +28,35 @@ class _MapViewState extends State<MapView> with AutomaticKeepAliveClientMixin {
       builder: (stationsController) => Stack(
         children: [
           stationsController.myLocation == null
-              ? Center(child: CircularProgressIndicator())
+              ? Padding(
+                  padding: const EdgeInsets.all(28.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AppText(
+                        text: 'location_permission_message'.tr,
+                        maxLines: 4,
+                        centerText: true,
+                      ),
+                      20.ph,
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: context.kPrimaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          stationsController.getMyPosition();
+                        },
+                        child: AppText(
+                          text: 'enable_location_permission'.tr,
+                          color: context.kColorOnPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               : GoogleMap(
                   initialCameraPosition: CameraPosition(
                     target: stationsController.myLocation!,

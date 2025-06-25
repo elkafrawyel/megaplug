@@ -44,6 +44,7 @@ void main() async {
     ),
   );
 
+
   await StorageClient().init();
 
   await Firebase.initializeApp(

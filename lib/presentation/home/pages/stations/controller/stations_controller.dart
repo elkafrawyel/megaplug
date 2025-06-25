@@ -104,10 +104,13 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     super.dispose();
   }
 
+  bool _shouldHandleResume = false;
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed&& _shouldHandleResume) {
       // App is back from background (including settings)
+      _shouldHandleResume = false;
       getMyPosition(loading: false);
     }
   }
@@ -215,7 +218,6 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      Future.error('Location services are disabled.');
       _openRequestLocationServicesDialog();
       return false;
     }
@@ -225,13 +227,11 @@ class StationsController extends GetxController with WidgetsBindingObserver {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         _openRequestLocationDialog();
-        Future.error('Location permissions are denied');
         return false;
       }
     }
     if (permission == LocationPermission.deniedForever) {
       _openRequestLocationDialog();
-      Future.error('Location permissions are permanently denied, we cannot request permissions.');
       return false;
     }
     return true;
@@ -426,6 +426,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
         actionText: 'ok'.tr,
         onActionClicked: () {
           Get.back(closeOverlays: true);
+          _shouldHandleResume = true;
           openAppSettings();
         },
       ),
@@ -444,12 +445,14 @@ class StationsController extends GetxController with WidgetsBindingObserver {
             message: 'location_permission_message'.tr,
             onActionClicked: () async {
               Get.back(closeOverlays: true);
+              _shouldHandleResume = true;
               openAppSettings();
             },
             actionText: 'ok'.tr,
           ),
         ),
       ),
+      barrierDismissible: false
     );
   }
 

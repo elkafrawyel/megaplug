@@ -152,4 +152,8 @@ Map<String, String> en = {
   'charging':'Charging',
   'complete':'Complete',
   'power':'Power',
+  'enable_location_permission':'Enable Location Permission',
+  'enable_camera_permission':'Enable Camera Permission',
+  'camera_permission':'Camera Permission',
+  'camera_permission_message':'Camera permission is not granted, We need you to allow it so that we can scan QR code.',
 };
