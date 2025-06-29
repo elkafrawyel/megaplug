@@ -31,8 +31,10 @@ class ScannerViewState extends State<ScannerView> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
   }
+
 
   @override
   Future<void> dispose() async {

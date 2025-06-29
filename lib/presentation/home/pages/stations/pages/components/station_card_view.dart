@@ -37,7 +37,7 @@ class StationCardViewState extends State<StationCardView> {
   @override
   dispose() {
     //stop updating the dialog
-    stationInDialog=null;
+    stationInDialog = null;
     _stationsController.stationModelInDialog = null;
     super.dispose();
   }
@@ -143,7 +143,8 @@ class StationCardViewState extends State<StationCardView> {
                                   ),
                                   SizedBox(width: 2),
                                   AppText(
-                                    text: '${stationModel.getTotalConnectors()} ${'connectors'.tr}',
+                                    text:
+                                        '${stationModel.getTotalConnectors()} ${stationModel.getTotalConnectors() == 1 ? 'connector'.tr : 'connectors'.tr}',
                                     fontSize: 11,
                                   ),
                                 ],
@@ -219,7 +220,9 @@ class StationCardViewState extends State<StationCardView> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Get.to(() => StationDetailsScreen());
+                              Get.find<StationsController>().showComingSoonDialog(Get.context!);
+
+                              // Get.to(() => StationDetailsScreen());
                             },
                             child: Container(
                               decoration: BoxDecoration(
