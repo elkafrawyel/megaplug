@@ -157,4 +157,7 @@ Map<String, String> en = {
   'camera_permission':'Camera Permission',
   'connector':'Connector',
   'camera_permission_message':'Camera permission is not granted, We need you to allow it so that we can scan QR code.',
+  'details':'Details',
+  'amenities':'Amenities',
+  'reviews': 'Reviews',
 };

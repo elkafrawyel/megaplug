@@ -8,6 +8,7 @@ import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/stations/controller/stations_controller.dart';
 import 'package:megaplug/presentation/home/pages/stations/pages/components/corder_banner.dart';
+import 'package:megaplug/presentation/station_details/controller/station_details_bindings.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
 import '../../../../../../../domain/entities/firebase/firebase_station_model.dart';
@@ -220,9 +221,12 @@ class StationCardViewState extends State<StationCardView> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Get.find<StationsController>().showComingSoonDialog(Get.context!);
+                              // Get.find<StationsController>().showComingSoonDialog(Get.context!);
 
-                              // Get.to(() => StationDetailsScreen());
+                              Get.to(
+                                () => StationDetailsScreen(),
+                                binding: StationDetailsBindings(),
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(

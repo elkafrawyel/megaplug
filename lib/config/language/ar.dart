@@ -144,4 +144,7 @@ Map<String, String> ar = {
   'enable_camera_permission': 'تفعيل إذن الكاميرا',
   'camera_permission': 'إذن الكاميرا',
   'camera_permission_message': 'يرجى تفعيل إذن الكاميرا لتمكين ميزة المسح الضوئي في التطبيق.',
+  'details': 'التفاصيل',
+  'amenities': 'المرافق',
+  'reviews': 'المراجعات',
 };
