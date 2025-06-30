@@ -23,6 +23,7 @@ class StationDetailsScreen extends StatelessWidget {
 
     return GetBuilder<StationDetailsController>(builder: (stationDetailsController) {
       return Scaffold(
+        backgroundColor: context.kBackgroundColor,
         extendBodyBehindAppBar: true,
         bottomNavigationBar: GestureDetector(
           onTap: () {
@@ -69,7 +70,7 @@ class StationDetailsScreen extends StatelessWidget {
                 elevation: 0,
                 floating: true,
                 leading: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.all(14.0),
                   child: InkWell(
                     onTap: Get.back,
                     child: SvgPicture.asset(Res.backIcon),
