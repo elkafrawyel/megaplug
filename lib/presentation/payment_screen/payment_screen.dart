@@ -57,7 +57,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
           onPressed: () async {
             if (textFieldKey.currentState?.validate() ?? false) {
               UserModel? userModel = ProfileController.to.userModel;
-              print(dotenv.env['API_KEY']);
               Get.to(
                 () => FlutterPaymobPayment(
                   cardInfo: CardInfo(

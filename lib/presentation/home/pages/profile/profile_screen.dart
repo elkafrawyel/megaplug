@@ -5,6 +5,7 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/charge_history/charge_history_screen.dart';
 import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_dialogs/logout_dialog.dart';
 import 'package:megaplug/widgets/app_widgets/app_list_tile.dart';
@@ -20,33 +21,29 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen>
-    with AutomaticKeepAliveClientMixin {
+class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveClientMixin {
   final ProfileController profileController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
     double appbarHeight = 150;
     double imageHeight = 100;
-    return Scaffold(
-      appBar: ProfileAppbar(
-        svgAssetPath: Res.homeAppBarBg,
-        height: appbarHeight,
-        title: 'profile'.tr,
-        imageHeight: imageHeight,
-        userImage:
-            'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
-      ),
-      body: RefreshIndicator(
-
-        onRefresh: profileController.refreshData,
-
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: GetBuilder<ProfileController>(builder: (_) {
-            return Column(
+    return GetBuilder<ProfileController>(builder: (profileController) {
+      return Scaffold(
+        backgroundColor: context.kBackgroundColor,
+        appBar: ProfileAppbar(
+          svgAssetPath: Res.homeAppBarBg,
+          height: appbarHeight,
+          title: 'profile'.tr,
+          imageHeight: imageHeight,
+          userImage: profileController.userModel?.image ?? '',
+        ),
+        body: RefreshIndicator(
+          onRefresh: profileController.refreshData,
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 (imageHeight / 1.5).ph,
@@ -58,14 +55,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                 5.ph,
                 AppText(
                   text: profileController.userModel?.email ?? '',
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: context.kHintTextColor,
                 ),
                 20.ph,
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
                   child: AppListTile(
                     leading: SvgPicture.asset(
                       Res.editProfileIcon,
@@ -83,8 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
                   child: AppListTile(
                     leading: SvgPicture.asset(
                       Res.myCarsIcon,
@@ -102,8 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
                   child: AppListTile(
                     leading: SvgPicture.asset(
                       Res.chargingHistoryIcon,
@@ -116,13 +110,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                       size: 15,
                     ),
                     onTap: () {
-                      AppLogger.logWithGetX('charging_history');
+                      Get.to(() => ChargeHistoryScreen());
                     },
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
                   child: AppListTile(
                     leading: SvgPicture.asset(
                       Res.menuWalletIcon,
@@ -140,8 +133,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
                   child: AppListTile(
                     leading: SvgPicture.asset(
                       Res.paymentMethodsIcon,
@@ -159,8 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
                   child: AppListTile(
                     leading: SvgPicture.asset(
                       Res.loyaltyPointsIcon,
@@ -178,8 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8.0),
                   child: GetBuilder<ProfileController>(
                     builder: (_) {
                       return AppListTile(
@@ -192,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         onTap: () async {
                           showLogoutAlertDialog(
                             context,
-                            () async {
+                                () async {
                               profileController.logout();
                             },
                           );
@@ -203,11 +193,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                 ),
                 100.ph,
               ],
-            );
-          }),
+            ),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override

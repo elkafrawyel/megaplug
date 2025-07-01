@@ -32,7 +32,7 @@ class HomeController extends GetxController {
   }
 
   handleSelectedIndex(int index) async {
-    if (index != 0 && index != 1 && index != 2) {
+    if (index != 0 && index != 1 && index != 2 && index != 3) {
       Get.find<StationsController>().showComingSoonDialog(Get.context!);
       return;
     }
@@ -55,6 +55,5 @@ class HomeController extends GetxController {
         handleSelectedIndex(0);
       }
     }
-
   }
 }
