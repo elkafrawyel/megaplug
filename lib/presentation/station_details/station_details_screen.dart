@@ -5,6 +5,8 @@ import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/extension/station_status.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/home/controller/home_controller.dart';
+import 'package:megaplug/presentation/home/pages/stations/controller/stations_controller.dart';
 import 'package:megaplug/presentation/station_details/components/banners.dart';
 import 'package:megaplug/presentation/station_details/components/page_tab.dart';
 import 'package:megaplug/presentation/station_details/controller/station_details_controller.dart';
@@ -64,8 +66,7 @@ class StationDetailsScreen extends StatelessWidget {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
-              expandedHeight: MediaQuery.sizeOf(context).height * 0.3,
-
+                expandedHeight: MediaQuery.sizeOf(context).height * 0.23,
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 floating: true,
@@ -77,9 +78,14 @@ class StationDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 actions: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SvgPicture.asset(Res.shareIcon),
+                  InkWell(
+                    onTap: () {
+                      Get.find<StationsController>().showComingSoonDialog(Get.context!);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SvgPicture.asset(Res.shareIcon),
+                    ),
                   ),
                 ],
                 title: AppText(
@@ -94,181 +100,150 @@ class StationDetailsScreen extends StatelessWidget {
                   sliders: imgList, // Assuming imgList is defined somewhere
                 ),
               ),
-
             ];
           },
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(18.0),
+          body: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(18.0),
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: statusColor,
+                        borderRadius: BorderRadiusDirectional.only(
+                          topEnd: Radius.circular(12),
+                          bottomStart: Radius.circular(12),
+                        ),
+                      ),
+                      child: AppText(
+                        text: stationStatus.text.tr,
+                        color: context.kColorOnPrimary,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: statusColor,
-                            borderRadius: BorderRadiusDirectional.only(
-                              topEnd: Radius.circular(12),
-                              bottomStart: Radius.circular(12),
-                            ),
-                          ),
-                          child: AppText(
-                            text: stationStatus.text.tr,
-                            color: context.kColorOnPrimary,
-                            fontSize: 12,
+                  20.ph,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Row(
+                      children: [
+                        AppText(
+                          text: 'Chilout Madinaty',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        Spacer(),
+                        SvgPicture.asset(
+                          Res.starIcon,
+                        ),
+                        5.pw,
+                        AppText(
+                          text: '4.9',
+                          fontWeight: FontWeight.w500,
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(Res.locationIcon),
+                        5.pw,
+                        AppText(
+                          text: 'Cairo , nasser city , 31 abas el akad , behind kfc',
+                          maxLines: 3,
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color(0xffFAFAFA),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppText(text: 'Open'),
+                              10.pw,
+                              Container(
+                                width: 7,
+                                height: 7,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: context.kPrimaryColor,
+                                ),
+                              ),
+                              10.pw,
+                              AppText(text: '10:00 - 23:00')
+                            ],
                           ),
                         ),
                       ),
-                      20.ph,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xffFAFAFA),
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Row(
                           children: [
-                            AppText(
-                              text: 'Chilout Madinaty',
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            Spacer(),
-                            SvgPicture.asset(
-                              Res.starIcon,
-                            ),
-                            5.pw,
-                            AppText(
-                              text: '4.9',
-                              fontWeight: FontWeight.w500,
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8.0),
-                        child: Row(
-                          children: [
-                            SvgPicture.asset(Res.locationIcon),
-                            5.pw,
-                            AppText(
-                              text: 'Cairo , nasser city , 31 abas el akad , behind kfc',
-                              maxLines: 3,
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                        child: Align(
-                          alignment: AlignmentDirectional.centerStart,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xffFAFAFA),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  AppText(text: 'Open'),
-                                  10.pw,
-                                  Container(
-                                    width: 7,
-                                    height: 7,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: context.kPrimaryColor,
-                                    ),
-                                  ),
-                                  10.pw,
-                                  AppText(text: '10:00 - 23:00')
-                                ],
+                            Expanded(
+                              child: PageTab(
+                                index: 0,
+                                title: 'details',
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xffFAFAFA),
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: PageTab(
-                                    index: 0,
-                                    title: 'details',
-                                  ),
-                                ),
-                                20.pw,
-                                Expanded(
-                                  child: PageTab(
-                                    index: 1,
-                                    title: 'amenities',
-                                  ),
-                                ),
-                                20.pw,
-                                Expanded(
-                                  child: PageTab(
-                                    index: 2,
-                                    title: 'reviews',
-                                  ),
-                                ),
-                              ],
+                            20.pw,
+                            Expanded(
+                              child: PageTab(
+                                index: 1,
+                                title: 'amenities',
+                              ),
                             ),
-                          ),
+                            20.pw,
+                            Expanded(
+                              child: PageTab(
+                                index: 2,
+                                title: 'reviews',
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      10.ph,
-                      stationDetailsController.pages[stationDetailsController.pageIndex],
-                    ],
+                    ),
                   ),
-                ),
-              ],
+                  10.ph,
+                  stationDetailsController.pages[stationDetailsController.pageIndex],
+                ],
+              ),
             ),
           ),
         ),
       );
     });
   }
-}
-
-class _SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-
-  _SliverHeaderDelegate({
-    required this.minHeight,
-    required this.maxHeight,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return SizedBox.expand(child: child);
-  }
-
-  @override
-  double get maxExtent => maxHeight;
-
-  @override
-  double get minExtent => minHeight;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => true;
 }

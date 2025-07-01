@@ -33,7 +33,7 @@ class _StationBannersState extends State<StationBanners> {
       children: [
         Container(
           constraints: BoxConstraints(
-            maxHeight: MediaQuery.sizeOf(context).height * 0.4,
+            maxHeight: MediaQuery.sizeOf(context).height * 0.42,
           ),
           child: CarouselSlider(
             items: createSliders(widget.sliders!),
@@ -42,7 +42,7 @@ class _StationBannersState extends State<StationBanners> {
                 autoPlay: true,
                 viewportFraction: 1.0,
                 autoPlayAnimationDuration: const Duration(seconds: 2),
-                aspectRatio: 4 / 3,
+                aspectRatio: 16 / 9,
                 enlargeCenterPage: true,
                 onPageChanged: (index, reason) {
                   setState(() {

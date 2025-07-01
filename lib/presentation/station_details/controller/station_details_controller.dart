@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/presentation/station_details/components/amenities_view.dart';
+import 'package:megaplug/presentation/station_details/components/connectors_view.dart';
 import 'package:megaplug/presentation/station_details/components/reviews_view.dart';
 
 class StationDetailsController extends GetxController {
   static StationDetailsController get to => Get.find<StationDetailsController>();
 
   List<Widget> pages = [
-    SizedBox(),
+    ConnectorsView(),
     AmenitiesView(
       data: [
         'Free Wi-Fi',

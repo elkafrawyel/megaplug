@@ -147,4 +147,5 @@ Map<String, String> ar = {
   'details': 'التفاصيل',
   'amenities': 'المرافق',
   'reviews': 'المراجعات',
+  'location':'الموقع',
 };

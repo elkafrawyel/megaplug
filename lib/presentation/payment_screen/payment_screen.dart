@@ -30,14 +30,12 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   final TextEditingController controller = TextEditingController();
-
   GlobalKey<AppTextFormFieldState> textFieldKey = GlobalKey<AppTextFormFieldState>();
 
   @override
   void initState() {
     super.initState();
   }
-
   @override
   void dispose() {
     super.dispose();
@@ -107,7 +105,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 48.0,horizontal: 18),
+          padding: const EdgeInsets.symmetric(vertical: 48.0, horizontal: 18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

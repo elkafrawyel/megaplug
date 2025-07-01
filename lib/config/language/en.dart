@@ -160,4 +160,5 @@ Map<String, String> en = {
   'details':'Details',
   'amenities':'Amenities',
   'reviews': 'Reviews',
+  'location':'Location',
 };
