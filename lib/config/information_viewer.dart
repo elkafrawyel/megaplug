@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:oktoast/oktoast.dart' as ok_toast;
+
+import '../widgets/app_widgets/app_text.dart';
 
 abstract class InformationViewer {
   static showToast({
@@ -69,13 +70,10 @@ abstract class InformationViewer {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
-        content: Text(
-          msg,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+        content: AppText(
+          text: msg,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
           maxLines: 3,
         ),
         duration: Duration(seconds: duration),

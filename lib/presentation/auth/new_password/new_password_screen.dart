@@ -111,7 +111,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 appFieldType: AppFieldType.password,
                 textInputAction: TextInputAction.done,
                 alwaysShowRules: false,
-                checkRules: false,
+                checkRulesOnTyping: false,
               ),
             ),
             40.ph,

@@ -58,7 +58,7 @@ Map<String, String> en = {
   'onboarding_content_1':
       'Easily locate the nearest charging stations, check availability, and navigate to your destination with real-time updates. MegaPlug ensures you never run out of power on the road.',
   'onboarding_header_2':
-      'Charge your electric vehicle anytime, anywhere effortlessly',
+      'Charge your electric car anytime, anywhere effortlessly',
   'onboarding_content_2':
       'Enjoy fast and efficient EV charging with MegaPlug. Get detailed station info, pricing, and availability, making your charging experience seamless and stress-free every time.',
   'onboarding_header_3':
@@ -118,13 +118,13 @@ Map<String, String> en = {
   'fast_charge': 'Fast Charge',
   'ready_for_scan': 'Ready for Scan',
   'charge_description':
-      'Place your phone near the scanner or scan the QR code to start charging your electric vehicle seamlessly.',
+      'Place your phone near the scanner or scan the QR code to start charging your electric car seamlessly.',
   'have_any_trouble': 'Have any trouble?',
   'how_to_charge': 'How to charge',
   'start_charging': 'Start Charging',
   'scan_qr_now': 'Scan QR Now',
   'stop_charging_desc':
-      'You have stopped charging before reaching 100%. Your vehicle may not have a full charge. Would you like to resume charging or proceed with the current charge level?',
+      'You have stopped charging before reaching 100%. Your car may not have a full charge. Would you like to resume charging or proceed with the current charge level?',
   'change_my_mind': 'Change my mind',
   'stop_charging': 'Stop Charging',
   'rate': 'Rate',

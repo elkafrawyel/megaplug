@@ -97,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: emailController,
                       hintText: "enter_email_or_phone".tr,
                       rules: AppTextFieldRules.emailOrPhoneRules,
+                      checkRulesOnTyping: false,
                       autoFillHints: const [
                         AutofillHints.email,
                         AutofillHints.telephoneNumber
@@ -205,14 +206,6 @@ class _LoginScreenState extends State<LoginScreen> {
             msg: apiResult.getError().trim(),
             bgColor: context.kErrorColor,
           );
-
-          // Get.snackbar(
-          //   'No Internet Connection',
-          //   apiResult.getError().trim(),
-          //   snackPosition: SnackPosition.BOTTOM,
-          //   backgroundColor: Colors.red.withOpacity(0.8),
-          //   colorText: Colors.white,
-          // );
         }
       }
     }

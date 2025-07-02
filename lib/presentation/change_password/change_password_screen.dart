@@ -123,7 +123,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 appFieldType: AppFieldType.password,
                 textInputAction: TextInputAction.done,
                 alwaysShowRules: false,
-                checkRules: false,
+                checkRulesOnTyping: false,
               ),
             ),
           ],

@@ -111,6 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   key: emailState,
                   controller: emailController,
                   hintText: 'email_hint'.tr,
+                  checkRulesOnTyping: false,
                   textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.email],
                   appFieldType: AppFieldType.email,
@@ -178,8 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   appFieldType: AppFieldType.password,
                   textInputAction: TextInputAction.done,
                   alwaysShowRules: false,
-                  checkRules: false,
-
+                  checkRulesOnTyping: false,
                 ),
               ),
               20.ph,
