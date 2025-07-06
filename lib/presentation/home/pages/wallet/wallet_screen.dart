@@ -53,8 +53,8 @@ class _WalletScreenState extends State<WalletScreen> with AutomaticKeepAliveClie
                     padding: EdgeInsets.symmetric(vertical: kButtonHeight),
                   ),
                   onPressed: () async {
-                    // WalletController.to.addBalance();
-                    Get.to(() => PaymentScreen());
+                    WalletController.to.addBalance();
+                    // Get.to(() => PaymentScreen());
                   },
                   icon: Icon(
                     Icons.add,

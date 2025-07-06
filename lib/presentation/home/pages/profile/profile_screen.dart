@@ -6,6 +6,7 @@ import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/charge_history/charge_history_screen.dart';
+import 'package:megaplug/presentation/home/controller/home_controller.dart';
 import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_dialogs/logout_dialog.dart';
 import 'package:megaplug/widgets/app_widgets/app_list_tile.dart';
@@ -128,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                       size: 15,
                     ),
                     onTap: () {
-                      AppLogger.logWithGetX('wallet');
+                      HomeController.to.pageController.jumpToPage(1);
                     },
                   ),
                 ),
@@ -182,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                         onTap: () async {
                           showLogoutAlertDialog(
                             context,
-                                () async {
+                            () async {
                               profileController.logout();
                             },
                           );

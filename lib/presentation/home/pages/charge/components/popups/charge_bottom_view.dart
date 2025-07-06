@@ -45,7 +45,7 @@ class ChargeBottomSheet extends StatelessWidget {
                     data: apiResult.getFailureData(),
                     redirectAction: () {
                       Get.back();
-                      HomeController.to.handleSelectedIndex(1);
+                      HomeController.to.pageController.jumpToPage(1);
                     },
                   )
                 : ErrorView(

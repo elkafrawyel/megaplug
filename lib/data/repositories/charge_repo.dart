@@ -3,6 +3,7 @@ import 'package:get/instance_manager.dart';
 import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/res.dart';
+import 'package:megaplug/data/api_responses/check_balance_response.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
@@ -128,6 +129,14 @@ class ChargeRepositoryImpl extends ChargeRepository {
         'review': comment,
         'station_id': stationId,
       },
+    );
+  }
+
+  @override
+  Future<ApiResult<CheckBalanceResponse>> checkBalance() async{
+    return APIClient.instance.get(
+      endPoint: Res.apiCheckBalance,
+      fromJson: CheckBalanceResponse.fromJson,
     );
   }
 }

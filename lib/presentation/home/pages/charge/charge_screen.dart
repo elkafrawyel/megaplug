@@ -43,14 +43,18 @@ class _ChargeScreenState extends State<ChargeScreen> with AutomaticKeepAliveClie
       ),
       body: Obx(
         () {
-          return ChargeController.to.isCharging.value
-              ? SizedBox()
-              : InkWell(
-                  onTap: () {
-                    manualScan('5403000060');
-                  },
-                  child: ScannerView(),
-                );
+          return ChargeController.to.checkCanScan.value
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : !ChargeController.to.canScan.value || ChargeController.to.isCharging.value
+                  ? SizedBox()
+                  : InkWell(
+                      onTap: () {
+                        manualScan('5403000060');
+                      },
+                      child: ScannerView(),
+                    );
         },
       ),
     );

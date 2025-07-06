@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:megaplug/data/api_responses/check_balance_response.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
 
@@ -34,4 +35,6 @@ abstract class ChargeRepository {
     required String comment,
     required String stationId,
   });
+
+  Future<ApiResult<CheckBalanceResponse>> checkBalance();
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:widget_to_marker/widget_to_marker.dart';
 
 class StationOnMap extends StatefulWidget {
   const StationOnMap({super.key});
@@ -14,11 +15,44 @@ class _StationOnMapState extends State<StationOnMap> {
   final LatLng _circleCenter = LatLng(30.0444, 31.2357); // Example: Cairo, Egypt
 
   final Set<Circle> _circles = {};
+  final Set<Marker> _markers = {};
 
   @override
   void initState() {
     super.initState();
     _addCircle();
+    _addMarker();
+  }
+
+  _addMarker() async {
+    _markers.add(
+      Marker(
+        markerId: MarkerId('station_id'),
+        position: _circleCenter,
+        icon: await Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ).toBitmapDescriptor(
+          logicalSize: const Size(100, 100),
+          imageSize: const Size(200, 200),
+        ),
+      ),
+    );
+    setState(() {});
   }
 
   void _addCircle() {
@@ -26,7 +60,7 @@ class _StationOnMapState extends State<StationOnMap> {
       Circle(
         circleId: CircleId('cairo_circle'),
         center: _circleCenter,
-        radius: 500,
+        radius: 1000,
         // in meters
         fillColor: Color.fromRGBO(62, 191, 128, 0.08),
         strokeColor: Colors.green,
@@ -55,6 +89,7 @@ class _StationOnMapState extends State<StationOnMap> {
               _controller = controller;
             },
             circles: _circles,
+            markers: _markers,
           ),
         ),
       ),

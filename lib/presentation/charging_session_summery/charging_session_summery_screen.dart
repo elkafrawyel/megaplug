@@ -44,7 +44,7 @@ class ChargingSessionSummeryScreen extends StatelessWidget {
                     (Duration(
                       milliseconds: 500,
                     )), () {
-                  HomeController.to.handleSelectedIndex(1);
+                  HomeController.to.pageController.jumpToPage(1);
                 });
               },
             ),

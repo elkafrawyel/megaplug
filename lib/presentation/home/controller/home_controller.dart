@@ -32,14 +32,7 @@ class HomeController extends GetxController {
   }
 
   handleSelectedIndex(int index) async {
-    if (index != 0 && index != 1 && index != 2 && index != 3) {
-      Get.find<StationsController>().showComingSoonDialog(Get.context!);
-      return;
-    }
-
     selectedIndex.value = index;
-    pageController.jumpToPage(index);
-
     if (index == 1 && !WalletController.to.balanceResult.isStart()) {
       WalletController.to.refreshApi();
     }
@@ -52,7 +45,9 @@ class HomeController extends GetxController {
             transactionId: transactionId,
           ),
         );
-        handleSelectedIndex(0);
+        HomeController.to.pageController.jumpToPage(0);
+      } else {
+        ChargeController.to.checkBalance();
       }
     }
   }

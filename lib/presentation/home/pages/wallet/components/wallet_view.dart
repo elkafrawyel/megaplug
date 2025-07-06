@@ -102,12 +102,12 @@ class WalletView extends StatelessWidget {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(18.0),
-              //   child: PointsView(
-              //     points: 320,
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: PointsView(
+                  points: walletController.balanceResult.getData().data?.loyaltyPoints?.toDouble() ?? 0.0,
+                ),
+              ),
             ],
           ),
         ApiFailure<BalanceResponse>() => SizedBox(

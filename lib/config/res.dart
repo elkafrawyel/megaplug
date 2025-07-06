@@ -19,6 +19,7 @@ class Res {
   static const apiStartCharging = 'charging/start';
   static const apiStopCharging = 'charging/stop';
   static const apiAddReview = 'station-reviews';
+  static const apiCheckBalance = 'wallet/check-balance';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';
