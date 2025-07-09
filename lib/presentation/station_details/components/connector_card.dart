@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
 import '../../../config/res.dart';
+import '../../../data/api_responses/station_details_response.dart';
 import '../../../widgets/app_widgets/app_text.dart';
 
 class ConnectorCard extends StatelessWidget {
-  final dynamic connector;
+  final ApiConnectorModel connector;
 
   const ConnectorCard({
     super.key,
@@ -27,12 +30,12 @@ class ConnectorCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            text: connector,
+            text: connector.typeName ?? '',
             fontWeight: FontWeight.w500,
           ),
           5.ph,
           AppText(
-            text: '22 kW (EGP 0.05/kW)',
+            text: '${connector.powerDisplay ?? '0'} ${'kw'.tr} (${'egp'.tr} ${connector.pricePerKw ?? '0'}/${'kw'.tr})',
             color: context.kHintTextColor,
             fontSize: 11,
           ),
@@ -41,15 +44,15 @@ class ConnectorCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppText(
-                text: '2 Available',
-                color: context.kPrimaryColor,
+                text: '${connector.count ?? '0'} ${connector.status ?? ''}',
+                color: connector.status == 'Available' ? context.kPrimaryColor : context.kErrorColor,
                 fontWeight: FontWeight.w500,
               ),
               Spacer(),
-              Image.asset(
-                Res.logo,
-                width: 40,
-                height: 40,
+              AppNetworkImage(
+                imageUrl: connector.typeImage ?? '',
+                width: 50,
+                height: 50,
               ),
             ],
           ),

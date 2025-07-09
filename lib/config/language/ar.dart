@@ -149,4 +149,6 @@ Map<String, String> ar = {
   'reviews': 'المراجعات',
   'location': 'الموقع',
   'charging_now': 'جاري الشحن',
+  'open': 'مفتوح',
+  'close': 'مغلق'
 };

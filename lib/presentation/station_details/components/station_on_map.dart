@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:widget_to_marker/widget_to_marker.dart';
 
 class StationOnMap extends StatefulWidget {
-  const StationOnMap({super.key});
+
+  final LatLng location;
+  const StationOnMap({super.key, required this.location});
 
   @override
   State<StationOnMap> createState() => _StationOnMapState();
@@ -12,7 +13,6 @@ class StationOnMap extends StatefulWidget {
 
 class _StationOnMapState extends State<StationOnMap> {
   late GoogleMapController _controller;
-  final LatLng _circleCenter = LatLng(30.0444, 31.2357); // Example: Cairo, Egypt
 
   final Set<Circle> _circles = {};
   final Set<Marker> _markers = {};
@@ -28,7 +28,7 @@ class _StationOnMapState extends State<StationOnMap> {
     _markers.add(
       Marker(
         markerId: MarkerId('station_id'),
-        position: _circleCenter,
+        position: widget.location,
         icon: await Container(
           width: 50,
           height: 50,
@@ -47,7 +47,7 @@ class _StationOnMapState extends State<StationOnMap> {
             ),
           ),
         ).toBitmapDescriptor(
-          logicalSize: const Size(100, 100),
+          logicalSize: const Size(200, 200),
           imageSize: const Size(200, 200),
         ),
       ),
@@ -59,8 +59,8 @@ class _StationOnMapState extends State<StationOnMap> {
     _circles.add(
       Circle(
         circleId: CircleId('cairo_circle'),
-        center: _circleCenter,
-        radius: 1000,
+        center: widget.location,
+        radius: 500,
         // in meters
         fillColor: Color.fromRGBO(62, 191, 128, 0.08),
         strokeColor: Colors.green,
@@ -72,7 +72,7 @@ class _StationOnMapState extends State<StationOnMap> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: 350,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(38),
         child: Padding(
@@ -82,7 +82,7 @@ class _StationOnMapState extends State<StationOnMap> {
             zoomGesturesEnabled: true,
             zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(
-              target: _circleCenter,
+              target: widget.location,
               zoom: 14,
             ),
             onMapCreated: (GoogleMapController controller) {

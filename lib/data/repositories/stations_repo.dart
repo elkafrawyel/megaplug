@@ -4,6 +4,7 @@ import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/res.dart';
+import 'package:megaplug/data/api_responses/station_details_response.dart';
 import 'package:megaplug/data/api_responses/station_filter_response.dart';
 import 'package:megaplug/domain/entities/api/charge_power_model.dart';
 import 'package:megaplug/domain/entities/api/connector_type_model.dart';
@@ -21,7 +22,7 @@ class StationsRepositoryImpl extends StationsRepository {
   //   databaseId: 'mp-db',
   // );
 
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Stream<QuerySnapshot<FirebaseStationModel>> listenToAllStations({
@@ -32,7 +33,7 @@ class StationsRepositoryImpl extends StationsRepository {
                                    """);
 
     final collection =
-        firestore.collection('stations').withConverter<FirebaseStationModel>(
+        _firestore.collection('stations').withConverter<FirebaseStationModel>(
               fromFirestore: (snap, _) =>
                   FirebaseStationModel.fromJson(snap.data()!),
               toFirestore: (station, _) => station.toJson(),
@@ -93,6 +94,16 @@ class StationsRepositoryImpl extends StationsRepository {
         if (chargePowerFilter != null)
           'charging_powers[]': [chargePowerFilter.id],
       },
+    );
+  }
+
+  @override
+  Future<ApiResult<StationDetailsResponse>> getStationById({required String stationId})async {
+    AppLogger.logWithGetX('Getting station details for id: $stationId');
+
+    return APIClient.instance.get<StationDetailsResponse>(
+      endPoint: "stations/$stationId/details",
+      fromJson: StationDetailsResponse.fromJson,
     );
   }
 }

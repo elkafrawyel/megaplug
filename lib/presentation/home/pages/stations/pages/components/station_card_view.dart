@@ -8,12 +8,10 @@ import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/stations/controller/stations_controller.dart';
 import 'package:megaplug/presentation/home/pages/stations/pages/components/corder_banner.dart';
-import 'package:megaplug/presentation/station_details/controller/station_details_bindings.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
 import '../../../../../../../domain/entities/firebase/firebase_station_model.dart';
 import '../../../../../../../widgets/app_widgets/app_text.dart';
-import '../../../../../../config/helpers/logging_helper.dart';
 import '../../../../../station_details/station_details_screen.dart';
 
 class StationCardView extends StatefulWidget {
@@ -222,10 +220,11 @@ class StationCardViewState extends State<StationCardView> {
                           child: GestureDetector(
                             onTap: () {
                               // Get.find<StationsController>().showComingSoonDialog(Get.context!);
-
                               Get.to(
-                                () => StationDetailsScreen(),
-                                binding: StationDetailsBindings(),
+                                () => StationDetailsScreen(
+                                  stationId: '5',
+                                  // stationId: stationModel.id!,
+                                ),
                               );
                             },
                             child: Container(

@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/data/api_responses/station_details_response.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
 import '../../../config/res.dart';
 
 class ReviewCard extends StatelessWidget {
-  const ReviewCard({super.key});
+  final ReviewModel review;
+
+  const ReviewCard({super.key, required this.review});
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +19,17 @@ class ReviewCard extends StatelessWidget {
       children: [
         ListTile(
           leading: AppNetworkImage(
-            imageUrl:
-                'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
+            imageUrl: review.user?.avatar ?? '',
             width: 50,
             height: 50,
             isCircular: true,
           ),
           title: AppText(
-            text: 'Mahmoud Ashraf',
+            text: review.user?.name ?? '',
             fontWeight: FontWeight.bold,
           ),
           subtitle: AppText(
-            text: '1 month ago',
+            text: review.createdAtHuman ?? '',
             color: context.kHintTextColor,
             fontSize: 12,
           ),
@@ -43,7 +45,7 @@ class ReviewCard extends StatelessWidget {
                   ),
                   5.pw,
                   AppText(
-                    text: '4.9',
+                    text: review.rating?.toString() ?? '0',
                     fontWeight: FontWeight.w500,
                   )
                 ],
@@ -52,11 +54,14 @@ class ReviewCard extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 18.0,
+            vertical: 8.0,
+          ),
           child: AppText(
-            text:
-                'I really love this car 😍... Lacinia ullamcorper mattis id eu neque egestas feugiat. Eget aliquet nulla dignissim eget tortor auctor elementum magna ornare suscipit accumsan arcu.',
+            text: review.review ?? '',
             maxLines: 5,
+            fontSize: 13,
           ),
         )
       ],
