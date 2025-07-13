@@ -35,64 +35,66 @@ class _StationBannersState extends State<StationBanners> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.bottomCenter,
-      children: [
-        Container(
-          constraints: BoxConstraints(
-            maxHeight: MediaQuery.sizeOf(context).height * 0.42,
-          ),
-          child: CarouselSlider(
-            items: createSliders(widget.sliders!),
-            // items: createSliders(imgList),
-            options: CarouselOptions(
-                autoPlay: true,
-                viewportFraction: 1.0,
-                autoPlayAnimationDuration: const Duration(seconds: 2),
-                aspectRatio: 16 / 9,
-                enlargeCenterPage: true,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _current = widget.sliders[index];
-                  });
-                }),
-          ),
-        ),
-        PositionedDirectional(
-          bottom: 10.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: widget.sliders.map((slider) {
-              return _current == slider
-                  ? Container(
-                      width: 30.0,
-                      height: 7.0,
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 2.0,
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: context.kPrimaryColor,
-                      ),
-                    )
-                  : Container(
-                      width: 7.0,
-                      height: 7.0,
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                        horizontal: 2.0,
-                      ),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                      ),
-                    );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
+    return widget.sliders.isEmpty
+        ? SizedBox()
+        : Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              Container(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.sizeOf(context).height * 0.42,
+                ),
+                child: CarouselSlider(
+                  items: createSliders(widget.sliders!),
+                  // items: createSliders(imgList),
+                  options: CarouselOptions(
+                      autoPlay: true,
+                      viewportFraction: 1.0,
+                      autoPlayAnimationDuration: const Duration(seconds: 2),
+                      aspectRatio: 16 / 9,
+                      enlargeCenterPage: true,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _current = widget.sliders[index];
+                        });
+                      }),
+                ),
+              ),
+              PositionedDirectional(
+                bottom: 10.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: widget.sliders.map((slider) {
+                    return _current == slider
+                        ? Container(
+                            width: 30.0,
+                            height: 7.0,
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 2.0,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: context.kPrimaryColor,
+                            ),
+                          )
+                        : Container(
+                            width: 7.0,
+                            height: 7.0,
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 2.0,
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          );
+                  }).toList(),
+                ),
+              ),
+            ],
+          );
   }
 
   List<Widget> createSliders(List<Images> sliderList) {

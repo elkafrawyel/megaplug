@@ -222,8 +222,8 @@ class StationCardViewState extends State<StationCardView> {
                               // Get.find<StationsController>().showComingSoonDialog(Get.context!);
                               Get.to(
                                 () => StationDetailsScreen(
-                                  stationId: '5',
-                                  // stationId: stationModel.id!,
+                                  // stationId: '5',
+                                  stationId: stationModel.id!,
                                 ),
                               );
                             },

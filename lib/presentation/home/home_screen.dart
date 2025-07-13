@@ -139,8 +139,8 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                   //profile
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => Get.find<StationsController>().showComingSoonDialog(Get.context!),
-                      // onTap: () => HomeController.to.pageController.jumpToPage(3),
+                      // onTap: () => Get.find<StationsController>().showComingSoonDialog(Get.context!),
+                      onTap: () => HomeController.to.pageController.jumpToPage(3),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [

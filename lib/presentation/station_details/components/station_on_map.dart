@@ -29,6 +29,7 @@ class _StationOnMapState extends State<StationOnMap> {
       Marker(
         markerId: MarkerId('station_id'),
         position: widget.location,
+        anchor: Offset(0.5, 0.5), // Center of the icon
         icon: await Container(
           width: 50,
           height: 50,
@@ -47,7 +48,7 @@ class _StationOnMapState extends State<StationOnMap> {
             ),
           ),
         ).toBitmapDescriptor(
-          logicalSize: const Size(200, 200),
+          logicalSize: const Size(150, 150),
           imageSize: const Size(200, 200),
         ),
       ),

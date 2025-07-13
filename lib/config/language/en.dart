@@ -163,5 +163,10 @@ Map<String, String> en = {
   'location':'Location',
   'charging_now':'Charging Now',
   'open':'Open',
-  'close':'Close'
+  'close':'Close',
+  'total_reviews':'Total Reviews',
+  'review':'Review',
+  'logout_title':'Are you sure you want to log out?',
+  'logout_body':'You will be signed out of your account and will need to log in again to access your data and services.',
+  'cancel':'Cancel',
 };

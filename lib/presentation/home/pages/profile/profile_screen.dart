@@ -11,8 +11,11 @@ import 'package:megaplug/presentation/home/pages/profile/controller/profile_cont
 import 'package:megaplug/widgets/app_widgets/app_dialogs/logout_dialog.dart';
 import 'package:megaplug/widgets/app_widgets/app_list_tile.dart';
 
+import '../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
+import '../../../../widgets/logout_popup.dart';
 import '../../../edit_profile/edit_profile_screen.dart';
+import '../stations/controller/stations_controller.dart';
 import 'components/profile_appbar.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -75,7 +78,9 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                       size: 15,
                     ),
                     onTap: () {
-                      Get.to(() => EditProfileScreen());
+                       Get.find<StationsController>().showComingSoonDialog(Get.context!);
+
+                      // Get.to(() => EditProfileScreen());
                     },
                   ),
                 ),
@@ -93,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                       size: 15,
                     ),
                     onTap: () {
-                      AppLogger.logWithGetX('my_cars');
+                      Get.find<StationsController>().showComingSoonDialog(Get.context!);
                     },
                   ),
                 ),
@@ -111,6 +116,8 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                       size: 15,
                     ),
                     onTap: () {
+                      // Get.find<StationsController>().showComingSoonDialog(Get.context!);
+
                       Get.to(() => ChargeHistoryScreen());
                     },
                   ),
@@ -147,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                       size: 15,
                     ),
                     onTap: () {
-                      AppLogger.logWithGetX('payment_methods');
+                      Get.find<StationsController>().showComingSoonDialog(Get.context!);
                     },
                   ),
                 ),
@@ -165,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                       size: 15,
                     ),
                     onTap: () {
-                      AppLogger.logWithGetX('loyalty_points');
+                      Get.find<StationsController>().showComingSoonDialog(Get.context!);
                     },
                   ),
                 ),
@@ -181,18 +188,16 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                         ),
                         title: 'logout'.tr,
                         onTap: () async {
-                          showLogoutAlertDialog(
-                            context,
-                            () async {
-                              profileController.logout();
-                            },
+                          showAppModalBottomSheet(
+                            context: context,
+                            child: LogoutPopup(),
                           );
                         },
                       );
                     },
                   ),
                 ),
-                100.ph,
+                150.ph,
               ],
             ),
           ),

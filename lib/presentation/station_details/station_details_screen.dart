@@ -204,7 +204,7 @@ class StationDetailsScreen extends StatelessWidget {
                                         height: 7,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.circle,
-                                          color: context.kPrimaryColor,
+                                          color: (stationModel?.todayWorkingHours?.isActive ?? false) ? context.kPrimaryColor : context.kErrorColor,
                                         ),
                                       ),
                                       10.pw,

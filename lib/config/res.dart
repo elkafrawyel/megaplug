@@ -100,6 +100,7 @@ class Res {
   static const shareIcon = 'assets/icons/share.svg';
   static const starIcon = 'assets/icons/star.svg';
   static const locationIcon = 'assets/icons/location.svg';
+  static const logoutPopupIcon = 'assets/icons/logout_popup.svg';
 
   ///================================================================
 
