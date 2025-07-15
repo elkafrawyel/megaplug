@@ -40,9 +40,7 @@ class ConnectorsView extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
             10.ph,
-            StationOnMap(
-              location: stationDetailsController.stationDetailsResponse?.data?.station?.latLng() ?? const LatLng(0, 0),
-            ),
+            StationOnMap(),
           ],
         ),
       );

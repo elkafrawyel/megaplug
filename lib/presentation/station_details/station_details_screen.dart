@@ -162,7 +162,7 @@ class StationDetailsScreen extends StatelessWidget {
                                 ),
                                 5.pw,
                                 AppText(
-                                  text: stationModel?.totalReviews?.toString() ?? '',
+                                  text: stationModel?.averageRating?.toString() ?? '',
                                   fontWeight: FontWeight.w500,
                                 )
                               ],

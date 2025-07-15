@@ -118,7 +118,7 @@ class AppNetworkImage extends StatelessWidget {
                         ),
                   image: DecorationImage(
                     image: const AssetImage(Res.logo),
-                    fit: fit ?? BoxFit.cover,
+                    fit: fit ?? BoxFit.contain,
                   ),
                 ),
               ),

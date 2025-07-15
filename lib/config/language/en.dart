@@ -169,4 +169,9 @@ Map<String, String> en = {
   'logout_title':'Are you sure you want to log out?',
   'logout_body':'You will be signed out of your account and will need to log in again to access your data and services.',
   'cancel':'Cancel',
+  'payment_success':'Payment Successfully!',
+  'payment_success_message':'Your wallet has been successfully charged! You can now use your balance for transactions.',
+  'back_to_wallet': 'Back to Wallet',
+  'payment_error':'Failed Payment!',
+  'payment_error_message':'Your payment could not be processed. Please check your payment details and try again.',
 };

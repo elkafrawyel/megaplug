@@ -101,6 +101,8 @@ class Res {
   static const starIcon = 'assets/icons/star.svg';
   static const locationIcon = 'assets/icons/location.svg';
   static const logoutPopupIcon = 'assets/icons/logout_popup.svg';
+  static const paymentSuccessIcon = 'assets/icons/payment_success.svg';
+  static const paymentErrorIcon = 'assets/icons/payment_error.svg';
 
   ///================================================================
 
