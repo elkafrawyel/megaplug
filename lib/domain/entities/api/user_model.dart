@@ -6,7 +6,7 @@ class UserModel {
     this.phone,
     this.language,
     this.createdAt,
-    this.image,
+    this.avatar,
     this.rfid,
   });
 
@@ -17,7 +17,7 @@ class UserModel {
     phone = json['phone'];
     language = json['language'];
     createdAt = json['created_at'];
-    image = json['image'];
+    avatar = json['avatar'];
     rfid = json['rfid'];
   }
 
@@ -27,7 +27,7 @@ class UserModel {
   String? phone;
   String? language;
   String? createdAt;
-  String? image;
+  String? avatar;
   String? rfid;
 
   UserModel copyWith({
@@ -37,7 +37,7 @@ class UserModel {
     String? phone,
     String? language,
     String? createdAt,
-    String? image,
+    String? avatar,
     String? rfid,
   }) =>
       UserModel(
@@ -47,7 +47,7 @@ class UserModel {
         phone: phone ?? this.phone,
         language: language ?? this.language,
         createdAt: createdAt ?? this.createdAt,
-        image: image ?? this.image,
+        avatar: avatar ?? this.avatar,
         rfid: rfid ?? this.rfid,
       );
 
@@ -59,7 +59,7 @@ class UserModel {
     map['phone'] = phone;
     map['language'] = language;
     map['created_at'] = createdAt;
-    map['image'] = image;
+    map['avatar'] = avatar;
     map['rfid'] = rfid;
     return map;
   }

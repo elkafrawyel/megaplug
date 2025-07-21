@@ -69,8 +69,7 @@ class TransactionsHistoryList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       AppText(
-                        text:
-                            '${model.type} ${model.amount ?? '0.0'}${'egp'.tr}',
+                        text: '${model.type} ${model.amount ?? '0.0'} ${model.label == 'Loyalty Points' ? 'points'.tr : 'egp'.tr}',
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                       ),
@@ -94,9 +93,7 @@ class TransactionsHistoryList extends StatelessWidget {
                           ),
                           child: AppText(
                             text: model.tag ?? '',
-                            color: model.type == '+'
-                                ? context.kPrimaryColor
-                                : Color(0xffF41F52),
+                            color: model.type == '+' ? context.kPrimaryColor : Color(0xffF41F52),
                             fontSize: 12,
                           ),
                         ),

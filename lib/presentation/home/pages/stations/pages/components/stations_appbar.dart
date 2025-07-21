@@ -6,6 +6,7 @@ import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
 import 'package:badges/badges.dart' as badges;
 import '../../../../../../../widgets/app_widgets/app_text.dart';
+import '../../../../../../widgets/app_widgets/app_network_image.dart';
 import '../../controller/stations_controller.dart';
 import 'search_view.dart';
 
@@ -37,29 +38,27 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
               builder: (stationsController) {
                 return AppText(
                   text: '${'hi'.tr} ${profileController.userModel?.name ?? ''}',
-                  color:
-                      stationsController.mapView ? Colors.black : Colors.white,
+                  color: stationsController.mapView ? Colors.black : Colors.white,
                   fontWeight: FontWeight.w400,
                 );
               });
         },
       ),
-      // leading: GetBuilder<ProfileController>(
-      //   builder: (profileController) {
-      //     // if (profileController.userModel?.image == null) {
-      //     //   return const SizedBox();
-      //     // }
-      //     return Padding(
-      //       padding: const EdgeInsetsDirectional.only(start: 18.0),
-      //       child: AppNetworkImage(
-      //         isCircular: true,
-      //         fit: BoxFit.cover,
-      //         imageUrl: profileController.userModel?.image ??
-      //             'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
-      //       ),
-      //     );
-      //   },
-      // ),
+      leading: GetBuilder<ProfileController>(
+        builder: (profileController) {
+          if (profileController.userModel?.avatar == null) {
+            return const SizedBox();
+          }
+          return Padding(
+            padding: const EdgeInsetsDirectional.only(start: 18.0),
+            child: AppNetworkImage(
+              isCircular: true,
+              fit: BoxFit.contain,
+              imageUrl: profileController.userModel?.avatar ?? '',
+            ),
+          );
+        },
+      ),
       centerTitle: false,
       actions: [
         GestureDetector(
@@ -111,9 +110,7 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
                       Res.homeAppBarBg,
                       fit: BoxFit.fill,
                       colorFilter: ColorFilter.mode(
-                        stationsController.mapView
-                            ? Colors.transparent
-                            : context.kPrimaryColor,
+                        stationsController.mapView ? Colors.transparent : context.kPrimaryColor,
                         BlendMode.srcIn,
                       ),
                     ),

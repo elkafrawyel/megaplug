@@ -21,6 +21,8 @@ class Res {
   static const apiAddReview = 'station-reviews';
   static const apiCheckBalance = 'wallet/check-balance';
 
+  static const apiChargingHistory = 'user/charging-history';
+
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';
   static const arabicLogo = 'assets/images/arabic_logo.png';

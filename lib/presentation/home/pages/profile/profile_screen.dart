@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
           height: appbarHeight,
           title: 'profile'.tr,
           imageHeight: imageHeight,
-          userImage: profileController.userModel?.image ?? '',
+          userImage: profileController.userModel?.avatar ?? '',
         ),
         body: RefreshIndicator(
           onRefresh: profileController.refreshData,
@@ -116,9 +116,9 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                       size: 15,
                     ),
                     onTap: () {
-                      Get.find<StationsController>().showComingSoonDialog(Get.context!);
-                      //
-                      // Get.to(() => ChargeHistoryScreen());
+                      // Get.find<StationsController>().showComingSoonDialog(Get.context!);
+
+                      Get.to(() => ChargeHistoryScreen());
                     },
                   ),
                 ),

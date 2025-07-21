@@ -104,7 +104,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             shape: BoxShape.circle,
                           ),
                           child: AppNetworkImage(
-                            imageUrl: profileController.userModel?.image ?? '',
+                            imageUrl: profileController.userModel?.avatar ?? '',
                             isCircular: true,
                             localFile: profileController.profileImage,
                             height: 100,

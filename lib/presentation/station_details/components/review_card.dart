@@ -16,6 +16,7 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
           leading: AppNetworkImage(
@@ -34,7 +35,10 @@ class ReviewCard extends StatelessWidget {
             fontSize: 12,
           ),
           trailing: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(0xffFAFAFA)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Color(0xffFAFAFA),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -53,17 +57,18 @@ class ReviewCard extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 18.0,
-            vertical: 8.0,
-          ),
-          child: AppText(
-            text: review.review ?? '',
-            maxLines: 5,
-            fontSize: 13,
-          ),
-        )
+        if (review.review != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 18.0,
+              vertical: 8.0,
+            ),
+            child: AppText(
+              text: review.review ?? '',
+              maxLines: 5,
+              fontSize: 13,
+            ),
+          )
       ],
     );
   }

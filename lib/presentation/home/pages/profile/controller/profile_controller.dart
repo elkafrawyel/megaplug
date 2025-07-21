@@ -58,7 +58,7 @@ class ProfileController extends GetxController {
       Get.back();
 
       GeneralResponse generalResponse = apiResult.getData();
-      InformationViewer.showSuccessToast(msg: generalResponse.message);
+      // InformationViewer.showSuccessToast(msg: generalResponse.message);
       await StorageClient().signOut();
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());

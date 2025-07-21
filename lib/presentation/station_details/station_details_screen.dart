@@ -187,8 +187,8 @@ class StationDetailsScreen extends StatelessWidget {
                               alignment: AlignmentDirectional.centerStart,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xffFAFAFA),
-                                  borderRadius: BorderRadius.circular(12),
+                                  color: Color(0xffF5F5F5),
+                                  borderRadius: BorderRadius.circular(18),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),

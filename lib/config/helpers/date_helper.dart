@@ -76,7 +76,8 @@ class DateHelper {
     return yesterdayDate == newDate;
   }
 
-  String formatDateTime(String date) {
+  String formatDateTime(String? date) {
+    if (date == null) return '';
     DateTime dateTime = DateTime.parse(date);
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);

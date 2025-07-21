@@ -35,7 +35,7 @@ class ConnectorCard extends StatelessWidget {
           ),
           5.ph,
           AppText(
-            text: '${connector.powerDisplay ?? '0'} ${'kw'.tr} (${'egp'.tr} ${connector.pricePerKw ?? '0'}/${'kw'.tr})',
+            text: '${connector.powerDisplay ?? '0'} (${'egp'.tr} ${connector.pricePerKw ?? '0'}/${'kw'.tr})',
             color: context.kHintTextColor,
             fontSize: 11,
           ),
