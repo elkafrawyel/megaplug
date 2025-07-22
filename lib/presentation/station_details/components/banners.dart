@@ -61,6 +61,24 @@ class _StationBannersState extends State<StationBanners> {
                 ),
               ),
               PositionedDirectional(
+                top: 0,
+                start: 0,
+                end: 0,
+                child: Container(
+                  height: MediaQuery.sizeOf(context).height * 0.2,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromRGBO(0, 0, 0, .5),
+                        Color.fromRGBO(0, 0, 0, 0),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              PositionedDirectional(
                 bottom: 10.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
