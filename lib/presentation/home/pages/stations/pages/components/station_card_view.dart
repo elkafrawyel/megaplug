@@ -78,7 +78,7 @@ class StationCardViewState extends State<StationCardView> {
                         top: 24,
                       ),
                       child: AppNetworkImage(
-                        imageUrl: 'https://img.freepik.com/free-vector/cartoon-style-gas-station-background_52683-79920.jpg',
+                        imageUrl: widget.stationModel.image ?? '',
                         height: 70,
                         width: 70,
                         fit: BoxFit.cover,

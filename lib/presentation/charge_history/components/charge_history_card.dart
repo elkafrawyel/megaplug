@@ -68,7 +68,7 @@ class ChargeHistoryCard extends StatelessWidget {
                               ? AppText(
                                   text: 'charging_now'.tr,
                                   color: context.kPrimaryColor,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w400,
                                 )
                               : AppText(
                                   text: DateHelper().formatDateTime(chargingHistoryModel.startedAt),
@@ -98,30 +98,30 @@ class ChargeHistoryCard extends StatelessWidget {
                       ],
                     ),
                     10.pw,
-                    if (chargingHistoryModel.isFinished ?? false)
-                      Expanded(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset(
-                              Res.lightningIcon,
-                              colorFilter: ColorFilter.mode(
-                                context.kPrimaryColor,
-                                BlendMode.srcIn,
-                              ),
+                    Expanded(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(
+                            Res.lightningIcon,
+                            colorFilter: ColorFilter.mode(
+                              (chargingHistoryModel.isFinished ?? false) ? context.kPrimaryColor : Color(0xffFFA800),
+                              BlendMode.srcIn,
                             ),
-                            Expanded(
-                              child: AppText(
-                                text:
-                                    '${chargingHistoryModel.soc == null ? '' : '${'charging'.tr} ' '${chargingHistoryModel.soc}% -'} ${chargingHistoryModel.energyConsumed} ${'kw'.tr}',
-                                maxLines: 2,
-                                fontSize: 12,
-                                color: Color(0xff6C7E8E),
-                              ),
+                          ),
+                          Expanded(
+                            child: AppText(
+                              text: !(chargingHistoryModel.isFinished ?? false)
+                                  ? 'charging_now'.tr
+                                  : '${chargingHistoryModel.soc == null ? '' : '${'charging'.tr} ' '${chargingHistoryModel.soc}% -'} ${chargingHistoryModel.energyConsumed} ${'kw'.tr}',
+                              maxLines: 2,
+                              fontSize: 12,
+                              color: Color(0xff6C7E8E),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
+                    ),
                   ],
                 )
               ],
@@ -131,24 +131,30 @@ class ChargeHistoryCard extends StatelessWidget {
         PositionedDirectional(
           end: 0,
           top: 0,
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 4,
-            ),
-            decoration: BoxDecoration(
-              color: context.kPrimaryColor,
-              borderRadius: BorderRadiusDirectional.only(
-                topEnd: Radius.circular(12),
-                bottomStart: Radius.circular(12),
-              ),
-            ),
-            child: AppText(
-              text: '${chargingHistoryModel.overallCost} ${'egp'.tr}',
-              color: context.kColorOnPrimary,
-              fontSize: 12,
-            ),
-          ),
+          child: !(chargingHistoryModel.isFinished ?? false)
+              ? Image.asset(
+                  Res.chargingImage,
+                  width: 70,
+                  height: 70,
+                )
+              : Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: context.kPrimaryColor,
+                    borderRadius: BorderRadiusDirectional.only(
+                      topEnd: Radius.circular(12),
+                      bottomStart: Radius.circular(12),
+                    ),
+                  ),
+                  child: AppText(
+                    text: '${chargingHistoryModel.overallCost} ${'egp'.tr}',
+                    color: context.kColorOnPrimary,
+                    fontSize: 12,
+                  ),
+                ),
         )
       ],
     );

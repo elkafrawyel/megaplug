@@ -51,7 +51,8 @@ class _ChargeScreenState extends State<ChargeScreen> with AutomaticKeepAliveClie
                   ? SizedBox()
                   : InkWell(
                       onTap: () {
-                        manualScan('5403000060');
+                        // manualScan('5403000060');
+                        manualScan('5403000061');
                       },
                       child: ScannerView(),
                     );

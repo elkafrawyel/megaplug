@@ -7,7 +7,6 @@ import '../pages/charge/charge_screen.dart';
 import '../pages/charge/controller/charge_controller.dart';
 import '../pages/profile/profile_screen.dart';
 import '../pages/settings/settings_screen.dart';
-import '../pages/stations/controller/stations_controller.dart';
 import '../pages/stations/stations_screen.dart';
 import '../pages/wallet/wallet_screen.dart';
 

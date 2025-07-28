@@ -117,6 +117,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     Get.until((route) => route.settings.name == '/HomeScreen');
                   },
                   errorResult: (error) async {
+                    AppLogger.logWithGetX('Payment Error: : : $error');
                     await showAppModalBottomSheet(
                       context: context,
                       child: BottomSheetParent(

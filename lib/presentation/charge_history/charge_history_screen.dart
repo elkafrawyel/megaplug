@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/charge_history/components/charge_history_card.dart';
@@ -35,7 +34,8 @@ class ChargeHistoryScreen extends StatelessWidget {
               'status': 'all',
             },
           ),
-          child: (ChargingHistoryModel chargingHistoryModel) => ChargeHistoryCard(
+          child: (ChargingHistoryModel chargingHistoryModel) =>
+              ChargeHistoryCard(
             chargingHistoryModel: chargingHistoryModel,
           ),
         ),

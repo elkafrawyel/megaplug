@@ -215,13 +215,14 @@ class ChargeController extends GetxController {
             getSessionTimer();
           } else {
             // Finished
-            stopSubscription();
-            await Get.to(
+            await stopSubscription();
+            Get.to(
               () => ChargingSessionSummeryScreen(
                 chargingModel: event.data()!,
               ),
+            )?.then(
+              (_) => Get.until((route) => route.settings.name == '/HomeScreen'),
             );
-            Get.until((route) => route.settings.name == '/HomeScreen');
           }
         }
       },
@@ -229,7 +230,7 @@ class ChargeController extends GetxController {
     );
   }
 
-  stopSubscription() async {
+  Future stopSubscription() async {
     if (subscription != null) {
       transactionIdController.add(null);
       await subscription!.cancel();
