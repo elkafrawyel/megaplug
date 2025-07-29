@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
@@ -28,10 +29,10 @@ class AmenitiesView extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          AppNetworkImage(
-                            imageUrl: element.imageUrl ?? '',
-                            width: 50,
-                            height: 50,
+                          SvgPicture.network(
+                            element.imageUrl ?? '',
+                            width: 40,
+                            height: 40,
                           ),
                           10.pw,
                           Expanded(

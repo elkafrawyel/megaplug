@@ -47,10 +47,9 @@ class AppTextFormField extends StatefulWidget {
   final AppFieldType appFieldType;
   final bool checkRulesOnTyping;
   final bool alwaysShowRules;
-
   final List<AuthFormRule>? rules;
-
   final List<TextInputFormatter>? inputFormatters;
+  final VoidCallback? onFocusLost;
 
   const AppTextFormField({
     super.key,
@@ -79,6 +78,7 @@ class AppTextFormField extends StatefulWidget {
     this.alwaysShowRules = false,
     this.rules,
     this.inputFormatters,
+    this.onFocusLost,
   });
 
   @override
@@ -102,6 +102,15 @@ class AppTextFormFieldState extends State<AppTextFormField> {
     super.initState();
     _isPasswordField = AppFieldType.password == widget.appFieldType || AppFieldType.confirmPassword == widget.appFieldType;
     _isSecure = _isPasswordField;
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        print('TextField got focus');
+      } else {
+        if (widget.onFocusLost != null) {
+          widget.onFocusLost!();
+        }
+      }
+    });
   }
 
   @override

@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    8.ph,
                     Center(
                       child: AppText(
                         text: "login_message".tr,
@@ -102,6 +102,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         AutofillHints.email,
                         AutofillHints.telephoneNumber
                       ],
+                      onFieldSubmitted: (String value) {
+                        FocusScope.of(context).nextFocus();
+                        AppTextFieldRules.validateForm(
+                          [
+                            emailState,
+                          ],
+                        );
+                      },
+                      onEditingComplete: () {
+                        FocusScope.of(context).nextFocus();
+                        AppTextFieldRules.validateForm(
+                          [
+                            emailState,
+                          ],
+                        );
+                      },
+                      onFocusLost: (){
+                        AppTextFieldRules.validateForm(
+                          [
+                            emailState,
+                          ],
+                        );
+                      },
                     ),
                     16.ph,
                     AppText(

@@ -38,8 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordController = TextEditingController();
   GlobalKey<AppTextFormFieldState> passwordState = GlobalKey();
 
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   GlobalKey<AppTextFormFieldState> confirmPasswordState = GlobalKey();
 
   @override
@@ -112,6 +111,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: emailController,
                   hintText: 'email_hint'.tr,
                   checkRulesOnTyping: false,
+                  onFieldSubmitted: (String value) {
+                    FocusScope.of(context).nextFocus();
+                    AppTextFieldRules.validateForm(
+                      [
+                        emailState,
+                      ],
+                    );
+                  },
+                  onEditingComplete: () {
+                    FocusScope.of(context).nextFocus();
+                    AppTextFieldRules.validateForm(
+                      [
+                        emailState,
+                      ],
+                    );
+                  },
+                  onFocusLost: (){
+                    AppTextFieldRules.validateForm(
+                      [
+                        emailState,
+                      ],
+                    );
+                  },
                   textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.email],
                   appFieldType: AppFieldType.email,
@@ -137,6 +159,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.telephoneNumber],
                   rules: AppTextFieldRules.phoneNumberRules,
+                  checkRulesOnTyping: false,
+                  onFieldSubmitted: (String value) {
+                    FocusScope.of(context).nextFocus();
+                    AppTextFieldRules.validateForm(
+                      [
+                        phoneState,
+                      ],
+                    );
+                  },
+                  onEditingComplete: () {
+                    FocusScope.of(context).nextFocus();
+                    AppTextFieldRules.validateForm(
+                      [
+                        phoneState,
+                      ],
+                    );
+                  },
+                  onFocusLost: (){
+                    AppTextFieldRules.validateForm(
+                      [
+                        phoneState,
+                      ],
+                    );
+                  },
                 ),
               ),
               10.ph,
@@ -158,7 +204,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   rules: AppTextFieldRules.passwordRules,
                   alwaysShowRules: true,
-
                 ),
               ),
               10.ph,
