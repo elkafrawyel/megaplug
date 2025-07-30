@@ -43,20 +43,15 @@ class ChargeHistoryCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Flexible(
-                                child: AppText(
-                                  text: chargingHistoryModel.chargingPoint?.station?.nameEn ?? '',
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              AppText(
-                                text: ' #${chargingHistoryModel.chargingPoint?.station?.id}',
-                                fontSize: 12,
-                                color: context.kHintTextColor,
-                              ),
-                            ],
+                          AppText(
+                            text: chargingHistoryModel.chargingPoint?.station?.nameEn ?? '',
+                            fontWeight: FontWeight.w500,
+                          ),
+                          5.ph,
+                          AppText(
+                            text: ' #${chargingHistoryModel.transactionId}',
+                            fontSize: 12,
+                            color: context.kHintTextColor,
                           ),
                           5.ph,
                           AppText(

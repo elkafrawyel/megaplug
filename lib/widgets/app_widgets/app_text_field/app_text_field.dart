@@ -142,7 +142,9 @@ class AppTextFormFieldState extends State<AppTextFormField> {
             controller: widget.controller,
             keyboardType: widget.keyboardType ?? TextInputType.text,
             onChanged: (String? value) {
-              clearApiError();
+              if (!widget.checkRulesOnTyping) {
+                clearApiError();
+              }
               debuncer.debounce(
                 Duration(milliseconds: 1000),
                 () => _validateRules(

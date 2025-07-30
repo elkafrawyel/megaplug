@@ -38,7 +38,7 @@ class AmenitiesView extends StatelessWidget {
                           Expanded(
                             child: AppText(
                               text: element.toString(),
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w400,
                               maxLines: 3,
                             ),
