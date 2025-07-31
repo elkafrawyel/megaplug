@@ -83,10 +83,13 @@ class ChargeHistoryCard extends StatelessWidget {
                       children: [
                         SvgPicture.network(
                           chargingHistoryModel.connector?.connectorType?.image ?? '',
+                          width: 20,
+                          height: 20,
                         ),
                         5.pw,
                         AppText(
-                          text: chargingHistoryModel.connector?.connectorType?.toString() ?? '',
+                          text:
+                              '${chargingHistoryModel.connector?.connectorType?.toString() ?? ''} , ${chargingHistoryModel.connector?.chargePower?.nameEn} , ${(chargingHistoryModel.connector?.connectorType?.isDc ?? false) ? 'DC' : 'AC'} , ',
                           color: Color(0xff6C7E8E),
                           fontSize: 13,
                         ),
