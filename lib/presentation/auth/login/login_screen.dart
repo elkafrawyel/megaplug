@@ -110,14 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         );
                       },
-                      onEditingComplete: () {
-                        FocusScope.of(context).nextFocus();
-                        AppTextFieldRules.validateForm(
-                          [
-                            emailState,
-                          ],
-                        );
-                      },
                       onFocusLost: (){
                         AppTextFieldRules.validateForm(
                           [

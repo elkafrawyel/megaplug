@@ -4,6 +4,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/domain/entities/api/amenity_model.dart';
 
+import '../../config/extension/station_status.dart';
+
 class StationDetailsResponse {
   StationDetailsResponse({
     this.success,
@@ -331,6 +333,22 @@ class Station {
       double.parse(jsonDecode(location!)['lat'].toString()),
       double.parse(jsonDecode(location!)['lng'].toString()),
     );
+  }
+
+  final _available = 'Available';
+  final _inUse = 'InUse';
+  final _unavailable = 'Unavailable';
+
+  StationStatus getStationStatus() {
+    if (status == _available) {
+      return StationStatus.available;
+    } else if (status == _unavailable) {
+      return StationStatus.unavailable;
+    } else if (status == _inUse) {
+      return StationStatus.inUse;
+    } else {
+      return StationStatus.area;
+    }
   }
 }
 

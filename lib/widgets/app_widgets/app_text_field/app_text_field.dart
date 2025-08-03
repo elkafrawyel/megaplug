@@ -41,7 +41,6 @@ class AppTextFormField extends StatefulWidget {
   final List<String>? autoFillHints;
   final double? radius;
   final Function(String value)? onChanged;
-  final VoidCallback? onEditingComplete;
   final Function(String value)? onFieldSubmitted;
   final TextInputAction? textInputAction;
   final AppFieldType appFieldType;
@@ -65,7 +64,6 @@ class AppTextFormField extends StatefulWidget {
     this.enabled = true,
     this.onChanged,
     this.onFieldSubmitted,
-    this.onEditingComplete,
     this.autoFillHints,
     this.suffixIcon,
     this.prefixIcon,
@@ -167,7 +165,6 @@ class AppTextFormFieldState extends State<AppTextFormField> {
             },
             inputFormatters: widget.inputFormatters,
             autofillHints: widget.autoFillHints,
-            onEditingComplete: widget.onEditingComplete,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textAlignVertical: TextAlignVertical.center,
             textAlign: TextAlign.start,

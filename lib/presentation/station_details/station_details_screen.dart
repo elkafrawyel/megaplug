@@ -22,10 +22,6 @@ class StationDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StationStatus stationStatus = StationStatus.available;
-    Color statusColor = stationStatus.color;
-    // Color statusColor = stationModel.getStationStatus().color;
-
     return GetBuilder<StationDetailsController>(
       init: StationDetailsController(
         stationId: stationId,
@@ -133,14 +129,14 @@ class StationDetailsScreen extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: statusColor,
+                                color: stationModel?.getStationStatus().color,
                                 borderRadius: BorderRadiusDirectional.only(
                                   topEnd: Radius.circular(12),
                                   bottomStart: Radius.circular(12),
                                 ),
                               ),
                               child: AppText(
-                                text: stationStatus.text.tr,
+                                text: stationModel?.getStationStatus().text.tr ?? '',
                                 color: context.kColorOnPrimary,
                                 fontSize: 12,
                               ),

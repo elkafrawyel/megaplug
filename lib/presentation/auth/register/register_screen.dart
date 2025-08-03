@@ -112,15 +112,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   hintText: 'email_hint'.tr,
                   checkRulesOnTyping: false,
                   onFieldSubmitted: (String value) {
-                    FocusScope.of(context).nextFocus();
-                    AppTextFieldRules.validateForm(
-                      [
-                        emailState,
-                      ],
-                    );
-                  },
-                  onEditingComplete: () {
-                    FocusScope.of(context).nextFocus();
                     AppTextFieldRules.validateForm(
                       [
                         emailState,
@@ -161,15 +152,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   rules: AppTextFieldRules.phoneNumberRules,
                   checkRulesOnTyping: false,
                   onFieldSubmitted: (String value) {
-                    FocusScope.of(context).nextFocus();
-                    AppTextFieldRules.validateForm(
-                      [
-                        phoneState,
-                      ],
-                    );
-                  },
-                  onEditingComplete: () {
-                    FocusScope.of(context).nextFocus();
                     AppTextFieldRules.validateForm(
                       [
                         phoneState,

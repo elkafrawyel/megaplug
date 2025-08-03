@@ -89,7 +89,7 @@ class ChargeHistoryCard extends StatelessWidget {
                         5.pw,
                         AppText(
                           text:
-                              '${chargingHistoryModel.connector?.connectorType?.toString() ?? ''} , ${chargingHistoryModel.connector?.chargePower?.nameEn} , ${(chargingHistoryModel.connector?.connectorType?.isDc ?? false) ? 'DC' : 'AC'} , ',
+                              '${chargingHistoryModel.connector?.connectorType?.toString() ?? ''} , ${chargingHistoryModel.connector?.chargePower?.nameEn} , ${(chargingHistoryModel.connector?.connectorType?.isDc ?? false) ? 'DC' : 'AC'}',
                           color: Color(0xff6C7E8E),
                           fontSize: 13,
                         ),
