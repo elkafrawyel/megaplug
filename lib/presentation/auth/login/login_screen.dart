@@ -98,12 +98,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: "enter_email_or_phone".tr,
                       rules: AppTextFieldRules.emailOrPhoneRules,
                       checkRulesOnTyping: false,
+                      textInputAction: TextInputAction.next,
                       autoFillHints: const [
                         AutofillHints.email,
                         AutofillHints.telephoneNumber
                       ],
                       onFieldSubmitted: (String value) {
-                        FocusScope.of(context).nextFocus();
                         AppTextFieldRules.validateForm(
                           [
                             emailState,
@@ -129,6 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: passwordController,
                       hintText: "enter_password".tr,
                       appFieldType: AppFieldType.password,
+                      textInputAction: TextInputAction.done,
                       autoFillHints: const [AutofillHints.password],
                     ),
                     5.ph,
