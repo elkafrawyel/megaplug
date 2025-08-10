@@ -7,6 +7,8 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
+import 'package:megaplug/config/app_loader.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -37,7 +39,7 @@ class _MegaPlugState extends State<MegaPlug> {
 
   @override
   Widget build(BuildContext context) {
-    String appLanguage = StorageClient().getAppLanguage();
+    AppLogger.logWithGetX('App Language In Main: ${StorageClient().getAppLanguage()}');
 
     return Obx(
       () => AppFocusRemover(
@@ -49,20 +51,16 @@ class _MegaPlugState extends State<MegaPlug> {
               title: 'app_name'.tr,
               theme: ThemeData(
                 useMaterial3: true,
-                fontFamily: StorageClient().isAr()
-                    ? Constants.arFontFamily
-                    : Constants.fontFamily,
+                fontFamily: StorageClient().isAr() ? Constants.arFontFamily : Constants.fontFamily,
                 extensions: [themeController.appColors.value],
               ),
-              debugShowCheckedModeBanner:
-                  Environment.appMode == AppMode.staging ||
-                      Environment.appMode == AppMode.development,
+              debugShowCheckedModeBanner: Environment.appMode == AppMode.staging || Environment.appMode == AppMode.development,
               defaultTransition: Transition.cupertino,
               transitionDuration: const Duration(milliseconds: 300),
               supportedLocales: LanguageData.supportedLocales,
               translations: Translation(),
-              locale: Locale(appLanguage),
-              fallbackLocale: Locale(appLanguage),
+              locale: Locale(StorageClient().getAppLanguage()),
+              fallbackLocale: Locale(StorageClient().getAppLanguage()),
               localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
@@ -75,8 +73,6 @@ class _MegaPlugState extends State<MegaPlug> {
                 child = EasyLoading.init()(context, child);
                 EasyLoading.instance
                   ..displayDuration = const Duration(milliseconds: 2000)
-
-                  ///loading circular view
                   ..indicatorType = EasyLoadingIndicatorType.fadingCircle
                   ..loadingStyle = EasyLoadingStyle.custom
                   ..maskType = EasyLoadingMaskType.black

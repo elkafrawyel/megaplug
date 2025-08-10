@@ -129,7 +129,7 @@ Map<String, String> ar = {
   'oops': 'عفواً! حدث خطأ ما',
   'try_to_connect': 'حاول الاتصال',
   'current_balance': 'الرصيد الحالي',
-  'EGP': 'ج.م',
+  'egp': 'ج.م',
   'no_transactions_history': 'لا يوجد عمليات مسبقة',
   'time_remaining': 'الوقت المستهلك',
   'total_watts': 'إجمالي الكيلوواط المستهلك',

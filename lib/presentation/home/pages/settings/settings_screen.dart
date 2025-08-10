@@ -19,8 +19,7 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen>
-    with AutomaticKeepAliveClientMixin {
+class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAliveClientMixin {
   LanguageData? selectedLanguage;
 
   @override
@@ -43,6 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen>
         child: Column(
           spacing: 10,
           children: [
+            40.ph,
             Card(
               elevation: 0.0,
               shape: RoundedRectangleBorder(
@@ -106,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 onTap: () {
                   showAppLanguageDialog(
                       context: context,
-                      onLanguageChanged: (LanguageData languageData) {
+                      onLanguageChanged: (LanguageData languageData) async {
                         AppLogger.log(languageData.name);
                         setState(() {
                           selectedLanguage = languageData;

@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'stations'.tr,
                             color: selectedIndex == 0 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 0 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'wallet'.tr,
                             color: selectedIndex == 1 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 1 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'charge'.tr,
                             color: selectedIndex == 2 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 2 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
@@ -151,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'profile'.tr,
                             color: selectedIndex == 3 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 3 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
@@ -161,9 +161,9 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                   //settings
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => Get.find<StationsController>().showComingSoonDialog(Get.context!),
+                      // onTap: () => Get.find<StationsController>().showComingSoonDialog(Get.context!),
 
-                      // onTap: () => HomeController.to.pageController.jumpToPage(4),
+                      onTap: () => HomeController.to.pageController.jumpToPage(4),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -174,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'settings'.tr,
                             color: selectedIndex == 4 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 4 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
