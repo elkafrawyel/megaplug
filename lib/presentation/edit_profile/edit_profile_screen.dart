@@ -169,6 +169,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     autoFillHints: [AutofillHints.email],
                     appFieldType: AppFieldType.email,
                     rules: AppTextFieldRules.emailRules,
+                    checkRulesOnTyping: false,
+                    onFieldSubmitted: (String value) {
+                      AppTextFieldRules.validateForm(
+                        [
+                          emailState,
+                        ],
+                      );
+                    },
+                    onFocusLost: (){
+                      AppTextFieldRules.validateForm(
+                        [
+                          emailState,
+                        ],
+                      );
+                    },
                   ),
                 ),
                 Padding(
@@ -189,6 +204,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     textInputAction: TextInputAction.next,
                     autoFillHints: [AutofillHints.telephoneNumber],
                     rules: AppTextFieldRules.phoneNumberRules,
+                    checkRulesOnTyping: false,
+                    onFieldSubmitted: (String value) {
+                      AppTextFieldRules.validateForm(
+                        [
+                          phoneState,
+                        ],
+                      );
+                    },
+                    onFocusLost: (){
+                      AppTextFieldRules.validateForm(
+                        [
+                          phoneState,
+                        ],
+                      );
+                    },
                   ),
                 ),
                 30.ph,

@@ -64,71 +64,74 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       ),
       backgroundColor: context.kBackgroundColor,
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            70.ph,
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppText(
-                text: 'old_password'.tr,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              50.ph,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: 'old_password'.tr,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppTextFormField(
-                key: oldPasswordState,
-                controller: oldPasswordController,
-                hintText: 'enter_password'.tr,
-                appFieldType: AppFieldType.password,
-                textInputAction: TextInputAction.next,
-                rules: AppTextFieldRules.passwordRules,
-                alwaysShowRules: true,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppTextFormField(
+                  key: oldPasswordState,
+                  controller: oldPasswordController,
+                  hintText: 'enter_password'.tr,
+                  appFieldType: AppFieldType.password,
+                  textInputAction: TextInputAction.next,
+                  rules: AppTextFieldRules.passwordRules,
+                  alwaysShowRules: true,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppText(
-                text: 'password'.tr,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: 'password'.tr,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppTextFormField(
-                key: passwordState,
-                controller: passwordController,
-                hintText: 'enter_password'.tr,
-                appFieldType: AppFieldType.password,
-                textInputAction: TextInputAction.next,
-                rules: AppTextFieldRules.passwordRules,
-                alwaysShowRules: true,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppTextFormField(
+                  key: passwordState,
+                  controller: passwordController,
+                  hintText: 'enter_password'.tr,
+                  appFieldType: AppFieldType.password,
+                  textInputAction: TextInputAction.next,
+                  rules: AppTextFieldRules.passwordRules,
+                  alwaysShowRules: true,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppText(
-                text: 're_inter_password'.tr,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppText(
+                  text: 're_inter_password'.tr,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AppTextFormField(
-                key: confirmPasswordState,
-                controller: confirmPasswordController,
-                hintText: 're_inter_password_hint'.tr,
-                appFieldType: AppFieldType.password,
-                textInputAction: TextInputAction.done,
-                alwaysShowRules: false,
-                checkRulesOnTyping: false,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: AppTextFormField(
+                  key: confirmPasswordState,
+                  controller: confirmPasswordController,
+                  hintText: 're_inter_password_hint'.tr,
+                  appFieldType: AppFieldType.password,
+                  textInputAction: TextInputAction.done,
+                  alwaysShowRules: false,
+                  checkRulesOnTyping: false,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
