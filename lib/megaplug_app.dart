@@ -39,8 +39,6 @@ class _MegaPlugState extends State<MegaPlug> {
 
   @override
   Widget build(BuildContext context) {
-    AppLogger.logWithGetX('App Language In Main: ${StorageClient().getAppLanguage()}');
-
     return Obx(
       () => AppFocusRemover(
         child: OKToast(

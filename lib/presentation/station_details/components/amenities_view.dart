@@ -20,34 +20,37 @@ class AmenitiesView extends StatelessWidget {
       child: GetBuilder<StationDetailsController>(
         builder: (stationDetailsController) {
           Station? stationModel = stationDetailsController.stationDetailsResponse?.data?.station;
-          return Wrap(
-              runSpacing: 20,
-              children: (stationModel?.amenities ?? [])
-                  .map(
-                    (AmenityModel element) => SizedBox(
-                      width: (MediaQuery.of(context).size.width - 34) / 2, // 2 per row with spacing
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.network(
-                            element.imageUrl ?? '',
-                            width: 40,
-                            height: 40,
-                          ),
-                          10.pw,
-                          Expanded(
-                            child: AppText(
-                              text: element.toString(),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              maxLines: 3,
+          return Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Wrap(
+                runSpacing: 35,
+                children: (stationModel?.amenities ?? [])
+                    .map(
+                      (AmenityModel element) => SizedBox(
+                        width: (MediaQuery.of(context).size.width - 34) / 2, // 2 per row with spacing
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.network(
+                              element.imageUrl ?? '',
+                              width: 40,
+                              height: 40,
                             ),
-                          )
-                        ],
+                            10.pw,
+                            Expanded(
+                              child: AppText(
+                                text: element.toString(),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                maxLines: 3,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  )
-                  .toList());
+                    )
+                    .toList()),
+          );
         },
       ),
     );

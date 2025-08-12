@@ -1,8 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_responses/station_details_response.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
+
+import '../../../config/res.dart';
+import '../../../widgets/app_widgets/app_text.dart';
+import '../../home/pages/stations/controller/stations_controller.dart';
 
 // final List<String> imgList = [
 //   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -40,25 +46,20 @@ class _StationBannersState extends State<StationBanners> {
         : Stack(
             alignment: AlignmentDirectional.bottomCenter,
             children: [
-              Container(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.sizeOf(context).height * 0.42,
-                ),
-                child: CarouselSlider(
-                  items: createSliders(widget.sliders!),
-                  // items: createSliders(imgList),
-                  options: CarouselOptions(
-                      autoPlay: true,
-                      viewportFraction: 1.0,
-                      autoPlayAnimationDuration: const Duration(seconds: 2),
-                      aspectRatio: 16 / 9,
-                      enlargeCenterPage: true,
-                      onPageChanged: (index, reason) {
-                        setState(() {
-                          _current = widget.sliders[index];
-                        });
-                      }),
-                ),
+              CarouselSlider(
+                items: createSliders(widget.sliders),
+                // items: createSliders(imgList),
+                options: CarouselOptions(
+                    autoPlay: true,
+                    viewportFraction: 1,
+                    autoPlayAnimationDuration: const Duration(seconds: 2),
+                    aspectRatio: 1.6,
+                    enlargeCenterPage: true,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = widget.sliders[index];
+                      });
+                    }),
               ),
               PositionedDirectional(
                 top: 0,
@@ -76,6 +77,40 @@ class _StationBannersState extends State<StationBanners> {
                       ],
                     ),
                   ),
+                ),
+              ),
+              PositionedDirectional(
+                top: 30,
+                start: 0,
+                end: 0,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(14.0),
+                      child: InkWell(
+                        onTap: Get.back,
+                        child: SvgPicture.asset(Res.backIcon),
+                      ),
+                    ),
+                    Spacer(),
+                    AppText(
+                      text: 'station_details'.tr,
+                      color: Colors.white,
+                      centerText: true,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    Spacer(),
+                    InkWell(
+                      onTap: () {
+                        Get.find<StationsController>().showComingSoonDialog(Get.context!);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(Res.shareIcon),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               PositionedDirectional(
@@ -121,7 +156,7 @@ class _StationBannersState extends State<StationBanners> {
           (item) => AppNetworkImage(
             imageUrl: item.url,
             width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height * 0.4,
+            height: MediaQuery.sizeOf(context).height * 0.45,
             radius: 0.0,
           ),
         )

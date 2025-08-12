@@ -71,189 +71,155 @@ class StationDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                body: NestedScrollView(
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverAppBar(
-                        expandedHeight: MediaQuery.sizeOf(context).height * 0.23,
-                        backgroundColor: Colors.transparent,
-                        elevation: 0,
-                        floating: true,
-                        leading: Padding(
-                          padding: const EdgeInsets.all(14.0),
-                          child: InkWell(
-                            onTap: Get.back,
-                            child: SvgPicture.asset(Res.backIcon),
-                          ),
-                        ),
-                        actions: [
-                          InkWell(
-                            onTap: () {
-                              Get.find<StationsController>().showComingSoonDialog(Get.context!);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(Res.shareIcon),
-                            ),
-                          ),
-                        ],
-                        title: AppText(
-                          text: 'station_details'.tr,
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      StationBanners(
+                        sliders: stationModel?.images ?? [],
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
                           color: Colors.white,
-                          centerText: true,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(18.0),
+                          ),
                         ),
-                        centerTitle: true,
-                        flexibleSpace: StationBanners(
-                          sliders: stationModel?.images ?? [],
-                        ),
-                      ),
-                    ];
-                  },
-                  body: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(18.0),
-                      ),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Align(
-                            alignment: AlignmentDirectional.centerEnd,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: stationModel?.getStationStatus().color,
-                                borderRadius: BorderRadiusDirectional.only(
-                                  topEnd: Radius.circular(12),
-                                  bottomStart: Radius.circular(12),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: stationModel?.getStationStatus().color,
+                                  borderRadius: BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(12),
+                                    bottomStart: Radius.circular(12),
+                                  ),
+                                ),
+                                child: AppText(
+                                  text: stationModel?.getStationStatus().text.tr ?? '',
+                                  color: context.kColorOnPrimary,
+                                  fontSize: 12,
                                 ),
                               ),
-                              child: AppText(
-                                text: stationModel?.getStationStatus().text.tr ?? '',
-                                color: context.kColorOnPrimary,
-                                fontSize: 12,
+                            ),
+                            10.ph,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                              child: Row(
+                                children: [
+                                  AppText(
+                                    text: stationModel?.toString() ?? '',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  Spacer(),
+                                  SvgPicture.asset(
+                                    Res.starIcon,
+                                  ),
+                                  5.pw,
+                                  AppText(
+                                    text: stationModel?.averageRating?.toString() ?? '',
+                                    fontWeight: FontWeight.w500,
+                                  )
+                                ],
                               ),
                             ),
-                          ),
-                          10.ph,
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                            child: Row(
-                              children: [
-                                AppText(
-                                  text: stationModel?.toString() ?? '',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                Spacer(),
-                                SvgPicture.asset(
-                                  Res.starIcon,
-                                ),
-                                5.pw,
-                                AppText(
-                                  text: stationModel?.averageRating?.toString() ?? '',
-                                  fontWeight: FontWeight.w500,
-                                )
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(Res.locationIcon),
+                                  5.pw,
+                                  AppText(
+                                    text: stationModel?.address() ?? '',
+                                    maxLines: 3,
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(Res.locationIcon),
-                                5.pw,
-                                AppText(
-                                  text: stationModel?.address() ?? '',
-                                  maxLines: 3,
-                                )
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                              child: Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffF5F5F5),
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        AppText(
+                                          text: (stationModel?.todayWorkingHours?.isActive ?? false) ? 'open'.tr : 'close'.tr,
+                                        ),
+                                        10.pw,
+                                        Container(
+                                          width: 7,
+                                          height: 7,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: (stationModel?.todayWorkingHours?.isActive ?? false) ? context.kPrimaryColor : context.kErrorColor,
+                                          ),
+                                        ),
+                                        10.pw,
+                                        AppText(
+                                            text:
+                                                '${stationModel?.todayWorkingHours?.startTime ?? ''} - ${stationModel?.todayWorkingHours?.endTime ?? ''}')
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                            child: Align(
-                              alignment: AlignmentDirectional.centerStart,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 12.0),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Color(0xffF5F5F5),
-                                  borderRadius: BorderRadius.circular(18),
+                                  color: Color(0xffFAFAFA),
+                                  borderRadius: BorderRadius.circular(24),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                    mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      AppText(
-                                        text: (stationModel?.todayWorkingHours?.isActive ?? false) ? 'open'.tr : 'close'.tr,
-                                      ),
-                                      10.pw,
-                                      Container(
-                                        width: 7,
-                                        height: 7,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: (stationModel?.todayWorkingHours?.isActive ?? false) ? context.kPrimaryColor : context.kErrorColor,
+                                      Expanded(
+                                        child: PageTab(
+                                          index: 0,
+                                          title: 'details',
                                         ),
                                       ),
-                                      10.pw,
-                                      AppText(
-                                          text:
-                                              '${stationModel?.todayWorkingHours?.startTime ?? ''} - ${stationModel?.todayWorkingHours?.endTime ?? ''}')
+                                      20.pw,
+                                      Expanded(
+                                        child: PageTab(
+                                          index: 1,
+                                          title: 'amenities',
+                                        ),
+                                      ),
+                                      20.pw,
+                                      Expanded(
+                                        child: PageTab(
+                                          index: 2,
+                                          title: 'reviews',
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffFAFAFA),
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: PageTab(
-                                        index: 0,
-                                        title: 'details',
-                                      ),
-                                    ),
-                                    20.pw,
-                                    Expanded(
-                                      child: PageTab(
-                                        index: 1,
-                                        title: 'amenities',
-                                      ),
-                                    ),
-                                    20.pw,
-                                    Expanded(
-                                      child: PageTab(
-                                        index: 2,
-                                        title: 'reviews',
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          10.ph,
-                          stationDetailsController.pages[stationDetailsController.pageIndex],
-                        ],
-                      ),
-                    ),
+                            10.ph,
+                            stationDetailsController.pages[stationDetailsController.pageIndex],
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               );
