@@ -20,11 +20,15 @@ class NotificationsService {
   Future<void> init() async {
     await _instance.requestPermission(announcement: true);
 
-    await _instance.getToken().then(
+    _instance.getToken().then(
           (token) => AppLogger.logWithGetX(
-            'FIREBASE TOKEN : : $token',
+            '📱 FIREBASE TOKEN : : $token',
           ),
         );
+
+    FirebaseMessaging.instance.getAPNSToken().then((token) {
+      AppLogger.logWithGetX("📱 APNs token: $token");
+    });
 
     /// ==========================Handle Background Notifications=======================================
 
@@ -33,8 +37,8 @@ class NotificationsService {
         RemoteNotification? notification = remoteMessage.notification;
         AndroidNotification? android = remoteMessage.notification?.android;
         if (notification != null && android != null) {
-          AppLogger.log(
-            'Initial Notification : : ${remoteMessage.notification?.title}',
+          AppLogger.logWithGetX(
+            '📩 Initial Notification : : ${remoteMessage.notification?.title}',
           );
           _handleBackgroundRemoteMessage(remoteMessage);
         }
@@ -44,7 +48,7 @@ class NotificationsService {
     FirebaseMessaging.onMessageOpenedApp.listen(
       (RemoteMessage remoteMessage) {
         if (remoteMessage.notification != null) {
-          AppLogger.log('Background Notification Tapped.');
+          AppLogger.logWithGetX('📩 Background Notification Tapped.');
           _handleBackgroundRemoteMessage(remoteMessage);
         }
       },
@@ -55,7 +59,7 @@ class NotificationsService {
 
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage remoteMessage) {
-        AppLogger.log('Got a Foreground Notification.');
+        AppLogger.logWithGetX('📩 Got a message in foreground: ${remoteMessage.notification?.title}');
         if (remoteMessage.notification != null) {
           _handleForegroundRemoteMessage(remoteMessage);
         }
