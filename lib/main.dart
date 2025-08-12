@@ -10,6 +10,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'config/clients/storage/storage_client.dart';
 import 'config/helpers/logging_helper.dart';
+import 'config/notifications/notifications_service.dart';
 import 'firebase_options.dart';
 import 'megaplug_app.dart';
 
@@ -59,8 +60,8 @@ void main() async {
     return true;
   };
 
-  // await NotificationsService().init();
-  // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
+  await NotificationsService().init();
+  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
 
   await dotenv.load(fileName: ".env");
 
