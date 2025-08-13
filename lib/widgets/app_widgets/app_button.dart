@@ -13,6 +13,8 @@ class AppButton extends StatelessWidget {
   final double? radius;
   final double? width;
 
+  final double? fontSize;
+
   const AppButton({
     super.key,
     required this.text,
@@ -23,14 +25,13 @@ class AppButton extends StatelessWidget {
     this.elevation,
     this.radius,
     this.width,
+    this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width ?? MediaQuery
-          .sizeOf(context)
-          .width,
+      width: width ?? MediaQuery.sizeOf(context).width,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: elevation ?? 0.0,
@@ -45,7 +46,7 @@ class AppButton extends StatelessWidget {
         child: AppText(
           text: text,
           color: textColor ?? context.kColorOnPrimary,
-          fontSize: 16,
+          fontSize: fontSize ?? 16,
           fontWeight: FontWeight.w700,
         ),
       ),

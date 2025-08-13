@@ -161,4 +161,7 @@ Map<String, String> ar = {
   'back_to_wallet': 'العودة إلى المحفظة',
   'payment_error': 'فشل الدفع!',
   'payment_error_message': 'تعذّرت معالجة دفعتك. يُرجى مراجعة تفاصيل الدفع والمحاولة مجددًا.',
+  'message_hint': 'قم بكتابة رسالتك هنا',
+  'message': 'الرسالة',
+  'send': 'إرسال',
 };

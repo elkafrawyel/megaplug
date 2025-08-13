@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/repositories/profile_repo.dart';
@@ -11,7 +12,6 @@ import 'package:megaplug/domain/entities/api/user_model.dart';
 import '../../../../../config/clients/storage/storage_client.dart';
 
 class ProfileController extends GetxController {
-
   static ProfileController get to => Get.find<ProfileController>();
 
   final ProfileRepositoryImpl _profileRepositoryImpl;
@@ -25,14 +25,13 @@ class ProfileController extends GetxController {
   File? get profileImage => _profileImage;
 
   @override
-  onInit(){
+  onInit() {
     super.onInit();
     _getUserProfile();
   }
 
   Future _getUserProfile() async {
-    ApiResult<UserModel> apiResult =
-          _profileRepositoryImpl.getUserProfile();
+    ApiResult<UserModel> apiResult = _profileRepositoryImpl.getUserProfile();
     if (apiResult.isSuccess()) {
       userModel = apiResult.getData();
       update();
@@ -40,6 +39,7 @@ class ProfileController extends GetxController {
       InformationViewer.showErrorToast(msg: apiResult.getError());
     }
   }
+
   set profileImage(File? value) {
     _profileImage = value;
     update();
@@ -48,13 +48,10 @@ class ProfileController extends GetxController {
   Future<void> logout() async {
     AppLoader.loading();
 
-
-    ApiResult<GeneralResponse> apiResult =
-        await _profileRepositoryImpl.logout();
+    ApiResult<GeneralResponse> apiResult = await _profileRepositoryImpl.logout();
 
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {
-
       Get.back();
 
       GeneralResponse generalResponse = apiResult.getData();
@@ -65,7 +62,17 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> refreshData() async{
-  await  _getUserProfile();
+  Future<void> refreshData() async {
+    await _getUserProfile();
+  }
+
+  void deleteAccount({required String reason}) async {
+    AppLogger.logWithGetX('Deleting account with reason: $reason');
+    AppLoader.loading();
+
+    await Future.delayed(Duration(seconds: 2));
+    AppLoader.dismiss();
+    //to close the delete account popup
+    Get.back();
   }
 }

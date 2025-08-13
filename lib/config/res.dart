@@ -7,9 +7,7 @@ class Res {
   static const apiVerifyOtp = 'otp/verify';
   static const apiVerifyAccount = 'verify-account';
   static const apiResetPassword = 'reset-password';
-
   static const apiGetStationFilter = 'filter-stations-setting';
-
   static const apiStationSearch = 'stations/search';
   static const apiStationFilter = 'stations/filter';
   static const apiAddBalance = 'wallet/add-balance';
@@ -36,6 +34,9 @@ class Res {
   static const chargingImage = 'assets/images/charging.gif';
   static const settingUpImage = 'assets/images/setting_up.gif';
   static const preparingImage = 'assets/images/preparing.gif';
+  static const aboutUsImage = 'assets/images/about_us.png';
+  static const logoWhiteImage = 'assets/images/logo_white.png';
+  static const termsImage = 'assets/images/terms.png';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';

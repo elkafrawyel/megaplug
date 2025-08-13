@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/language/language_model.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/common_screens/about_us_screen.dart';
 import 'package:megaplug/presentation/common_screens/contact_info_screen.dart';
 import 'package:megaplug/presentation/common_screens/contact_us_screen.dart';
+import 'package:megaplug/widgets/delete_account_popup.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../config/res.dart';
 import '../../../../widgets/app_widgets/app_language/app_language_dialog.dart';
+import '../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
+import '../../../common_screens/privacy_policy_screen.dart';
+import '../../../common_screens/terms_and_conditions_screen.dart';
 import '../../components/home_appbar.dart';
+import '../stations/controller/stations_controller.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -43,31 +51,37 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
           spacing: 10,
           children: [
             40.ph,
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18.0,
-                  vertical: 18.0,
+            GestureDetector(
+              onTap: () {
+                Get.find<StationsController>().showComingSoonDialog(context);
+                // Get.to(() => AboutUsScreen());
+              },
+              child: Card(
+                elevation: 0.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
-                  children: [
-                    AppText(
-                      text: 'about_app'.tr,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: context.kTextColor,
-                      size: 20,
-                    )
-                  ],
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0,
+                    vertical: 18.0,
+                  ),
+                  child: Row(
+                    children: [
+                      AppText(
+                        text: 'about_us'.tr,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: context.kTextColor,
+                        size: 20,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -91,8 +105,11 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                     ),
                     Spacer(),
                     Switch.adaptive(
-                      value: true,
-                      onChanged: (bool value) {},
+                      value: StorageClient().get(StorageClientKeys.notifications) ?? true,
+                      onChanged: (bool value) async {
+                        await StorageClient().save(StorageClientKeys.notifications, value);
+                        setState(() {});
+                      },
                       activeColor: context.kPrimaryColor,
                       activeTrackColor: context.kPrimaryColor,
                       thumbColor: WidgetStatePropertyAll(Colors.white),
@@ -155,65 +172,78 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                   ),
                 ),
               ),
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18.0,
-                  vertical: 18.0,
+            GestureDetector(
+              onTap: () {
+                Get.find<StationsController>().showComingSoonDialog(context);
+                // Get.to(() => TermsAndConditionsScreen());
+              },
+              child: Card(
+                elevation: 0.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
-                  children: [
-                    AppText(
-                      text: 'terms_and_conditions'.tr,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: context.kTextColor,
-                      size: 20,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18.0,
-                  vertical: 18.0,
-                ),
-                child: Row(
-                  children: [
-                    AppText(
-                      text: 'privacy_policy'.tr,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: context.kTextColor,
-                      size: 20,
-                    )
-                  ],
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0,
+                    vertical: 18.0,
+                  ),
+                  child: Row(
+                    children: [
+                      AppText(
+                        text: 'terms_and_conditions'.tr,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: context.kTextColor,
+                        size: 20,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
             GestureDetector(
               onTap: () {
-                Get.to(() => ContactUsScreen());
+                Get.find<StationsController>().showComingSoonDialog(context);
+                // Get.to(() => PrivacyPolicyScreen());
+              },
+              child: Card(
+                elevation: 0.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0,
+                    vertical: 18.0,
+                  ),
+                  child: Row(
+                    children: [
+                      AppText(
+                        text: 'privacy_policy'.tr,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: context.kTextColor,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.find<StationsController>().showComingSoonDialog(context);
+                // Get.to(() => ContactUsScreen());
               },
               child: Card(
                 elevation: 0.0,
@@ -277,93 +307,108 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                 ),
               ),
             ),
+            // Card(
+            //   elevation: 0.0,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(12),
+            //   ),
+            //   color: Colors.white,
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(
+            //       horizontal: 18.0,
+            //       vertical: 18.0,
+            //     ),
+            //     child: Row(
+            //       children: [
+            //         AppText(
+            //           text: 'rate_app'.tr,
+            //           fontSize: 13,
+            //           fontWeight: FontWeight.w500,
+            //         ),
+            //         Spacer(),
+            //         Icon(
+            //           Icons.arrow_forward_ios,
+            //           color: context.kTextColor,
+            //           size: 20,
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Card(
+            //   elevation: 0.0,
+            //   shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.circular(12),
+            //   ),
+            //   color: Colors.white,
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(
+            //       horizontal: 18.0,
+            //       vertical: 18.0,
+            //     ),
+            //     child: Row(
+            //       children: [
+            //         AppText(
+            //           text: 'share_app'.tr,
+            //           fontSize: 13,
+            //           fontWeight: FontWeight.w500,
+            //         ),
+            //         Spacer(),
+            //         Icon(
+            //           Icons.arrow_forward_ios,
+            //           color: context.kTextColor,
+            //           size: 20,
+            //         )
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Card(
               elevation: 0.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
               color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18.0,
-                  vertical: 18.0,
-                ),
-                child: Row(
-                  children: [
-                    AppText(
-                      text: 'rate_app'.tr,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: context.kTextColor,
-                      size: 20,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18.0,
-                  vertical: 18.0,
-                ),
-                child: Row(
-                  children: [
-                    AppText(
-                      text: 'share_app'.tr,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: context.kTextColor,
-                      size: 20,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18.0,
-                  vertical: 18.0,
-                ),
-                child: Row(
-                  children: [
-                    AppText(
-                      text: 'delete_account'.tr,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    Spacer(),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: context.kTextColor,
-                      size: 20,
-                    )
-                  ],
+              child: InkWell(
+                onTap: () {
+                  showAppModalBottomSheet(
+                    context: context,
+                    child: DeleteAccountPopup(),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18.0,
+                    vertical: 18.0,
+                  ),
+                  child: Row(
+                    children: [
+                      AppText(
+                        text: 'delete_account'.tr,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: context.kTextColor,
+                        size: 20,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
             Center(
-              child: AppText(
-                text: 'Version 1.0',
+              child: FutureBuilder(
+                future: PackageInfo.fromPlatform(),
+                builder: (context, asyncSnapshot) {
+                  return asyncSnapshot.data == null
+                      ? SizedBox()
+                      : AppText(
+                          text: 'Version ${asyncSnapshot.data?.version}',
+                        );
+                },
               ),
             ),
             150.ph,
