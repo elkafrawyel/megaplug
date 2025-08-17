@@ -20,6 +20,7 @@ class Res {
   static const apiCheckBalance = 'wallet/check-balance';
 
   static const apiChargingHistory = 'user/charging-history';
+  static const apiChangePassword = 'user/password';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';

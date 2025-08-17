@@ -31,4 +31,21 @@ class ProfileRepositoryImpl extends ProfileRepository {
     );
     return ApiSuccess(userModel);
   }
+
+  @override
+  Future<ApiResult<GeneralResponse>> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    return APIClient.instance.put(
+      endPoint: Res.apiChangePassword,
+      fromJson: GeneralResponse.fromJson,
+      requestBody: {
+        "current_password": oldPassword,
+        "password": newPassword,
+        "password_confirmation": confirmPassword,
+      },
+    );
+  }
 }

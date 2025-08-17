@@ -60,8 +60,8 @@ void main() async {
     return true;
   };
 
-  await NotificationsService().init();
-  FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
+  // await NotificationsService().init();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
 
   await dotenv.load(fileName: ".env");
 

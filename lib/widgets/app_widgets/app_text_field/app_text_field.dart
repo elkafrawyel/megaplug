@@ -178,6 +178,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   : Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
                             Res.errorIcon,
@@ -186,13 +187,11 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                           ),
                           10.pw,
                           Flexible(
-                            child: Text(
-                              _apiErrorText ?? '',
-                              style: TextStyle(
-                                color: context.kErrorColor,
-                                fontSize: 12,
-                              ),
-                              maxLines: 2,
+                            child: AppText(
+                              text: _apiErrorText ?? '',
+                              color: context.kErrorColor,
+                              fontSize: 12,
+                              maxLines: 4,
                             ),
                           ),
                         ],

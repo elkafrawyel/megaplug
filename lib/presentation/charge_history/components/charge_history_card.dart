@@ -82,7 +82,7 @@ class ChargeHistoryCard extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SvgPicture.network(
-                          chargingHistoryModel.connector?.connectorType?.image ?? '',
+                          chargingHistoryModel.connector?.connectorType?.symbol ?? '',
                           width: 20,
                           height: 20,
                         ),

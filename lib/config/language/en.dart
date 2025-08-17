@@ -163,4 +163,6 @@ Map<String, String> en = {
   'message_hint': 'Please enter your message',
   'message': 'Message',
   'send': 'Send',
+  'today': 'Today',
+  'yesterday': 'Yesterday',
 };

@@ -164,4 +164,6 @@ Map<String, String> ar = {
   'message_hint': 'قم بكتابة رسالتك هنا',
   'message': 'الرسالة',
   'send': 'إرسال',
+  'today':'اليوم',
+  'yesterday': 'أمس',
 };

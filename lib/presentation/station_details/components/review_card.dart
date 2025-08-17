@@ -6,6 +6,7 @@ import 'package:megaplug/data/api_responses/station_details_response.dart';
 import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
+import '../../../config/helpers/date_helper.dart';
 import '../../../config/res.dart';
 
 class ReviewCard extends StatelessWidget {
@@ -30,8 +31,9 @@ class ReviewCard extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           subtitle: AppText(
-            text: review.createdAtHuman ?? '',
+            text: DateHelper().formatDateTime(review.createdAt!),
             color: context.kHintTextColor,
+            maxLines: 2,
             fontSize: 12,
           ),
           trailing: Container(
