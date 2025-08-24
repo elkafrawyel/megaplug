@@ -4,6 +4,7 @@ import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/res.dart';
+import 'package:megaplug/data/api_responses/edit_profile_response.dart';
 
 import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/domain/entities/api/user_model.dart';
@@ -45,6 +46,23 @@ class ProfileRepositoryImpl extends ProfileRepository {
         "current_password": oldPassword,
         "password": newPassword,
         "password_confirmation": confirmPassword,
+      },
+    );
+  }
+
+  @override
+  Future<ApiResult<EditProfileResponse>> editProfile({
+    String? name,
+    String? email,
+    String? phone,
+  }) {
+    return APIClient.instance.put(
+      endPoint: Res.apiEditProfile,
+      fromJson: EditProfileResponse.fromJson,
+      requestBody: {
+        "name": name,
+        "email": email,
+        "phone": phone,
       },
     );
   }

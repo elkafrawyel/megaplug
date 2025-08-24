@@ -76,8 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
                       size: 15,
                     ),
                     onTap: () {
-                       Get.find<StationsController>().showComingSoonDialog(Get.context!);
-                      // Get.to(() => EditProfileScreen());
+                       // Get.find<StationsController>().showComingSoonDialog(Get.context!);
+                      Get.to(() => EditProfileScreen());
                     },
                   ),
                 ),

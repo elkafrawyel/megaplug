@@ -69,7 +69,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           horizontal: 18.0,
         ),
         child: AppButton(
-          onPressed: () {},
+          onPressed: () {
+            if (AppTextFieldRules.validateForm(
+              [
+                nameState,
+                emailState,
+                phoneState,
+              ],
+            )) {
+              Get.find<ProfileController>().updateProfile(
+                context: context,
+                emailState: emailState,
+                phoneState: phoneState,
+                name: nameController.text.trim(),
+                email: emailController.text.trim(),
+                phone: phoneController.text.trim(),
+              );
+            }
+          },
           text: 'edit_profile'.tr,
         ),
       ),
@@ -177,7 +194,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       );
                     },
-                    onFocusLost: (){
+                    onFocusLost: () {
                       AppTextFieldRules.validateForm(
                         [
                           emailState,
@@ -212,7 +229,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ],
                       );
                     },
-                    onFocusLost: (){
+                    onFocusLost: () {
                       AppTextFieldRules.validateForm(
                         [
                           phoneState,

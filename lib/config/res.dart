@@ -21,6 +21,7 @@ class Res {
 
   static const apiChargingHistory = 'user/charging-history';
   static const apiChangePassword = 'user/password';
+  static const apiEditProfile = 'user/profile';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';

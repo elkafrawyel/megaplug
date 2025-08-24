@@ -5,9 +5,12 @@ class UserModel {
     this.email,
     this.phone,
     this.language,
-    this.createdAt,
     this.avatar,
     this.rfid,
+    this.loyaltyPoints,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
   });
 
   UserModel.fromJson(dynamic json) {
@@ -16,9 +19,12 @@ class UserModel {
     email = json['email'];
     phone = json['phone'];
     language = json['language'];
-    createdAt = json['created_at'];
     avatar = json['avatar'];
     rfid = json['rfid'];
+    loyaltyPoints = json['loyalty_points'];
+    isActive = json['is_active'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
   num? id;
@@ -26,9 +32,12 @@ class UserModel {
   String? email;
   String? phone;
   String? language;
-  String? createdAt;
   String? avatar;
   String? rfid;
+  num? loyaltyPoints;
+  bool? isActive;
+  String? createdAt;
+  String? updatedAt;
 
   UserModel copyWith({
     num? id,
@@ -36,9 +45,12 @@ class UserModel {
     String? email,
     String? phone,
     String? language,
-    String? createdAt,
     String? avatar,
     String? rfid,
+    num? loyaltyPoints,
+    bool? isActive,
+    String? createdAt,
+    String? updatedAt,
   }) =>
       UserModel(
         id: id ?? this.id,
@@ -46,9 +58,12 @@ class UserModel {
         email: email ?? this.email,
         phone: phone ?? this.phone,
         language: language ?? this.language,
-        createdAt: createdAt ?? this.createdAt,
         avatar: avatar ?? this.avatar,
         rfid: rfid ?? this.rfid,
+        loyaltyPoints: loyaltyPoints ?? this.loyaltyPoints,
+        isActive: isActive ?? this.isActive,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
       );
 
   Map<String, dynamic> toJson() {
@@ -58,9 +73,12 @@ class UserModel {
     map['email'] = email;
     map['phone'] = phone;
     map['language'] = language;
-    map['created_at'] = createdAt;
     map['avatar'] = avatar;
     map['rfid'] = rfid;
+    map['loyalty_points'] = loyaltyPoints;
+    map['is_active'] = isActive;
+    map['created_at'] = createdAt;
+    map['updated_at'] = updatedAt;
     return map;
   }
 }
