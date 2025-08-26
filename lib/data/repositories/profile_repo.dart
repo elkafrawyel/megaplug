@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
@@ -17,6 +18,7 @@ class ProfileRepositoryImpl extends ProfileRepository {
     return APIClient.instance.post(
       endPoint: Res.apiLogout,
       fromJson: GeneralResponse.fromJson,
+      requestBody: {},
     );
   }
 
@@ -55,8 +57,9 @@ class ProfileRepositoryImpl extends ProfileRepository {
     String? name,
     String? email,
     String? phone,
+    File? profileImage,
   }) {
-    return APIClient.instance.put(
+    return APIClient.instance.post(
       endPoint: Res.apiEditProfile,
       fromJson: EditProfileResponse.fromJson,
       requestBody: {
@@ -64,6 +67,12 @@ class ProfileRepositoryImpl extends ProfileRepository {
         "email": email,
         "phone": phone,
       },
+      files: profileImage == null
+          ? []
+          : [
+              MapEntry('image', profileImage),
+            ],
+      forceFormData: true,
     );
   }
 }

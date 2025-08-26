@@ -48,6 +48,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     nameController.dispose();
     emailController.dispose();
     phoneController.dispose();
+    Future.delayed(Duration(seconds: 2), () {
+      ProfileController.to.profileImage = null;
+    });
   }
 
   @override

@@ -95,19 +95,23 @@ class ProfileController extends GetxController {
       name: name,
       email: email,
       phone: phone,
+      profileImage: _profileImage,
     );
 
     AppLoader.dismiss();
     if (apiResult.isSuccess()) {
       EditProfileResponse editProfileResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: editProfileResponse.message);
-      await StorageClient().save(
-        StorageClientKeys.user,
-        jsonEncode(editProfileResponse.data?.toJson()),
-      );
+      if (editProfileResponse.data != null) {
+        userModel = editProfileResponse.data?.user;
+        update();
+        await StorageClient().save(
+          StorageClientKeys.user,
+          jsonEncode(editProfileResponse.data?.toJson()),
+        );
+      }
+
       Get.back(result: true);
-      userModel = editProfileResponse.data;
-      update();
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());
       InformationViewer.showSnackBar(
