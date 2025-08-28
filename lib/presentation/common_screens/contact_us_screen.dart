@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/app_loader.dart';
+import 'package:megaplug/config/clients/api/api_client.dart';
+import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/data/api_responses/general_response.dart';
+import 'package:megaplug/data/api_responses/station_details_response.dart';
 import 'package:megaplug/domain/entities/api/user_model.dart';
 import 'package:megaplug/presentation/home/components/home_appbar.dart';
 import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
@@ -11,6 +15,7 @@ import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
+import '../../config/information_viewer.dart';
 import '../../config/res.dart';
 import '../../widgets/app_widgets/app_text_field/rules.dart';
 
@@ -182,7 +187,24 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
       return;
     }
     AppLoader.loading();
-    await Future.delayed(const Duration(seconds: 2));
+    ApiResult<GeneralResponse> apiResult = await APIClient.instance.post(
+      endPoint: Res.apiContactUs,
+      fromJson: GeneralResponse.fromJson,
+      requestBody: {
+        "name": nameController.text,
+        "email": emailController.text,
+        "phone": phoneController.text,
+        "message": messageController.text,
+      },
+    );
     AppLoader.dismiss();
+
+    if (apiResult.isSuccess()) {
+      GeneralResponse generalResponse = apiResult.getData();
+      // InformationViewer.showSuccessToast(msg: generalResponse.message);
+      Get.back();
+    } else {
+      InformationViewer.showErrorToast(msg: apiResult.getError());
+    }
   }
 }

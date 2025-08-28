@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/components/home_appbar.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 
@@ -35,6 +36,7 @@ class AboutUsScreen extends StatelessWidget {
         title: 'about_us'.tr,
         showBackButton: true,
       ),
+      backgroundColor: context.kBackgroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [

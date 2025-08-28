@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 
 import '../../config/res.dart';
 import '../../widgets/app_widgets/app_text.dart';
@@ -50,6 +51,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.kBackgroundColor,
       appBar: HomeAppbar(
         svgAssetPath: Res.homeAppBarBg,
         title: 'privacy_policy'.tr,

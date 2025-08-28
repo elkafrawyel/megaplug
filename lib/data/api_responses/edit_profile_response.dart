@@ -1,4 +1,4 @@
-import '../../domain/entities/api/user_model.dart';
+import 'package:megaplug/domain/entities/api/user_model.dart';
 
 class EditProfileResponse {
   EditProfileResponse({

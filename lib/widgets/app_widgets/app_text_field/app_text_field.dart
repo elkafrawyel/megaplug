@@ -132,6 +132,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
           TextFormField(
             focusNode: _focusNode,
             obscureText: _isSecure,
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
             style: TextStyle(
               fontSize: 14,
               color: Color(0xff6C7E8E),

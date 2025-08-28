@@ -32,13 +32,15 @@ class ProfileController extends GetxController {
   @override
   onInit() {
     super.onInit();
-    _getUserProfile();
+    getUserProfile();
   }
 
-  Future _getUserProfile() async {
+  Future getUserProfile() async {
     ApiResult<UserModel> apiResult = _profileRepositoryImpl.getUserProfile();
     if (apiResult.isSuccess()) {
       userModel = apiResult.getData();
+      AppLogger.logWithGetX('User : : : ${userModel?.toJson()}');
+
       update();
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());
@@ -65,10 +67,6 @@ class ProfileController extends GetxController {
     } else {
       InformationViewer.showErrorToast(msg: apiResult.getError());
     }
-  }
-
-  Future<void> refreshData() async {
-    await _getUserProfile();
   }
 
   void deleteAccount({required String reason}) async {
@@ -104,10 +102,11 @@ class ProfileController extends GetxController {
       InformationViewer.showSuccessToast(msg: editProfileResponse.message);
       if (editProfileResponse.data != null) {
         userModel = editProfileResponse.data?.user;
+        AppLogger.logWithGetX('User : : : ${userModel?.toJson()}');
         update();
         await StorageClient().save(
           StorageClientKeys.user,
-          jsonEncode(editProfileResponse.data?.toJson()),
+          jsonEncode(editProfileResponse.data?.user?.toJson()),
         );
       }
 

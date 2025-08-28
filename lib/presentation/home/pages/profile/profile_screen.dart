@@ -42,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveCl
           userImage: profileController.userModel?.avatar ?? '',
         ),
         body: RefreshIndicator(
-          onRefresh: profileController.refreshData,
+          onRefresh: profileController.getUserProfile,
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Column(

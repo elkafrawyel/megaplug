@@ -53,7 +53,7 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
             padding: const EdgeInsetsDirectional.only(start: 18.0),
             child: AppNetworkImage(
               isCircular: true,
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
               imageUrl: profileController.userModel?.avatar ?? '',
             ),
           );

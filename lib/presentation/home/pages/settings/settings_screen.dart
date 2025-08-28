@@ -53,8 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
             40.ph,
             GestureDetector(
               onTap: () {
-                Get.find<StationsController>().showComingSoonDialog(context);
-                // Get.to(() => AboutUsScreen());
+                Get.to(() => AboutUsScreen());
               },
               child: Card(
                 elevation: 0.0,
@@ -78,7 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                       Icon(
                         Icons.arrow_forward_ios,
                         color: context.kTextColor,
-                        size: 20,
+                        size: 16,
                       )
                     ],
                   ),
@@ -107,8 +106,9 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                     Switch.adaptive(
                       value: StorageClient().get(StorageClientKeys.notifications) ?? true,
                       onChanged: (bool value) async {
-                        await StorageClient().save(StorageClientKeys.notifications, value);
-                        setState(() {});
+                        Get.find<StationsController>().showComingSoonDialog(context);
+                        // await StorageClient().save(StorageClientKeys.notifications, value);
+                        // setState(() {});
                       },
                       activeColor: context.kPrimaryColor,
                       activeTrackColor: context.kPrimaryColor,
@@ -121,14 +121,16 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
             if (selectedLanguage != null)
               GestureDetector(
                 onTap: () {
-                  showAppLanguageDialog(
-                      context: context,
-                      onLanguageChanged: (LanguageData languageData) async {
-                        AppLogger.log(languageData.name);
-                        setState(() {
-                          selectedLanguage = languageData;
-                        });
-                      });
+                  Get.find<StationsController>().showComingSoonDialog(context);
+
+                  // showAppLanguageDialog(
+                  //     context: context,
+                  //     onLanguageChanged: (LanguageData languageData) async {
+                  //       AppLogger.log(languageData.name);
+                  //       setState(() {
+                  //         selectedLanguage = languageData;
+                  //       });
+                  //     });
                 },
                 child: Card(
                   elevation: 0.0,
@@ -174,8 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
               ),
             GestureDetector(
               onTap: () {
-                Get.find<StationsController>().showComingSoonDialog(context);
-                // Get.to(() => TermsAndConditionsScreen());
+                Get.to(() => TermsAndConditionsScreen());
               },
               child: Card(
                 elevation: 0.0,
@@ -199,7 +200,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                       Icon(
                         Icons.arrow_forward_ios,
                         color: context.kTextColor,
-                        size: 20,
+                        size: 16,
                       )
                     ],
                   ),
@@ -208,8 +209,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
             ),
             GestureDetector(
               onTap: () {
-                Get.find<StationsController>().showComingSoonDialog(context);
-                // Get.to(() => PrivacyPolicyScreen());
+                Get.to(() => PrivacyPolicyScreen());
               },
               child: Card(
                 elevation: 0.0,
@@ -233,7 +233,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                       Icon(
                         Icons.arrow_forward_ios,
                         color: context.kTextColor,
-                        size: 20,
+                        size: 16,
                       )
                     ],
                   ),
@@ -242,8 +242,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
             ),
             GestureDetector(
               onTap: () {
-                Get.find<StationsController>().showComingSoonDialog(context);
-                // Get.to(() => ContactUsScreen());
+                Get.to(() => ContactUsScreen());
               },
               child: Card(
                 elevation: 0.0,
@@ -267,7 +266,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                       Icon(
                         Icons.arrow_forward_ios,
                         color: context.kTextColor,
-                        size: 20,
+                        size: 16,
                       )
                     ],
                   ),
@@ -300,7 +299,7 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                       Icon(
                         Icons.arrow_forward_ios,
                         color: context.kTextColor,
-                        size: 20,
+                        size: 16,
                       )
                     ],
                   ),
@@ -371,10 +370,12 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
               color: Colors.white,
               child: InkWell(
                 onTap: () {
-                  showAppModalBottomSheet(
-                    context: context,
-                    child: DeleteAccountPopup(),
-                  );
+                  Get.find<StationsController>().showComingSoonDialog(context);
+
+                  // showAppModalBottomSheet(
+                  //   context: context,
+                  //   child: DeleteAccountPopup(),
+                  // );
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -392,25 +393,25 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
                       Icon(
                         Icons.arrow_forward_ios,
                         color: context.kTextColor,
-                        size: 20,
+                        size: 16,
                       )
                     ],
                   ),
                 ),
               ),
             ),
-            Center(
-              child: FutureBuilder(
-                future: PackageInfo.fromPlatform(),
-                builder: (context, asyncSnapshot) {
-                  return asyncSnapshot.data == null
-                      ? SizedBox()
-                      : AppText(
-                          text: 'Version ${asyncSnapshot.data?.version}',
-                        );
-                },
-              ),
-            ),
+            // Center(
+            //   child: FutureBuilder(
+            //     future: PackageInfo.fromPlatform(),
+            //     builder: (context, asyncSnapshot) {
+            //       return asyncSnapshot.data == null
+            //           ? SizedBox()
+            //           : AppText(
+            //               text: 'Version ${asyncSnapshot.data?.version}',
+            //             );
+            //     },
+            //   ),
+            // ),
             150.ph,
           ],
         ),

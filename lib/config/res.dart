@@ -18,10 +18,11 @@ class Res {
   static const apiStopCharging = 'charging/stop';
   static const apiAddReview = 'station-reviews';
   static const apiCheckBalance = 'wallet/check-balance';
-
   static const apiChargingHistory = 'user/charging-history';
   static const apiChangePassword = 'user/password';
   static const apiEditProfile = 'user/profile';
+  static const apiContactUs = 'contact-us';
+  static const apiContactInfo = 'contact-information';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';
