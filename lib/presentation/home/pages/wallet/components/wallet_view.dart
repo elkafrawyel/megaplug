@@ -48,12 +48,12 @@ class WalletView extends StatelessWidget {
                         ),
                       ),
                       PositionedDirectional(
-                        end: 5,
-                        top: 5,
+                        end: 10,
+                        top: 10,
                         child: Image.asset(
-                          StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
-                          width: 70,
-                          height: 70,
+                          Res.logoWalletImage,
+                          width: 60,
+                          height: 60,
                         ),
                       ),
                       PositionedDirectional(

@@ -8,6 +8,8 @@ import 'package:megaplug/domain/entities/api/user_model.dart';
 abstract class ProfileRepository {
   Future<ApiResult<GeneralResponse>> logout();
 
+  Future<ApiResult<GeneralResponse>> deleteAccount({String? reason});
+
   ApiResult<UserModel> getUserProfile();
 
   Future<ApiResult<GeneralResponse>> changePassword({

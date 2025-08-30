@@ -68,7 +68,7 @@ class DeleteAccountPopup extends StatelessWidget {
                         backgroundColor: context.kErrorColor,
                         onPressed: () {
                           FocusScope.of(context).unfocus();
-                          ProfileController.to.deleteAccount(reason: reasonController.text);
+                          ProfileController.to.deleteAccount(reason: reasonController.text.isEmpty? null : reasonController.text);
                         },
                       ),
                     )

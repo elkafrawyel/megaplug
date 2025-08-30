@@ -23,6 +23,7 @@ class Res {
   static const apiEditProfile = 'user/profile';
   static const apiContactUs = 'contact-us';
   static const apiContactInfo = 'contact-information';
+  static const apiDeleteAccount = 'user/delete-account';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';
@@ -37,9 +38,9 @@ class Res {
   static const chargingImage = 'assets/images/charging.gif';
   static const settingUpImage = 'assets/images/setting_up.gif';
   static const preparingImage = 'assets/images/preparing.gif';
-  static const aboutUsImage = 'assets/images/about_us.png';
-  static const logoWhiteImage = 'assets/images/logo_white.png';
-  static const termsImage = 'assets/images/terms.png';
+  static const logoAboutUsImage = 'assets/images/logo_about_us.png';
+  static const logoTermsImage = 'assets/images/logo_terms.png';
+  static const logoWalletImage = 'assets/images/logo_wallet.png';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';

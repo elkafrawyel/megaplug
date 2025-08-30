@@ -76,4 +76,19 @@ class ProfileRepositoryImpl extends ProfileRepository {
       forceFormData: true,
     );
   }
+
+  @override
+  Future<ApiResult<GeneralResponse>> deleteAccount({
+    String? reason,
+  }) async {
+    return APIClient.instance.post(
+      endPoint: Res.apiDeleteAccount,
+      fromJson: GeneralResponse.fromJson,
+      requestBody: reason == null
+          ? {}
+          : {
+              "reason": reason,
+            },
+    );
+  }
 }

@@ -87,7 +87,8 @@ class TermsAndConditionsScreen extends StatelessWidget {
           children: [
             20.ph,
             Image.asset(
-              Res.termsImage,
+              Res.logoTermsImage,
+              height: 200,
             ),
             10.ph,
             ..._termsAndConditionsData.map(

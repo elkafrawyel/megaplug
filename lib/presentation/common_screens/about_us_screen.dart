@@ -44,45 +44,46 @@ class AboutUsScreen extends StatelessWidget {
             Stack(
               children: [
                 Image.asset(
-                  Res.aboutUsImage,
+                  Res.logoAboutUsImage,
                   width: MediaQuery.of(context).size.width,
                   fit: BoxFit.fitWidth,
                 ),
-                PositionedDirectional(
-                  bottom: 0,
-                  end: 0,
-                  child: Image.asset(
-                    Res.logoWhiteImage,
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 38.0),
+                    child: Image.asset(
+                      Res.logoAboutUsImage,
+                      width: 150,
+                    ),
                   ),
                 ),
               ],
             ),
             20.ph,
-            ..._aboutUsData
-                .map(
-                  (element) => Padding(
-                    padding: const EdgeInsetsDirectional.symmetric(
-                      vertical: 8.0,
-                      horizontal: 12.0,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText(
-                          text: element['title'],
-                          fontWeight: FontWeight.w500,
-                        ),
-                        10.ph,
-                        AppText(
-                          text: element['description'],
-                          color: Color(0xff6C7E8E),
-                          maxLines: 10,
-                          fontSize: 12,
-                        ),
-                      ],
-                    ),
-                  ),
+            ..._aboutUsData.map(
+              (element) => Padding(
+                padding: const EdgeInsetsDirectional.symmetric(
+                  vertical: 8.0,
+                  horizontal: 12.0,
                 ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      text: element['title'],
+                      fontWeight: FontWeight.w500,
+                    ),
+                    10.ph,
+                    AppText(
+                      text: element['description'],
+                      color: Color(0xff6C7E8E),
+                      maxLines: 10,
+                      fontSize: 12,
+                    ),
+                  ],
+                ),
+              ),
+            ),
             20.ph,
           ],
         ),

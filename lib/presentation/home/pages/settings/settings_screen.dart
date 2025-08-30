@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
-import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:megaplug/config/language/language_model.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/common_screens/about_us_screen.dart';
 import 'package:megaplug/presentation/common_screens/contact_info_screen.dart';
 import 'package:megaplug/presentation/common_screens/contact_us_screen.dart';
+
 import 'package:megaplug/widgets/delete_account_popup.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../config/res.dart';
-import '../../../../widgets/app_widgets/app_language/app_language_dialog.dart';
 import '../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../../../widgets/app_widgets/app_text.dart';
+
+import '../../../../widgets/cannot_delete_account_popup.dart';
 import '../../../common_screens/privacy_policy_screen.dart';
 import '../../../common_screens/terms_and_conditions_screen.dart';
 import '../../components/home_appbar.dart';
+import '../charge/controller/charge_controller.dart';
 import '../stations/controller/stations_controller.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -369,13 +370,19 @@ class _SettingsScreenState extends State<SettingsScreen> with AutomaticKeepAlive
               ),
               color: Colors.white,
               child: InkWell(
-                onTap: () {
-                  Get.find<StationsController>().showComingSoonDialog(context);
-
-                  // showAppModalBottomSheet(
-                  //   context: context,
-                  //   child: DeleteAccountPopup(),
-                  // );
+                onTap: () async {
+                  String? transactionId = ChargeController.to.getTransactionId();
+                  if (transactionId != null) {
+                    showAppModalBottomSheet(
+                      context: context,
+                      child: CannotDeleteAccountPopup(),
+                    );
+                  } else {
+                    showAppModalBottomSheet(
+                      context: context,
+                      child: DeleteAccountPopup(),
+                    );
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

@@ -69,14 +69,23 @@ class ProfileController extends GetxController {
     }
   }
 
-  void deleteAccount({required String reason}) async {
+  void deleteAccount({String? reason}) async {
     AppLogger.logWithGetX('Deleting account with reason: $reason');
     AppLoader.loading();
 
-    await Future.delayed(Duration(seconds: 2));
+    ApiResult<GeneralResponse> apiResult = await _profileRepositoryImpl.deleteAccount(
+      reason: reason,
+    );
     AppLoader.dismiss();
-    //to close the delete account popup
-    Get.back();
+    if (apiResult.isSuccess()) {
+      //to close the delete account popup
+      Get.back();
+      GeneralResponse generalResponse = apiResult.getData();
+      InformationViewer.showSuccessToast(msg: generalResponse.message);
+      await StorageClient().signOut();
+    } else {
+      InformationViewer.showErrorToast(msg: apiResult.getError());
+    }
   }
 
   Future<void> updateProfile({
