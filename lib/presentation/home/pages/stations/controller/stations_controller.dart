@@ -166,7 +166,6 @@ class StationsController extends GetxController with WidgetsBindingObserver {
         .listen(
       (QuerySnapshot<FirebaseStationModel> event) {
         stations = event.docs.map((QueryDocumentSnapshot<FirebaseStationModel> doc) => doc.data()).toList();
-        AppLogger.logWithGetX('Station Name ${stations.first.nameAr}');
 
         _updateMarkersOnMap();
 
