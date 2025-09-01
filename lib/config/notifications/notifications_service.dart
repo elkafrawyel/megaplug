@@ -26,19 +26,19 @@ class NotificationsService {
           ),
         );
 
-    FirebaseMessaging.instance.getAPNSToken().then((token) {
+    _instance.getAPNSToken().then((token) {
       AppLogger.logWithGetX("📱 APNs token: $token");
     });
 
     /// ==========================Handle Background Notifications=======================================
 
-    FirebaseMessaging.instance.getInitialMessage().then((remoteMessage) {
+    _instance.getInitialMessage().then((remoteMessage) {
       if (remoteMessage != null) {
         RemoteNotification? notification = remoteMessage.notification;
         AndroidNotification? android = remoteMessage.notification?.android;
         if (notification != null && android != null) {
           AppLogger.logWithGetX(
-            '📩 Initial Notification : : ${remoteMessage.notification?.title}',
+              "🔔 Initial Notification : : ${remoteMessage.notification?.title}",
           );
           _handleBackgroundRemoteMessage(remoteMessage);
         }
@@ -48,7 +48,7 @@ class NotificationsService {
     FirebaseMessaging.onMessageOpenedApp.listen(
       (RemoteMessage remoteMessage) {
         if (remoteMessage.notification != null) {
-          AppLogger.logWithGetX('📩 Background Notification Tapped.');
+          AppLogger.logWithGetX("🔔 Background Notification Tapped.");
           _handleBackgroundRemoteMessage(remoteMessage);
         }
       },
@@ -59,7 +59,7 @@ class NotificationsService {
 
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage remoteMessage) {
-        AppLogger.logWithGetX('📩 Got a message in foreground: ${remoteMessage.notification?.title}');
+        AppLogger.logWithGetX("🔔 Got a message in foreground: ${remoteMessage.notification?.title}");
         if (remoteMessage.notification != null) {
           _handleForegroundRemoteMessage(remoteMessage);
         }
