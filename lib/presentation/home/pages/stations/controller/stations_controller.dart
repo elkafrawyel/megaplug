@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app_badge_plus/app_badge_plus.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -108,6 +109,10 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     if (apiResult.isSuccess()) {
       UnreadNotificationsCountResponse response = apiResult.getData();
       unReadNotificationsCount = response.data?.unreadCount?.toInt() ?? 0;
+
+      if (await AppBadgePlus.isSupported()) {
+        AppBadgePlus.updateBadge(unReadNotificationsCount);
+      }
       // unReadNotificationsCount = 10;
     }
     update([notificationsCountViewControllerId]);

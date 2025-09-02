@@ -71,4 +71,6 @@ class NotificationCardView extends StatelessWidget {
       ),
     );
   }
+
+
 }

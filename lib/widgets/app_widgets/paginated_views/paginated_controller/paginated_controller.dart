@@ -81,8 +81,8 @@ class PaginationController<T> extends GetxController {
         endPoint: path,
         fromJson: (json) => PaginationResponse<T>.fromJson(
           //todo remove this data key if api not using it
-          // json['data'],
-          json,
+          json['data'],
+          // json,
           fromJson: configData.fromJson,
         ),
       );

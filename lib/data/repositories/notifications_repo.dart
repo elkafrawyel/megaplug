@@ -17,7 +17,7 @@ class NotificationsRepositoryImpl extends NotificationsRepository {
   }
 
   @override
-  Future<ApiResult<GeneralResponse>> read({required int notificationId}) async {
+  Future<ApiResult<GeneralResponse>> read({required String notificationId}) async {
     return APIClient.instance.post(
       endPoint: 'notifications/$notificationId/mark-as-read',
       fromJson: GeneralResponse.fromJson,

@@ -63,7 +63,7 @@ class StationsAppbar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       actions: [
         GestureDetector(
-          onTap: () {
+          onTap: ()  {
             Get.to(() => NotificationsScreen());
           },
           child: Padding(
