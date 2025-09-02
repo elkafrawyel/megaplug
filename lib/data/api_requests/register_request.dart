@@ -6,6 +6,7 @@ class RegisterRequest {
     this.password,
     this.passwordConfirmation,
     this.language,
+    this.fcmToken,
   });
 
   RegisterRequest.fromJson(dynamic json) {
@@ -15,6 +16,7 @@ class RegisterRequest {
     password = json['password'];
     passwordConfirmation = json['password_confirmation'];
     language = json['language'];
+    fcmToken = json['fcm_token'];
   }
 
   String? name;
@@ -23,6 +25,7 @@ class RegisterRequest {
   String? password;
   String? passwordConfirmation;
   String? language;
+  String? fcmToken;
 
   RegisterRequest copyWith({
     String? name,
@@ -31,6 +34,7 @@ class RegisterRequest {
     String? password,
     String? passwordConfirmation,
     String? language,
+    String? fcmToken,
   }) =>
       RegisterRequest(
         name: name ?? this.name,
@@ -39,6 +43,7 @@ class RegisterRequest {
         password: password ?? this.password,
         passwordConfirmation: passwordConfirmation ?? this.passwordConfirmation,
         language: language ?? this.language,
+        fcmToken: fcmToken ?? this.fcmToken,
       );
 
   Map<String, dynamic> toJson() {
@@ -49,6 +54,8 @@ class RegisterRequest {
     map['password'] = password;
     map['password_confirmation'] = passwordConfirmation;
     map['language'] = language;
+    map['fcm_token'] = fcmToken;
+
     return map;
   }
 }

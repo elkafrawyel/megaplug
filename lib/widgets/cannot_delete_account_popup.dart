@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
+import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/bottom_sheet_parent.dart';
@@ -37,7 +38,7 @@ class CannotDeleteAccountPopup extends StatelessWidget {
               text: "As you have active charging process, you can't delete your account.",
               fontWeight: FontWeight.w500,
               maxLines: 3,
-              color: Color(0xff6D7698),
+              color: context.kHintTextColor,
               centerText: true,
             ),
           ),

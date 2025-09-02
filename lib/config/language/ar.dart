@@ -166,4 +166,6 @@ Map<String, String> ar = {
   'send': 'إرسال',
   'today':'اليوم',
   'yesterday': 'أمس',
+  'notifications':'الإشعارات',
+
 };

@@ -24,6 +24,8 @@ class Res {
   static const apiContactUs = 'contact-us';
   static const apiContactInfo = 'contact-information';
   static const apiDeleteAccount = 'user/delete-account';
+  static const apiNotifications = 'notifications';
+  static const apiUnReadCountNotifications = 'notifications/unread-count';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';
@@ -104,6 +106,7 @@ class Res {
   static const logoutPopupIcon = 'assets/icons/logout_popup.svg';
   static const paymentSuccessIcon = 'assets/icons/payment_success.svg';
   static const paymentErrorIcon = 'assets/icons/payment_error.svg';
+  static const emptyNotificationsIcon = 'assets/icons/empty_notifications.svg';
 
   ///================================================================
 

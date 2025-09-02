@@ -71,19 +71,19 @@ class ChargeWalletView extends StatelessWidget {
               children: <TextSpan>[
                 TextSpan(
                   text: "You don't have sufficient funds in your wallet to proceed with the charging session. A minimum balance of ",
-                  style: TextStyle(color: Color(0xff6D7698), fontSize: 14),
+                  style: TextStyle(color: context.kHintTextColor, fontSize: 14),
                 ),
                 TextSpan(
                   text: '${data['min_balance'] ?? '0.0'} EGP',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Color(0xff6D7698),
+                    color: context.kHintTextColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 TextSpan(
                   text: ' is required.\nPlease top up your wallet to continue.',
-                  style: TextStyle(color: Color(0xff6D7698), fontSize: 14),
+                  style: TextStyle(color: context.kHintTextColor, fontSize: 14),
                 ),
               ],
             ),

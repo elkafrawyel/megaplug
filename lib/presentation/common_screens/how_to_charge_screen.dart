@@ -194,13 +194,13 @@ class _HowToChargeScreenState extends State<HowToChargeScreen> {
                     children: [
                       AppText(
                         text: '${index + 1}. ',
-                        color: Color(0xff6D7698),
+                        color: context.kHintTextColor,
                       ),
                       Expanded(
                         child: AppText(
                           text: steps[index],
                           maxLines: 10,
-                          color: Color(0xff6D7698),
+                          color: context.kHintTextColor,
                         ),
                       ),
                     ],

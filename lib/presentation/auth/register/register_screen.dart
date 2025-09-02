@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/app_loader.dart';
@@ -118,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                     );
                   },
-                  onFocusLost: (){
+                  onFocusLost: () {
                     AppTextFieldRules.validateForm(
                       [
                         emailState,
@@ -158,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                     );
                   },
-                  onFocusLost: (){
+                  onFocusLost: () {
                     AppTextFieldRules.validateForm(
                       [
                         phoneState,
@@ -218,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       text: 'agree_to'.tr,
                       fontSize: 11.5,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xff6D7698),
+                      color: context.kHintTextColor,
                     ),
                     5.pw,
                     GestureDetector(
@@ -284,6 +285,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: passwordController.text,
         passwordConfirmation: confirmPasswordController.text,
         language: StorageClient().getAppLanguage().toUpperCase(),
+        fcmToken: await FirebaseMessaging.instance.getToken(),
       ),
     );
 

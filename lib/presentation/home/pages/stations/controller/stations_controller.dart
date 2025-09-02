@@ -18,6 +18,7 @@ import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/data/api_responses/station_filter_response.dart';
+import 'package:megaplug/data/repositories/notifications_repo.dart';
 import 'package:megaplug/data/repositories/stations_repo.dart';
 import 'package:megaplug/domain/entities/firebase/firebase_station_model.dart';
 import 'package:megaplug/domain/entities/api/charge_power_model.dart';
@@ -33,6 +34,7 @@ import 'package:widget_to_marker/widget_to_marker.dart';
 import '../../../../../config/constants.dart';
 import '../../../../../data/api_responses/station_search_response.dart';
 import '../../../../../data/api_responses/stations_filter_result_response.dart';
+import '../../../../../data/api_responses/unread_notifications_count_response.dart';
 import '../../../../../domain/entities/api/status_filter_model.dart';
 import '../../../../../widgets/app_dialog_view.dart';
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart' as cluster_manager;
@@ -49,6 +51,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
   static final String stationsControllerId = 'stations_view_id';
   static final String searchViewControllerId = 'search_view_id';
   static final String filterViewControllerId = 'filer_view_id';
+  static final String notificationsCountViewControllerId = 'notifications_count_view_id';
 
   //============================ Map ===========================================
   GoogleMapController? mapController;
@@ -95,6 +98,19 @@ class StationsController extends GetxController with WidgetsBindingObserver {
     clusterManager = _initClusterManager();
     getMyPosition(loading: true);
     getStationFilter();
+    getUnReadNotificationsCount();
+  }
+
+  int unReadNotificationsCount = 0;
+
+  void getUnReadNotificationsCount() async {
+    ApiResult<UnreadNotificationsCountResponse> apiResult = await NotificationsRepositoryImpl().getUnreadCount();
+    if (apiResult.isSuccess()) {
+      UnreadNotificationsCountResponse response = apiResult.getData();
+      unReadNotificationsCount = response.data?.unreadCount?.toInt() ?? 0;
+      // unReadNotificationsCount = 10;
+    }
+    update([notificationsCountViewControllerId]);
   }
 
   @override
@@ -512,7 +528,7 @@ class StationsController extends GetxController with WidgetsBindingObserver {
             10.ph,
             AppText(
               text: "This feature is still in progress.  We're working hard to bring it to you soon!",
-              color: Color(0xff6D7698),
+              color: context.kHintTextColor,
               maxLines: 3,
               centerText: true,
             ),

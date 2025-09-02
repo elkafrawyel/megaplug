@@ -165,4 +165,5 @@ Map<String, String> en = {
   'send': 'Send',
   'today': 'Today',
   'yesterday': 'Yesterday',
+  'notifications':'Notifications',
 };

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/app_loader.dart';
@@ -79,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Center(
                       child: AppText(
                         text: "login_message".tr,
-                        color: Color(0xff6D7698),
+                        color:context.kHintTextColor,
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                         maxLines: 4,
@@ -99,10 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       rules: AppTextFieldRules.emailOrPhoneRules,
                       checkRulesOnTyping: false,
                       textInputAction: TextInputAction.next,
-                      autoFillHints: const [
-                        AutofillHints.email,
-                        AutofillHints.telephoneNumber
-                      ],
+                      autoFillHints: const [AutofillHints.email, AutofillHints.telephoneNumber],
                       onFieldSubmitted: (String value) {
                         AppTextFieldRules.validateForm(
                           [
@@ -110,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         );
                       },
-                      onFocusLost: (){
+                      onFocusLost: () {
                         AppTextFieldRules.validateForm(
                           [
                             emailState,
@@ -204,18 +202,19 @@ class _LoginScreenState extends State<LoginScreen> {
         loginRequest: LoginRequest(
           username: emailController.text,
           password: passwordController.text,
+          fcmToken: await FirebaseMessaging.instance.getToken(),
         ),
       );
 
       AppLoader.dismiss();
       if (apiResult.isSuccess()) {
         LoginResponse loginResponse = apiResult.getData();
-          // InformationViewer.showSuccessToast(msg: loginResponse.message);
-          await StorageClient().saveUser(userResponse: loginResponse.data);
-          Get.offAll(
-            () => HomeScreen(),
-            binding: HomeBinding(),
-          );
+        // InformationViewer.showSuccessToast(msg: loginResponse.message);
+        await StorageClient().saveUser(userResponse: loginResponse.data);
+        Get.offAll(
+          () => HomeScreen(),
+          binding: HomeBinding(),
+        );
       } else {
         if (mounted) {
           InformationViewer.showSnackBar(
