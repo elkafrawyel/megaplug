@@ -16,6 +16,7 @@ class FirebaseStationModel with ClusterItem {
     this.addressEn,
     this.status,
     this.chargingPoints = const [],
+    this.image,
   });
 
   String? id;
@@ -26,6 +27,8 @@ class FirebaseStationModel with ClusterItem {
   double? latitude;
   double? longitude;
   String? status;
+  String? image;
+
   List<FirebaseChargingPointModel>? chargingPoints;
 
   FirebaseStationModel copyWith({
@@ -39,6 +42,7 @@ class FirebaseStationModel with ClusterItem {
     String? addressEn,
     String? status,
     List<FirebaseChargingPointModel>? chargingPoints = const [],
+    String? image,
   }) =>
       FirebaseStationModel(
         id: id ?? this.id,
@@ -50,6 +54,7 @@ class FirebaseStationModel with ClusterItem {
         addressEn: addressEn ?? this.addressEn,
         status: status ?? this.status,
         chargingPoints: chargingPoints ?? this.chargingPoints,
+        image: image ?? this.image,
       );
 
   factory FirebaseStationModel.fromJson(dynamic json) {
@@ -70,6 +75,7 @@ class FirebaseStationModel with ClusterItem {
       longitude: json['longitude'],
       status: json['status'],
       chargingPoints: chargingPoints,
+      image: json['image'] as String?,
     );
   }
 
@@ -85,6 +91,7 @@ class FirebaseStationModel with ClusterItem {
         'charging_points': {
           for (var cp in chargingPoints!) cp.serial: cp.toJson(),
         },
+        'image': image,
       };
 
   @override

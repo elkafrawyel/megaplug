@@ -14,6 +14,7 @@ import '../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../widgets/bottom_sheet_parent.dart';
 import 'controller/home_controller.dart';
 import 'pages/charge/controller/charge_controller.dart';
+import 'pages/stations/controller/stations_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,7 +24,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
-
   final HomeController homeController = Get.find<HomeController>();
 
   @override
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                   //stations
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => homeController.handleSelectedIndex(0),
+                      onTap: () => HomeController.to.pageController.jumpToPage(0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         mainAxisSize: MainAxisSize.min,
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'stations'.tr,
                             color: selectedIndex == 0 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 0 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                   //wallet
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => homeController.handleSelectedIndex(1),
+                      onTap: () => HomeController.to.pageController.jumpToPage(1),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'wallet'.tr,
                             color: selectedIndex == 1 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 1 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                   //charge
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => homeController.handleSelectedIndex(2),
+                      onTap: () => HomeController.to.pageController.jumpToPage(2),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -125,32 +125,11 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                               : SvgPicture.asset(
                                   Res.chargeOffIcon,
                                 ),
-
-                          // (selectedIndex == 2
-                          //         ? SvgPicture.asset(
-                          //             key: ValueKey(1),
-                          //             Res.chargeOnIcon,
-                          //           )
-                          //         : SvgPicture.asset(
-                          //             key: ValueKey(1),
-                          //             Res.chargeOffIcon,
-                          //           ))
-                          //     .animate(
-                          //       key: ValueKey(
-                          //           homeController.selectedIndex.value),
-                          //       onPlay: (c) => c.repeat(min: 1, max: 1),
-                          //     )
-                          //     .rotate(
-                          //       begin: 0,
-                          //       end: 0.5,
-                          //       duration: 700.ms,
-                          //       curve: Curves.easeInOut,
-                          //     ),
                           5.ph,
                           AppText(
                             text: 'charge'.tr,
                             color: selectedIndex == 2 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 2 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
@@ -160,7 +139,8 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                   //profile
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => homeController.handleSelectedIndex(3),
+                      // onTap: () => Get.find<StationsController>().showComingSoonDialog(Get.context!),
+                      onTap: () => HomeController.to.pageController.jumpToPage(3),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -171,16 +151,18 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'profile'.tr,
                             color: selectedIndex == 3 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 3 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
                       ),
                     ),
-                  ), //settings
+                  ),
+                  //settings
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => homeController.handleSelectedIndex(4),
+                      // onTap: () => Get.find<StationsController>().showComingSoonDialog(Get.context!),
+                      onTap: () => HomeController.to.pageController.jumpToPage(4),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -191,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
                           AppText(
                             text: 'settings'.tr,
                             color: selectedIndex == 4 ? context.kPrimaryColor : unSelectedColor,
-                            fontSize: 12,
+                            fontSize: 10,
                             fontWeight: selectedIndex == 4 ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ],
@@ -223,8 +205,6 @@ class _HomeScreenState extends State<HomeScreen> with OfflineMixin {
   @override
   void onNotify({bool? isConnected}) {
     if (isConnected == false) {
-
-
       showAppModalBottomSheet(
         context: context,
         child: BottomSheetParent(

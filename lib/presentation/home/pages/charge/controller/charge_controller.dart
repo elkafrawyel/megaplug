@@ -6,6 +6,7 @@ import 'package:megaplug/config/app_loader.dart';
 import 'package:megaplug/config/clients/api/api_result.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
 import 'package:megaplug/config/helpers/logging_helper.dart';
+import 'package:megaplug/data/api_responses/check_balance_response.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
 import 'package:megaplug/data/repositories/charge_repo.dart';
@@ -52,6 +53,41 @@ class ChargeController extends GetxController {
     isCharging.value = _transactionId != null;
   }
 
+  RxBool checkCanScan = false.obs;
+  RxBool canScan = false.obs;
+
+  checkBalance() async {
+    checkCanScan.value = true;
+    ApiResult<CheckBalanceResponse> apiResult = await _chargeRepositoryImpl.checkBalance();
+    checkCanScan.value = false;
+    if (apiResult.isSuccess()) {
+      canScan.value = true;
+      AppLogger.logWithGetX('You Can Start Charging');
+    } else {
+      canScan.value = false;
+      AppLogger.logWithGetX("You Can't Start Charging\n${apiResult.getError()}");
+      if (apiResult.getError().contains('INSUFFICIENT_BALANCE')) {
+        await showAppModalBottomSheet(
+          context: Get.context!,
+          child: BottomSheetParent(
+            child: ChargeWalletView(
+              data: apiResult.getFailureData(),
+              redirectAction: () {
+                Get.back();
+                HomeController.to.pageController.jumpToPage(1);
+              },
+            ),
+          ),
+        );
+        HomeController.to.pageController.jumpToPage(1);
+      } else {
+        InformationViewer.showErrorToast(
+          msg: apiResult.getError(),
+        );
+      }
+    }
+  }
+
   clearTransactionId() async {
     await StorageClient().save(StorageClientKeys.transactionId, null);
     _transactionId = null;
@@ -90,14 +126,6 @@ class ChargeController extends GetxController {
     if (apiResult.isSuccess()) {
       GeneralResponse generalResponse = apiResult.getData();
       InformationViewer.showSuccessToast(msg: generalResponse.message);
-      if (chargingSessionModel != null) {
-        await Get.to(
-          () => ChargingSessionSummeryScreen(
-            chargingModel: chargingSessionModel!,
-          ),
-        );
-        Get.until((route) => route.settings.name == '/HomeScreen');
-      }
     } else {
       InformationViewer.showErrorToast(
         msg: apiResult.getError(),
@@ -144,7 +172,7 @@ class ChargeController extends GetxController {
             transactionId: transactionId,
           ),
         );
-        HomeController.to.handleSelectedIndex(0);
+        HomeController.to.pageController.jumpToPage(0);
       }
     } else {
       AppLoader.dismiss();
@@ -187,13 +215,14 @@ class ChargeController extends GetxController {
             getSessionTimer();
           } else {
             // Finished
-            stopSubscription();
-            await Get.to(
+            await stopSubscription();
+            Get.to(
               () => ChargingSessionSummeryScreen(
                 chargingModel: event.data()!,
               ),
+            )?.then(
+              (_) => Get.until((route) => route.settings.name == '/HomeScreen'),
             );
-            Get.until((route) => route.settings.name == '/HomeScreen');
           }
         }
       },
@@ -201,7 +230,7 @@ class ChargeController extends GetxController {
     );
   }
 
-  stopSubscription() async {
+  Future stopSubscription() async {
     if (subscription != null) {
       transactionIdController.add(null);
       await subscription!.cancel();
@@ -254,5 +283,33 @@ class ChargeController extends GetxController {
     startTime = null;
     _timer?.cancel();
     _timer = null;
+  }
+
+  void addReview({
+    required double rating,
+    required String comment,
+    required String stationId,
+  }) async {
+    AppLoader.loading();
+
+    ApiResult<GeneralResponse> apiResult = await _chargeRepositoryImpl.addReview(
+      rating: rating,
+      comment: comment,
+      stationId: stationId,
+    );
+
+    AppLoader.dismiss();
+    if (apiResult.isSuccess()) {
+      GeneralResponse generalResponse = apiResult.getData();
+      InformationViewer.showSuccessToast(msg: generalResponse.message);
+      Get.until((route) => route.settings.name == '/HomeScreen');
+      Future.delayed(Duration(seconds: 1), () {
+        HomeController.to.pageController.jumpToPage(0);
+      });
+    } else {
+      InformationViewer.showErrorToast(
+        msg: apiResult.getError(),
+      );
+    }
   }
 }

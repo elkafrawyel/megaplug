@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:megaplug/config/app_loader.dart';
 
 import 'package:megaplug/config/clients/api/api_client.dart';
 import 'package:megaplug/config/clients/storage/storage_client.dart';
+import 'package:megaplug/config/helpers/logging_helper.dart';
 
 class LanguageData {
-  static const supportedLocales = [Locale('en', 'US'), Locale('ar', 'SA')];
+  static const supportedLocales = [Locale('en', 'US'), Locale('ar', 'EG')];
   final String flag;
   final String name;
   final String languageCode;
@@ -14,7 +16,7 @@ class LanguageData {
       .where(
         (element) =>
             element.languageCode.toLowerCase() ==
-            Get.locale!.languageCode.toLowerCase(),
+            StorageClient().getAppLanguage(),
       )
       .first;
 
@@ -43,6 +45,8 @@ class LanguageData {
   int get hashCode => flag.hashCode ^ name.hashCode ^ languageCode.hashCode;
 
   static Future<void> changeLanguage(LanguageData value) async {
+    AppLogger.logWithGetX('App Language Changed: ${value.languageCode}');
+
     await Get.updateLocale(Locale(value.languageCode));
     await StorageClient().save(StorageClientKeys.language, value.languageCode);
     APIClient.instance.updateAcceptedLanguageHeader(value.languageCode);

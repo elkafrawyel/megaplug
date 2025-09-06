@@ -12,6 +12,7 @@ import 'package:megaplug/widgets/app_widgets/app_network_image.dart';
 
 import '../../../../../../../domain/entities/firebase/firebase_station_model.dart';
 import '../../../../../../../widgets/app_widgets/app_text.dart';
+import '../../../../../station_details/station_details_screen.dart';
 
 class StationCardView extends StatefulWidget {
   final FirebaseStationModel stationModel;
@@ -29,17 +30,13 @@ class StationCardView extends StatefulWidget {
 
 class StationCardViewState extends State<StationCardView> {
   late FirebaseStationModel stationModel;
+  FirebaseStationModel? stationInDialog;
   final StationsController _stationsController = Get.find<StationsController>();
-
-  @override
-  initState() {
-    super.initState();
-    stationModel = widget.stationModel;
-  }
 
   @override
   dispose() {
     //stop updating the dialog
+    stationInDialog = null;
     _stationsController.stationModelInDialog = null;
     super.dispose();
   }
@@ -47,12 +44,14 @@ class StationCardViewState extends State<StationCardView> {
   //only used from maps dialog
   reBuild({FirebaseStationModel? model}) {
     setState(() {
-      stationModel = model ?? widget.stationModel;
+      stationInDialog = model;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    stationModel = stationInDialog ?? widget.stationModel;
+
     Color statusColor = stationModel.getStationStatus().color;
     bool isDc = stationModel.hasDcConnectors();
     return Padding(
@@ -79,8 +78,7 @@ class StationCardViewState extends State<StationCardView> {
                         top: 24,
                       ),
                       child: AppNetworkImage(
-                        imageUrl:
-                            'https://img.freepik.com/free-vector/cartoon-style-gas-station-background_52683-79920.jpg',
+                        imageUrl: widget.stationModel.image ?? '',
                         height: 70,
                         width: 70,
                         fit: BoxFit.cover,
@@ -93,8 +91,7 @@ class StationCardViewState extends State<StationCardView> {
                         children: [
                           18.ph,
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: AppText(
                               text: stationModel.getName(),
                               fontWeight: FontWeight.bold,
@@ -104,8 +101,7 @@ class StationCardViewState extends State<StationCardView> {
                           ),
                           SizedBox(height: 8),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: AppText(
                               text: stationModel.getAddress(),
                               fontWeight: FontWeight.w400,
@@ -147,7 +143,7 @@ class StationCardViewState extends State<StationCardView> {
                                   SizedBox(width: 2),
                                   AppText(
                                     text:
-                                        '${stationModel.getTotalConnectors()} ${'connectors'.tr}',
+                                        '${stationModel.getTotalConnectors()} ${stationModel.getTotalConnectors() == 1 ? 'connector'.tr : 'connectors'.tr}',
                                     fontSize: 11,
                                   ),
                                 ],
@@ -156,9 +152,7 @@ class StationCardViewState extends State<StationCardView> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   SvgPicture.asset(
-                                    isDc
-                                        ? Res.fastCharge2Icon
-                                        : Res.lightningIcon,
+                                    isDc ? Res.fastCharge2Icon : Res.lightningIcon,
                                     colorFilter: ColorFilter.mode(
                                       isDc ? Color(0xffFFA800) : statusColor,
                                       BlendMode.srcIn,
@@ -166,8 +160,7 @@ class StationCardViewState extends State<StationCardView> {
                                   ),
                                   SizedBox(width: 2),
                                   AppText(
-                                    text:
-                                        '${stationModel.getChargingPowerText()} ${'kw'.tr}',
+                                    text: '${stationModel.getChargingPowerText()} ${'kw'.tr}',
                                     fontSize: 11,
                                   ),
                                 ],
@@ -226,9 +219,13 @@ class StationCardViewState extends State<StationCardView> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              Get.find<StationsController>()
-                                  .showComingSoonDialog(context);
-                              // Get.to(() => StationDetailsScreen());
+                              // Get.find<StationsController>().showComingSoonDialog(Get.context!);
+                              Get.to(
+                                () => StationDetailsScreen(
+                                  // stationId: '5',
+                                  stationId: stationModel.id!,
+                                ),
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(

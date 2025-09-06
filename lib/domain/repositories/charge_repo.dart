@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:megaplug/data/api_responses/check_balance_response.dart';
 import 'package:megaplug/data/api_responses/general_response.dart';
 import 'package:megaplug/data/api_responses/scan_qr_response.dart';
 
@@ -16,7 +17,7 @@ abstract class ChargeRepository {
   });
 
   Future<ApiResult<GeneralResponse>> stopCharging({
-   required String? transactionId,
+    required String? transactionId,
     required String serial,
   });
 
@@ -28,4 +29,12 @@ abstract class ChargeRepository {
   Stream<DocumentSnapshot<FirebaseChargingSessionModel>> listenToChargeSession({
     required String transactionId,
   });
+
+  Future<ApiResult<GeneralResponse>> addReview({
+    required double rating,
+    required String comment,
+    required String stationId,
+  });
+
+  Future<ApiResult<CheckBalanceResponse>> checkBalance();
 }

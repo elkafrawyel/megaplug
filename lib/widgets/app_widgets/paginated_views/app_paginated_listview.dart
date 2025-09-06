@@ -33,6 +33,17 @@ class AppPaginatedListviewState<T> extends State<AppPaginatedListview<T>> {
     Get.find<PaginationController<T>>().refreshApiCall(loading: loading);
   }
 
+  // to make use of this function make sure that the equality operator is overridden in the model class
+  // and also the hashcode method and choose the unique field to compare the objects like id that will be unique for each object
+  updateSingleItem(T item) {
+    var controller = Get.find<PaginationController<T>>();
+    int index = controller.paginationList.indexWhere((element) => element == item);
+    if (index != -1) {
+      controller.paginationList[index] = item;
+      controller.update();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PaginationController<T>>(

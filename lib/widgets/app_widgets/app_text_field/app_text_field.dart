@@ -41,16 +41,14 @@ class AppTextFormField extends StatefulWidget {
   final List<String>? autoFillHints;
   final double? radius;
   final Function(String value)? onChanged;
-  final VoidCallback? onEditingComplete;
   final Function(String value)? onFieldSubmitted;
   final TextInputAction? textInputAction;
   final AppFieldType appFieldType;
-  final bool checkRules;
+  final bool checkRulesOnTyping;
   final bool alwaysShowRules;
-
   final List<AuthFormRule>? rules;
-
   final List<TextInputFormatter>? inputFormatters;
+  final VoidCallback? onFocusLost;
 
   const AppTextFormField({
     super.key,
@@ -66,7 +64,6 @@ class AppTextFormField extends StatefulWidget {
     this.enabled = true,
     this.onChanged,
     this.onFieldSubmitted,
-    this.onEditingComplete,
     this.autoFillHints,
     this.suffixIcon,
     this.prefixIcon,
@@ -74,11 +71,12 @@ class AppTextFormField extends StatefulWidget {
     this.suffixIconColor,
     this.textInputAction,
     this.appFieldType = AppFieldType.text,
-    this.checkRules = true,
+    this.checkRulesOnTyping = true,
     this.required = true,
     this.alwaysShowRules = false,
     this.rules,
     this.inputFormatters,
+    this.onFocusLost,
   });
 
   @override
@@ -93,18 +91,24 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   final FocusNode _focusNode = FocusNode();
   bool hasError = false;
   Widget validationView = const SizedBox();
-  final String _emptyValidationText =
-      StorageClient().isAr() ? 'هذا الحقل مطلوب' : 'This field is Required';
+  final String _emptyValidationText = StorageClient().isAr() ? 'هذا الحقل مطلوب' : 'This field is Required';
 
   AppTimeDebuncer debuncer = AppTimeDebuncer.instance;
-
 
   @override
   void initState() {
     super.initState();
-    _isPasswordField = AppFieldType.password == widget.appFieldType ||
-        AppFieldType.confirmPassword == widget.appFieldType;
+    _isPasswordField = AppFieldType.password == widget.appFieldType || AppFieldType.confirmPassword == widget.appFieldType;
     _isSecure = _isPasswordField;
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        print('TextField got focus');
+      } else {
+        if (widget.onFocusLost != null) {
+          widget.onFocusLost!();
+        }
+      }
+    });
   }
 
   @override
@@ -115,8 +119,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor =
-        hasError ? Color.fromRGBO(229, 57, 53, 1) : Color(0xffE2E8F0);
+    final borderColor = hasError ? Color.fromRGBO(229, 57, 53, 1) : Color(0xffE2E8F0);
     final Color fillErrorColor = Color.fromRGBO(255, 0, 0, 0.06);
     return CustomShakeWidget(
       key: _shakerKey,
@@ -129,6 +132,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
           TextFormField(
             focusNode: _focusNode,
             obscureText: _isSecure,
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
             style: TextStyle(
               fontSize: 14,
               color: Color(0xff6C7E8E),
@@ -137,10 +141,14 @@ class AppTextFormFieldState extends State<AppTextFormField> {
             controller: widget.controller,
             keyboardType: widget.keyboardType ?? TextInputType.text,
             onChanged: (String? value) {
-              clearApiError();
+              if (!widget.checkRulesOnTyping) {
+                clearApiError();
+              }
               debuncer.debounce(
                 Duration(milliseconds: 1000),
-                () => _validateRules(),
+                () => _validateRules(
+                  checkRulesOnTyping: widget.checkRulesOnTyping,
+                ),
               );
               if (widget.onChanged != null && value != null) {
                 widget.onChanged!(value);
@@ -152,12 +160,12 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                 widget.onFieldSubmitted!(value);
               }
 
-              validate(withFocus: false);
+              if (widget.checkRulesOnTyping) {
+                validate(withFocus: false);
+              }
             },
             inputFormatters: widget.inputFormatters,
-
             autofillHints: widget.autoFillHints,
-            onEditingComplete: widget.onEditingComplete,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             textAlignVertical: TextAlignVertical.center,
             textAlign: TextAlign.start,
@@ -171,6 +179,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                   : Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SvgPicture.asset(
                             Res.errorIcon,
@@ -179,13 +188,11 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                           ),
                           10.pw,
                           Flexible(
-                            child: Text(
-                              _apiErrorText ?? '',
-                              style: TextStyle(
-                                color: context.kErrorColor,
-                                fontSize: 12,
-                              ),
-                              maxLines: 2,
+                            child: AppText(
+                              text: _apiErrorText ?? '',
+                              color: context.kErrorColor,
+                              fontSize: 12,
+                              maxLines: 4,
                             ),
                           ),
                         ],
@@ -200,9 +207,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
               labelText: widget.labelText,
               labelStyle: TextStyle(
                 color: context.kTextColor,
-                fontFamily: StorageClient().isAr()
-                    ? Constants.arFontFamily
-                    : Constants.fontFamily,
+                fontFamily: StorageClient().isAr() ? Constants.arFontFamily : Constants.fontFamily,
                 fontSize: 18,
               ),
               hintText: widget.hintText ?? '',
@@ -211,9 +216,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
               hintStyle: TextStyle(
                 fontSize: 11,
                 color: context.kHintTextColor,
-                fontFamily: StorageClient().isAr()
-                    ? Constants.arFontFamily
-                    : Constants.fontFamily,
+                fontFamily: StorageClient().isAr() ? Constants.arFontFamily : Constants.fontFamily,
                 fontWeight: FontWeight.w400,
               ),
               contentPadding: const EdgeInsets.symmetric(
@@ -265,9 +268,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
                 fontSize: 12,
                 fontWeight: FontWeight.normal,
                 color: context.kErrorColor,
-                fontFamily: StorageClient().isAr()
-                    ? Constants.arFontFamily
-                    : Constants.fontFamily,
+                fontFamily: StorageClient().isAr() ? Constants.arFontFamily : Constants.fontFamily,
               ),
               disabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide.none,
@@ -321,7 +322,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
   }
 
   bool validate({bool withFocus = true}) {
-    bool validated = _validateRules();
+    bool validated = _validateRules(checkRulesOnTyping: true);
     if (validated) {
       shake(withFocus: withFocus);
       return false;
@@ -347,6 +348,7 @@ class AppTextFormFieldState extends State<AppTextFormField> {
     setState(() {
       _apiErrorText = null;
       hasError = false;
+      validationView = SizedBox();
     });
   }
 
@@ -360,8 +362,11 @@ class AppTextFormFieldState extends State<AppTextFormField> {
     }
   }
 
-  bool _validateRules() {
+  bool _validateRules({bool? checkRulesOnTyping}) {
     if (!widget.required) {
+      return false;
+    }
+    if (!checkRulesOnTyping!) {
       return false;
     }
     List<Widget> errors = [];

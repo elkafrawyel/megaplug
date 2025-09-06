@@ -7,7 +7,6 @@ import '../pages/charge/charge_screen.dart';
 import '../pages/charge/controller/charge_controller.dart';
 import '../pages/profile/profile_screen.dart';
 import '../pages/settings/settings_screen.dart';
-import '../pages/stations/controller/stations_controller.dart';
 import '../pages/stations/stations_screen.dart';
 import '../pages/wallet/wallet_screen.dart';
 
@@ -32,14 +31,7 @@ class HomeController extends GetxController {
   }
 
   handleSelectedIndex(int index) async {
-    if (index != 0 && index != 1 && index != 2) {
-      Get.find<StationsController>().showComingSoonDialog(Get.context!);
-      return;
-    }
-
     selectedIndex.value = index;
-    pageController.jumpToPage(index);
-
     if (index == 1 && !WalletController.to.balanceResult.isStart()) {
       WalletController.to.refreshApi();
     }
@@ -52,9 +44,10 @@ class HomeController extends GetxController {
             transactionId: transactionId,
           ),
         );
-        handleSelectedIndex(0);
+        HomeController.to.pageController.jumpToPage(0);
+      } else {
+        ChargeController.to.checkBalance();
       }
     }
-
   }
 }

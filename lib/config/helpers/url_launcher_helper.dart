@@ -14,4 +14,13 @@ class UrlLauncherHelper {
     );
     await launchUrl(launchUri);
   }
+
+  static Future<void> openWhatsApp(String phone) async {
+    final url = Uri.parse("https://wa.me/$phone"); // e.g. 201234567890
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw "Could not launch $url";
+    }
+  }
 }

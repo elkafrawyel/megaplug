@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_paymob_egypt/flutter_paymob_egypt.dart';
 import 'package:flutter_paymob_egypt/src/models/billing_data.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
@@ -13,8 +14,11 @@ import 'package:megaplug/config/information_viewer.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
 import 'package:megaplug/presentation/home/components/home_appbar.dart';
+import 'package:megaplug/widgets/app_widgets/app_button.dart';
+import 'package:megaplug/widgets/app_widgets/app_modal_bottom_sheet.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
+import 'package:megaplug/widgets/bottom_sheet_parent.dart';
 import '../../config/constants.dart';
 import '../../config/helpers/regex.dart';
 import '../../domain/entities/api/user_model.dart';
@@ -30,7 +34,6 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   final TextEditingController controller = TextEditingController();
-
   GlobalKey<AppTextFormFieldState> textFieldKey = GlobalKey<AppTextFormFieldState>();
 
   @override
@@ -54,7 +57,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         showBackButton: true,
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 38.0, horizontal: 28),
+        padding: const EdgeInsets.symmetric(vertical: 58.0, horizontal: 28),
         child: ElevatedButton(
           onPressed: () async {
             if (textFieldKey.currentState?.validate() ?? false) {
@@ -68,15 +71,94 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ),
                   totalPrice: num.parse(controller.text),
                   successResult: (data) async {
-                    print("Payment Information ===> $data");
-                    // InformationViewer.showSuccessToast(msg: 'Payment Successful');
+                    await showAppModalBottomSheet(
+                      context: context,
+                      child: BottomSheetParent(
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(
+                              Res.paymentSuccessIcon,
+                            ),
+                            20.ph,
+                            AppText(
+                              text: 'payment_success'.tr,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            10.ph,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                              child: AppText(
+                                text: 'payment_success_message'.tr,
+                                centerText: true,
+                                maxLines: 3,
+                              ),
+                            ),
+                            20.ph,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                              child: AppButton(
+                                text: 'back_to_wallet'.tr,
+                                onPressed: () async {
+                                  WalletController.to.refreshApi();
+                                  await Future.delayed(Duration(seconds: 2));
+                                  Get.until((route) => route.settings.name == '/HomeScreen');
+                                },
+                              ),
+                            ),
+                            20.ph,
+                          ],
+                        ),
+                      ),
+                    );
+
                     WalletController.to.refreshApi();
                     await Future.delayed(Duration(seconds: 3));
                     Get.until((route) => route.settings.name == '/HomeScreen');
                   },
                   errorResult: (error) async {
-                    AppLogger.logWithGetX('Payment Failed\n${error.toString()}');
-                    await Future.delayed(Duration(seconds: 3));
+                    AppLogger.logWithGetX('Payment Error: : : $error');
+                    await showAppModalBottomSheet(
+                      context: context,
+                      child: BottomSheetParent(
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(
+                              Res.paymentSuccessIcon,
+                            ),
+                            20.ph,
+                            AppText(
+                              text: 'payment_error'.tr,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            10.ph,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                              child: AppText(
+                                text: 'payment_error_message'.tr,
+                                centerText: true,
+                                maxLines: 3,
+                              ),
+                            ),
+                            20.ph,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                              child: AppButton(
+                                text: 'try_again'.tr,
+                                onPressed: () async {
+                                  await Future.delayed(Duration(seconds: 3));
+                                  Get.back();
+                                },
+                              ),
+                            ),
+                            20.ph,
+                          ],
+                        ),
+                      ),
+                    );
+
+                    await Future.delayed(Duration(seconds: 2));
                     Get.back();
                   },
                   billingData: BillingData(
@@ -106,7 +188,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(28.0),
+          padding: const EdgeInsets.symmetric(vertical: 48.0, horizontal: 18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

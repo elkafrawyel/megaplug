@@ -6,6 +6,7 @@ import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/res.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/domain/entities/api/user_model.dart';
 import 'package:megaplug/presentation/change_password/change_password_screen.dart';
 import 'package:megaplug/presentation/home/pages/profile/controller/profile_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_button.dart';
@@ -33,11 +34,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   GlobalKey<AppTextFormFieldState> phoneState = GlobalKey();
 
   @override
+  void initState() {
+    UserModel? userModel = Get.find<ProfileController>().userModel;
+    nameController.text = userModel?.name ?? '';
+    emailController.text = userModel?.email ?? '';
+    phoneController.text = userModel?.phone ?? '';
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     nameController.dispose();
     emailController.dispose();
     phoneController.dispose();
+    Future.delayed(Duration(seconds: 2), () {
+      ProfileController.to.profileImage = null;
+    });
   }
 
   @override
@@ -59,8 +72,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           horizontal: 18.0,
         ),
         child: AppButton(
-          onPressed: () {},
-          text: 'change_password'.tr,
+          onPressed: () {
+            if (AppTextFieldRules.validateForm(
+              [
+                nameState,
+                emailState,
+                phoneState,
+              ],
+            )) {
+              Get.find<ProfileController>().updateProfile(
+                context: context,
+                emailState: emailState,
+                phoneState: phoneState,
+                name: nameController.text.trim(),
+                email: emailController.text.trim(),
+                phone: phoneController.text.trim(),
+              );
+            }
+          },
+          text: 'edit_profile'.tr,
         ),
       ),
       body: SingleChildScrollView(
@@ -70,7 +100,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                30.ph,
+                70.ph,
                 GestureDetector(
                   onTap: () {
                     showAppImageDialog(
@@ -94,8 +124,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             shape: BoxShape.circle,
                           ),
                           child: AppNetworkImage(
-                            imageUrl:
-                                'https://images.healthshots.com/healthshots/en/uploads/2020/12/08182549/positive-person.jpg',
+                            imageUrl: profileController.userModel?.avatar ?? '',
                             isCircular: true,
                             localFile: profileController.profileImage,
                             height: 100,
@@ -160,6 +189,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     autoFillHints: [AutofillHints.email],
                     appFieldType: AppFieldType.email,
                     rules: AppTextFieldRules.emailRules,
+                    checkRulesOnTyping: false,
+                    onFieldSubmitted: (String value) {
+                      AppTextFieldRules.validateForm(
+                        [
+                          emailState,
+                        ],
+                      );
+                    },
+                    onFocusLost: () {
+                      AppTextFieldRules.validateForm(
+                        [
+                          emailState,
+                        ],
+                      );
+                    },
                   ),
                 ),
                 Padding(
@@ -180,6 +224,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     textInputAction: TextInputAction.next,
                     autoFillHints: [AutofillHints.telephoneNumber],
                     rules: AppTextFieldRules.phoneNumberRules,
+                    checkRulesOnTyping: false,
+                    onFieldSubmitted: (String value) {
+                      AppTextFieldRules.validateForm(
+                        [
+                          phoneState,
+                        ],
+                      );
+                    },
+                    onFocusLost: () {
+                      AppTextFieldRules.validateForm(
+                        [
+                          phoneState,
+                        ],
+                      );
+                    },
                   ),
                 ),
                 30.ph,
@@ -206,7 +265,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                 ),
-
               ],
             ),
           );

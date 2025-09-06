@@ -7,9 +7,7 @@ class Res {
   static const apiVerifyOtp = 'otp/verify';
   static const apiVerifyAccount = 'verify-account';
   static const apiResetPassword = 'reset-password';
-
   static const apiGetStationFilter = 'filter-stations-setting';
-
   static const apiStationSearch = 'stations/search';
   static const apiStationFilter = 'stations/filter';
   static const apiAddBalance = 'wallet/add-balance';
@@ -18,6 +16,16 @@ class Res {
   static const apiScanQr = 'stations/charging-point';
   static const apiStartCharging = 'charging/start';
   static const apiStopCharging = 'charging/stop';
+  static const apiAddReview = 'station-reviews';
+  static const apiCheckBalance = 'wallet/check-balance';
+  static const apiChargingHistory = 'user/charging-history';
+  static const apiChangePassword = 'user/password';
+  static const apiEditProfile = 'user/profile';
+  static const apiContactUs = 'contact-us';
+  static const apiContactInfo = 'contact-information';
+  static const apiDeleteAccount = 'user/delete-account';
+  static const apiNotifications = 'notifications';
+  static const apiUnReadCountNotifications = 'notifications/unread-count';
 
   ///========================== ASSETS ======================================
   static const logo = 'assets/images/launcher/ios_icon.png';
@@ -32,6 +40,9 @@ class Res {
   static const chargingImage = 'assets/images/charging.gif';
   static const settingUpImage = 'assets/images/setting_up.gif';
   static const preparingImage = 'assets/images/preparing.gif';
+  static const logoAboutUsImage = 'assets/images/logo_about_us.png';
+  static const logoTermsImage = 'assets/images/logo_terms.png';
+  static const logoWalletImage = 'assets/images/logo_wallet.png';
 
   ///================================================================
   static const backIcon = 'assets/icons/back.svg';
@@ -70,12 +81,6 @@ class Res {
   static const connectCarIcon = 'assets/icons/connect_car.svg';
   static const directionsIcon = 'assets/icons/directions.svg';
   static const errorIcon = 'assets/icons/error.svg';
-  static const facebookIcon = 'assets/icons/facebook.svg';
-  static const whatsappIcon = 'assets/icons/whatsapp.svg';
-  static const xIcon = 'assets/icons/x.svg';
-  static const instagramIcon = 'assets/icons/instagram.svg';
-  static const callIcon = 'assets/icons/call.svg';
-  static const youtubeIcon = 'assets/icons/youtube.svg';
   static const lightningIcon = 'assets/icons/lightning.svg';
   static const closeIcon = 'assets/icons/close.svg';
   static const notificationsIcon = 'assets/icons/notifications.svg';
@@ -95,6 +100,13 @@ class Res {
   static const emptyWalletIcon = 'assets/icons/empty_wallet.svg';
   static const greenWalletIcon = 'assets/icons/green_wallet.svg';
   static const comingSoonIcon = 'assets/icons/coming_soon.svg';
+  static const shareIcon = 'assets/icons/share.svg';
+  static const starIcon = 'assets/icons/star.svg';
+  static const locationIcon = 'assets/icons/location.svg';
+  static const logoutPopupIcon = 'assets/icons/logout_popup.svg';
+  static const paymentSuccessIcon = 'assets/icons/payment_success.svg';
+  static const paymentErrorIcon = 'assets/icons/payment_error.svg';
+  static const emptyNotificationsIcon = 'assets/icons/empty_notifications.svg';
 
   ///================================================================
 

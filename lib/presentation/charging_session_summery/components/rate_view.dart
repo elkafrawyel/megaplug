@@ -4,13 +4,16 @@ import 'package:get/get.dart';
 import 'package:megaplug/config/constants.dart';
 import 'package:megaplug/config/extension/space_extension.dart';
 import 'package:megaplug/config/theme/color_extension.dart';
+import 'package:megaplug/presentation/home/pages/charge/controller/charge_controller.dart';
 import 'package:megaplug/widgets/app_widgets/app_text.dart';
 import 'package:megaplug/widgets/app_widgets/app_text_field/app_text_field.dart';
 
 import '../../../widgets/bottom_sheet_header.dart';
 
 class RateView extends StatefulWidget {
-  const RateView({super.key});
+  final String? stationId;
+
+  const RateView({super.key, this.stationId});
 
   @override
   State<RateView> createState() => _RateViewState();
@@ -53,7 +56,7 @@ class _RateViewState extends State<RateView> {
               initialRating: 0,
               minRating: 1,
               direction: Axis.horizontal,
-              allowHalfRating: true,
+              allowHalfRating: false,
               itemCount: 5,
               unratedColor: Color(0xffE7E7E7),
               itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
@@ -80,9 +83,16 @@ class _RateViewState extends State<RateView> {
             SizedBox(
               width: MediaQuery.sizeOf(context).width * 0.9,
               child: ElevatedButton(
-                onPressed: () {
-                  Get.until((route) => route.settings.name == '/HomeScreen');
-                },
+                onPressed: rating == 0
+                    ? null
+                    : () {
+
+                        ChargeController.to.addReview(
+                          rating: rating,
+                          comment: controller.text,
+                          stationId: widget.stationId!,
+                        );
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: context.kPrimaryColor,
                   padding: EdgeInsets.symmetric(vertical: kButtonHeight),

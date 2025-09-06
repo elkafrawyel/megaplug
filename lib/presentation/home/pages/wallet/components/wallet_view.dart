@@ -48,12 +48,12 @@ class WalletView extends StatelessWidget {
                         ),
                       ),
                       PositionedDirectional(
-                        end: 5,
-                        top: 5,
+                        end: 10,
+                        top: 10,
                         child: Image.asset(
-                          StorageClient().isAr() ? Res.arabicLogo : Res.englishLogo,
-                          width: 70,
-                          height: 70,
+                          Res.logoWalletImage,
+                          width: 60,
+                          height: 60,
                         ),
                       ),
                       PositionedDirectional(
@@ -90,7 +90,7 @@ class WalletView extends StatelessWidget {
                               color: Colors.white,
                             ),
                             AppText(
-                              text: '${walletController.balanceResult.getData().data?.balance ?? ''} ${'egp'.tr}',
+                              text: '${walletController.balanceResult.getData().data?.balance ?? '0.00'} ${'egp'.tr}',
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontSize: 18,
@@ -102,12 +102,12 @@ class WalletView extends StatelessWidget {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(18.0),
-              //   child: PointsView(
-              //     points: 320,
-              //   ),
-              // ),
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: PointsView(
+                  points: walletController.balanceResult.getData().data?.loyaltyPoints?.toDouble() ?? 0.0,
+                ),
+              ),
             ],
           ),
         ApiFailure<BalanceResponse>() => SizedBox(

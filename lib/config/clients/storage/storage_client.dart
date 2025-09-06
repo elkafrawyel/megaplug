@@ -28,8 +28,7 @@ class StorageClient {
     // await save(StorageClientKeys.language, 'en');
   }
 
-  String getAppLanguage({BuildContext? context}) =>
-      get(StorageClientKeys.language) ?? Get.deviceLocale?.languageCode ?? 'en';
+  String getAppLanguage({BuildContext? context}) => get(StorageClientKeys.language) ?? Get.deviceLocale?.languageCode ?? 'en';
 
   bool isLogged() => get(StorageClientKeys.apiToken) != null;
 
@@ -59,8 +58,7 @@ class StorageClient {
 
       await save(StorageClientKeys.apiToken, userResponse.accessToken);
       await save(StorageClientKeys.apiTokenType, userResponse.tokenType);
-      APIClient.instance.updateTokenHeader(userResponse.accessToken,
-          tokenType: userResponse.tokenType);
+      APIClient.instance.updateTokenHeader(userResponse.accessToken, tokenType: userResponse.tokenType);
       AppLogger.log('User Saved Successfully !!');
     } else {
       AppLogger.log('User Failed To Be Saved !!');

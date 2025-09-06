@@ -80,7 +80,9 @@ class PaginationController<T> extends GetxController {
       apiResult = await APIClient.instance.get(
         endPoint: path,
         fromJson: (json) => PaginationResponse<T>.fromJson(
-          json,
+          //todo remove this data key if api not using it
+          json['data'],
+          // json,
           fromJson: configData.fromJson,
         ),
       );

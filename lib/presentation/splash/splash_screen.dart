@@ -35,8 +35,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    LanguageData.changeLanguage(LanguageData.languageList().first);
-
     Future.delayed(animationDuration, () => _redirect());
   }
 

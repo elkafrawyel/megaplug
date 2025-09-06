@@ -5,7 +5,9 @@ import 'package:megaplug/presentation/home/pages/charge/components/scanner_view.
 import 'package:megaplug/presentation/home/pages/charge/controller/charge_controller.dart';
 
 import '../../../../config/res.dart';
+import '../../../../widgets/app_widgets/app_modal_bottom_sheet.dart';
 import '../../components/home_appbar.dart';
+import 'components/popups/charge_bottom_view.dart';
 
 class ChargeScreen extends StatefulWidget {
   const ChargeScreen({super.key});
@@ -14,13 +16,23 @@ class ChargeScreen extends StatefulWidget {
   State<ChargeScreen> createState() => _ChargeScreenState();
 }
 
-class _ChargeScreenState extends State<ChargeScreen>
-    with AutomaticKeepAliveClientMixin {
+class _ChargeScreenState extends State<ChargeScreen> with AutomaticKeepAliveClientMixin {
   GlobalKey<ScannerViewState> scannerKey = GlobalKey<ScannerViewState>();
+
+  manualScan(String code) async {
+    ChargeController.to.scanQr(code);
+    showAppModalBottomSheet(
+      context: context,
+      child: ChargeBottomSheet(
+        serial: code,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: context.kBackgroundColor,
@@ -31,9 +43,19 @@ class _ChargeScreenState extends State<ChargeScreen>
       ),
       body: Obx(
         () {
-          return ChargeController.to.isCharging.value
-              ? SizedBox()
-              : ScannerView();
+          return ChargeController.to.checkCanScan.value
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : !ChargeController.to.canScan.value || ChargeController.to.isCharging.value
+                  ? SizedBox()
+                  : InkWell(
+                      onTap: () {
+                        manualScan('5403000060');
+                        // manualScan('5403000061');
+                      },
+                      child: ScannerView(),
+                    );
         },
       ),
     );

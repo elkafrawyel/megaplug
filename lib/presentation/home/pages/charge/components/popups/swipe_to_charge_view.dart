@@ -21,8 +21,7 @@ class SwipeToChargeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ChargeController>(
       builder: (chargeController) {
-        final ScanQrModel? scanQrModel =
-            chargeController.scanQrApiResult.getData().data;
+        final ScanQrModel? scanQrModel = chargeController.scanQrApiResult.getData().data;
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -30,8 +29,7 @@ class SwipeToChargeView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AppText(
-                text:
-                    "${scanQrModel?.station?.toString()} (${(scanQrModel?.connector?.connectorType?.isDc ?? false) ? 'DC' : 'AC'})",
+                text: "${scanQrModel?.station?.toString()} (${(scanQrModel?.connector?.connectorType?.isDc ?? false) ? 'DC' : 'AC'})",
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -66,8 +64,7 @@ class SwipeToChargeView extends StatelessWidget {
                             vertical: 8.0,
                           ),
                           child: AppText(
-                            text:
-                                'We’re setting things up.\nYour charging session will begin in just a moment.',
+                            text: 'We’re setting things up.\nYour charging session will begin in just a moment.',
                             maxLines: 3,
                             centerText: true,
                           ),
@@ -93,19 +90,20 @@ class SwipeToChargeView extends StatelessWidget {
                                         vertical: 8.0,
                                       ),
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           AppText(
-                                            text: scanQrModel
-                                                    ?.connector?.connectorType
-                                                    ?.toString() ??
-                                                '',
+                                            text: scanQrModel?.connector?.connectorType?.toString() ?? '',
                                             fontWeight: FontWeight.w700,
                                           ),
+                                          AppText(
+                                            text: '#${scanQrModel?.connector?.id?.toString()}',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                            color: context.kHintTextColor,
+                                          ),
                                           Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8.0),
+                                            padding: const EdgeInsets.symmetric(vertical: 8.0),
                                             child: AppText(
                                               text:
                                                   '${scanQrModel?.connector?.chargePower} (${(scanQrModel?.connector?.connectorType?.isDc ?? false) ? 'DC' : 'AC'})',
@@ -114,8 +112,7 @@ class SwipeToChargeView extends StatelessWidget {
                                             ),
                                           ),
                                           AppText(
-                                            text:
-                                                '(${scanQrModel?.connector?.pricePerKw} EGP/kWh)',
+                                            text: '(${scanQrModel?.connector?.pricePerKw} EGP/kWh)',
                                             color: context.kPrimaryColor,
                                             fontWeight: FontWeight.w700,
                                           ),
@@ -123,23 +120,16 @@ class SwipeToChargeView extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  if (scanQrModel
-                                          ?.connector?.connectorType?.symbol !=
-                                      null)
+                                  if (scanQrModel?.connector?.connectorType?.symbol != null)
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.network(scanQrModel
-                                              ?.connector
-                                              ?.connectorType
-                                              ?.symbol ??
-                                          ''),
+                                      child: SvgPicture.network(scanQrModel?.connector?.connectorType?.symbol ?? ''),
                                     ),
                                 ],
                               ),
                             ),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 18.0),
+                              padding: const EdgeInsets.symmetric(horizontal: 18.0),
                               child: Row(
                                 children: [
                                   SvgPicture.asset(
@@ -151,8 +141,7 @@ class SwipeToChargeView extends StatelessWidget {
                                   AppText(text: 'current_balance'.tr),
                                   Spacer(),
                                   AppText(
-                                    text:
-                                        '${scanQrModel?.balance ?? '0.0'} ${'egp'.tr}',
+                                    text: '${scanQrModel?.balance ?? '0.0'} ${'egp'.tr}',
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   )
@@ -172,11 +161,8 @@ class SwipeToChargeView extends StatelessWidget {
                                     size: 20,
                                   ),
                                 ),
-                                text: chargeController.haveFailedSwipe
-                                    ? 'Swipe To Retry Charging'
-                                    : 'Swipe To Start Charging',
-                                textStyle: TextStyle(
-                                    fontSize: 16, color: Colors.white),
+                                text: chargeController.haveFailedSwipe ? 'Swipe To Retry Charging' : 'Swipe To Start Charging',
+                                textStyle: TextStyle(fontSize: 16, color: Colors.white),
                                 outerColor: context.kPrimaryColor,
                                 innerColor: Colors.white,
                                 onSubmit: () async {
@@ -197,8 +183,7 @@ class SwipeToChargeView extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: AppText(
-                                  text:
-                                      ' Make sure the connector is properly plugged into your car before starting.',
+                                  text: ' Make sure the connector is properly plugged into your car before starting.',
                                   maxLines: 2,
                                   centerText: true,
                                 ),

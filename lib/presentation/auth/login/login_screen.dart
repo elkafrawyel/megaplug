@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/app_loader.dart';
@@ -75,11 +76,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    8.ph,
                     Center(
                       child: AppText(
                         text: "login_message".tr,
-                        color: Color(0xff6D7698),
+                        color:context.kHintTextColor,
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
                         maxLines: 4,
@@ -97,10 +98,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: emailController,
                       hintText: "enter_email_or_phone".tr,
                       rules: AppTextFieldRules.emailOrPhoneRules,
-                      autoFillHints: const [
-                        AutofillHints.email,
-                        AutofillHints.telephoneNumber
-                      ],
+                      checkRulesOnTyping: false,
+                      textInputAction: TextInputAction.next,
+                      autoFillHints: const [AutofillHints.email, AutofillHints.telephoneNumber],
+                      onFieldSubmitted: (String value) {
+                        AppTextFieldRules.validateForm(
+                          [
+                            emailState,
+                          ],
+                        );
+                      },
+                      onFocusLost: () {
+                        AppTextFieldRules.validateForm(
+                          [
+                            emailState,
+                          ],
+                        );
+                      },
                     ),
                     16.ph,
                     AppText(
@@ -113,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: passwordController,
                       hintText: "enter_password".tr,
                       appFieldType: AppFieldType.password,
+                      textInputAction: TextInputAction.done,
                       autoFillHints: const [AutofillHints.password],
                     ),
                     5.ph,
@@ -187,32 +202,25 @@ class _LoginScreenState extends State<LoginScreen> {
         loginRequest: LoginRequest(
           username: emailController.text,
           password: passwordController.text,
+          fcmToken: await FirebaseMessaging.instance.getToken(),
         ),
       );
 
       AppLoader.dismiss();
       if (apiResult.isSuccess()) {
         LoginResponse loginResponse = apiResult.getData();
-          // InformationViewer.showSuccessToast(msg: loginResponse.message);
-          await StorageClient().saveUser(userResponse: loginResponse.data);
-          Get.offAll(
-            () => HomeScreen(),
-            binding: HomeBinding(),
-          );
+        // InformationViewer.showSuccessToast(msg: loginResponse.message);
+        await StorageClient().saveUser(userResponse: loginResponse.data);
+        Get.offAll(
+          () => HomeScreen(),
+          binding: HomeBinding(),
+        );
       } else {
         if (mounted) {
           InformationViewer.showSnackBar(
             msg: apiResult.getError().trim(),
             bgColor: context.kErrorColor,
           );
-
-          // Get.snackbar(
-          //   'No Internet Connection',
-          //   apiResult.getError().trim(),
-          //   snackPosition: SnackPosition.BOTTOM,
-          //   backgroundColor: Colors.red.withOpacity(0.8),
-          //   colorText: Colors.white,
-          // );
         }
       }
     }

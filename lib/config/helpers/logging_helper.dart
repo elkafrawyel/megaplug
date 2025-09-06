@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/utils.dart';
 import 'package:logger/logger.dart';
 
@@ -25,6 +26,8 @@ class AppLogger {
   }
 
   static void logWithGetX(String message) {
-    Get.log(message);
+    if(kDebugMode){
+      Get.log(message);
+    }
   }
 }

@@ -11,6 +11,7 @@ class WalletRepositoryImpl extends WalletRepository {
     return APIClient.instance.post(
       endPoint: Res.apiAddBalance,
       fromJson: GeneralResponse.fromJson,
+      requestBody: {},
     );
   }
 

@@ -35,6 +35,7 @@ class ProfileAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       toolbarHeight: kToolbarHeight,
       backgroundColor: backgroundColor ?? Colors.transparent,
+      surfaceTintColor: Colors.transparent,
       elevation: 0,
       title: AppText(
         text: title,
@@ -42,6 +43,7 @@ class ProfileAppbar extends StatelessWidget implements PreferredSizeWidget {
         fontSize: 16,
         fontWeight: FontWeight.w700,
       ),
+      centerTitle: true,
       actions: actions,
       leadingWidth: 50,
       leading: showBackButton

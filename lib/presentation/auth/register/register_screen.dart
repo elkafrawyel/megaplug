@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:megaplug/config/app_loader.dart';
@@ -38,8 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordController = TextEditingController();
   GlobalKey<AppTextFormFieldState> passwordState = GlobalKey();
 
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   GlobalKey<AppTextFormFieldState> confirmPasswordState = GlobalKey();
 
   @override
@@ -111,6 +111,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   key: emailState,
                   controller: emailController,
                   hintText: 'email_hint'.tr,
+                  checkRulesOnTyping: false,
+                  onFieldSubmitted: (String value) {
+                    AppTextFieldRules.validateForm(
+                      [
+                        emailState,
+                      ],
+                    );
+                  },
+                  onFocusLost: () {
+                    AppTextFieldRules.validateForm(
+                      [
+                        emailState,
+                      ],
+                    );
+                  },
                   textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.email],
                   appFieldType: AppFieldType.email,
@@ -136,6 +151,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   autoFillHints: [AutofillHints.telephoneNumber],
                   rules: AppTextFieldRules.phoneNumberRules,
+                  checkRulesOnTyping: false,
+                  onFieldSubmitted: (String value) {
+                    AppTextFieldRules.validateForm(
+                      [
+                        phoneState,
+                      ],
+                    );
+                  },
+                  onFocusLost: () {
+                    AppTextFieldRules.validateForm(
+                      [
+                        phoneState,
+                      ],
+                    );
+                  },
                 ),
               ),
               10.ph,
@@ -157,7 +187,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   rules: AppTextFieldRules.passwordRules,
                   alwaysShowRules: true,
-
                 ),
               ),
               10.ph,
@@ -178,8 +207,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   appFieldType: AppFieldType.password,
                   textInputAction: TextInputAction.done,
                   alwaysShowRules: false,
-                  checkRules: false,
-
+                  checkRulesOnTyping: false,
                 ),
               ),
               20.ph,
@@ -191,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       text: 'agree_to'.tr,
                       fontSize: 11.5,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xff6D7698),
+                      color: context.kHintTextColor,
                     ),
                     5.pw,
                     GestureDetector(
@@ -257,6 +285,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: passwordController.text,
         passwordConfirmation: confirmPasswordController.text,
         language: StorageClient().getAppLanguage().toUpperCase(),
+        fcmToken: await FirebaseMessaging.instance.getToken(),
       ),
     );
 

@@ -29,7 +29,7 @@ class _HowToChargeScreenState extends State<HowToChargeScreen> {
     'Start the charging session by scanning your phone onto the charger reader, located at the top of the AC charger and on the side of the DC charger.',
     'The blue LED light indicates the start of the charging session.',
     'End the charging session by pressing ‘stop charging’ in the InfinityEV app.',
-    'Disconnect the cable on the AC charger from the charger side first, and then from your EV. On the DC charger, remove the cable from the vehicle.'
+    'Disconnect the cable on the AC charger from the charger side first, and then from your EV. On the DC charger, remove the cable from the car.'
   ];
 
   @override
@@ -163,7 +163,7 @@ class _HowToChargeScreenState extends State<HowToChargeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: AppText(
-                    text: 'How can i charge my electric vehicle ?',
+                    text: 'How can i charge my electric car ?',
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     maxLines: 2,
@@ -194,13 +194,13 @@ class _HowToChargeScreenState extends State<HowToChargeScreen> {
                     children: [
                       AppText(
                         text: '${index + 1}. ',
-                        color: Color(0xff6D7698),
+                        color: context.kHintTextColor,
                       ),
                       Expanded(
                         child: AppText(
                           text: steps[index],
                           maxLines: 10,
-                          color: Color(0xff6D7698),
+                          color: context.kHintTextColor,
                         ),
                       ),
                     ],

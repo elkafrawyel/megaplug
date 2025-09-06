@@ -29,8 +29,8 @@ class DecimalLimiter extends TextInputFormatter {
     final number = double.tryParse(newText);
     if (number == null) return oldValue;
 
-    // Limit to max 999.99
-    if (number > 999.99) return oldValue;
+    // Limit to max 99999.99
+    if (number > 99999.99) return oldValue;
 
     // Allow max 2 decimal places
     if (newText.contains('.')) {

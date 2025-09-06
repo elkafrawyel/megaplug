@@ -45,6 +45,7 @@ class Data {
     this.rfid,
     this.createdAt,
     this.updatedAt,
+    this.loyaltyPoints,
   });
 
   Data.fromJson(dynamic json) {
@@ -54,11 +55,15 @@ class Data {
     rfid = json['rfid'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    loyaltyPoints = json['loyalty_points'] != null ? num.parse(json['loyalty_points'].toString()) : null;
+
   }
 
   num? id;
   String? balance;
   String? userName;
+
+  num? loyaltyPoints;
   String? rfid;
   String? createdAt;
   String? updatedAt;
@@ -70,6 +75,8 @@ class Data {
     String? rfid,
     String? createdAt,
     String? updatedAt,
+    num? loyaltyPoints,
+
   }) =>
       Data(
         id: id ?? this.id,
@@ -78,6 +85,7 @@ class Data {
         rfid: rfid ?? this.rfid,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
+        loyaltyPoints: loyaltyPoints ?? this.loyaltyPoints,
       );
 
   Map<String, dynamic> toJson() {
@@ -88,6 +96,9 @@ class Data {
     map['rfid'] = rfid;
     map['created_at'] = createdAt;
     map['updated_at'] = updatedAt;
+    if (loyaltyPoints != null) {
+      map['loyalty_points'] = loyaltyPoints.toString();
+    }
     return map;
   }
 }

@@ -10,40 +10,35 @@ import 'package:megaplug/config/helpers/logging_helper.dart';
 import 'package:path_provider/path_provider.dart';
 
 class NotificationsService {
-  static const String _channelId = 'com.general.app';
-  static const String _channelName = 'GeneralApp';
-  static const String _channelDescription = '';
+  static const String _channelId = 'com.megaplug.app';
+  static const String _channelName = 'MegaPlug Notifications';
+  static const String _channelDescription = 'Notifications for MegaPlug app';
 
   static final _instance = FirebaseMessaging.instance;
-  static final FlutterLocalNotificationsPlugin
-      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
     await _instance.requestPermission(announcement: true);
 
-    try {
-      await _instance.getToken().then(
-            (token) => AppLogger.log(
-              'FIREBASE TOKEN : : $token',
-              level: Level.warning,
-            ),
-          );
-    } catch (e) {
-      AppLogger.log(
-        e.toString(),
-        level: Level.warning,
-      );
-    }
+    _instance.getToken().then(
+          (token) => AppLogger.logWithGetX(
+            '📱 FIREBASE TOKEN : : $token',
+          ),
+        );
+
+    _instance.getAPNSToken().then((token) {
+      AppLogger.logWithGetX("📱 APNs token: $token");
+    });
 
     /// ==========================Handle Background Notifications=======================================
 
-    FirebaseMessaging.instance.getInitialMessage().then((remoteMessage) {
+    _instance.getInitialMessage().then((remoteMessage) {
       if (remoteMessage != null) {
         RemoteNotification? notification = remoteMessage.notification;
         AndroidNotification? android = remoteMessage.notification?.android;
         if (notification != null && android != null) {
-          AppLogger.log(
-            'Initial Notification : : ${remoteMessage.notification?.title}',
+          AppLogger.logWithGetX(
+              "🔔 Initial Notification : : ${remoteMessage.notification?.title}",
           );
           _handleBackgroundRemoteMessage(remoteMessage);
         }
@@ -53,7 +48,7 @@ class NotificationsService {
     FirebaseMessaging.onMessageOpenedApp.listen(
       (RemoteMessage remoteMessage) {
         if (remoteMessage.notification != null) {
-          AppLogger.log('Background Notification Tapped.');
+          AppLogger.logWithGetX("🔔 Background Notification Tapped.");
           _handleBackgroundRemoteMessage(remoteMessage);
         }
       },
@@ -64,7 +59,7 @@ class NotificationsService {
 
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage remoteMessage) {
-        AppLogger.log('Got a Foreground Notification.');
+        AppLogger.logWithGetX("🔔 Got a message in foreground: ${remoteMessage.notification?.title}");
         if (remoteMessage.notification != null) {
           _handleForegroundRemoteMessage(remoteMessage);
         }
@@ -73,18 +68,15 @@ class NotificationsService {
   }
 
   Future<void> _initializeLocalNotifications() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    final DarwinInitializationSettings initializationSettingsDarwin =
-        DarwinInitializationSettings(
+    final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
 
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
+    final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
     );
@@ -139,8 +131,7 @@ class NotificationsService {
       );
     }
 
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
+    AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
       _channelId,
       _channelName,
       channelDescription: _channelDescription,
@@ -149,6 +140,7 @@ class NotificationsService {
       ticker: 'ticker',
       visibility: NotificationVisibility.public,
       styleInformation: bigPictureStyleInformation,
+      showWhen: true,
     );
     NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,

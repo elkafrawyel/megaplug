@@ -81,7 +81,7 @@ class AppDialogView extends StatelessWidget {
                       ),
                       child: AppText(
                         text: message,
-                        maxLines: 3,
+                        maxLines: 6,
                         centerText: true,
                         color: context.kHintTextColor,
                         fontWeight: FontWeight.w400,
